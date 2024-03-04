@@ -3,6 +3,6 @@ package com.example.test1.dao;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CartServiceimpl implements ProductService{
+public class CartServiceimpl{
 
 }
