@@ -29,12 +29,25 @@ public class AdminController {
     }
 	
 	//상품 추가 페이지
-			@RequestMapping("/productAdd.do") 
-		    public String productAdd(Model model) throws Exception{
+	@RequestMapping("/productAdd.do") 
+	public String productAdd(Model model) throws Exception{
 
-		        return "/product-add";
-		    }
+		return "/product-add";
+	}
 	
+	//상품 리스트 페이지
+	@RequestMapping("/productList.do") 
+	public String productList(Model model) throws Exception{
+
+		return "/product-list";
+	}
+	
+	//상품 업데이트 페이지
+	@RequestMapping("/productUpdate.do") 
+	public String productUpdate(Model model) throws Exception{
+
+		return "/product-update";
+	}
 	
 	
 	@RequestMapping(value = "/productAdd.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")

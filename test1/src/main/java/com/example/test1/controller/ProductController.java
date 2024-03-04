@@ -49,13 +49,6 @@ public class ProductController {
         return "/product-localfood";
     }
 	
-	//상품 추가 페이지
-	@RequestMapping("/productAdd.do") 
-	public String productAdd(Model model) throws Exception{
-
-	    return "/product-add";
-	}
-	
 	//상품 상세 페이지
 	@RequestMapping("/productView.do") 
 	public String productView(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
