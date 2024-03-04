@@ -12,17 +12,28 @@
 </style>
 <body>
 	<div id="app">
-		 <button>상품등록</button>
-		 <button>상품조회/수정</button>
-		 <button>상품관리</button>
-		 <button>판매통계</button>
-		 <button>리뷰관리</button>
-		 <button>문의관리</button>
-		 <button>공유 레시피 관리</button>
-		 <button>배송관리</button>		 
-		 <button>고객관리</button>
-		 <button>판매자관리</button>
-
+	
+	<div>
+		<button @click="fnProductAdd">상품등록</button>
+	</div><div>
+		<button>상품조회/수정</button>
+	</div><div>
+		<button>상품관리</button>
+	</div><div>
+		<button>판매통계</button>
+	</div><div>
+		<button>리뷰관리</button>
+	</div><div>
+		<button>문의관리</button>
+	</div><div>
+		<button>공유 레시피 관리</button>
+	</div><div>
+		<button>배송관리</button>
+	</div><div>
+		<button>고객관리</button>
+	</div><div>
+		<button>판매자관리</button>
+	</div>
 		 
 		 
 	</div>
@@ -34,18 +45,10 @@ var app = new Vue({
     data: {
     }
     , methods: {
-    	fnList: function() {
-            var self = this;
-            var nparmap = {};
-            $.ajax({
-                url:"test.dox",
-                dataType:"json",
-                type: "POST",
-                data: nparmap,
-                success: function(data) {
-                }
-            });
-        }
+    	fnProductAdd : function(){
+    		location.href="productAdd.do";
+    	}
+    	
     }
     , created: function() {
     	var self = this;

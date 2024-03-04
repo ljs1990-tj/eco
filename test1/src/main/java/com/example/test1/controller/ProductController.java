@@ -49,12 +49,6 @@ public class ProductController {
         return "/product-localfood";
     }
 	
-	//상품 추가 페이지
-		@RequestMapping("/productAdd.do") 
-	    public String productAdd(Model model) throws Exception{
-
-	        return "/product-add";
-	    }
 	
 	//제품 리스트
 	@RequestMapping(value = "/productList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")

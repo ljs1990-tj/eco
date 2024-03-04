@@ -8,6 +8,7 @@ import com.example.test1.model.Product;
 
 @Mapper
 public interface AdminMapper {
-
+	
+	void insertProduct(HashMap<String, Object> map);
 }
 
