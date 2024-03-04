@@ -45,7 +45,7 @@ public class ProductController {
 	//로컬푸드 제품 페이지
 	@RequestMapping("/productLocalFood.do") 
     public String productLocalFood(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
-		request.setAttribute("map", map);
+		request.setAttribute("map", map); 
         return "/product-localfood";
     }
 		
