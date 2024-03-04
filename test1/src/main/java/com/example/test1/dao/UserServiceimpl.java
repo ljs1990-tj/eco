@@ -43,5 +43,22 @@ public class UserServiceimpl implements UserService{
 		}
 		return resultMap;
 	}
+	//유저 정보 가져오기
+	@Override
+	public HashMap<String, Object> getUser(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		try {
+			User user = userMapper.selectUser(map);
+			resultMap.put("user", user);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
+		return resultMap;
+	}
 	
 }
