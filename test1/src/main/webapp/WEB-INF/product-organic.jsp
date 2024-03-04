@@ -87,31 +87,31 @@
 	<div id="app">
 		<div class="container">
 			<div class="title">
-			  <h1>Shop Organic’s</h1>
+				<h1>Shop Organic’s</h1>
 			</div>
 			
 			<div class="description">
-			  <p>Revamp your style with the latest designer trends in men's clothing or achieve a perfectly curated wardrobe thanks to our line-up of timeless pieces.</p>
+				<p>Revamp your style with the latest designer trends in men's clothing or achieve a perfectly curated wardrobe thanks to our line-up of timeless pieces.</p>
 			</div>
 			
 			<ul class="nav">
-			  <li @click="fnOrganic">유기농</li>
-			  <li @click="fnVegan">비건</li>
-			  <li @click="fnGluten">글루텐프리</li>
-			  <li @click="fnLocal">로컬푸드</li>
+				<li @click="fnOrganic">유기농</li>
+				<li @click="fnVegan">비건</li>
+				<li @click="fnGluten">글루텐프리</li>
+				<li @click="fnLocal">로컬푸드</li>
 			</ul>
-			
+
 			<div class="filter">
-			  <select name="items" id="items">
-			    <option >인기 순</option>
-			    <option >추천 수</option>
-			    <option >???</option>
-			  </select>
+				<select name="items" id="items">
+					<option>인기 순</option>
+					<option>추천 수</option>
+					<option>???</option>
+				</select>
 			</div>
-			
+
 			<div class="product-grid">
 				 <div class="product" v-for="item in list">
-				    <img src="" alt="">
+				    <img src="" alt="썸네일 이미지">
 				    <p><a href="javascript:;" @click="fnDetailView(item.itemNo)">{{item.itemName}}</a></p>
 				    <p class="price">₩{{item.price}}</p>
 				  	<button @click="fnRemove(item.itemNo)">상품삭제</button>
@@ -127,14 +127,17 @@
 var app = new Vue({
     el: '#app',
     data: {
-    	list : []
+    	list : [],
+    	code : 'org'
     }
     , methods: {
     	fnList: function() {
             var self = this;
-            var nparmap = {};
+            var nparmap = {
+            		code: self.code
+            };
             $.ajax({
-                url:"productList.dox",
+                url:"cordList.dox",
                 dataType:"json",
                 type: "POST",
                 data: nparmap,

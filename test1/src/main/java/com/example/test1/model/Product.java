@@ -12,4 +12,5 @@ public class Product {
 	private String cDateTime;
 	private String uDateTime;
 	private int cnt;
+	private String code;
 }

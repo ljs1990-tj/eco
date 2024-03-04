@@ -66,5 +66,20 @@ public class ProductServiceimpl implements ProductService{
 		}
 		return resultMap;
 	}
+	
+	//오가닉 제품 리스트
+	@Override
+	public HashMap<String, Object> searchCodeList(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			List<Product> list = productMapper.selectCodeList(map);
+			resultMap.put("list", list);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+		}
+		return resultMap;
+	}
 
 }

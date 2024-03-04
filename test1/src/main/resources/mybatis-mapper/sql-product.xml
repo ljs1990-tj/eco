@@ -8,6 +8,12 @@
 		ECO_PRODUCT
 	</select>
 	
+	<select id="selectCodeList" parameterType="hashmap" resultType="com.example.test1.model.Product">
+		SELECT * FROM
+		ECO_PRODUCT
+		WHERE CODE = #{code}
+	</select>
+	
 	<select id="selectProductInfo" parameterType="hashmap" resultType="com.example.test1.model.Product">
 		SELECT *
 		FROM ECO_PRODUCT

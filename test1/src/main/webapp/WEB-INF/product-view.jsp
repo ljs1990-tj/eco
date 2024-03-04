@@ -103,10 +103,10 @@
 		<div class="container">
 		    <div class="left-panel">
 		        <div class="product-images">
-			        <img src="" alt="GAP 천혜향 주요 이미지">
-		            <img src="" alt="GAP 천혜향 추가 이미지1">
-		            <img src="" alt="GAP 천혜향 추가 이미지2">
-		            <img src="" alt="GAP 천혜향 추가 이미지3">
+			        <img src="" alt="주요 이미지1">
+		            <img src="" alt="주요 이미지2">
+		            <img src="" alt="주요 이미지3">
+		            <img src="" alt="주요 이미지4">
 		        </div>
 		    </div>
 		    
@@ -125,15 +125,14 @@
 		            <p>배송 방식: {{info.transInfo}}</p>
 		        </div>
 		        
-		        <!-- 구매 옵션 -->
+		        <!-- 구매 관련 -->
 		        <div class="buy-options">
 		            <label for="quantity">수량</label>
 		            <select name="quantity" id="quantity">
 		                <option value="1">1</option>
 		            </select>
-		            
-		            <button>장바구니</button>
-		            <button>구매하기</button>
+			        <button>장바구니</button>
+			        <button>구매하기</button>
 		        </div>
 		        
 		    </div><!-- <div class="right-panel"> -->
