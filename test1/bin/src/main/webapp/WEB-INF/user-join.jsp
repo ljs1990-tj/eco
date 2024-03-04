@@ -18,17 +18,17 @@
 				<li>
 					<div>아이디</div>
 					<span>
-						<input type="text" v-model="user.userId" @keyup="fnCheck" maxlength="20">
+						<input type="text" v-model="user.userId" @keyup="fnCheck">
 					</span>
 		        	<div v-if="user.userId != ''">
-				       	<div v-if="checkFlg" style="color: blue;">사용 가능한 아이디입니다.</div>
+				       	<div v-if="!checkFlg" style="color: blue;">사용 가능한 아이디입니다.</div>
 				       	<div v-else style="color: red;">중복된 아이디입니다.</div>
 		        	</div>
 				</li>
 				<li>
 					<div>비밀번호</div>
 					<span>
-						<input type="password" v-model="user.userPw" required maxlength="16">
+						<input type="password" v-model="user.userPw" required>
 					</span>
 				</li>
 				<li>
@@ -76,9 +76,6 @@
 						<input type="text" v-model="user.birth" placeholder="ex)19910101" required>
 					</span>
 				</li>
-				<li>
-					<div></div>
-				</li>
 			</ul>
 			<div>
 				<button @click="fnJoin">회원가입</button>
@@ -98,7 +95,7 @@ var app = new Vue({
     		name: "",
     		nickName: "",
     		gender: "남성",
-            phone1: "010",
+            phone1: "",
             phone2: "",
             phone3: "",
             email: "",
@@ -109,7 +106,7 @@ var app = new Vue({
     , methods: {
     	fnJoin: function() {
             var self = this;
-            var engNum = /^[a-zA-Z0-9]*$/;
+            var engNum =  /^[a-zA-Z0-9]*$/;
             if(!self.checkFlg) {
             	alert("중복체크 후 누르세요!");
             	return;
