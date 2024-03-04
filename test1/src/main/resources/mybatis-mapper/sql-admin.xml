@@ -8,6 +8,6 @@
 <insert id="insertProduct" parameterType="hashmap">
 		INSERT INTO ECO_PRODUCT
 		VALUES
-			(null,#{name}, #{price}, #{Srate}, #{Prate}, #{contents}, #{trans}, '1', NOW(), NOW(), #{cnt}, #{code})
+			(null,#{name}, #{price}, #{Srate}, #{Prate}, #{contents}, #{trans}, #{sellYN}, NOW(), NOW(), #{cnt}, #{code})
 	</insert>
 </mapper>
