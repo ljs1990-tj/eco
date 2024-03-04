@@ -34,23 +34,19 @@
 				<li>
 					<div>비밀번호 확인</div>
 					<span>
-						<input type="password" v-model="user.userPw2" required maxlength="16">
+						<input type="password" v-model="user.userPw2" required>
 					</span>
 				</li>
 				<li>
 					<div>이름</div>
 					<span>
-						<input type="text" v-model="user.name" required maxlength="30">
+						<input type="text" v-model="user.name" required>
 					</span>
 				</li>
 				<li>
 					<div>닉네임</div>
 					<span>
-<<<<<<< HEAD
-						<input type="text" v-model="user.nickName" required>
-=======
-						<input type="text" v-model="user.nickName" required maxlength="30">
->>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
+						<input type="text" v-model="user.nickname" required>
 					</span>
 				</li>
 				<li>
@@ -63,9 +59,9 @@
 				<li>
 					<div>핸드폰 번호</div>
 					<span>
-						<input type="text" v-model="user.phone1" required maxlength="3">-
-						<input type="text" v-model="user.phone2" required maxlength="4">-
-						<input type="text" v-model="user.phone3" required maxlength="4">
+						<input type="text" v-model="user.phone1" required>-
+						<input type="text" v-model="user.phone2" required>-
+						<input type="text" v-model="user.phone3" required>
 					</span>
 				</li>
 				<li>
