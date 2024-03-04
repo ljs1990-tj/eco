@@ -132,11 +132,10 @@ var app = new Vue({
         },
         
         fnRemove: function(itemNo) {
-        	console.log(itemNo);
             var self = this;
             if(confirm("정말 삭제할까요?")) {
 	            var nparmap = {
-	            		itemNo : self.list.itemNo
+	            		itemNo : itemNo
 	            };
 	            $.ajax({
 	                url:"productRemove.dox",
@@ -146,7 +145,7 @@ var app = new Vue({
 	                success: function(data) {
 	                	if(data.result == "success") {
 	                		alert("삭제되었습니다!");
-		                	$.pageChange("/productOrganic.do", {});
+	                		self.fnList();
 	                	} else {
 	                		alert("삭제 실패 오류 발생!");
 	                	}

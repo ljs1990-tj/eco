@@ -41,6 +41,7 @@ public class ProductServiceimpl implements ProductService{
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
+			productMapper.deleteProduct(map);
 			resultMap.put("result", "success");
 		} catch (Exception e) {
 			// TODO: handle exception
