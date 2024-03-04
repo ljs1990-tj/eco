@@ -62,4 +62,12 @@ public class UserController {
 		return new Gson().toJson(resultMap);
 	}
 	
+	@RequestMapping(value = "/user-login.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String userLogin(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		return new Gson().toJson(resultMap);
+	}
+	
 }

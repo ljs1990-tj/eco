@@ -24,10 +24,10 @@
 		<fieldset>
 			<legend>로그인</legend>
 			<div>
-				아이디: <span><input type="text" v-model="userId"></span>
+				아이디: <span><input type="text" v-model="id"></span>
 			</div>
 			<div>
-				비밀번호: <input type="password" v-model="userPw" @keyup.enter="fnLogin">
+				비밀번호: <input type="password" v-model="pwd" @keyup.enter="fnLogin">
 			</div>
 			<div>
 				<button @click="fnLogin">로그인</button>
@@ -48,7 +48,7 @@ var app = new Vue({
     	fnLogin: function() {
             var self = this;
             var nparmap = {
-            		userId: self.userId,
+            		userId: self.Id,
             		userPw: self.userPw
             };
             $.ajax({
@@ -62,7 +62,7 @@ var app = new Vue({
             });
         },
         fnJoin: function() {
-        	$.pageChange("/user-join.do",{});
+        	$.pageChange("/join.do",{});
         }
     }
     , created: function() {

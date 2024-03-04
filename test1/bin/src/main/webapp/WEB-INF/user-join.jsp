@@ -18,39 +18,35 @@
 				<li>
 					<div>아이디</div>
 					<span>
-						<input type="text" v-model="user.userId" @keyup="fnCheck" maxlength="20">
+						<input type="text" v-model="user.userId" @keyup="fnCheck">
 					</span>
 		        	<div v-if="user.userId != ''">
-				       	<div v-if="checkFlg" style="color: blue;">사용 가능한 아이디입니다.</div>
+				       	<div v-if="!checkFlg" style="color: blue;">사용 가능한 아이디입니다.</div>
 				       	<div v-else style="color: red;">중복된 아이디입니다.</div>
 		        	</div>
 				</li>
 				<li>
 					<div>비밀번호</div>
 					<span>
-						<input type="password" v-model="user.userPw" required maxlength="16">
+						<input type="password" v-model="user.userPw" required>
 					</span>
 				</li>
 				<li>
 					<div>비밀번호 확인</div>
 					<span>
-						<input type="password" v-model="user.userPw2" required maxlength="16">
+						<input type="password" v-model="user.userPw2" required>
 					</span>
 				</li>
 				<li>
 					<div>이름</div>
 					<span>
-						<input type="text" v-model="user.name" required maxlength="30">
+						<input type="text" v-model="user.name" required>
 					</span>
 				</li>
 				<li>
 					<div>닉네임</div>
 					<span>
-<<<<<<< HEAD
-						<input type="text" v-model="user.nickName" required>
-=======
-						<input type="text" v-model="user.nickName" required maxlength="30">
->>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
+						<input type="text" v-model="user.nickname" required>
 					</span>
 				</li>
 				<li>
@@ -63,9 +59,9 @@
 				<li>
 					<div>핸드폰 번호</div>
 					<span>
-						<input type="text" v-model="user.phone1" required maxlength="3">-
-						<input type="text" v-model="user.phone2" required maxlength="4">-
-						<input type="text" v-model="user.phone3" required maxlength="4">
+						<input type="text" v-model="user.phone1" required>-
+						<input type="text" v-model="user.phone2" required>-
+						<input type="text" v-model="user.phone3" required>
 					</span>
 				</li>
 				<li>
@@ -79,9 +75,6 @@
 					<span>
 						<input type="text" v-model="user.birth" placeholder="ex)19910101" required>
 					</span>
-				</li>
-				<li>
-					<div></div>
 				</li>
 			</ul>
 			<div>
@@ -102,7 +95,7 @@ var app = new Vue({
     		name: "",
     		nickName: "",
     		gender: "남성",
-            phone1: "010",
+            phone1: "",
             phone2: "",
             phone3: "",
             email: "",
@@ -113,7 +106,7 @@ var app = new Vue({
     , methods: {
     	fnJoin: function() {
             var self = this;
-            var engNum = /^[a-zA-Z0-9]*$/;
+            var engNum =  /^[a-zA-Z0-9]*$/;
             if(!self.checkFlg) {
             	alert("중복체크 후 누르세요!");
             	return;
