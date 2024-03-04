@@ -62,7 +62,7 @@ var app = new Vue({
             });
         },
         fnJoin: function() {
-        	$.pageChange("/join.do",{});
+        	$.pageChange("/user-join.do",{});
         }
     }
     , created: function() {
