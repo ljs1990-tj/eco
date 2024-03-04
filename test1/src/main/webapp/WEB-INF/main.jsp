@@ -9,7 +9,7 @@
 <title>메인화면</title>
 </head>
 <style>
-body {
+body { 
 	margin: 300px;
 	margin-top: 0px;
 	font-family: Arial, sans-serif;
