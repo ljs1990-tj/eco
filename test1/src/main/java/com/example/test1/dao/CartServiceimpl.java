@@ -5,7 +5,7 @@ import java.util.HashMap;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CartServiceimpl implements ProductService{
+public class CartServiceimpl implements CartService{
 
 	@Override
 	public HashMap<String, Object> searchProductList(HashMap<String, Object> map) {
