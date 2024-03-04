@@ -105,6 +105,14 @@
 			    <p class="price">₩10,750</p>
 			  </div>
 		</div>
+		
+		<div class="product-grid">
+			 <div class="product" v-for="item">
+			    <img src="" alt="">
+			    <p>GAP인증 원예상추 1kg</p>
+			    <p class="price">₩10,750</p>
+			  </div>
+		</div>
 			
 	</div>
 </body>
