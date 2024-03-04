@@ -6,123 +6,202 @@
 	<meta charset="UTF-8">
 	<script src="js/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<title>첫번째 페이지</title>
+	<%-- <jsp:include page="/layout/menu.jsp"></jsp:include> --%>
+	<title>유기농 제품 페이지</title>
 </head>
 <style>
+  	body {
+	    margin: 0;
+	    font-family: 'Arial', sans-serif;
+	    background-color: #f8f8f8;
+	}
+	.container {
+		width: 80%; 
+		max-width: 1200px; 
+		margin: 0 auto; 
+		background-color: white; 
+		padding: 20px; 
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+	}	
+	  
+	.title {
+	    background-color: #4CAF50;
+	    color: white;
+	    padding: 10px 20px;
+	    text-align: center;
+	}
+  	.title h1 {
+    	margin: 0;
+  	}
+  	.description {
+	   	 margin: 10px 20px;
+	   	 text-align: center;
+	     color: #666;
+  	}
+    .nav {
+	    display: flex;
+	    justify-content: center;
+	    padding: 0;
+	    background: #e2e2e2;
+    }
+  	.nav li {
+   		list-style: none;
+    	padding: 10px 20px;
+    	cursor: pointer;
+  	}
+  	.nav li:hover {
+    	background: #d4d4d4;
+  	}
+ 	.product-grid {
+		display: flex;
+		flex-wrap: wrap;
+		padding: 20px;
+		justify-content: flex-start;
+	}
+
+	.product {
+		background: #fff;
+	    margin: 10px;
+	    width: calc(25% - 22px); /* 4개의 상품이 한 줄에 들어가도록 계산 (20px은 마진, 2px은 보더 고려) */
+	    box-sizing: border-box; /* 패딩과 보더가 너비에 포함되도록 설정 */
+	    text-align: center;
+	}
+	.product img {
+    	max-width: 100%;
+    	height: auto;
+  	}
+  	.product p {
+    	margin: 10px 0 0;
+    	color: #333;
+  	}
+  	.price {
+    	color: #2a8f2a;
+    	font-weight: bold;
+  	}
+  	.filter {
+    	float: right;
+    	margin: 20px;
+  	}
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.3/vue.min.js"></script>
-	<script src="https://unpkg.com/vue2-editor@2.3.11/dist/index.js"></script>
 <body>
 	<div id="app">
-		<div>
-			상품 카테고리 : 
-			<select v-model="code">
-				<option value="gluten">글루텐프리</option>
-				<option value="local">로컬푸드</option>
-				<option value="org">유기농</option>
-				<option value="vegan">비건</option>
-				
-			</select>
+		<div class="container">
+			<div class="title">
+			  <h1>Shop Organic’s</h1>
+			</div>
 			
-		</div>
-	
-		<div>
-			상품명 : <input type="text" v-model="name">
-		</div>
-		<div>
-			가격 : <input type="text" v-model="price">
-		</div>
-		<div>
-			할인율 : <input type="text" v-model="Srate">
-		</div>
-		<div>
-			적립율 : <input type="text" v-model="Prate">
-		</div>
+			<div class="description">
+			  <p>Revamp your style with the latest designer trends in men's clothing or achieve a perfectly curated wardrobe thanks to our line-up of timeless pieces.</p>
+			</div>
+			
+			<ul class="nav">
+			  <li @click="fnOrganic">유기농</li>
+			  <li @click="fnVegan">비건</li>
+			  <li @click="fnGluten">글루텐프리</li>
+			  <li @click="fnLocal">로컬푸드</li>
+			</ul>
+			<div>
+			<input type="text" v-model="keyword"> <button @click="fnList">검색</button>
+			</div>
+			<div class="filter">
+			  <select name="items" id="items">
+			    <option >인기 순</option>
+			    <option >추천 수</option>
+			    <option >???</option>
+			  </select>
+			</div>
+			
+			<div class="product-grid">
+				 <div class="product" v-for="item in list">
+				    <img src="" alt="">
+				    <p><a href="javascript:;" @click="fnDetailView(item.itemNo)">{{item.itemName}}</a></p>
+				    <p class="price">₩{{item.price}}</p>
+				  	<button @click="fnRemove(item.itemNo)">상품삭제</button>
+				  </div>
+			</div>
 		
-		<div>
-			
-			내용 : <vue-editor v-model="contents"></vue-editor>
-			
 		</div>
-		
-		<div>
-			배송정보 :
-			<select v-model="trans">
-				<option value="무료배송">무료배송</option>
-				<option value="유료배송">유료배송</option>
-			</select>
-
-		</div>
-		<div>
-			품절 여부 : 
-			<select v-mode="sellYN">
-				<option value="Y">재고있음</option>
-				<option value="N">재고없음</option>
-				
 			
-			</select>
-		</div><div>
-			재고 갯수 : <input type="text" v-model="cnt">
-		</div>
-	
-	<button @click="fnAdd">등록하기</button>
 	</div>
 </body>
 </html>
 <script type="text/javascript">
-Vue.use(Vue2Editor);
-const VueEditor = Vue2Editor.VueEditor;
 var app = new Vue({
     el: '#app',
     data: {
-    	code:"org",
-    	name:"",
-    	price:"",
-    	Srate:"",
-    	Prate:"",
-    	contents:"",
-    	trans:"무료배송",
-    	sellYN:"N",
-    	cnt:""
-    	
+    	list : [],
+    	keyword : "",
+    	code : "org"
     	
     }
-	, components: {VueEditor}
     , methods: {
-    	fnAdd: function() {
+    	fnList: function() {
             var self = this;
             var nparmap = {
-            		code : self.code,
-            		name : self.name,
-            		price : self.price,
-            		Srate : self.Srate,
-            		Prate : self.Prate,
-            		contents : self.contents,
-            		trans : self.trans,
-            		sellYN : self.sellYN,
-            		cnt : self.cnt
-            		
+            		keyword : self.keyword,
+            		code : self.code
             		
             };
             $.ajax({
-                url:"productAdd.dox",
+                url:"productList.dox",
                 dataType:"json",
                 type: "POST",
                 data: nparmap,
                 success: function(data) {
-                	if(data.result=="success"){
-                		alert("등록완료");
-                	}else{
-                		alert("등록실패");
-                	}
-                	
+                	self.list = data.list;
                 }
             });
+        },
+        /* 제품 삭제 실행 */
+        fnRemove: function(itemNo) {
+            var self = this;
+            if(confirm("정말 삭제할까요?")) {
+	            var nparmap = {
+	            		itemNo : itemNo
+	            };
+	            $.ajax({
+	                url:"productRemove.dox",
+	                dataType:"json",
+	                type: "POST",
+	                data: nparmap,
+	                success: function(data) {
+	                	if(data.result == "success") {
+	                		alert("삭제되었습니다!");
+	                		self.fnList();
+	                	} else {
+	                		alert("삭제 실패 오류 발생!");
+	                	}
+	                }
+	            });            	
+            } else {
+            	return;
+            }
+        },
+        /* 제품 상세 페이지  */
+        fnDetailView: function(itemNo) {
+			var self = this;
+			$.pageChange("/productView.do", {itemNo: itemNo});
+		},
+        /* 오가닉 제품 페이지 이동  */
+        fnOrganic: function() {
+        	$.pageChange("/productOrganic.do", {});
+        },
+        /* 비건 제품 페이지 이동  */
+        fnVegan: function() {
+        	$.pageChange("/productVegan.do", {});
+        },
+        /* 글루텐 프리 제품 페이지 이동  */
+        fnGluten: function() {
+        	$.pageChange("/productGlutenFree.do", {});
+        },
+        /* 로컬 제품 페이지 이동  */
+        fnLocal: function() {
+        	$.pageChange("/productLocalFood.do", {});
         }
     }
     , created: function() {
     	var self = this;
-	
+		self.fnList();
 	}
 });
 </script>
