@@ -7,4 +7,10 @@
 		SELECT * FROM
 		ECO_PRODUCT
 	</select>
+	
+	<delete id="deleteProduct" parameterType="hashmap">
+		DELETE
+		FROM ECO_PRODUCT
+		WHERE ITEM_NO = #{itemNo}
+	</delete>
 </mapper>

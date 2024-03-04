@@ -9,5 +9,6 @@ import com.example.test1.model.Product;
 @Mapper
 public interface ProductMapper {
 	List<Product> selectProductList(HashMap<String, Object> map); //제품 리스트
+	void deleteProduct(HashMap<String, Object> map); //제품삭제
 }
 

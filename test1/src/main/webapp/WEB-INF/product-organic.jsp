@@ -103,6 +103,7 @@
 			    <img src="" alt="">
 			    <p>{{item.itemName}}</p>
 			    <p class="price">₩{{item.price}}</p>
+			  	<button @click="fnRemove(item.itemNo)">상품삭제</button>
 			  </div>
 		</div>
 			
@@ -128,6 +129,32 @@ var app = new Vue({
                 	self.list = data.list;
                 }
             });
+        },
+        
+        fnRemove: function(itemNo) {
+        	console.log(itemNo);
+            var self = this;
+            if(confirm("정말 삭제할까요?")) {
+	            var nparmap = {
+	            		itemNo : self.list.itemNo
+	            };
+	            $.ajax({
+	                url:"productRemove.dox",
+	                dataType:"json",
+	                type: "POST",
+	                data: nparmap,
+	                success: function(data) {
+	                	if(data.result == "success") {
+	                		alert("삭제되었습니다!");
+		                	$.pageChange("/productOrganic.do", {});
+	                	} else {
+	                		alert("삭제 실패 오류 발생!");
+	                	}
+	                }
+	            });            	
+            } else {
+            	return;
+            }
         },
         
         fnOrganic: function() {
