@@ -21,7 +21,7 @@
 						<input type="text" v-model="user.userId" @keyup="fnCheck">
 					</span>
 		        	<div v-if="user.userId != ''">
-				       	<div v-if="checkFlg" style="color: blue;">사용 가능한 아이디입니다.</div>
+				       	<div v-if="!checkFlg" style="color: blue;">사용 가능한 아이디입니다.</div>
 				       	<div v-else style="color: red;">중복된 아이디입니다.</div>
 		        	</div>
 				</li>
