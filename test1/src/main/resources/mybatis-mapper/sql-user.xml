@@ -13,4 +13,10 @@
 		VALUES
 			(#{userId}, #{userPw}, #{name}, #{nickName}, #{gender}, #{phone1}, #{phone2}, #{phone3}, #{email}, #{birth}, 'SILVER', 'Y', 'Y', 0, 0, 0, 'U', NOW(), NOW(), NOW(), DATE_ADD(NOW(), INTERVAL 3 MONTH))
 	</insert>
+	
+	
+	
+	
+	
+	
 </mapper>
