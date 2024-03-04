@@ -60,5 +60,20 @@ public class UserServiceimpl implements UserService{
 		}
 		return resultMap;
 	}
+	//유저정보 수정
+	@Override
+	public HashMap<String, Object> modifyUser(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			userMapper.updateUser(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
+		return resultMap;
+	}
 	
 }

@@ -37,11 +37,18 @@ public class UserController {
 
         return "/user-login";
     }
-	//유저 정보 가져오기
-	@RequestMapping("/user-myPage.do") 
-    public String userMyPage(Model model) throws Exception{
+	
+	//유저 정보 수정하기
+		@RequestMapping("/user-myPage.do") 
+	    public String userMyPage(Model model) throws Exception{
 
-        return "/user-myPage";
+	        return "/user-myPage";
+	    }
+	//유저 정보 수정하기
+	@RequestMapping("/user-myPageList.do") 
+    public String userMyPageList(Model model) throws Exception{
+
+        return "/user-myPageList";
     }
 	
 	
@@ -82,7 +89,7 @@ public class UserController {
 	@ResponseBody
 	public String userModify(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		
+		resultMap = userService.modifyUser(map);
 		return new Gson().toJson(resultMap);
 	}
 	
