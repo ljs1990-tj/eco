@@ -18,17 +18,22 @@
 				<li>
 					<div>아이디</div>
 					<span>
-						<input type="text" v-model="user.userId" @keyup="fnIdCheck" required maxlength="20">
+						<input type="text" v-model="user.userId" @keyup="fnIdCheck" maxlength="20" required="required">
 					</span>
 		        	<div v-if="user.userId != ''">
-				       	<div v-if="idCheckFlg" style="color: blue;">사용 가능한 아이디입니다.</div>
-				       	<div v-else style="color: red;">중복된 아이디입니다.</div>
+		        		<template v-if="!idCheckFlg2">
+					       	<div style="color: red;">아이디는 영어와 숫자만 입력하세요!</div>
+		        		</template>
+		        		<template v-else>
+					       	<div v-if="idCheckFlg" style="color: blue;">사용 가능한 아이디입니다.</div>
+					       	<div v-else style="color: red;">중복된 아이디입니다.</div>
+		        		</template>
 		        	</div>
 				</li>
 				<li>
 					<div>비밀번호</div>
 					<span>
-						<input type="password" v-model="user.userPw" @keyup="fnPwCheck" required maxlength="16">
+						<input type="password" v-model="user.userPw" @keyup="fnCheck('pw1')" maxlength="16">
 					</span>
 					<div v-if="user.userPw != ''">
 						<div v-if="!pwCheckFlg" style="color: red;">비밀번호는 최소 8글자, 최대 16글자이고 하나 이상의 숫자, 영문자 및 특수문자를 각각 포함되어야 합니다!</div>
@@ -37,27 +42,22 @@
 				<li>
 					<div>비밀번호 확인</div>
 					<span>
-						<input type="password" v-model="user.userPw2" required maxlength="16">
+						<input type="password" v-model="user.userPw2" @keyup="fnCheck('pw2')" maxlength="16">
 					</span>
 					<div v-if="user.userPw2 != ''">
-						<div></div>
+						<div v-if="!pwCheckFlg2" style="color: red;">비밀번호를 같게 쓰세요!</div>
 					</div>
 				</li>
 				<li>
 					<div>이름</div>
 					<span>
-						<input type="text" v-model="user.name" required maxlength="30">
+						<input type="text" v-model="user.name" maxlength="20">
 					</span>
 				</li>
 				<li>
 					<div>닉네임</div>
-<<<<<<< HEAD
 					<span>
-=======
-						<input type="text" v-model="user.nickName" required>
-
->>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
-						<input type="text" v-model="user.nickName" required maxlength="30">
+						<input type="text" v-model="user.nickName" maxlength="20">
 					</span>
 				</li>
 				<li>
@@ -71,15 +71,15 @@
 				<li>
 					<div>핸드폰 번호</div>
 					<span>
-						<input type="text" v-model="user.phone1" required maxlength="3">-
-						<input type="text" v-model="user.phone2" required maxlength="4">-
-						<input type="text" v-model="user.phone3" required maxlength="4">
+						<input type="text" v-model="user.phone1" maxlength="3">-
+						<input type="text" v-model="user.phone2" maxlength="4">-
+						<input type="text" v-model="user.phone3" maxlength="4">
 					</span>
 				</li>
 				<li>
 					<div>이메일</div>
 					<span>
-						<input type="text" v-model="email1" placeholder="이메일 아이디 입력" required>
+						<input type="text" v-model="email1" placeholder="이메일 아이디 입력">
 						<span>@</span>
 						<input type="text" v-model="email2" placeholder="직접 입력">
 						<select v-model="email3" @change="selectEmail">
@@ -94,11 +94,17 @@
 				<li>
 					<div>생년월일</div>
 					<span>
-						<input type="text" v-model="user.birth" placeholder="ex)19910101" required maxlength="8">
+						<input type="text" v-model="user.birth" placeholder="ex)19910101" maxlength="8" @keyup="fnCheck('birth')">
 					</span>
+					<div v-if="user.birth != ''">
+						<div v-if="!birthCheckFlg" style="color: red;">생년월일엔 숫자만 입력하세요!</div>
+					</div>
 				</li>
 				<li>
-					<div></div>
+					<div>이벤트 인증 여부(선택)</div>
+					<span>
+						<input type="checkbox" name="eventYn" v-model="isEventYn">
+					</span>
 				</li>
 			</ul>
 			<div>
@@ -126,30 +132,45 @@ var app = new Vue({
             phone2: "",
             phone3: "",
             email: "",
-    		birth: ""
+    		birth: "",
+    		eventYn: ""
+    		
     	},
     	idCheckFlg: false,
     	idCheckFlg2: false,
-    	pwCheckFlg: false
+    	pwCheckFlg: false,
+    	pwCheckFlg2: false,
+    	birthCheckFlg: false,
+    	isEventYn: false
     }
     , methods: {
     	fnJoin: function() {
             var self = this;
-            var num = /^[0-9]*$/;
-            var engNum = /^[a-zA-Z0-9]*$/;
-            if(self.user.userId != engNum) {
-            	alert("아이디는 영어와 숫자만 입력하세요!");
-                return;            	
+            if(self.user.userId == "") {
+            	alert("아이디를 입력하세요!");
+            	return;
             }
-            if(self.user.userPw != self.user.pwd2){
-                alert("비밀번호를 같게 쓰세요!");
-                return;
+            if(self.user.userPw == "") {
+            	alert("비밀번호를 입력하세요!");
+            	return;
             }
-            if(self.user.phone1 == "" && self.user.phone2 == "" && self.user.phone3 == ""){
+            if(self.user.name == "") {
+            	alert("이름을 입력하세요!");
+            	return;
+            }
+            if(self.user.nickName == "") {
+            	alert("닉네임을 입력하세요!");
+            	return;
+            }
+            if(self.user.userPw == "") {
+            	alert("비밀번호를 입력하세요!");
+            	return;
+            }
+            if(self.user.phone1 == "" || self.user.phone2 == "" || self.user.phone3 == ""){
                 alert("핸드폰 번호를 입력하세요!");
                 return;
             }
-            if(self.email1 == "" && self.email2== ""){
+            if(self.email1 == "" || self.email2== ""){
                 alert("이메일을 입력하세요!");
                 return;
             }
@@ -157,30 +178,42 @@ var app = new Vue({
                 alert("생년월일을 입력하세요!");
                 return;
             }
-            if(self.user.birth != num){
-                alert("생년월일엔 숫자만 입력하세요!");
-                return;
+            self.user.email = self.email1 + "@" + self.email2;
+            self.user.eventYn = self.isEventYn ? 'Y' : 'N';
+            if(self.idCheckFlg) {
+            	if(self.idCheckFlg2) {
+            		if(self.pwCheckFlg) {
+            			if(self.pwCheckFlg2) {
+            				if(self.birthCheckFlg) {
+					            var nparmap = self.user;
+					            $.ajax({
+					                url:"user-join.dox",
+					                dataType:"json",
+					                type: "POST",
+					                data: nparmap,
+					                success: function(data) {
+					                	if(data.result == "success") {
+						                	alert("가입됐습니다!");
+						                	$.pageChange("/user-login.do",{});
+					                	} else {
+					                		alert("오류로 인한 가입 실패!");
+					                	}
+					                }
+					            });
+            				}
+            			}
+            		}
+            	}
             }
-            self.user.email = self.email1 + self.email2;
-            console.log(self.user.email);
-            var nparmap = self.user;
-            $.ajax({
-                url:"user-join.dox",
-                dataType:"json",
-                type: "POST",
-                data: nparmap,
-                success: function(data) {
-                	if(data.result == "success") {
-	                	alert("가입됐습니다!");
-	                	$.pageChange("/login.do",{});
-                	} else {
-                		alert("오류로 인한 가입 실패!");
-                	}
-                }
-            });
         },
         fnIdCheck: function(){
         	var self = this;
+        	var regId = /^[a-zA-Z0-9]*$/;
+        	if(regId.test(self.user.userId)) {
+        		self.idCheckFlg2 = true;
+        	} else {
+        		self.idCheckFlg2 = false;
+        	}
         	var nparmap = {userId : self.user.userId};
 	        $.ajax({
 	            url:"check.dox",
@@ -196,14 +229,29 @@ var app = new Vue({
 	            }
 	        });
         },
-        fnPwCheck: function() {
+        fnCheck: function(flg) {
 			var self = this;
 			var regPwd = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
-            if(regPwd.test(self.user.userPw)) {
-				self.pwCheckFlg = true;
-            } else {
-            	self.pwCheckFlg = false;
-            }
+			var num = /^[0-9]*$/;
+           	if(flg == 'pw1') {
+	            if(regPwd.test(self.user.userPw)) {
+					self.pwCheckFlg = true;
+	            } else {
+	            	self.pwCheckFlg = false;
+	            }
+           	} else if(flg == 'pw2') {
+	            if(self.user.userPw != self.user.userPw2) {
+					self.pwCheckFlg2 = false;
+	            } else {
+	            	self.pwCheckFlg2 = true;
+	            }
+           	} else if(flg == 'birth') {
+           		if(num.test(self.user.birth)) {
+           			self.birthCheckFlg = true;
+           		} else {
+           			self.birthCheckFlg = false;
+           		}
+           	}
 		},
         selectEmail: function() {
         	var self = this;

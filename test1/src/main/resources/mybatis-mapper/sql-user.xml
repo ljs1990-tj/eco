@@ -11,12 +11,7 @@
 	<insert id="insertUser" parameterType="hashmap">
 		INSERT INTO ECO_USER
 		VALUES
-			(#{userId}, #{userPw}, #{name}, #{nickName}, #{gender}, #{phone1}, #{phone2}, #{phone3}, #{email}, #{birth}, 'SILVER', 'Y', 'Y', 0, 0, 0, 'U', NOW(), NOW(), NOW(), DATE_ADD(NOW(), INTERVAL 3 MONTH))
+			(#{userId}, #{userPw}, #{name}, #{nickName}, #{gender}, #{phone1}, #{phone2}, #{phone3}, #{email}, #{birth}, 'SILVER', 'N', #{eventYn}, 0, 0, 0, 'U', NOW(), NOW(), NOW(), DATE_ADD(NOW(), INTERVAL 3 MONTH))
 	</insert>
-	
-	
-	
-	
-	
 	
 </mapper>

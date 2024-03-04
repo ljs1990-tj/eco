@@ -18,14 +18,14 @@ public class UserServiceimpl implements UserService{
 	public HashMap<String, Object> addUser(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-//		try {
-//			userMapper.insertUser(map);
-//			resultMap.put("result", "success");
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//			System.out.println(e.getMessage());
-//			resultMap.put("result", "fail");
-//		}
+		try {
+			userMapper.insertUser(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+		}
 		return resultMap;
 	}
 
@@ -35,10 +35,8 @@ public class UserServiceimpl implements UserService{
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		User user = userMapper.selectUser(map);
 		if(user == null) {
-			resultMap.put("message", "사용 가능한 아이디입니다!");
 			resultMap.put("result", "success");
 		} else {
-			resultMap.put("message", "중복된 아이디입니다!");
 			resultMap.put("result", "fail");
 		}
 		return resultMap;
@@ -48,7 +46,6 @@ public class UserServiceimpl implements UserService{
 	public HashMap<String, Object> getUser(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		
 		try {
 			User user = userMapper.selectUser(map);
 			resultMap.put("user", user);
@@ -60,5 +57,4 @@ public class UserServiceimpl implements UserService{
 		}
 		return resultMap;
 	}
-	
 }
