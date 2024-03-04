@@ -97,6 +97,33 @@
 		float: right;
 		cursor: pointer;
 	}
+	
+	.navigation {
+		text-align: center; 
+		margin-top: 20px; 
+	}
+	
+	.navigation button {
+		padding: 10px 15px;
+		margin: 0 5px; 
+		cursor: pointer;
+		border: 1px solid #ddd; 
+		background: #fff; 
+	}
+	
+	.navigation button:focus, .navigation button:hover {
+		background: #eaeaea;
+	}
+	
+	.product-section {
+		padding: 20px;
+		background: #fff;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		display: flex;
+		width: 80%;
+		max-width: 1200px;
+		margin: 5px auto;
+	}
 </style>
 <body>
 	<div id="app">
@@ -134,9 +161,33 @@
 			        <button>장바구니</button>
 			        <button>구매하기</button>
 		        </div>
-		        
-		    </div><!-- <div class="right-panel"> -->
+		    </div><!-- <div class="right-panel"> -->		    
 		</div><!-- <div class="container">  -->
+		
+		<div class="navigation">
+		    <button @click="scrollToElement('#details')">상품상세</button>
+		    <button @click="scrollToElement('#reviews')">상품평</button>
+		    <button @click="scrollToElement('#inquiries')">상품문의</button>
+		</div>
+		
+		<!-- 상품 상세 영역 -->
+		<div id="details" class="product-section">
+		    <h3>상품 상세 정보</h3>
+		    <!-- 상품 상세 정보 내용 -->
+		</div>
+		
+		<!-- 상품평 영역 -->
+		<div id="reviews" class="product-section">
+		    <h3>상품평</h3>
+		    <!-- 상품평 내용 -->
+		</div>
+		
+		<!-- 상품문의 영역 -->
+		<div id="inquiries" class="product-section">
+		    <h3>상품문의</h3>
+		    <!-- 상품문의 내용 -->
+		</div>
+		
 	</div><!-- <div id="app"> -->
 </body>
 </html>
@@ -162,7 +213,16 @@ var app = new Vue({
                 	self.info = data.info;
                 }
             });
+        },
+        /* 상품정보, 상품평 등.. 선택버튼  */
+        scrollToElement: function(selector) {
+            var element = document.querySelector(selector);
+            if(element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
         }
+        
+      
     }
     , created: function() {
     	var self = this;
