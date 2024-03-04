@@ -48,7 +48,7 @@ var app = new Vue({
     	fnLogin: function() {
             var self = this;
             var nparmap = {
-            		userId: self.Id,
+            		userId: self.userId,
             		userPw: self.userPw
             };
             $.ajax({
