@@ -15,6 +15,29 @@
 		<div>
 			<fieldset>
 			<ul>
+				<li>
+					<span>아이디 : </span>
+					<input type="text" v-model="user.userId">
+				</li>
+				<li>
+					<span>비밀번호 : </span>
+					<input type="password" v-model="user.userPw"> 
+				</li>
+				<li>
+					<span>비밀번호 확인 : </span>
+					<input type="password" v-model="user.userPw2">
+				</li>
+				<li>
+					<span>이름 : </span>
+					<input type="text" v-model="user.name">
+				</li>
+				<li>
+					<span>닉네임 : </span>
+					<input type="text" v-model="user.nickName">
+				</li>
+				<li>
+					
+				</li>
 			</ul>
 			</fieldset>
 		</div>	
@@ -31,7 +54,16 @@ var app = new Vue({
     	fnList: function() {
             var self = this;
             var nparmap = {
-            		
+            		user :{
+            			userId : "",
+            			userPw : "",
+            			userPw2 : "",
+            			name : "",
+            			nickName : "",
+            			
+            			
+            			
+            		}
             };
             $.ajax({
                 url:"test.dox",

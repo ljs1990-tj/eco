@@ -46,7 +46,7 @@
 				<li>
 					<div>닉네임</div>
 					<span>
-						<input type="text" v-model="user.nickname" required>
+						<input type="text" v-model="user.nickName" required>
 					</span>
 				</li>
 				<li>
