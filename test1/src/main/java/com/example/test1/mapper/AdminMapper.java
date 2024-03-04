@@ -8,6 +8,6 @@ import com.example.test1.model.Product;
 
 @Mapper
 public interface AdminMapper {
-	List<Product> selectProductList(HashMap<String, Object> map); //제품 리스트
+
 }
 

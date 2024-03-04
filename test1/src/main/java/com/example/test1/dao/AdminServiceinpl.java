@@ -3,6 +3,6 @@ package com.example.test1.dao;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AdminServiceinpl implements BoardService{
+public class AdminServiceinpl implements AdminService{
 
 }

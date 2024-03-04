@@ -12,7 +12,19 @@
 </style>
 <body>
 	<div id="app">
-		
+		 <button>상품등록</button>
+		 <button>상품조회/수정</button>
+		 <button>상품관리</button>
+		 <button>판매통계</button>
+		 <button>리뷰관리</button>
+		 <button>문의관리</button>
+		 <button>공유 레시피 관리</button>
+		 <button>배송관리</button>		 
+		 <button>고객관리</button>
+		 <button>판매자관리</button>
+
+		 
+		 
 	</div>
 </body>
 </html>
