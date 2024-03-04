@@ -49,6 +49,20 @@ public class ProductController {
         return "/product-localfood";
     }
 	
+	//상품 추가 페이지
+	@RequestMapping("/productAdd.do") 
+	public String productAdd(Model model) throws Exception{
+
+	    return "/product-add";
+	}
+	
+	//상품 상세 페이지
+	@RequestMapping("/productView.do") 
+	public String productView(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+		request.setAttribute("map", map);
+	    return "/product-view";
+	}
+	
 	
 	//제품 리스트
 	@RequestMapping(value = "/productList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -65,6 +79,15 @@ public class ProductController {
 	public String productRemove(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = productService.removeProduct(map);
+		return new Gson().toJson(resultMap);
+	}
+	
+	//제품 상세 정보
+	@RequestMapping(value = "/productView.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String productView(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = productService.searchProductList(map);
 		return new Gson().toJson(resultMap);
 	}
 }

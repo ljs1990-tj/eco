@@ -10,5 +10,6 @@ import com.example.test1.model.Product;
 public interface ProductMapper {
 	List<Product> selectProductList(HashMap<String, Object> map); //제품 리스트
 	void deleteProduct(HashMap<String, Object> map); //제품삭제
+	Product selectProductInfo(HashMap<String, Object> map); // 상품 상세정보
 }
 

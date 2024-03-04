@@ -8,6 +8,12 @@
 		ECO_PRODUCT
 	</select>
 	
+	<select id="selectProductInfo" parameterType="hashmap" resultType="com.example.test1.model.Product">
+		SELECT *
+		FROM ECO_PRODUCT
+		WHERE ITEM_NO = #{itemNo}
+	</select>
+	
 	<delete id="deleteProduct" parameterType="hashmap">
 		DELETE
 		FROM ECO_PRODUCT
