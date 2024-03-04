@@ -39,7 +39,11 @@
 						<div>
 							<input type="radio" name="gender" value="남성" v-model="user.gender">남 
 							<input type="radio"name="gender" value="여성" v-model="user.gender">여
+							<input type="radio" name="gender" value="기타" v-model="user.gender">기타
 						</div>
+					</li>
+					<li>
+						<span>핸드폰 번호</span>
 					</li>
 				</ul>
 			</fieldset>
@@ -63,6 +67,8 @@
 						userPw2 : "",
 						name : "",
 						nickName : "",
+						gender : "남성",
+						
 
 					}
 				};

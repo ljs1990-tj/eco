@@ -41,7 +41,7 @@ public class UserController {
 	@RequestMapping("/user-myPage.do") 
     public String userMyPage(Model model) throws Exception{
 
-        return "/user--myPage";
+        return "/user-myPage";
     }
 	
 	
