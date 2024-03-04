@@ -95,13 +95,13 @@
 			</div>
 			
 			<ul class="nav">
-			  <li @click="fnOrganic">유기농</li>
-			  <li @click="fnVegan">비건</li>
-			  <li @click="fnGluten">글루텐프리</li>
-			  <li @click="fnLocal">로컬푸드</li>
+			  <li @click="fnList('org')">유기농</li>
+			  <li @click="fnList('vegan')">비건</li>
+			  <li @click="fnList('gluten')">글루텐프리</li>
+			  <li @click="fnList('local')">로컬푸드</li>
 			</ul>
 			<div>
-			<input type="text" v-model="keyword"> <button @click="fnList">검색</button>
+			<input type="text" v-model="keyword"> <button @click="fnList(code)">검색</button>
 			</div>
 			<div class="filter">
 			  <select name="items" id="items">
@@ -117,6 +117,7 @@
 				    <p><a href="javascript:;" @click="fnDetailView(item.itemNo)">{{item.itemName}}</a></p>
 				    <p class="price">₩{{item.price}}</p>
 				  	<button @click="fnRemove(item.itemNo)">상품삭제</button>
+				  	<button @click="fnEdit(item.itemNo)">상품 수정</button>
 				  </div>
 			</div>
 		
@@ -131,19 +132,20 @@ var app = new Vue({
     data: {
     	list : [],
     	keyword : "",
-    	code : "org"
+    	code : ""
     	
     }
     , methods: {
-    	fnList: function() {
+    	fnList: function(code) {
             var self = this;
+            self.code = code;
             var nparmap = {
             		keyword : self.keyword,
-            		code : self.code
+            		code : code
             		
             };
             $.ajax({
-                url:"productList.dox",
+                url:"AdminProductList.dox",
                 dataType:"json",
                 type: "POST",
                 data: nparmap,
@@ -167,7 +169,7 @@ var app = new Vue({
 	                success: function(data) {
 	                	if(data.result == "success") {
 	                		alert("삭제되었습니다!");
-	                		self.fnList();
+	                		self.fnList(self.code);
 	                	} else {
 	                		alert("삭제 실패 오류 발생!");
 	                	}
@@ -177,31 +179,13 @@ var app = new Vue({
             	return;
             }
         },
-        /* 제품 상세 페이지  */
-        fnDetailView: function(itemNo) {
-			var self = this;
-			$.pageChange("/productView.do", {itemNo: itemNo});
-		},
-        /* 오가닉 제품 페이지 이동  */
-        fnOrganic: function() {
-        	$.pageChange("/productOrganic.do", {});
-        },
-        /* 비건 제품 페이지 이동  */
-        fnVegan: function() {
-        	$.pageChange("/productVegan.do", {});
-        },
-        /* 글루텐 프리 제품 페이지 이동  */
-        fnGluten: function() {
-        	$.pageChange("/productGlutenFree.do", {});
-        },
-        /* 로컬 제품 페이지 이동  */
-        fnLocal: function() {
-        	$.pageChange("/productLocalFood.do", {});
+        fnEdit : function(itemNo){
+        	$.pageChange("/AdminProductUpdate.do", {itemNo : itemNo});
         }
     }
     , created: function() {
     	var self = this;
-		self.fnList();
+		self.fnList('org');
 	}
 });
 </script>

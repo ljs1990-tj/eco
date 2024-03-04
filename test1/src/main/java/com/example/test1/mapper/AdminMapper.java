@@ -10,5 +10,10 @@ import com.example.test1.model.Product;
 public interface AdminMapper {
 	
 	void insertProduct(HashMap<String, Object> map);
+	List<Product> selectProductList(HashMap<String, Object> map);
+	
+	Product selectProductView(HashMap<String, Object> map);
+	
+	void updateProduct(HashMap<String,Object> map);
 }
 
