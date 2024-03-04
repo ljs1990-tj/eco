@@ -6,7 +6,7 @@
 	<meta charset="UTF-8">
 	<script src="js/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<title>오가닉 제품 페이지</title>
+	<title>비건 제품 페이지</title>
 </head>
 <style>
 </style>
@@ -38,23 +38,7 @@ var app = new Vue({
                 success: function(data) {
                 }
             });
-        },
-        /*유기농 제품 페이지 이동 */
-        fnOrganic: function() {
-        	$.pageChange("/productOrganic.do", {});
-        },
-        /*비건 제품 페이지 이동 */
-        fnVegan: function() {
-        	$.pageChange("/productVegan.do", {});
-        },
-        /*글루텐 프리 제품 페이지 이동 */
-        fnGluten: function() {
-        	$.pageChange("/productGlutenFree.do", {});
-        },
-        /*로컬 제품 페이지 이동 */
-        fnLocal: function() {
-        	$.pageChange("/productLocalFood.do", {});
-        },
+        }
     }
     , created: function() {
     	var self = this;
