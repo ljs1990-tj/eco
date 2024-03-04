@@ -24,6 +24,7 @@ public class UserController {
 
         return "/main"; 
     }
+	
 
 	@RequestMapping("/user-join.do") 
     public String userJoin(Model model) throws Exception{

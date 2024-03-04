@@ -67,7 +67,7 @@ public class ProductServiceimpl implements ProductService{
 		return resultMap;
 	}
 	
-	//오가닉 제품 리스트
+	// cord 분류에 따른 제품 리스트
 	@Override
 	public HashMap<String, Object> searchCodeList(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub

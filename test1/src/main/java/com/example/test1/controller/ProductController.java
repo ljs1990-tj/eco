@@ -65,7 +65,7 @@ public class ProductController {
 		return new Gson().toJson(resultMap);
 	}
 	
-	//code에 따른 제품 페이지
+	// cord 분류에 따른 제품 리스트
 	@RequestMapping(value = "/cordList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String cordList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {

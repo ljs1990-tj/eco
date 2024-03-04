@@ -6,7 +6,6 @@
 	<meta charset="UTF-8">
 	<script src="js/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<%-- <jsp:include page="/layout/menu.jsp"></jsp:include> --%>
 	<title>유기농 제품 페이지</title>
 </head>
 <style>
@@ -117,10 +116,9 @@
 				  	<button @click="fnRemove(item.itemNo)">상품삭제</button>
 				  </div>
 			</div>
-		
 		</div>
-			
 	</div>
+	
 </body>
 </html>
 <script type="text/javascript">
