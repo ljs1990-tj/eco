@@ -45,12 +45,9 @@
 				</li>
 				<li>
 					<div>닉네임</div>
-					<span>
-<<<<<<< HEAD
 						<input type="text" v-model="user.nickName" required>
-=======
+
 						<input type="text" v-model="user.nickName" required maxlength="30">
->>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
 					</span>
 				</li>
 				<li>
