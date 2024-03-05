@@ -19,5 +19,4 @@
 	USERPW = #{userPw}, NAME = #{name}, NICKNAME = #{nickName}, GENDER = #{gender}, PHONE1 = #{phone1}, PHONE2 = #{phone2}, PHONE3 = #{phone3}, EMAIL = #{email}, BIRTH = #{birth}
 	WHERE USERID = #{userId}
 	</update>
-	
 </mapper>
