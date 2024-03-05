@@ -46,7 +46,7 @@ a {
 <body>
     <div id="app">
         <div class="container">
-            <h2>패스 본인인증 서비스</h2>
+            <h2>문자 본인인증 서비스</h2>
             <p>안전하고 신속한 본인인증 서비스를 경험하세요.</p>
             <a @click="openCertificationPopup">본인인증 시작하기</a>
             <div>

@@ -13,6 +13,7 @@ import java.util.Random;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.nurigo.sdk.NurigoApp;
@@ -90,28 +91,30 @@ public class SmsExampleController {
 
 		return this.messageService.getMessageList(request);
 	}
+
 	/**
 	 * 단일 메시지 발송 예제
 	 */
 	@PostMapping("/send-one")
-	public SingleMessageSentResponse sendOne() {
+	public SingleMessageSentResponse sendOne(@RequestParam("phoneNumber") String phoneNumber) {
 		Message message = new Message();
 		String ranStr = randomMessage();
 		// 발신번호 및 수신번호는 반드시 01012345678 형태로 입력되어야 합니다.
 		message.setFrom("01046548947");
-		message.setTo("01029594125");
-		message.setText("[홈페이지명 ID본인확인] 인증번호" + "["+ ranStr +"]"+"를 입력해 주세요.");
+		message.setTo(phoneNumber);
+		message.setText("침대로 고고[홈페이지명 ID본인확인] 인증번호" + "[" + ranStr + "]" + "를 입력해 주세요.");
 
 		SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
 		System.out.println(response);
 		return response;
 	}
-	//숫자 랜덤으로 생성하기
+
+	// 숫자 랜덤으로 생성하기
 	public String randomMessage() {
 		Random ran = new Random();
 		String ranStr = "";
-		for(int i=0; i<6; i++ ) {
-			String ranNum =	Integer.toString(ran.nextInt(10));
+		for (int i = 0; i < 6; i++) {
+			String ranNum = Integer.toString(ran.nextInt(10));
 			ranStr += ranNum;
 		}
 		return ranStr;

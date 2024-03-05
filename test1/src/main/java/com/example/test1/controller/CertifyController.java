@@ -7,14 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class CertifyController {
 
-	//@Autowired
-
-	// SMS 인증연습하기
-	@RequestMapping("/sms-test.do")
-	public String smstest(Model model) throws Exception {
-
-		return "/sms-test";
-	}
+	//@Autowire
 
 	// 본인인증 메인 페이지
 	@RequestMapping("/user-certify1.do")
