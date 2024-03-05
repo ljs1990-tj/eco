@@ -1,53 +1,52 @@
 package com.example.test1.controller;
 
-import java.util.HashMap;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.test1.dao.CartService;
 
-@Controller
-public class CartController {
-	
-	  @Autowired
-	    private CartService cartService;
+import com.example.test1.model.Cart;
+import com.example.test1.model.CartPage;
+import com.example.test1.model.Criteria;
 
-	    @PostMapping("/cart/addAndCheckout")
-	    public ResponseEntity<?> addAndCheckout(@RequestBody HashMap<String, Object> map) {
-	        // Example validation (you should expand upon this)
-	        if (map.get("USERID") == null || map.get("ITEM_NO") == null) {
-	            return ResponseEntity.badRequest().body("Missing USERID or ITEM_NO");
-	        }
-	        
-	        // Mock security check (replace with real security checks)
-	        if (!isUserAuthorized(map.get("USERID").toString())) {
-	            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Unauthorized");
-	        }
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
-	        try {
-	            cartService.addAndCheckout(map);
-	            return ResponseEntity.ok().body("{\"status\": \"success\"}");
-	        } catch (Exception e) {
-	            // Log exception details here using a logging framework
-	            return ResponseEntity.internalServerError().body("An error occurred");
-	        }
-	    }
+@RestController
+@Log4j
+public class CartController { // basketController를 CartController로 변경
 
-	    private boolean isUserAuthorized(String userId) {
-	        // Implement your user authorization logic here
-	        // This is just a placeholder for demonstration purposes
-	        return true;
-	    }
+	@Autowired
+    CartService cartService;
 
-	    @ExceptionHandler(Exception.class)
-	    public ResponseEntity<?> handleException(Exception e) {
-	        // Log exception details here using a logging framework
-	        return ResponseEntity.internalServerError().body("An unexpected error occurred");
-	    }
+    @GetMapping(value = "/myPage/cart/{userId}/{page}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE })
+    public ResponseEntity<CartPage> getList(@PathVariable("userId") Long userId, @PathVariable("page") int page) {
+        Criteria cri = new Criteria(page, 6);
+
+        return new ResponseEntity<>(cartService.getCartPage(cri, userId), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/myPage/cart/new", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
+    public ResponseEntity<String> addCartProduct(@RequestBody Cart cart) {
+
+        int insertCount = cartService.addOrUpdateCartProduct(cart);
+
+        if (insertCount == 1) {
+            return new ResponseEntity<>("장바구니에 상품을 추가했습니다.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping(value = "/myPage/cart/delete/{userId}/{itemNo}", produces = { MediaType.TEXT_PLAIN_VALUE })
+    public ResponseEntity<String> removeCartProduct(@PathVariable("userId") Long userId, @PathVariable("itemNo") int itemNo) {
+
+        int removeResult = cartService.removeCartItem(userId, itemNo);
+
+        return removeResult == 1 ? new ResponseEntity<>("장바구니에서 상품을 제거했습니다.", HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
