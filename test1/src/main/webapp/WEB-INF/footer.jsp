@@ -6,6 +6,7 @@
 	<meta charset="UTF-8">
 	<script src="js/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">  <!-- 아이콘 라이브러리 -->
 	<title>푸터</title>
 </head>
 <style>
@@ -32,6 +33,21 @@
 	p {
 		font-size: 12px;
 	}
+	
+	.social-icons {
+		text-align: center;
+		margin-top: 20px;
+	}
+	
+	.social-icons a {
+		color: #333;
+		margin: 0 10px;
+		font-size: 24px; 
+	}
+	
+	.social-icons a:hover {
+		color: #e44d26;
+	}
 </style>
 <body>
 	<div id="app">
@@ -50,6 +66,14 @@
 					<p>법인명(상호):주식회사 | 사업자등록번호:261-81-23557</p>
 					<p>주소:인천 부평 엄청 큰 빌딩 7층 | 대표이사: 없어요</p>
 					<p>채용문의 : recruit@anhalae.com</p>
+					
+					<!-- 소셜 미디어 아이콘 -->
+					<div class="social-icons">
+						<a href="https://instagram.com" target="_blank" title="인스타그램"><i class="fab fa-instagram"></i></a>
+						<a href="https://youtube.com" target="_blank" title="유튜브"><i class="fab fa-youtube"></i></a>
+						<a href="https://line.me/ko/" target="_blank" title="라인"><i class="fab fa-line"></i></a>
+						<a href="https://www.facebook.com/" target="_blank" title="페이스북"><i class="fab fa-facebook-messenger"></i></a>
+					</div>
 				</div>
 				<!-- 추가적인 정보를 넣을 예정 -->
 			</div>

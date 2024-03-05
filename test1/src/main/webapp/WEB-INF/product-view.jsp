@@ -105,14 +105,23 @@
 	
 	.navigation button {
 		padding: 10px 15px;
-		margin: 0 5px; 
+		margin: 0 5px;
 		cursor: pointer;
-		border: 1px solid #ddd; 
-		background: #fff; 
+		border: 1px solid #ddd;
+		background: #fff;
+		transition: background-color 0.3s ease;
 	}
 	
-	.navigation button:focus, .navigation button:hover {
-		background: #eaeaea;
+	/* 버튼 활성화 스타일 */
+	.navigation button.active {
+		background-color: #4CAF50; /* 마켓컬리 스타일에 맞는 색상으로 변경 */
+		color: white;
+	}
+	
+	/* 버튼 호버 스타일 */
+	.navigation button:hover {
+		background-color: #4CAF50; /* 호버 색상도 마켓컬리 스타일에 맞게 조정 */
+		color: white;
 	}
 	
 	.product-section {
@@ -165,11 +174,26 @@
 		</div><!-- <div class="container">  -->
 		
 		<div class="navigation">
-		    <button @click="scrollToElement('#details')">상품상세</button>
-		    <button @click="scrollToElement('#reviews')">상품평</button>
-		    <button @click="scrollToElement('#inquiries')">상품문의</button>
+			<button 
+				:class="{'active': activeTab === 'details'}" 
+				@click="selectTab('details'); scrollToElement('#details')"
+			>
+				상품상세
+			</button>
+			<button 
+				:class="{'active': activeTab === 'reviews'}" 
+				@click="selectTab('reviews'); scrollToElement('#reviews')"
+			>
+				상품평
+			</button>
+			<button 
+				:class="{'active': activeTab === 'inquiries'}" 
+				@click="selectTab('inquiries'); scrollToElement('#inquiries')"
+			>
+				상품문의
+			</button>
 		</div>
-		
+				
 		<!-- 상품 상세 영역 -->
 		<div id="details" class="product-section">
 		    <h3>상품 상세 정보</h3>
@@ -196,7 +220,8 @@ var app = new Vue({
     el: '#app',
     data: {
     	itemNo: "${map.itemNo}",
-    	info: {}
+    	info: {},
+    	activeTab: 'details'
     }
     , methods: {
     	fnView: function() {
@@ -214,6 +239,10 @@ var app = new Vue({
                 }
             });
         },
+        
+        selectTab: function(tabName) {
+			this.activeTab = tabName;
+		},
         /* 상품정보, 상품평 등.. 선택버튼  */
         scrollToElement: function(selector) {
             var element = document.querySelector(selector);
