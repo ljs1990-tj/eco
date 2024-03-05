@@ -107,7 +107,9 @@
 			</ul>
 			<div>
 			<input type="text" v-model="keyword"> <button @click="fnList(code)">검색</button>
+			<button @click="fnMoveAddPage">글쓰기</button>
 			</div>
+			
 			<div class="filter">
 			  <select name="items" id="items">
 			    <option >인기 순</option>
@@ -123,7 +125,6 @@
 				 	<template id="item2.fileNo" @click="fnNext(item2.fileNo)">
 				    <img :src="item2.filePath+item2.fileName" alt="">
 				    </template>
-				    
 				    </template>
 				    <p><a href="javascript:;" @click="fnDetailView(item.itemNo)">{{item.itemName}}</a></p>
 				    <p class="price">₩{{item.price}}</p>
@@ -131,7 +132,8 @@
 				  	<button @click="fnEdit(item.itemNo)">상품 수정</button>
 				  </div>
 			</div>
-		
+			<button @click="fnMoveAdminPage()">관리자 페이지로 돌아가기</button>
+			
 		</div>
 			
 	</div>
@@ -165,6 +167,7 @@ var app = new Vue({
                 	console.log(data);
                 	self.productlist = data.list;
                 	self.filelist = data.filelist;
+                	
                 }
             });
         },
@@ -195,6 +198,17 @@ var app = new Vue({
         },
         fnEdit : function(itemNo){
         	$.pageChange("/AdminProductUpdate.do", {itemNo : itemNo});
+        },
+        fnMoveAdminPage : function(){
+        	location.href="/admin-main.do"
+        },
+        fnMoveAddPage : function(){
+        	var self = this;
+        	$.pageChange("/productAdd.do", {code : self.code});
+        },
+        fnDetailView : function(itemNo){
+        	var self = this
+        	$.pageChange("/AdminProductView.do",{itemNo : itemNo});
         }
     }
     , created: function() {

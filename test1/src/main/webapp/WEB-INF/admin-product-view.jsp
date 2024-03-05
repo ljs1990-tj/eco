@@ -103,10 +103,9 @@
 		<div class="container">
 		    <div class="left-panel">
 		        <div class="product-images">
-			        <img src="" alt="GAP 천혜향 주요 이미지">
-		            <img src="" alt="GAP 천혜향 추가 이미지1">
-		            <img src="" alt="GAP 천혜향 추가 이미지2">
-		            <img src="" alt="GAP 천혜향 추가 이미지3">
+		        <template v-for="item in fileList">
+			        <img :src="item.filePath+item.fileName" alt="GAP 천혜향 주요 이미지">
+		            </template>
 		        </div>
 		    </div>
 		    
@@ -146,7 +145,8 @@ var app = new Vue({
     el: '#app',
     data: {
     	itemNo: "${map.itemNo}",
-    	info: {}
+    	info: {},
+    	fileList :[]
     }
     , methods: {
     	fnView: function() {
@@ -155,12 +155,14 @@ var app = new Vue({
             		itemNo: self.itemNo
             };
             $.ajax({
-                url:"productView.dox",
+                url:"AdminProductView.dox",
                 dataType:"json",
                 type: "POST",
                 data: nparmap,
                 success: function(data) {
-                	self.info = data.info;
+                	console.log(data.filelist);
+                	self.info = data.item;
+                	self.fileList = data.filelist;
                 }
             });
         }

@@ -65,7 +65,9 @@ public class AdminServiceinpl implements AdminService{
 		HashMap<String, Object> resultMap = new HashMap<String,Object>();
 		try {
 			Product item = adminMapper.selectProductView(map);
+			List<ProductFile> fileList = adminMapper.selectProductContentsFileInfo(map);
 			resultMap.put("item",item);
+			resultMap.put("filelist",fileList);
 			resultMap.put("result", "success");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -109,6 +111,23 @@ public class AdminServiceinpl implements AdminService{
 			resultMap.put("result", "fail");
 		}
 		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> addProductContentsFile(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		try {
+			adminMapper.insertProductContentsFile(map);
+			resultMap.put("result", "success");
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+		
 	}
 
 }

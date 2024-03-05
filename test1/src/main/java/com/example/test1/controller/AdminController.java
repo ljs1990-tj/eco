@@ -36,8 +36,9 @@ public class AdminController {
 	
 	//상품 추가 페이지
 	@RequestMapping("/productAdd.do") 
-	public String productAdd(Model model) throws Exception{
-
+	public String productAdd(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+		request.setAttribute("map", map);
+		System.out.println(map);
 		return "/product-add";
 	}
 	
@@ -54,6 +55,12 @@ public class AdminController {
 		request.setAttribute("map", map);
 		return "/admin-product-update";
 	}
+	//상품 디테일 페이지
+		@RequestMapping("/AdminProductView.do") 
+		public String productView(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+			request.setAttribute("map", map);
+			return "/admin-product-view";
+		}
 	
 	
 	@RequestMapping(value = "/productAdd.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -144,6 +151,58 @@ public class AdminController {
         }
         return "redirect:AdminProductList.do";
     }
+	
+	
+	
+	@RequestMapping("/fileUploadContents.dox")
+    public String result2(@RequestParam("file2") MultipartFile multi, @RequestParam("itemNo") int itemNo, HttpServletRequest request,HttpServletResponse response, Model model)
+    {
+        String url = null;
+        String path="c:\\img";
+        try {
+ 
+            //String uploadpath = request.getServletContext().getRealPath(path);
+            String uploadpath = path;
+            String originFilename = multi.getOriginalFilename();
+            String extName = originFilename.substring(originFilename.lastIndexOf("."),originFilename.length());
+            long size = multi.getSize();
+            String saveFileName = genSaveFileName(extName);
+            
+            System.out.println("uploadpath : " + uploadpath);
+            System.out.println("originFilename : " + originFilename);
+            System.out.println("extensionName : " + extName);
+            System.out.println("size : " + size);
+            System.out.println("saveFileName : " + saveFileName);
+            String path2 = System.getProperty("user.dir");
+            System.out.println("Working Directory = " + path2 + "\\src\\webapp\\img");
+            if(!multi.isEmpty())
+            {
+                File file = new File(path2 + "\\src\\main\\webapp\\img", saveFileName);
+                multi.transferTo(file);
+                
+                HashMap<String, Object> map = new HashMap<String, Object>();
+                map.put("fileName", saveFileName);
+                map.put("path", "..\\img\\");
+                map.put("itemNo", itemNo);
+                map.put("fileSize", size);
+                map.put("etc", extName);
+                map.put("orgName",originFilename);
+                
+                // insert 쿼리 실행
+               // testService.addBoardImg(map);
+                adminService.addProductContentsFile(map);
+                
+                model.addAttribute("filename", multi.getOriginalFilename());
+                model.addAttribute("uploadPath", file.getAbsolutePath());
+                
+                return "redirect:AdminProductList.do";
+            }
+        }catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return "redirect:AdminProductList.do";
+    }
+	
 	
 	
 	

@@ -7,5 +7,6 @@ public interface AdminService {
 	HashMap<String, Object> searchProductList(HashMap<String, Object> map); //제품 리스트
 	HashMap<String, Object> searchProductView(HashMap<String, Object> map); //제품 뷰
 	HashMap<String, Object> editProduct(HashMap<String, Object> map);
-	HashMap<String,Object> addProductFile(HashMap<String,Object> map);//상품 이미지 추가
+	HashMap<String,Object> addProductFile(HashMap<String,Object> map);//상품 썸네일 이미지 추가
+	HashMap<String,Object> addProductContentsFile(HashMap<String,Object> map);//상품 컨텐츠 이미지 추가
 }
