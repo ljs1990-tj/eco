@@ -16,7 +16,7 @@
 	<div>
 		<button @click="fnProductAdd">상품등록</button>
 	</div><div>
-		<button>상품조회/수정</button>
+		<button @click="fnProdutList">상품조회/수정</button>
 	</div><div>
 		<button>상품관리</button>
 	</div><div>
@@ -47,7 +47,11 @@ var app = new Vue({
     , methods: {
     	fnProductAdd : function(){
     		location.href="productAdd.do";
+    	},
+    	fnProdutList: function(){
+    		location.href="productList.do"
     	}
+    	
     	
     }
     , created: function() {

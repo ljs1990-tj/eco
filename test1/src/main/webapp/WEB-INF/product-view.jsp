@@ -140,9 +140,6 @@
 		    <div class="left-panel">
 		        <div class="product-images">
 			        <img src="" alt="주요 이미지1">
-		            <img src="" alt="주요 이미지2">
-		            <img src="" alt="주요 이미지3">
-		            <img src="" alt="주요 이미지4">
 		        </div>
 		    </div>
 		    

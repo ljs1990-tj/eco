@@ -14,6 +14,7 @@
 		AND ITEM_NAME LIKE '%' #{keyword} '%'
 		</if>
 		
+<<<<<<< HEAD
 	</select>
 	
 	<select id="selectCodeList" parameterType="hashmap" resultType="com.example.test1.model.Product">
@@ -26,6 +27,8 @@
 		SELECT *
 		FROM ECO_PRODUCT
 		WHERE ITEM_NO = #{itemNo}
+=======
+>>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
 	</select>
 	
 	<delete id="deleteProduct" parameterType="hashmap">

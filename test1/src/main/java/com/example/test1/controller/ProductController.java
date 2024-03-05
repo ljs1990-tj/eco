@@ -48,7 +48,7 @@ public class ProductController {
 		request.setAttribute("map", map); 
         return "/product-localfood";
     }
-		
+
 	//상품 상세 페이지
 	@RequestMapping("/productView.do") 
 	public String productView(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
