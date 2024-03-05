@@ -30,8 +30,10 @@ public interface CartService {
     
     // 사용자의 장바구니에서 선택된 항목들에 대한 주문 정보를 검색합니다.
 	
-	  public List<GetOrderInfo> getOrderInfo(@Param("userId") Long
-	  userId, @Param("checkedItems") Integer[] checkedItems); 
+	/*
+	 * public List<GetOrderInfo> getOrderInfo(@Param("userId") Long
+	 * userId, @Param("checkedItems") Integer[] checkedItems);
+	 */
 	 
     // 주문 확인이나 요약을 위해 선택된 항목들에 대한 자세한 주문 정보 목록을 검색합니다.
 	/*

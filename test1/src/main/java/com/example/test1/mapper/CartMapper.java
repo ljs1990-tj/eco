@@ -32,8 +32,11 @@ public interface CartMapper { // basketMapper를 CartMapper로 변경
     public int removeCartProduct(@Param("userId") Long userId, @Param("itemNo") int itemNo); // removeBasket를 removeCartProduct로 변경, 파라미터명 및 순서 변경
 
     // 사용자의 장바구니에서 선택된 상품들에 대한 주문 정보를 가져옵니다.
-    public List<GetOrderInfo> getOrderInfo(@Param("userId") Long userId, @Param("checkedItems") Integer[] checkedItems); // CheckedArray를 checkedItems로 변경, customer_code를 userId로 변경
-
+	/*
+	 * public List<GetOrderInfo> getOrderInfo(@Param("userId") Long
+	 * userId, @Param("checkedItems") Integer[] checkedItems); // CheckedArray를
+	 * checkedItems로 변경, customer_code를 userId로 변경
+	 */
     // 선택된 상품들의 총 가격을 계산합니다.
     public int getTotalPrice(@Param("userId") Long userId, @Param("checkedItems") Integer[] checkedItems); // CheckedArray를 checkedItems로 변경, customer_code를 userId로 변경
 }
