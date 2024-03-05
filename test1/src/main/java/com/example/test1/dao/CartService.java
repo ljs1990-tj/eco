@@ -4,5 +4,5 @@ import java.util.HashMap;
 
 public interface CartService {
 
-	HashMap<String, Object> addAndCheckout(HashMap<String, Object> map);
+	/* HashMap<String, Object> addAndCheckout(HashMap<String, Object> map); */
 }

@@ -139,7 +139,9 @@
 		<div class="container">
 		    <div class="left-panel">
 		        <div class="product-images">
-			        <img src="" alt="주요 이미지1">
+			        <template v-for="item in fileList">
+			        	<img :src="item.filePath+item.fileName" alt="주요 이미지">
+		            </template>
 		        </div>
 		    </div>
 		    
@@ -218,6 +220,7 @@ var app = new Vue({
     data: {
     	itemNo: "${map.itemNo}",
     	info: {},
+    	fileList : [],
     	activeTab: 'details'
     }
     , methods: {
@@ -232,7 +235,9 @@ var app = new Vue({
                 type: "POST",
                 data: nparmap,
                 success: function(data) {
+                	console.log(data.filelist);
                 	self.info = data.info;
+                	self.fileList = data.filelist;
                 }
             });
         },

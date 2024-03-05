@@ -6,7 +6,7 @@
 	<meta charset="UTF-8">
 	<script src="js/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<title>유기농 제품 페이지</title>
+	<title>친환경 제품 페이지</title>
 </head>
 <style>
   	body {
@@ -94,10 +94,10 @@
 			</div>
 			
 			<ul class="nav">
-				<li @click="fnOrganic">유기농</li>
-				<li @click="fnVegan">비건</li>
-				<li @click="fnGluten">글루텐프리</li>
-				<li @click="fnLocal">로컬푸드</li>
+				<li @click="fnList('org')">유기농</li>
+				<li @click="fnList('vegan')">비건</li>
+				<li @click="fnList('gluten')">글루텐프리</li>
+				<li @click="fnList('local')">로컬푸드</li>
 			</ul>
 
 			<div class="filter">
@@ -110,7 +110,10 @@
 
 			<div class="product-grid">
 				 <div class="product" v-for="item in list">
-				    <img src="" alt="썸네일 이미지">
+				 	<template  v-for="item2 in filelist" v-if="item.itemNo == item2.itemNo">
+						<img :src="item2.filePath+item2.fileName" alt="">
+				    </template>
+				 
 				    <p><a href="javascript:;" @click="fnDetailView(item.itemNo)">{{item.itemName}}</a></p>
 				    <p class="price">₩{{item.price}}</p>
 				  	<button @click="fnRemove(item.itemNo)">상품삭제</button>
@@ -126,13 +129,15 @@ var app = new Vue({
     el: '#app',
     data: {
     	list : [],
-    	code : 'org'
+    	filelist : [],
+    	code : ""
     }
     , methods: {
-    	fnList: function() {
+    	fnList: function(code) {
             var self = this;
+            self.code = code;
             var nparmap = {
-            		code: self.code
+            		code: code
             };
             $.ajax({
                 url:"cordList.dox",
@@ -140,7 +145,9 @@ var app = new Vue({
                 type: "POST",
                 data: nparmap,
                 success: function(data) {
+                	console.log(data);
                 	self.list = data.list;
+                	self.filelist = data.filelist;
                 }
             });
         },
@@ -174,26 +181,10 @@ var app = new Vue({
 			var self = this;
 			$.pageChange("/productView.do", {itemNo: itemNo});
 		},
-        /* 오가닉 제품 페이지 이동  */
-        fnOrganic: function() {
-        	$.pageChange("/productOrganic.do", {});
-        },
-        /* 비건 제품 페이지 이동  */
-        fnVegan: function() {
-        	$.pageChange("/productVegan.do", {});
-        },
-        /* 글루텐 프리 제품 페이지 이동  */
-        fnGluten: function() {
-        	$.pageChange("/productGlutenFree.do", {});
-        },
-        /* 로컬 제품 페이지 이동  */
-        fnLocal: function() {
-        	$.pageChange("/productLocalFood.do", {});
-        }
     }
     , created: function() {
     	var self = this;
-		self.fnList();
+		self.fnList('org');
 	}
 });
 </script>

@@ -12,18 +12,14 @@ import com.example.test1.model.Cart;
 
 @Service
 public class CartServiceimpl implements CartService{
-	
-	@Autowired
-	CartMapper cartMapper;
-	
-	@Override
-	public HashMap<String, Object> addAndCheckout(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		cartMapper.addToCart(map);
-		resultMap.put("result", "success");
-		return resultMap;
-	}
+	/*
+	 * @Autowired CartMapper cartMapper;
+	 * 
+	 * @Override public HashMap<String, Object> addAndCheckout(HashMap<String,
+	 * Object> map) { // TODO Auto-generated method stub HashMap<String, Object>
+	 * resultMap = new HashMap<String, Object>(); cartMapper.addToCart(map);
+	 * resultMap.put("result", "success"); return resultMap; }
+	 */
 
 
 }
