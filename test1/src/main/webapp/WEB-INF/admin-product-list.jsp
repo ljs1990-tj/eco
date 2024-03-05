@@ -119,9 +119,11 @@
 			<div class="product-grid" >
 				 <div class="product" v-for="item in productlist">
 				 <template  v-for="item2 in filelist" v-if="item.itemNo == item2.itemNo">
+				 
 				 	<template id="item2.fileNo" @click="fnNext(item2.fileNo)">
 				    <img :src="item2.filePath+item2.fileName" alt="">
 				    </template>
+				    
 				    </template>
 				    <p><a href="javascript:;" @click="fnDetailView(item.itemNo)">{{item.itemName}}</a></p>
 				    <p class="price">₩{{item.price}}</p>
