@@ -4,6 +4,21 @@
 
 <mapper namespace="com.example.test1.mapper.ProductMapper">
 	<select id="selectProductList" parameterType="hashmap" resultType="com.example.test1.model.Product">
-
+		SELECT * FROM
+		ECO_PRODUCT
+		WHERE 1=1
+		<if test="code !=''">
+		AND CODE = #{code}
+		</if>
+		<if test="keyword !=''">
+		AND ITEM_NAME LIKE '%' #{keyword} '%'
+		</if>
+		
 	</select>
+	
+	<delete id="deleteProduct" parameterType="hashmap">
+		DELETE
+		FROM ECO_PRODUCT
+		WHERE ITEM_NO = #{itemNo}
+	</delete>
 </mapper>

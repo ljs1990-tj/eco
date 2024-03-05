@@ -100,7 +100,9 @@
 			  <li @click="fnGluten">글루텐프리</li>
 			  <li @click="fnLocal">로컬푸드</li>
 			</ul>
-			
+			<div>
+			<input type="text" v-model="keyword"> <button @click="fnList">검색</button>
+			</div>
 			<div class="filter">
 			  <select name="items" id="items">
 			    <option >인기 순</option>
@@ -127,12 +129,19 @@
 var app = new Vue({
     el: '#app',
     data: {
-    	list : []
+    	list : [],
+    	keyword : "",
+    	code : "org"
+    	
     }
     , methods: {
     	fnList: function() {
             var self = this;
-            var nparmap = {};
+            var nparmap = {
+            		keyword : self.keyword,
+            		code : self.code
+            		
+            };
             $.ajax({
                 url:"productList.dox",
                 dataType:"json",

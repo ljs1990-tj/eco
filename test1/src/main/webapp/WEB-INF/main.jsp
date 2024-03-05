@@ -104,7 +104,9 @@ body {
 		<div class="user-info">
 			<div class="icon"></div>
 			<!-- 장바구니 icon -->
-			<div>마이페이지</div>
+			<div>
+				<a href="javascript:;" @click="fnUserPage()">마이페이지</a>
+			</div>
 			<div>장바구니</div>
 		</div>
 		<!-- 팝업 창 -->
@@ -121,7 +123,8 @@ body {
 	var app = new Vue({
 		el : '#app',
 		data : {
-			isPopupOpen : true
+			isPopupOpen : true,
+			userId : "test123"
 		},
 		methods : {
 			fnList : function() {
@@ -140,6 +143,16 @@ body {
 			},
 			closePopup : function() {
 				this.isPopupOpen = false;
+			},
+			/* 마이페이지 이동 */
+			fnUserPage : function(userId) {
+				var self = this;
+				if(self.userId != ""){
+					$.pageChange("/user-myPage.do", {"userId" : userId});
+				}else{
+					alert("로그인 후 입장 가능합니다.");
+					$.pageChange("/user-login.do",{});
+				}
 			}
 		},
 		created : function() {

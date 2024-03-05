@@ -2,8 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.test1.mapper.CartMapper">
-	<select id="selectCartList" parameterType="hashmap" resultType="com.example.test1.model.Cart">
-
-	</select>
+<mapper namespace="com.example.eco.mapper.CartMapper">
+    <!-- Insert item into ECO_CART -->
+    <insert id="addToCart" parameterType="hashmap">
+        INSERT INTO ECO_CART (USERID, ITEM_NO, CDATETIME, IS_PAY)
+        VALUES (#{USERID}, #{ITEM_NO}, NOW(), 'N')
+    </insert>
+    
+    <!-- Update IS_PAY status for checkout -->
+    <update id="checkoutCart" parameterType="hashmap">
+        UPDATE ECO_CART
+        SET IS_PAY = 'Y'
+        WHERE USERID = #{USERID} AND IS_PAY = 'N'
+    </update>
 </mapper>

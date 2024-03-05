@@ -7,7 +7,7 @@
 	<script src="js/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	<%-- <jsp:include page="/layout/menu.jsp"></jsp:include> --%>
-	<title>유기농 제품 페이지</title>
+	<title>글루텐 프리 제품 페이지</title>
 </head>
 <style>
   	body {
@@ -87,7 +87,7 @@
 	<div id="app">
 		<div class="container">
 			<div class="title">
-			  <h1>Shop Organic’s</h1>
+			  <h1>Shop GlutenFree’s</h1>
 			</div>
 			
 			<div class="description">
@@ -112,7 +112,7 @@
 			<div class="product-grid">
 				 <div class="product" v-for="item in list">
 				    <img src="" alt="">
-				    <p><a href="javascript:;" @click="fnDetailView(item.itemNo)">{{item.itemName}}</a></p>
+				    <p>{{item.itemName}}</p>
 				    <p class="price">₩{{item.price}}</p>
 				  	<button @click="fnRemove(item.itemNo)">상품삭제</button>
 				  </div>
@@ -168,11 +168,6 @@ var app = new Vue({
             	return;
             }
         },
-        /* 제품 상세 페이지  */
-        fnDetailView: function(itemNo) {
-			var self = this;
-			$.pageChange("/productView.do", {itemNo: itemNo});
-		},
         /* 오가닉 제품 페이지 이동  */
         fnOrganic: function() {
         	$.pageChange("/productOrganic.do", {});
