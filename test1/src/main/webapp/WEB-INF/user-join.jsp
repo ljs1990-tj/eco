@@ -12,6 +12,7 @@
 <style>
 </style>
 <body>
+<<<<<<< HEAD
     <div id="app">
         <fieldset class="container-join">
             <div class="join-title">회원가입</div>
@@ -122,6 +123,97 @@
                 <button class="join-button" @click="fnJoin">회원가입</button>
             </div>
         </fieldset>
+=======
+	<div id="app">
+		<fieldset>
+			<legend>회원가입</legend>
+			<ul>
+				<li>
+					<div>아이디</div>
+					<span>
+						<input type="text" v-model="user.userId" @keyup="fnIdCheck" required maxlength="20">
+					</span>
+		        	<div v-if="user.userId != ''">
+				       	<div v-if="idCheckFlg" style="color: blue;">사용 가능한 아이디입니다.</div>
+				       	<div v-else style="color: red;">중복된 아이디입니다.</div>
+		        	</div>
+				</li>
+				<li>
+					<div>비밀번호</div>
+					<span>
+						<input type="password" v-model="user.userPw" @keyup="fnPwCheck" required maxlength="16">
+					</span>
+					<div v-if="user.userPw != ''">
+						<div v-if="!pwCheckFlg" style="color: red;">비밀번호는 최소 8글자, 최대 16글자이고 하나 이상의 숫자, 영문자 및 특수문자를 각각 포함되어야 합니다!</div>
+					</div>
+				</li>
+				<li>
+					<div>비밀번호 확인</div>
+					<span>
+						<input type="password" v-model="user.userPw2" required maxlength="16">
+					</span>
+					<div v-if="user.userPw2 != ''">
+						<div></div>
+					</div>
+				</li>
+				<li>
+					<div>이름</div>
+					<span>
+						<input type="text" v-model="user.name" required maxlength="30">
+					</span>
+				</li>
+				<li>
+					<div>닉네임</div>
+						<input type="text" v-model="user.nickName" required>
+						<input type="text" v-model="user.nickName" required maxlength="30">
+					</span>
+				</li>
+				<li>
+					<div>성별</div>
+					<span>
+			            <input type="radio" name="gender" value="남성" v-model="user.gender">남
+			            <input type="radio" name="gender" value="여성" v-model="user.gender">여
+			            <input type="radio" name="gender" value="기타" v-model="user.gender">기타
+					</span>
+				</li>
+				<li>
+					<div>핸드폰 번호</div>
+					<span>
+						<input type="text" v-model="user.phone1" required maxlength="3">-
+						<input type="text" v-model="user.phone2" required maxlength="4">-
+						<input type="text" v-model="user.phone3" required maxlength="4">
+					</span>
+				</li>
+				<li>
+					<div>이메일</div>
+					<span>
+						<input type="text" v-model="email1" placeholder="이메일 아이디 입력" required>
+						<span>@</span>
+						<input type="text" v-model="email2" placeholder="직접 입력">
+						<select v-model="email3" @change="selectEmail">
+							<option value="" selected>직접 입력</option>
+							<option value="gmail.com">gmail.com</option>
+							<option value="naver.com">naver.com</option>
+							<option value="kakao.com">kakao.com</option>
+							<option value="hanmail.net">hanmail.net</option>
+						</select>
+					</span>
+				</li>
+				<li>
+					<div>생년월일</div>
+					<span>
+						<input type="text" v-model="user.birth" placeholder="ex)19910101" required maxlength="8">
+					</span>
+				</li>
+				<li>
+					<div></div>
+				</li>
+			</ul>
+			<div>
+				<button @click="fnJoin">회원가입</button>
+			</div>
+		</fieldset>
+>>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
 	</div>
 </body>
 </html>
