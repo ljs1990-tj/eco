@@ -86,12 +86,12 @@
 					}
 				});
 			},
-			/* 개인정보 수정하기 */
+			/* 개인정보 수정 페이지 이동 */
 			fnUsermodify : function() {
 				var self = this;
 				if(self.user.userId != ""){
-					//$.pageChange("/user-myPageList.do", {"userId" : userId});
-					 window.location.href = "/user-myPageList.do?userId=" + self.user.userId;
+					$.pageChange("/user-myPageView.do", {"userId" : self.user.userId});
+					 //window.location.href = "/user-myPageView.do?userId=" + self.user.userId;
 				}else{
 					alert("로그인 후 입장 가능합니다.");
 					 window.location.href = "/user-login.do";
