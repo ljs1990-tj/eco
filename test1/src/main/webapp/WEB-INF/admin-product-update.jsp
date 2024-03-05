@@ -38,6 +38,11 @@
 		<div>
 			적립율 : <input type="text" v-model="Prate">
 		</div>
+		<tr>
+				<td width="30%">메인이미지 : </td>
+				<td width="70%"><input type="file" id="file1" name="file1" accept=".jpg,.png,.gif"></td>
+			</tr>
+		<div>
 		
 		<div>
 			
@@ -109,7 +114,7 @@ var app = new Vue({
                 		self.Prate = data.item.pRate;
                 		self.contents = data.item.contents;
                 		self.trans = data.item.transInfo;
-                		self.sellYN = data.item.sellYN;
+                		self.sellYN = data.item.sellYn;
                 		self.cnt = data.item.cnt;
 
                 		
@@ -121,8 +126,6 @@ var app = new Vue({
             });
         },
         ProductUpdate : function(){
-        	
-        
                 var self = this;
                 var nparmap = {
                 		code : self.code,
@@ -134,9 +137,7 @@ var app = new Vue({
                 		trans : self.trans,
                 		sellYN : self.sellYN,
                 		cnt : self.cnt,
-                		itemNo : self.itemNo
-                		
-                		
+                		itemNo : self.itemNo	
                 };
                 $.ajax({
                     url:"AdminProductUpdate.dox",
@@ -145,21 +146,35 @@ var app = new Vue({
                     data: nparmap,
                     success: function(data) {
                     	if(data.result=="success"){
+                    		
                     		alert("등록완료");
+                    		var form = new FormData();
+                            form.append( "file1",  $("#file1")[0].files[0]);
+                            form.append("itemNo", self.itemNo);
+                            self.uploadMain(form);
+                            location.href="AdminProductList.do";
+                            
                     	}else{
                     		alert("등록실패");
                     	}
                     	
                     }
                 });
-            
-        	
-        	
-        	
-        	
-        	
-        	
         }
+        // 파일 업로드
+	    , uploadMain : function(form){
+	    	var self = this;
+	         $.ajax({
+	             url : "/fileUploadMain.dox"
+	           , type : "POST"
+	           , processData : false
+	           , contentType : false
+	           , data : form
+	           , success:function(response) { 
+	        	   
+	           }	           
+	       });
+		}
     }
     , created: function() {
     	var self = this;

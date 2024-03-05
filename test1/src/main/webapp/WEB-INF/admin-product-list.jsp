@@ -82,6 +82,11 @@
     	float: right;
     	margin: 20px;
   	}
+  	
+  	#8{
+  	display: none;
+  	
+  	}
 </style>
 <body>
 	<div id="app">
@@ -111,9 +116,13 @@
 			  </select>
 			</div>
 			
-			<div class="product-grid">
-				 <div class="product" v-for="item in list">
-				    <img src="" alt="">
+			<div class="product-grid" >
+				 <div class="product" v-for="item in productlist">
+				 <template  v-for="item2 in filelist" v-if="item.itemNo == item2.itemNo">
+				 	<template id="item2.fileNo" @click="fnNext(item2.fileNo)">
+				    <img :src="item2.filePath+item2.fileName" alt="">
+				    </template>
+				    </template>
 				    <p><a href="javascript:;" @click="fnDetailView(item.itemNo)">{{item.itemName}}</a></p>
 				    <p class="price">₩{{item.price}}</p>
 				  	<button @click="fnRemove(item.itemNo)">상품삭제</button>
@@ -130,9 +139,10 @@
 var app = new Vue({
     el: '#app',
     data: {
-    	list : [],
+    	productlist : [],
     	keyword : "",
-    	code : ""
+    	code : "",
+    	filelist :[]
     	
     }
     , methods: {
@@ -150,7 +160,9 @@ var app = new Vue({
                 type: "POST",
                 data: nparmap,
                 success: function(data) {
-                	self.list = data.list;
+                	console.log(data);
+                	self.productlist = data.list;
+                	self.filelist = data.filelist;
                 }
             });
         },

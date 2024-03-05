@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.example.test1.model.Product;
+import com.example.test1.model.ProductFile;
 
 @Mapper
 public interface AdminMapper {
@@ -15,5 +16,9 @@ public interface AdminMapper {
 	Product selectProductView(HashMap<String, Object> map);
 	
 	void updateProduct(HashMap<String,Object> map);
+	
+	void insertProductFile(HashMap<String,Object> map);
+	
+	List<ProductFile> selectProductFileInfo(HashMap<String, Object> map);
 }
 

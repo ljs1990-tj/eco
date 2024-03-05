@@ -38,7 +38,10 @@
 		<div>
 			적립율 : <input type="text" v-model="Prate">
 		</div>
-		
+		<tr>
+			<td width="30%">메인 이미지 : </td>
+			<td width="70%"><input type="file" id="file1" name="file1" accept=".jpg,.png,.gif"></td>
+		</tr>
 		<div>
 			
 			내용 : <vue-editor v-model="contents"></vue-editor>
@@ -112,6 +115,12 @@ var app = new Vue({
                 success: function(data) {
                 	if(data.result=="success"){
                 		alert("등록완료");
+                		var form = new FormData();
+                        form.append( "file1",  $("#file1")[0].files[0]);
+                        form.append("itemNo", data.itemNo);
+                        self.uploadMain(form);
+                        /* location.href="AdminProductList.do"; */
+                		
                 	}else{
                 		alert("등록실패");
                 	}
@@ -119,6 +128,20 @@ var app = new Vue({
                 }
             });
         }
+    //파일 업로드
+    , uploadMain : function(form){
+    	var self = this;
+         $.ajax({
+             url : "/fileUploadMain.dox"
+           , type : "POST"
+           , processData : false
+           , contentType : false
+           , data : form
+           , success:function(response) { 
+        	   
+           }	           
+       });
+	}
     }
     , created: function() {
     	var self = this;

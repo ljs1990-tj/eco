@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.test1.mapper.AdminMapper;
 import com.example.test1.model.Product;
+import com.example.test1.model.ProductFile;
 
 
 
@@ -26,6 +27,7 @@ public class AdminServiceinpl implements AdminService{
 		try {
 			adminMapper.insertProduct(map);
 			resultMap.put("result","success");
+			resultMap.put("itemNo", map.get("itemNo"));
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
@@ -42,7 +44,9 @@ public class AdminServiceinpl implements AdminService{
 		HashMap<String, Object> resultMap = new HashMap<String,Object>();
 		try {
 			List<Product> List =  adminMapper.selectProductList(map);
+			List<ProductFile> fileList = adminMapper.selectProductFileInfo(map);
 			resultMap.put("list", List);
+			resultMap.put("filelist",fileList);
 			resultMap.put("reslut","success");
 			
 			
@@ -87,6 +91,23 @@ public class AdminServiceinpl implements AdminService{
 			resultMap.put("result", "fail");
 		}
 		
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> addProductFile(HashMap<String, Object> map) {
+
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		try {
+			adminMapper.insertProductFile(map);
+			resultMap.put("result", "success");
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+		}
 		return resultMap;
 	}
 
