@@ -4,6 +4,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" href="../css/team_project_style.css">
 	<script src="js/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	<title>첫번째 페이지</title>
@@ -65,9 +66,10 @@
 				<th>수정일</th>
 				<th>칼로리</th>
 			</tr>
-			<tr v-for="item in list" @click="fnView(item.boardNo)">
+			<tr v-for="item in list">
 				<td>{{ item.boardNo }}</td>
-				<td>{{ item.title }}</td>
+				<td><a href="javascript:;" @click="fnView(item.boardNo)" v-html="item.title">{{item.title}}</a></td>
+				<!--  <p v-html="info.contents">{{info.contents}}</p> -->
 				<td>{{ item.contents }}</td>
 				<td>{{ item.userId }}</td>
 				<td>{{ item.hits }}</td>
@@ -77,6 +79,7 @@
 			</tr>
 		</table>
 		<button @click="fnWrite">글쓰기</button>
+		<button @click="fnDelete">삭제</button>
 	</div>
 </body>
 </html>
@@ -101,12 +104,37 @@
 					}
 				}); 
 			},
-			fnWrite: function() {
-				$.pageChange("boardInsert.do", { userId: userId });
+			fnWrite: function(userId) {
+				$.pageChange("boardInsert.do", { userId : userId });
 			},
 			fnView: function(boardNo) {
-				$.pageChange("boardView.do", { boardNo: boardNo });
-			}
+				$.pageChange("boardView.do", { boardNo : boardNo });
+			},
+			fnDelete : function() {
+				var self = this;
+				if (!confirm("삭제할거냐")) {
+					return;
+				}
+				var nparmap = {
+					boardNo : self.boardNo
+				};
+				$.ajax({
+					url : "boardDelete.dox",
+					dataType : "json",
+					type : "POST",
+					data : nparmap,
+					success : function(data) {
+						/* self.info = data.info; */
+						if (data.result == "success") {
+							alert("삭제되었습니다");
+							$.pageChange("/boardList.do", {});
+							//location.href = "/boardList.do"
+						} else {
+							alert("다시 시도해주세요");
+						}
+					}
+				});
+			},
 		},
 		created: function() {
 			this.fnGetList();
