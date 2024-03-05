@@ -13,18 +13,11 @@
 		VALUES
 			(#{userId}, #{userPw}, #{name}, #{nickName}, #{gender}, #{phone1}, #{phone2}, #{phone3}, #{email}, #{birth}, 'SILVER', 'N', #{eventYn}, 0, 0, 0, 'U', NOW(), NOW(), NOW(), DATE_ADD(NOW(), INTERVAL 3 MONTH))
 	</insert>
-<<<<<<< HEAD
-=======
 	<update id="updateUser" parameterType="hashmap">
 	UPDATE ECO_USER
 				SET
 	USERPW = #{userPw}, NAME = #{name}, NICKNAME = #{nickName}, GENDER = #{gender}, PHONE1 = #{phone1}, PHONE2 = #{phone2}, PHONE3 = #{phone3}, EMAIL = #{email}, BIRTH = #{birth}
 	WHERE USERID = #{userId}
 	</update>
-	
-	
-	
-	
->>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
 	
 </mapper>

@@ -57,8 +57,6 @@ public class UserServiceimpl implements UserService{
 		}
 		return resultMap;
 	}
-<<<<<<< HEAD
-=======
 	//유저정보 수정
 	@Override
 	public HashMap<String, Object> modifyUser(HashMap<String, Object> map) {
@@ -74,6 +72,4 @@ public class UserServiceimpl implements UserService{
 		}
 		return resultMap;
 	}
-	
->>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
 }
