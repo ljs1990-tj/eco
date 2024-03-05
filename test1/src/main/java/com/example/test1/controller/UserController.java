@@ -2,6 +2,8 @@ package com.example.test1.controller;
 
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,9 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
+	@Autowired
+	HttpSession session;
+	
 	@RequestMapping("/main.do") 
     public String main(Model model) throws Exception{		
 
@@ -27,14 +32,14 @@ public class UserController {
 
 	@RequestMapping("/user-join.do") 
     public String userJoin(Model model) throws Exception{
-
+		
         return "/user-join";
     }
 	
 
 	@RequestMapping("/user-login.do") 
     public String userLogin(Model model) throws Exception{
-
+		session.invalidate();
         return "/user-login";
     }
 	//유저 정보 가져오기
@@ -50,7 +55,7 @@ public class UserController {
 	@ResponseBody
 	public String userJoin(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		userService.addUser(map);
+		resultMap = userService.addUser(map);
 		return new Gson().toJson(resultMap);
 	}
 	
