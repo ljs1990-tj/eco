@@ -130,14 +130,15 @@
 		            <select name="quantity" id="quantity">
 		                <option value="1">1</option>
 		            </select>
-		            
 		            <button>장바구니</button>
 		            <button>구매하기</button>
 		        </div>
-		        
-		    </div><!-- <div class="right-panel"> -->
-		</div><!-- <div class="container">  -->
-	</div><!-- <div id="app"> -->
+		      
+		    </div>
+		    
+		</div>
+		
+	</div>
 </body>
 </html>
 <script type="text/javascript">

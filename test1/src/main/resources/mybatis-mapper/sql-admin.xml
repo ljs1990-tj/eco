@@ -57,6 +57,7 @@
 			FILEPATH || FILENAME AS PATH
 		FROM ECO_PRODUCT_IMAGE P
 		WHERE KIND = 2
+		AND ITEMNO = #{itemNo}
 	</select>
 	
 	<insert id="insertProductFile" parameterType="hashmap">
