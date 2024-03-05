@@ -45,7 +45,7 @@
 						<input type="password" v-model="user.userPw2" @keyup="fnCheck('pw2')" maxlength="16">
 					</span>
 					<div v-if="user.userPw2 != ''">
-						<div v-if="!pwCheckFlg2" style="color: red;">비밀번호를 같게 쓰세요!</div>
+						<div v-if="!pwCheckFlg2" style="color: red;">비밀번호와 똑같이 입력하세요!</div>
 					</div>
 				</li>
 				<li>
@@ -71,8 +71,8 @@
 				<li>
 					<div>핸드폰 번호</div>
 					<span>
-						<input type="text" v-model="user.phone1" maxlength="3">-
-						<input type="text" v-model="user.phone2" maxlength="4">-
+						<input type="text" v-model="user.phone1" maxlength="3"> -
+						<input type="text" v-model="user.phone2" maxlength="4"> -
 						<input type="text" v-model="user.phone3" maxlength="4">
 					</span>
 				</li>
@@ -94,10 +94,10 @@
 				<li>
 					<div>생년월일</div>
 					<span>
-						<input type="text" v-model="user.birth" placeholder="ex)19910101" maxlength="8" @keyup="fnCheck('birth')">
+						<input type="text" v-model="user.birth" placeholder="ex)19910101" maxlength="8" @keyup="fnDateCheck('birth')">
 					</span>
 					<div v-if="user.birth != ''">
-						<div v-if="!birthCheckFlg" style="color: red;">생년월일엔 숫자만 입력하세요!</div>
+						<div v-if="!birthCheckFlg" style="color: red;">{{alertMessage}}</div>
 					</div>
 				</li>
 				<li>
@@ -141,7 +141,8 @@ var app = new Vue({
     	pwCheckFlg: false,
     	pwCheckFlg2: false,
     	birthCheckFlg: false,
-    	isEventYn: false
+    	isEventYn: false,
+    	alertMessage: ""
     }
     , methods: {
     	fnJoin: function() {
@@ -180,30 +181,22 @@ var app = new Vue({
             }
             self.user.email = self.email1 + "@" + self.email2;
             self.user.eventYn = self.isEventYn ? 'Y' : 'N';
-            if(self.idCheckFlg) {
-            	if(self.idCheckFlg2) {
-            		if(self.pwCheckFlg) {
-            			if(self.pwCheckFlg2) {
-            				if(self.birthCheckFlg) {
-					            var nparmap = self.user;
-					            $.ajax({
-					                url:"user-join.dox",
-					                dataType:"json",
-					                type: "POST",
-					                data: nparmap,
-					                success: function(data) {
-					                	if(data.result == "success") {
-						                	alert("가입됐습니다!");
-						                	$.pageChange("/user-login.do",{});
-					                	} else {
-					                		alert("오류로 인한 가입 실패!");
-					                	}
-					                }
-					            });
-            				}
-            			}
-            		}
-            	}
+            if(self.idCheckFlg && self.idCheckFlg2 && self.pwCheckFlg && self.pwCheckFlg2 && self.birthCheckFlg) {
+	            var nparmap = self.user;
+	            $.ajax({
+	                url:"user-join.dox",
+	                dataType:"json",
+	                type: "POST",
+	                data: nparmap,
+	                success: function(data) {
+	                	if(data.result == "success") {
+		                	alert("가입됐습니다!");
+		                	$.pageChange("/user-login.do",{});
+	                	} else {
+	                		alert("오류로 인한 가입 실패!");
+	                	}
+	                }
+	            });
             }
         },
         fnIdCheck: function(){
@@ -232,7 +225,6 @@ var app = new Vue({
         fnCheck: function(flg) {
 			var self = this;
 			var regPwd = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
-			var num = /^[0-9]*$/;
            	if(flg == 'pw1') {
 	            if(regPwd.test(self.user.userPw)) {
 					self.pwCheckFlg = true;
@@ -245,13 +237,51 @@ var app = new Vue({
 	            } else {
 	            	self.pwCheckFlg2 = true;
 	            }
-           	} else if(flg == 'birth') {
-           		if(num.test(self.user.birth)) {
-           			self.birthCheckFlg = true;
-           		} else {
-           			self.birthCheckFlg = false;
-           		}
            	}
+		},
+		fnDateCheck: function() {
+			var self = this;
+			var vDate = self.user.birth;
+			var regNum = /^[0-9]*$/;
+			
+			if(regNum.test(vDate)) {
+				self.birthCheckFlg = true;
+				self.alertMessage = "";
+			} else {
+				self.birthCheckFlg = false;
+				self.alertMessage = "생년월일엔 숫자만 입력하세요!";
+			}
+			
+			if(vDate.length == 8) {
+				var vDatePattern = /^(\d{4})(\d{1,2})(\d{1,2})$/;
+				var dtArray = vDate.match(vDatePattern);
+	
+				var dtYear = dtArray[1];
+	            var dtMonth = dtArray[2];
+	            var dtDay = dtArray[3];
+	
+	            if (dtMonth < 1 || dtMonth > 12) {
+	            	self.birthCheckFlg = false;
+	            	self.alertMessage = "알맞지 않은 날짜를 입력하셨습니다. 다시 한번 확인해 주세요!";
+	            } else if (dtDay < 1 || dtDay > 31) {
+	            	self.birthCheckFlg = false;
+	            	self.alertMessage = "알맞지 않은 날짜를 입력하셨습니다. 다시 한번 확인해 주세요!";
+	            } else if ((dtMonth == 4 || dtMonth == 6 || dtMonth == 9 || dtMonth == 11) && dtDay == 31) {
+	            	self.birthCheckFlg = false;
+	            	self.alertMessage = "알맞지 않은 날짜를 입력하셨습니다. 다시 한번 확인해 주세요!";
+	            } else if (dtMonth == 2) {
+	                var isleap = (dtYear % 4 == 0 && (dtYear % 100 != 0 || dtYear % 400 == 0));
+	                if (dtDay > 29 || (dtDay == 29 && !isleap)) {
+	                	self.birthCheckFlg = false;
+	                	self.alertMessage = "알맞지 않은 날짜를 입력하셨습니다. 다시 한번 확인해 주세요!";
+	                }
+	            } else {
+	            	self.birthCheckFlg = true;
+	            	self.alertMessage = "";
+	            }
+			} else {
+				return;
+			}
 		},
         selectEmail: function() {
         	var self = this;
