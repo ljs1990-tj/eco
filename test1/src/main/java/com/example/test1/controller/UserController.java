@@ -18,7 +18,7 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
-
+	
 	@RequestMapping("/main.do")
 	public String main(Model model) throws Exception {
 
@@ -50,6 +50,7 @@ public class UserController {
 
 		return "/user-myPageView";
 	}
+	
 
 	@RequestMapping(value = "/user-join.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
