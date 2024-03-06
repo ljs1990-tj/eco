@@ -61,14 +61,16 @@ body {
 				<button v-if="flg" @click="fnRePhone()">핸드폰번호 다시 입력하기</button>
 			</div>
 			<div v-if="flg">
-			<h3>인증번호</h3>
-			<input type="text" v-model="inputNumber1" placeholder="숫자 6자리 입력" @input="validateInput1">
-			<div>
-				<a href="javascript:;" @click="">재전송</a>
+				<h3>인증번호</h3>
+				<input type="text" v-model="inputNumber1" placeholder="숫자 6자리 입력" @input="validateInput1">
+				<span>{{timer}}</span>
+				<div>
+					<a href="javascript:;" @click="fnSms()">재전송</a>
+				</div>
+				<button @click="fnClose()">닫기</button>
+				<button @click="fnAuth()">확인</button>
 			</div>
-			<button>취소</button>
-			<button>확인</button>
-			</div>
+			<button v-if="!flg" @click="fnClose()">닫기</button>
 			<div class="passCertiInfo">
 				<h3 class="infoTitle">
 					<strong>인증번호 문자를 못 받으셨나요?</strong>
@@ -85,7 +87,6 @@ body {
 						</li>
 					</ul>
 				</h3>
-
 			</div>
 		</section>
 	</div>
@@ -95,10 +96,13 @@ body {
 	var app = new Vue({
 		el : '#app',
 		data : {
+			flg : false,
 			inputflg : false,
-			inputNumber : "",
-			inputNumber1 : "",
-			flg : false
+			inputNumber : "",	//핸드폰 번호 입력
+			inputNumber1 : "",	//인증번호 입력
+			timer : "",			//인증시간표시
+			count : 180, //인증시간을 3분(180초)으로 설정
+			number : ""	//인증번호비교
 		},
 		methods : {
 			//핸드폰번호 입력 정규식
@@ -112,9 +116,11 @@ body {
 			},
 			//인증번호 정규식
 			validateInput1 : function(){
+				// 정규식을 사용하여 숫자만 허용
 				this.inputNumber1 = this.inputNumber1.replace(/\D/g, '');
-				if(this.inputNumber1 =  this.inputNumber1.slice(0, 6)){
-					
+				//숫자6자리만 사용 가능
+				if(this.inputNumber1.length > 6){
+					this.inputNumber1 =  this.inputNumber1.slice(0, 6);
 				}
 			},
 			//문자 인증받기 
@@ -130,10 +136,12 @@ body {
 					data : nparmap,
 					success : function(data) {
 						console.log(data);
-						if (data.statusCode == "2000") {
+						if (data.response.statusCode == "2000") {
 							alert("문자전송했습니다");
+							self.number = data.number;	//인증번호를 가져와서 저장
 							self.inputflg = true;
 							self.flg = true;
+							setInterval(self.fnTimer, 1000);	//함수호출하여 시간표시
 						} else {
 							alert("문자전송실패했습니다");
 							self.inputflg = false;
@@ -142,12 +150,53 @@ body {
 					}
 				});
 			},
+			/* 핸드폰번호 다시 입력 */
 			fnRePhone : function() {
 				var self = this;
 				self.inputflg = false;
 				self.flg = false;
 				self.inputNumber = "";
 				
+			},
+			/* 인증번호 시간설정 */
+			fnTimer: function() {
+			    var self = this;  // Vue 인스턴스에 대한 참조를 변수에 저장
+			    // 분, 초 계산
+			    var minutes, seconds;
+			    minutes = parseInt(self.count / 60, 10);  // 전체 초를 60으로 나누어 분 계산
+			    seconds = parseInt(self.count % 60, 10);  // 전체 초를 60으로 나눈 나머지가 초
+			
+			    // 분과 초를 10진수로 표현
+			    minutes = "0" + minutes;  // 분이 10 미만일 경우 앞에 0을 추가
+			    seconds = seconds < 10 ? "0" + seconds : seconds;  // 초가 10 미만일 경우 앞에 0을 추가
+			    // 화면에 표시될 타이머 문자열을 생성
+			    self.timer = minutes + " : " + seconds;
+			    // 타이머 카운트 다운
+			    if (--self.count < 0) {
+			        // 시간 초과 시 처리
+			        alert("시간초과했습니다 다시 인증해주세요.");
+			        self.count = 180;  // 초기값으로 시간을 재설정 (3분, 180초)
+			        // 화면을 갱신하는 부분 (페이지 새로고침)
+			        location.reload(true);
+			    }
+			},
+			//인증완료시 실행
+			 fnAuth : function(){
+		        	var self = this;
+		        	if(self.number == self.inputNumber1){
+		        		alert("인증되었습니다.");
+		        		 if (window.opener) {
+		        	            window.opener.location.href = "/"; // 메인 페이지 URL로 변경
+		        	        	window.close();
+		        	        }
+		        	}else{
+		        		alert("인증번호 다시 확인 부탁드립니다.");
+		        	}
+		        },
+			//팝업창 닫기
+				fnClose : function() {
+				var self = this;
+				window.close();
 			}
 		},
 		created : function() {

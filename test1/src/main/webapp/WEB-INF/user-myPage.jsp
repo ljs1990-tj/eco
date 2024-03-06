@@ -58,7 +58,7 @@
 		el : '#app',
 		data : {
 			user : {
-				userId : "test123",
+				userId : "${userId}",
 				userPw : "",
 				userPw2 : "",
 				name : "",
@@ -90,7 +90,7 @@
 			fnUsermodify : function() {
 				var self = this;
 				if(self.user.userId != ""){
-					$.pageChange("/user-myPageView.do", {"userId" : self.user.userId});
+					$.pageChange("/user-myPageView.do", {});
 					 //window.location.href = "/user-myPageView.do?userId=" + self.user.userId;
 				}else{
 					alert("로그인 후 입장 가능합니다.");

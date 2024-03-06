@@ -2,6 +2,8 @@ package com.example.test1.dao;
 
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,19 +15,22 @@ public class UserServiceimpl implements UserService{
 
 	@Autowired
 	UserMapper userMapper;
+	
+	@Autowired
+	HttpSession session;
 
 	@Override
 	public HashMap<String, Object> addUser(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-//		try {
-//			userMapper.insertUser(map);
-//			resultMap.put("result", "success");
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//			System.out.println(e.getMessage());
-//			resultMap.put("result", "fail");
-//		}
+		try {
+			userMapper.insertUser(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+		}
 		return resultMap;
 	}
 
@@ -35,10 +40,8 @@ public class UserServiceimpl implements UserService{
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		User user = userMapper.selectUser(map);
 		if(user == null) {
-			resultMap.put("message", "사용 가능한 아이디입니다!");
 			resultMap.put("result", "success");
 		} else {
-			resultMap.put("message", "중복된 아이디입니다!");
 			resultMap.put("result", "fail");
 		}
 		return resultMap;
@@ -48,7 +51,6 @@ public class UserServiceimpl implements UserService{
 	public HashMap<String, Object> getUser(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		
 		try {
 			User user = userMapper.selectUser(map);
 			resultMap.put("user", user);
@@ -75,5 +77,26 @@ public class UserServiceimpl implements UserService{
 		}
 		return resultMap;
 	}
-	
+
+	@Override
+	public HashMap<String, Object> searchUser(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		User user = userMapper.selectUser(map);
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		if (user == null) { // 아이디가 없는 경우
+			resultMap.put("result", "fail");
+			resultMap.put("message", "아이디가 존재하지 않습니다.");
+		} else { // 아이디가 있는 경우
+			String userPw = (String)map.get("userPw");
+			if(user.getUserPw().equals(userPw)) {
+				resultMap.put("result", "success");
+				resultMap.put("message", user.getName() + "님 환영합니다.");
+				session.setAttribute("userId", user.getUserId());
+				session.setAttribute("userName", user.getName());
+				session.setAttribute("userType", user.getUserType());
+			}
+		}
+		
+		return resultMap;
+	}
 }

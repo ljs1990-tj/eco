@@ -69,9 +69,9 @@ var app = new Vue({
             // 주기적으로 팝업 창이 닫혔는지 확인
             var interval = setInterval(function () {
                 if (popup && popup.closed) {
+                    clearInterval(interval); // 인터벌 중단
                     // 팝업 창이 닫혔을 때 부모 창으로 이동
                     window.location.href = '/user-certify1.do';
-                    clearInterval(interval); // 인터벌 중단
                 }
             }, 1000); // 1초마다 확인
         },

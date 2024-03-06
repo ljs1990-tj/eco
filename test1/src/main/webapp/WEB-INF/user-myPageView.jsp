@@ -82,7 +82,7 @@
         el: '#app',
         data: {
             user: {
-                userId: "test123",
+                userId: "${userId}",
                 userPw: "",
                 userPw2: "",
                 name: "",

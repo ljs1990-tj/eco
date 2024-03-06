@@ -8,6 +8,7 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import org.springframework.core.io.ClassPathResource;
@@ -96,17 +97,21 @@ public class SmsExampleController {
 	 * 단일 메시지 발송 예제
 	 */
 	@PostMapping("/send-one")
-	public SingleMessageSentResponse sendOne(@RequestParam("phoneNumber") String phoneNumber) {
+	public HashMap<String, Object> sendOne(@RequestParam("phoneNumber") String phoneNumber) {
 		Message message = new Message();
 		String ranStr = randomMessage();
 		// 발신번호 및 수신번호는 반드시 01012345678 형태로 입력되어야 합니다.
 		message.setFrom("01046548947");
 		message.setTo(phoneNumber);
-		message.setText("침대로 고고[홈페이지명 ID본인확인] 인증번호" + "[" + ranStr + "]" + "를 입력해 주세요.");
+		message.setText("[홈페이지명 ID본인확인] 인증번호" + "[" + ranStr + "]" + "를 입력해 주세요.");
 
 		SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
 		System.out.println(response);
-		return response;
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("response", response);
+		map.put("number", ranStr);
+		return map;
+
 	}
 
 	// 숫자 랜덤으로 생성하기

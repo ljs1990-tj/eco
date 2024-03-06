@@ -2,6 +2,8 @@ package com.example.test1.controller;
 
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +20,9 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
-	
+	@Autowired
+	HttpSession session;
+
 	@RequestMapping("/main.do")
 	public String main(Model model) throws Exception {
 
@@ -33,7 +37,7 @@ public class UserController {
 
 	@RequestMapping("/user-login.do")
 	public String userLogin(Model model) throws Exception {
-
+		session.invalidate();
 		return "/user-login";
 	}
 
@@ -50,13 +54,12 @@ public class UserController {
 
 		return "/user-myPageView";
 	}
-	
 
 	@RequestMapping(value = "/user-join.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String userJoin(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		userService.addUser(map);
+		resultMap = userService.addUser(map);
 		return new Gson().toJson(resultMap);
 	}
 
@@ -72,7 +75,7 @@ public class UserController {
 	@ResponseBody
 	public String userLogin(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-
+		resultMap = userService.searchUser(map);
 		return new Gson().toJson(resultMap);
 	}
 
@@ -90,7 +93,7 @@ public class UserController {
 	@ResponseBody
 	public String userModify(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap = userService.modifyUser(map);
+
 		return new Gson().toJson(resultMap);
 	}
 
