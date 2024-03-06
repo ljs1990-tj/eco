@@ -44,4 +44,12 @@
 		FROM ECO_PRODUCT_IMAGE P
 		WHERE KIND = 1
 	</select>
+	<!-- 상품 상세보기에서 이미지 불러오기  -->
+	<select id="selectProductContentsFileInfo" parameterType="hashmap" resultType="com.example.test1.model.ProductFile">
+		SELECT P.*,
+			FILEPATH || FILENAME AS PATH
+		FROM ECO_PRODUCT_IMAGE P
+		WHERE KIND = 2
+		AND ITEMNO = #{itemNo}
+	</select>
 </mapper>

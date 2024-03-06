@@ -114,13 +114,13 @@
 	
 	/* 버튼 활성화 스타일 */
 	.navigation button.active {
-		background-color: #4CAF50; /* 마켓컬리 스타일에 맞는 색상으로 변경 */
+		background-color: #4CAF50; 
 		color: white;
 	}
 	
 	/* 버튼 호버 스타일 */
 	.navigation button:hover {
-		background-color: #4CAF50; /* 호버 색상도 마켓컬리 스타일에 맞게 조정 */
+		background-color: #4CAF50; 
 		color: white;
 	}
 	
@@ -242,10 +242,10 @@ var app = new Vue({
             });
         },
         
+        /* 상품정보, 상품평 등.. 선택버튼  */
         selectTab: function(tabName) {
 			this.activeTab = tabName;
 		},
-        /* 상품정보, 상품평 등.. 선택버튼  */
         scrollToElement: function(selector) {
             var element = document.querySelector(selector);
             if(element) {

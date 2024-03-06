@@ -14,6 +14,7 @@ public interface ProductMapper {
 	Product selectProductInfo(HashMap<String, Object> map); // 상품 상세정보
 	List<Product> selectCodeList(HashMap<String, Object> map); // cord 분류에 따른 제품 리스트
 	List<ProductFile> selectProductFileInfo(HashMap<String, Object> map); //제품 이미지 리스트
+	List<ProductFile> selectProductContentsFileInfo(HashMap<String, Object> map); //제품 상세보기 이미지 리스트
 	
 }
 
