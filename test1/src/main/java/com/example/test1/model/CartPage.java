@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class Cart {
+public class CartPage {
     private int cartNo;
     private String userId;
     private String itemNo;
