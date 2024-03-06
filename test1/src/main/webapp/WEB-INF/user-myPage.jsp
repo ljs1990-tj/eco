@@ -113,8 +113,8 @@ ul, li {
 					</ul>
 				</fieldset>
 				<div>
-					<span>내등급 : </span><span>{{user.userGrade}}</span> <span>포인트
-						: </span><span>{{user.point}}</span>
+					<span>내등급 : </span><span>{{user.userGrade}}</span> 
+					<span>포인트 : </span><span>{{user.point}}</span>
 				</div>
 			</div>
 			<div class="button-container">
@@ -200,9 +200,7 @@ ul, li {
 					return;
 				}
 				//패스워드 확인하는 팝업창
-				var popup = window.open('user-myPage-Password.do',
-						'Password Popup', 'width=500,height=500');
-
+				var popup = window.open('user-myPage-Password.do', 'Password Popup', 'width=500,height=500');
 			}
 		},
 		created : function() {
