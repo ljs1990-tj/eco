@@ -59,7 +59,6 @@
 			<tr>
 				<th>번호</th>
 				<th>제목</th>
-				<th>내용</th>
 				<th>사용자</th>
 				<th>조회수</th>
 				<th>작성일</th>
@@ -68,9 +67,8 @@
 			</tr>
 			<tr v-for="item in list">
 				<td>{{ item.boardNo }}</td>
-				<td><a href="javascript:;" @click="fnView(item.boardNo)" v-html="item.title">{{item.title}}</a></td>
+				<td><a href="javascript:;" @click="fnView(item.boardNo)" v-html="item.title"></a></td>
 				<!--  <p v-html="info.contents">{{info.contents}}</p> -->
-				<td>{{ item.contents }}</td>
 				<td>{{ item.userId }}</td>
 				<td>{{ item.hits }}</td>
 				<td>{{ item.cDateTime }}</td>
@@ -87,7 +85,8 @@
 	var app = new Vue({ 
 		el: '#app',
 		data: {
-			list: []
+			list: [],
+			userId : "${userId}"
 		},
 		methods: {
 			fnGetList: function() {

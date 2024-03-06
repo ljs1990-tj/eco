@@ -97,7 +97,7 @@ public class BoardServiceimpl implements BoardService {
 		//boardMapper.updateHit(map); // 조회수 증가
 		try {
 			Board board = boardMapper.selectBoardInfo(map);// 게시글 상세 조회
-			System.out.println(board);
+			//System.out.println("board에 뭐있나여 "+board);
 			resultMap.put("info", board);
 			resultMap.put("result", "success");
 		} catch (Exception e) {
@@ -107,4 +107,20 @@ public class BoardServiceimpl implements BoardService {
 		}
 		return resultMap;
 	}
+
+	@Override
+	public HashMap<String, Object> editBoard(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			boardMapper.boardEdit(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
+
+
 }

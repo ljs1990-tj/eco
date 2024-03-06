@@ -45,6 +45,33 @@ public class BoardController {
 		return "/board-list";
 	}
 
+	@RequestMapping("/boardView.do")//상세보기
+	public String boardView(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		// request의 HttpServletRequest
+		
+		request.setAttribute("map", map);
+		return "/board-view";
+	}
+	
+	@RequestMapping("/boardInsert.do") //게시글 작성
+	public String insertList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		request.setAttribute("map", map);
+		return "/board-insert";
+	}
+	
+	@RequestMapping("/boardDelete.do") //게시글 삭제
+	public String inserBbsList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
+			throws Exception {
+		request.setAttribute("map", map);
+		return "/board-delete";
+	}
+	
+	@RequestMapping("/boardEdit.do") //게시글 수정
+	public String editList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		request.setAttribute("map", map);
+		return "/board-edit";
+	}
+	
 	
 	@RequestMapping(value = "/boardList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -52,15 +79,6 @@ public class BoardController {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = boardService.searchBoardList(map);
 		return new Gson().toJson(resultMap);
-	}
-	
-	@RequestMapping("/boardView.do")//상세보기
-	public String boardView(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
-	// request의 HttpServletRequest
-		
-		request.setAttribute("map", map);//map으로 받고
-		System.out.println(map);
-		return "/board-view";
 	}
 	
 	@RequestMapping(value = "/boardView.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -72,11 +90,6 @@ public class BoardController {
 	}
 	
 
-	@RequestMapping("/boardInsert.do") //게시글 작성
-	public String insertList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
-		request.setAttribute("map", map);
-		return "/board-insert";
-	}
 
 	@RequestMapping(value = "/boardInsert.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -86,14 +99,8 @@ public class BoardController {
 		return new Gson().toJson(resultMap);
 	}
 
-	
 	 
-	@RequestMapping("/boardDelete.do") //게시글 삭제
-	public String inserBbsList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
-			throws Exception {
-		request.setAttribute("map", map);
-		return "/board-delete";
-	}
+
 
 	@RequestMapping(value = "/boardDelete.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -103,4 +110,16 @@ public class BoardController {
 		return new Gson().toJson(resultMap);
 	}
 
+
+
+	@RequestMapping(value = "/boardEdit.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String editBoard(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = boardService.editBoard(map);
+		return new Gson().toJson(resultMap);
+	}
+	
+	
+	
 }

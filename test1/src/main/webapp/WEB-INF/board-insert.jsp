@@ -73,8 +73,9 @@ button:hover {
 			<vue-editor v-model="contents"></vue-editor>
 		</div>
 		<button @click="fnWrite">작성완료</button>
+		<!-- {{userId}} -->
 	</div>
-
+	
 </body>
 </html>
 <script type="text/javascript">
@@ -83,11 +84,11 @@ const VueEditor = Vue2Editor.VueEditor;
 	var app = new Vue({
 		el : '#app',
 		data : {
-			list : [],
-			userId : "",//변수선언
+			info : {},
+			userId : "${userId}",//변수선언
 			//kind : "${map.kind}",//컨트롤러에서 가져온 map꺼내서 위에서 사용
-			title : "",
-			contents : ""
+			title : "${title}",
+			contents : "${contents}"
 		}
 		,
 		components: {VueEditor}
@@ -95,12 +96,15 @@ const VueEditor = Vue2Editor.VueEditor;
 		methods : {
 			fnWrite : function() {
 				var self = this;
+	            if(self.title == "") {
+	            	alert("작성하세요");
+	            	return;
+	            }
 				var nparmap = {
 					userId : self.userId,
 					title : self.title,
 					contents : self.contents,
 					//kind : self.kind
-					
 				};
 				$.ajax({
 					url : "boardInsert.dox",

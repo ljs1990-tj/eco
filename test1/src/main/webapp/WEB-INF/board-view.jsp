@@ -58,7 +58,7 @@ button:hover {
 		<table>
 			<tr>
 				<th width="20%">제목</th>
-				<td width="80%">{{info.title}}</td>
+				<td width="80%">{{info.title}}</td> 
 			</tr>
 			<tr>
 				<th>작성자</th>
@@ -66,14 +66,14 @@ button:hover {
 			</tr>
 			<tr>
 				<th>내용</th>
-				<td>{{info.contents}}</td>
+				<td v-html="info.contents">{{info.contents}}</td>
 			</tr>
 		</table>
 	<!-- <div v-if="info.userId == sessionId || sessionStatus == 'A'">
 			<button @click="fnRemove">삭제</button>
 		</div> -->
 		<div>
-			<button @click="fnCheck">수정</button>
+			<button @click="fnEdit">수정</button>
 			<button @click="fnDelete">삭제</button>
 			<button @click="fnList">목록으로 가기</button>
 		</div>
@@ -85,9 +85,8 @@ var app = new Vue({
     el: '#app',
     data: {
     	boardNo : "${map.boardNo}",
-    	//sessionId : "${userId}",
-    	//sessionStatus : "${userStatus}",
-    	info : {}
+    	info : {},
+    	userId : "${userId}"
     	
     }   
     , methods: {
@@ -100,7 +99,6 @@ var app = new Vue({
                 type : "POST", 
                 data : nparmap,
                 success : function(data) { 
-                	console.log(data);
                 	self.info = data.info;
 	                }
 	            }); 
@@ -133,8 +131,9 @@ var app = new Vue({
 			fnList : function(){
 				location.href = "/boardList.do";
 			},
-			fnCheck : function(){
-				
+			fnEdit : function(){
+				var self = this;
+				$.pageChange("/boardEdit.do", { boardNo : self.boardNo });
 			}
 
         },

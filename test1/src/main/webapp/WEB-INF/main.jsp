@@ -95,8 +95,8 @@ body {
 
 	<div id="app" class="header">
 		<div class="nav">
-			<a href="#">A조 마켓</a> <a href="#">카테고리</a> <a href="#">1:1 매칭</a> <a
-				href="#">식단관리</a> <a href="#">커뮤니티</a>
+			<a href="#">A조 마켓</a> <a href="#">카테고리</a> <a href="#">1:1 매칭</a> 
+			<a href="#">식단관리</a> <a href="boardList.do">커뮤니티</a>
 		</div>
 		<div class="search-bar">
 			<input type="text" placeholder="검색">
@@ -124,7 +124,8 @@ body {
 		el : '#app',
 		data : {
 			isPopupOpen : true,
-			userId : "test123"
+			userId : "${userId}",
+			
 		},
 		methods : {
 			fnList : function() {

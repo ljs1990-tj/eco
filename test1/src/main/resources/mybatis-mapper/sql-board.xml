@@ -23,9 +23,19 @@
 
 	<insert id="writeBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="BOARDNO" keyColumn="BOARDNO">
 		INSERT INTO ECO_BOARD
-		VALUES(null, #{title}, #{contents}, 'user3', 10, 'N', null, '공지사항', 0, NOW(), NOW(), 1500)
+		VALUES(null, #{title}, #{contents}, #{userId}, 10, 'N', null, '공지사항', 0, NOW(), NOW(), 1500)
 	</insert>
 
+
+	<delete id="deleteBoard" parameterType="hashmap">
+		DELETE FROM ECO_BOARD 
+		WHERE BOARDNO = #{boardNo}
+	</delete>
+
+	<update id="boardEdit" parameterType="hashmap">
+		UPDATE ECO_BOARD SET CONTENTS = #{contents}, TITLE = #{title} 
+		WHERE BOARDNO = #{boardNo}
+	</update>
 
 
 	<insert id="insertBoardImage" parameterType="hashmap">
@@ -35,10 +45,4 @@
 
 
 	
-	
-	
-	<delete id="deleteBoard" parameterType="hashmap">
-		DELETE FROM ECO_BOARD WHERE BOARDNO = #{boardNo}
-	</delete>
-
 </mapper>
