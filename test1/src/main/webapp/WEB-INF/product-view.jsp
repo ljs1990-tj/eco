@@ -196,7 +196,11 @@
 		<!-- 상품 상세 영역 -->
 		<div id="details" class="product-section">
 		    <h3>상품 상세 정보</h3>
-		    <!-- 상품 상세 정보 내용 -->
+			<div class="product-images">
+				<template v-for="item in fileDetailList">
+					<img :src="item.filePath+item.fileName" alt="주요 이미지">
+				</template>
+			</div>
 		</div>
 		
 		<!-- 상품평 영역 -->
@@ -221,6 +225,7 @@ var app = new Vue({
     	itemNo: "${map.itemNo}",
     	info: {},
     	fileList : [],
+    	fileDetailList : [],
     	activeTab: 'details'
     }
     , methods: {
@@ -236,8 +241,11 @@ var app = new Vue({
                 data: nparmap,
                 success: function(data) {
                 	console.log(data.filelist);
+                	console.log(data.fileDetailList);
+                	
                 	self.info = data.info;
                 	self.fileList = data.filelist;
+                	self.fileDetailList = data.fileDetailList;
                 }
             });
         },
