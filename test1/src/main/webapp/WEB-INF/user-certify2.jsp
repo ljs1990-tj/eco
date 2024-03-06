@@ -55,15 +55,15 @@ body {
 		</header>
 		<section>
 			<div>
-				<span>핸드폰 번호 입력:</span> 
-				<input type="text" v-model="inputNumber" :disabled="inputflg" @input="validateInput">
+				<span>핸드폰 번호 입력:</span> <input type="text" v-model="inputNumber"
+					:disabled="inputflg" @input="validateInput">
 				<button v-if="!flg" @click="fnSms()">인증번호받기</button>
 				<button v-if="flg" @click="fnRePhone()">핸드폰번호 다시 입력하기</button>
 			</div>
 			<div v-if="flg">
 				<h3>인증번호</h3>
-				<input type="text" v-model="inputNumber1" placeholder="숫자 6자리 입력" @input="validateInput1">
-				<span>{{timer}}</span>
+				<input type="text" v-model="inputNumber1" placeholder="숫자 6자리 입력"
+					@input="validateInput1"> <span>{{timer}}</span>
 				<div>
 					<a href="javascript:;" @click="fnSms()">재전송</a>
 				</div>
@@ -77,8 +77,7 @@ body {
 					<ul>
 						<li>
 							<p>
-								"인증번호가 문자로 수신되지 않을 경우 " 
-								<span class="fc_ple">스팸메세지함을 확인</span>
+								"인증번호가 문자로 수신되지 않을 경우 " <span class="fc_ple">스팸메세지함을 확인</span>
 								"하시거나 정확한 정보로 재시도 해주시기 바랍니다."
 							</p>
 						</li>
@@ -159,7 +158,7 @@ body {
 				
 			},
 			/* 인증번호 시간설정 */
-			fnTimer: function() {
+			fnTimer : function() {
 			    var self = this;  // Vue 인스턴스에 대한 참조를 변수에 저장
 			    // 분, 초 계산
 			    var minutes, seconds;
@@ -181,18 +180,25 @@ body {
 			    }
 			},
 			//인증완료시 실행
-			 fnAuth : function(){
-		        	var self = this;
-		        	if(self.number == self.inputNumber1){
-		        		alert("인증되었습니다.");
-		        		 if (window.opener) {
-		        	            window.opener.location.href = "/"; // 메인 페이지 URL로 변경
-		        	        	window.close();
-		        	        }
-		        	}else{
-		        		alert("인증번호 다시 확인 부탁드립니다.");
-		        	}
-		        },
+			fnAuth : function () {
+			    var self = this;
+			    if (self.number == self.inputNumber1) {
+			        alert("인증되었습니다.");
+			       
+			        if (window.opener && !window.opener.closed) {
+			            try {
+			                window.opener.location.href = "/user-join.do";	// 메인 페이지 URL로 변경
+			                window.close();
+			            } catch (error) {                
+			                console.error("부모 창을 열 수 없습니다:", error);
+			            }
+			        } else {
+			            alert("부모 창이 닫혀있거나 유효하지 않습니다.");
+			        }
+			    } else {
+			        alert("인증번호 다시 확인 부탁드립니다.");
+			    }
+			},
 			//팝업창 닫기
 				fnClose : function() {
 				var self = this;
