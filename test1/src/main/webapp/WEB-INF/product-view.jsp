@@ -87,6 +87,8 @@
 		border: none;
 		padding: 10px 20px;
 		cursor: pointer;
+		border-radius: 5px;
+		
 	}
 	
 	.buy-options button:hover {

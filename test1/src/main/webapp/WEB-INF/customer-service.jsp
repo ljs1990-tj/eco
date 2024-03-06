@@ -151,6 +151,14 @@
 	            { id: 5, category: '상품', title: '친환경/유기농/무기농은 어떻게 다른가요?', detail: '▶ 친환경은 ㅇㅉㄱ ㅈㅉㄱ 유기농 ㅇㅉㄱ 무기농 ㅈㅉㄱ', showDetail: false },
 	            { id: 6, category: '취소/교환/환불', title: '교환(반품)진행 시 배송비가 부과되나요?', detail: '▶ 어우 그럼요', showDetail: false },
 	            { id: 7, category: '서비스이용', title: '상품후기는 어떻게 작성하나요?', detail: '▶ 구매하신 상품만 후기 작성이 가능합니다', showDetail: false },
+	            { id: 8, category: '서비스이용', title: '상품후기는 어떻게 작성하나요?', detail: '▶ 구매하신 상품만 후기 작성이 가능합니다', showDetail: false },
+	            { id: 9, category: '서비스이용', title: '상품후기는 어떻게 작성하나요?', detail: '▶ 구매하신 상품만 후기 작성이 가능합니다', showDetail: false },
+	            { id: 10, category: '서비스이용', title: '상품후기는 어떻게 작성하나요?', detail: '▶ 구매하신 상품만 후기 작성이 가능합니다', showDetail: false },
+	            { id: 11, category: '서비스이용', title: '상품후기는 어떻게 작성하나요?', detail: '▶ 구매하신 상품만 후기 작성이 가능합니다', showDetail: false },
+	            { id: 12, category: '서비스이용', title: '상품후기는 어떻게 작성하나요?', detail: '▶ 구매하신 상품만 후기 작성이 가능합니다', showDetail: false },
+	            { id: 13, category: '서비스이용', title: '상품후기는 어떻게 작성하나요?', detail: '▶ 구매하신 상품만 후기 작성이 가능합니다', showDetail: false },
+	            { id: 14, category: '서비스이용', title: '상품후기는 어떻게 작성하나요?', detail: '▶ 구매하신 상품만 후기 작성이 가능합니다', showDetail: false },
+	            { id: 15, category: '서비스이용', title: '상품후기는 어떻게 작성하나요?', detail: '▶ 구매하신 상품만 후기 작성이 가능합니다', showDetail: false },
 			]
 		},
 		methods : {
