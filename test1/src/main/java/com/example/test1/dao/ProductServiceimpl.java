@@ -64,7 +64,7 @@ public class ProductServiceimpl implements ProductService{
 			Product product =  productMapper.selectProductInfo(map);
 			List<ProductFile> fileList = productMapper.selectProductContentsFileInfo(map);
 			resultMap.put("info", product);
-			resultMap.put("filelist",fileList);
+			resultMap.put("filelist", fileList);
 			resultMap.put("result", "success");
 		} catch (Exception e) {
 			// TODO: handle exception
