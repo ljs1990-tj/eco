@@ -9,6 +9,7 @@
     <meta name="keywords" content="Ogani, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
     <title>메인화면</title>
 
     <!-- Google Font -->
@@ -26,6 +27,8 @@
 </head>
 
 <body>
+<div id="app">
+</div>
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -71,7 +74,7 @@
             <a href="#"><i class="fa fa-twitter"></i></a>
             <a href="#"><i class="fa fa-linkedin"></i></a>
             <a href="#"><i class="fa fa-pinterest-p"></i></a>
-        </div>
+        </div>	
         <div class="item__menu__contact">
             <ul>
                 <li><i class="fa fa-envelope"></i> thejoeun@naver.com</li>
@@ -740,6 +743,7 @@
                 </div>
             </div>
         </div>
+       
     </footer>
     <!-- Footer Section End -->
 
@@ -762,8 +766,11 @@
 			</div>
 		</div>
 	</div>
+	
+	
 </body>
 </html>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script type="text/javascript">
 	var app = new Vue({
 		el : '#app',
@@ -802,7 +809,7 @@
 		},
 		created : function() {
 			var self = this;
-			self.fnList();
+			
 		}
 	});
 </script>

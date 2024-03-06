@@ -163,7 +163,14 @@ var app = new Vue({
                 success: function(data) {
                 	console.log(data.filelist);
                 	self.info = data.item;
-                	self.fileList = data.filelist;
+                	var ContentsCnt = 0;
+                	for(var i =0 ; i<data.filelist.length ; i++){
+                		if(data.filelist[i].kind == "2"){
+                			self.fileList[ContentsCnt] = data.filelist[i];
+                			ContentsCnt++;
+                		}
+                	}
+                	
                 }
             });
         }

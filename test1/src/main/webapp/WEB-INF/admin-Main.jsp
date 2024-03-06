@@ -7,10 +7,12 @@
 	<script src="js/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	<title>관리자 페이지</title>
+
 </head>
 <style>
 </style>
 <body>
+		<%@ include file="../layout/header.jsp" %>
 	<div id="app">
 	
 	<div>

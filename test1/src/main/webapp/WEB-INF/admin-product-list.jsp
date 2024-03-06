@@ -89,6 +89,7 @@
   	}
 </style>
 <body>
+<%@ include file="../layout/header.jsp" %>
 	<div id="app">
 		<div class="container">
 			<div class="title">
@@ -110,6 +111,7 @@
 			<button @click="fnMoveAddPage">글쓰기</button>
 			</div>
 			
+			
 			<div class="filter">
 			  <select name="items" id="items">
 			    <option >인기 순</option>
@@ -127,7 +129,7 @@
 				    </template>
 				    </template>
 				    <p><a href="javascript:;" @click="fnDetailView(item.itemNo)">{{item.itemName}}</a></p>
-				    <p class="price">₩{{item.price}}</p>
+				    <p class="price"><del>₩{{item.price}}</del><br>할인가₩{{(item.price)*((100-item.sRate)/100)}}<br> 할인율{{item.sRate}}%</p>
 				  	<button @click="fnRemove(item.itemNo)">상품삭제</button>
 				  	<button @click="fnEdit(item.itemNo)">상품 수정</button>
 				  </div>
@@ -155,7 +157,8 @@ var app = new Vue({
             self.code = code;
             var nparmap = {
             		keyword : self.keyword,
-            		code : code
+            		code : code,
+            		kind : "1"
             		
             };
             $.ajax({

@@ -45,19 +45,28 @@
 			CODE = #{code}
 		WHERE ITEM_NO = #{itemNo}
 	</update>
+	<update id="updateProductMainFile" parameterType="hashmap">
+		UPDATE ECO_PRODUCT_IMAGE
+		SET FILENAME = #{fileName},
+			FILEORNAME = #{fileOrgName},
+			FILESIZE = #{fileSize},
+			FILEETC = #{fileEtc}
+		WHERE FILENO = #{fileNo}
+	</update>
 	
-	<select id="selectProductFileInfo" parameterType="hashmap" resultType="com.example.test1.model.ProductFile">
+	<select id="selectProductFileList" parameterType="hashmap" resultType="com.example.test1.model.ProductFile">
 		SELECT P.*,
 			FILEPATH || FILENAME AS PATH
 		FROM ECO_PRODUCT_IMAGE P
-		WHERE KIND = 1
+		WHERE KIND = #{kind}
 	</select>
+	
+	
 	<select id="selectProductContentsFileInfo" parameterType="hashmap" resultType="com.example.test1.model.ProductFile">
 		SELECT P.*,
 			FILEPATH || FILENAME AS PATH
 		FROM ECO_PRODUCT_IMAGE P
-		WHERE KIND = 2
-		AND ITEMNO = #{itemNo}
+		WHERE ITEMNO = #{itemNo}
 	</select>
 	
 	<insert id="insertProductFile" parameterType="hashmap">
@@ -69,5 +78,10 @@
 		INSERT INTO ECO_PRODUCT_IMAGE
 		VALUES(NULL, #{itemNo}, #{path}, #{fileName}, #{orgName}, #{fileSize}, #{etc},2)
 	</insert>
+	
+	<delete id="fileDelete" parameterType="hashmap">
+		DELETE FROM ECO_PRODUCT_IMAGE
+		WHERE FILENO = #{fileNo}
+	</delete>
 	
 </mapper>

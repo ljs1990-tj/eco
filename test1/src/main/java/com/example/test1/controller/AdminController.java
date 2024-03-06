@@ -217,4 +217,14 @@ public class AdminController {
 	
 	
 	
+	@RequestMapping(value = "/fileDelete.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String fileDelete(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = adminService.removefile(map);
+		return new Gson().toJson(resultMap);
+	}
+	
+	
+	
 }
