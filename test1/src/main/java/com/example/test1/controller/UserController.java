@@ -71,7 +71,7 @@ public class UserController {
 	@ResponseBody
 	public String userLogin(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		
+		resultMap = userService.searchUser(map);
 		return new Gson().toJson(resultMap);
 	}
 	//유저정보 가져오기
