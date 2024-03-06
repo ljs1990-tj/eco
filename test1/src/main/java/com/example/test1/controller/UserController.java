@@ -55,6 +55,13 @@ public class UserController {
 		return "/user-myPageView";
 	}
 
+	// 유저 비밀번호 재확인
+	@RequestMapping("/user-myPage-Password.do")
+	public String usermyPagePassword(Model model) throws Exception {
+
+		return "/user-myPage-Password";
+	}
+
 	@RequestMapping(value = "/user-join.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String userJoin(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -93,7 +100,7 @@ public class UserController {
 	@ResponseBody
 	public String userModify(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-
+		resultMap = userService.modifyUser(map);
 		return new Gson().toJson(resultMap);
 	}
 

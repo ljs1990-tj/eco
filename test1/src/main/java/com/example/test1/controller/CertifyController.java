@@ -10,17 +10,17 @@ public class CertifyController {
 	//@Autowire
 
 	// 본인인증 메인 페이지
-	@RequestMapping("/user-certify1.do")
-	public String usercertify1(Model model) throws Exception {
+	@RequestMapping("/user-certifyMain.do")
+	public String usercertifyMain(Model model) throws Exception {
 
-		return "/user-certify1";
+		return "/user-certifyMain";
 	}
 	
 	// 본인인증하기
-	@RequestMapping("/user-certify2.do")
-	public String usercertify2(Model model) throws Exception {
+	@RequestMapping("/user-certifySms.do")
+	public String usercertifySms(Model model) throws Exception {
 
-		return "/user-certify2";
+		return "/user-certifySms";
 	}
 
 }

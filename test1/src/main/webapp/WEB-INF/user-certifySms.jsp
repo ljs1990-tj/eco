@@ -56,14 +56,15 @@ body {
 		<section>
 			<div>
 				<span>핸드폰 번호 입력:</span> <input type="text" v-model="inputNumber"
-					:disabled="inputflg" @input="validateInput">
+					:disabled="inputflg" @input="validateInput"  @keydown.enter="fnSms()">
 				<button v-if="!flg" @click="fnSms()">인증번호받기</button>
 				<button v-if="flg" @click="fnRePhone()">핸드폰번호 다시 입력하기</button>
 			</div>
 			<div v-if="flg">
 				<h3>인증번호</h3>
 				<input type="text" v-model="inputNumber1" placeholder="숫자 6자리 입력"
-					@input="validateInput1"> <span>{{timer}}</span>
+					@input="validateInput1" @keydown.enter="fnAuth()">
+					<span>{{timer}}</span>
 				<div>
 					<a href="javascript:;" @click="fnSms()">재전송</a>
 				</div>
@@ -125,6 +126,13 @@ body {
 			//문자 인증받기 
 			fnSms : function() {
 				var self = this;
+				if(self.inputNumber == ""){
+					alert("핸드폰 번호를 입력해주세요");
+					return;
+				}else if (self.inputNumber.length !== 11) {
+			        alert("핸드폰번호 11자리여야 합니다.");
+			        return;
+			    }
 				var nparmap = {
 					phoneNumber : self.inputNumber
 				};
@@ -180,13 +188,21 @@ body {
 			    }
 			},
 			//인증완료시 실행
-			fnAuth : function () {
+			fnAuth : async function () {
 			    var self = this;
+			    if (self.inputNumber1 === "") {
+			        alert("인증번호를 입력해주세요.");
+			        return;
+			    } else if (self.inputNumber1.length !== 6) {
+			        alert("인증번호는 6자리여야 합니다.");
+			        return;
+			    }
 			    if (self.number == self.inputNumber1) {
 			        alert("인증되었습니다.");
 			       
 			        if (window.opener && !window.opener.closed) {
 			            try {
+			                await new Promise(resolve => setTimeout(resolve, 500)); // 예시: 500ms 동안 대기
 			                window.opener.location.href = "/user-join.do";	// 메인 페이지 URL로 변경
 			                window.close();
 			            } catch (error) {                

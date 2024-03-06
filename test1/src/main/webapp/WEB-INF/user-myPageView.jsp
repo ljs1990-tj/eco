@@ -114,13 +114,21 @@
                     }
                 });
             },
+            //핸드폰 번호 입력 정규식
             allowOnlyNumbers: function (event, field) {
                 this.user[field] = event.target.value.replace(/[^0-9]/g, '');
             },
+            //생일 입력 정규식
             formatBirthDate: function () {
                 var formattedDate = moment(this.user.birth, "YYYYMMDD").format("YYYY-MM-DD");
                 this.user.birth = formattedDate;
             },
+            //비밀번호랑비밀번호 확인 정규식
+            validatePassword: function (event, field) {
+                var regex = /^[a-zA-Z0-9!@#$%^&*()-_+=]+$/;
+                this.validateInput(event, field, regex, "비밀번호는 최소 8글자, 최대 16글자이고 하나 이상의 숫자, 영문자 및 특수문자를 각각 포함되어야 합니다!");
+            },
+            //비밀번호랑 비밀번호 확인 정규식
             validateInput: function (event, field, validationRegex, errorMessage) {
                 this.user[field] = event.target.value.replace(/[^0-9]/g, '');
 
@@ -131,10 +139,6 @@
                     this.checkPasswordMatch = true;
                     this.passwordErrorMessage = "";
                 }
-            },
-            validatePassword: function (event, field) {
-                var regex = /^[a-zA-Z0-9!@#$%^&*()-_+=]+$/;
-                this.validateInput(event, field, regex, "비밀번호는 최소 8글자, 최대 16글자이고 하나 이상의 숫자, 영문자 및 특수문자를 각각 포함되어야 합니다!");
             },
             fnmodify: function () {
                 var self = this;
