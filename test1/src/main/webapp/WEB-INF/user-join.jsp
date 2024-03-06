@@ -7,12 +7,12 @@
 	<link rel="stylesheet" href="../css/team_project_style.css">
 	<script src="js/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<title>회원가입 페이지</title>
 </head>
 <style>
 </style>
 <body>
-<<<<<<< HEAD
     <div id="app">
         <fieldset class="container-join">
             <div class="join-title">회원가입</div>
@@ -107,113 +107,26 @@
                 <div class="under-line"></div>
                 <li>
                     <div class="join-divide">이용약관 동의<span class="required-star">*</span></div>
-                    <div><label for="check-all"><input type="checkbox" id="check-all">전체 동의합니다.</label></div>
+                    <div><label for="check_all"><input type="checkbox" id="check_all" v-model="allChecked" @change="checkAll">전체 동의합니다.</label></div>
                     <div class="join-divide">　</div>
                     <div style="padding-left: 125px; font-size: 10px;">선택항목에 동의하지 않더라도 회원가입은 가능합니다.</div>
-                    <div><label for="check1"><input type="checkbox" id="check1">이용약관 동의 (필수)</label></div>
-                    <div class="join-divide">　</div>
-                    <div><label for="check2"><input type="checkbox" id="check2">개인정보 수집·이용 동의 (필수)</label></div>
-                    <div class="join-divide">　</div>
-                    <div><label for="check3"><input type="checkbox" id="check3">본인은 만 14세 이상입니다. (필수)</label></div>
-                    <div class="join-divide">　</div>
-                    <div><label for="check4"><input type="checkbox" id="check4" name="eventYn" v-model="isEventYn">이벤트 인증 (선택)</label></div>
+			        <div v-for="(item, index) in agreementItems" :key="index">
+			          <label :for="'check' + (index)">
+			            <input type="checkbox" :id="'check' + (index)" v-model="checkedItems" :value="item.id" @change="updateAllChecked">
+			            {{item.label}}
+			          </label>
+			        </div>
+			        <div>
+			          <label for="check4">
+			            <input type="checkbox" id="check4" v-model="isEventYn">이벤트 수신 동의 (선택)
+			          </label>
+                    </div>
                 </li>
             </ul>
             <div class="text-center">
                 <button class="join-button" @click="fnJoin">회원가입</button>
             </div>
         </fieldset>
-=======
-	<div id="app">
-		<fieldset>
-			<legend>회원가입</legend>
-			<ul>
-				<li>
-					<div>아이디</div>
-					<span>
-						<input type="text" v-model="user.userId" @keyup="fnIdCheck" required maxlength="20">
-					</span>
-		        	<div v-if="user.userId != ''">
-				       	<div v-if="idCheckFlg" style="color: blue;">사용 가능한 아이디입니다.</div>
-				       	<div v-else style="color: red;">중복된 아이디입니다.</div>
-		        	</div>
-				</li>
-				<li>
-					<div>비밀번호</div>
-					<span>
-						<input type="password" v-model="user.userPw" @keyup="fnPwCheck" required maxlength="16">
-					</span>
-					<div v-if="user.userPw != ''">
-						<div v-if="!pwCheckFlg" style="color: red;">비밀번호는 최소 8글자, 최대 16글자이고 하나 이상의 숫자, 영문자 및 특수문자를 각각 포함되어야 합니다!</div>
-					</div>
-				</li>
-				<li>
-					<div>비밀번호 확인</div>
-					<span>
-						<input type="password" v-model="user.userPw2" required maxlength="16">
-					</span>
-					<div v-if="user.userPw2 != ''">
-						<div></div>
-					</div>
-				</li>
-				<li>
-					<div>이름</div>
-					<span>
-						<input type="text" v-model="user.name" required maxlength="30">
-					</span>
-				</li>
-				<li>
-					<div>닉네임</div>
-						<input type="text" v-model="user.nickName" required>
-						<input type="text" v-model="user.nickName" required maxlength="30">
-					</span>
-				</li>
-				<li>
-					<div>성별</div>
-					<span>
-			            <input type="radio" name="gender" value="남성" v-model="user.gender">남
-			            <input type="radio" name="gender" value="여성" v-model="user.gender">여
-			            <input type="radio" name="gender" value="기타" v-model="user.gender">기타
-					</span>
-				</li>
-				<li>
-					<div>핸드폰 번호</div>
-					<span>
-						<input type="text" v-model="user.phone1" required maxlength="3">-
-						<input type="text" v-model="user.phone2" required maxlength="4">-
-						<input type="text" v-model="user.phone3" required maxlength="4">
-					</span>
-				</li>
-				<li>
-					<div>이메일</div>
-					<span>
-						<input type="text" v-model="email1" placeholder="이메일 아이디 입력" required>
-						<span>@</span>
-						<input type="text" v-model="email2" placeholder="직접 입력">
-						<select v-model="email3" @change="selectEmail">
-							<option value="" selected>직접 입력</option>
-							<option value="gmail.com">gmail.com</option>
-							<option value="naver.com">naver.com</option>
-							<option value="kakao.com">kakao.com</option>
-							<option value="hanmail.net">hanmail.net</option>
-						</select>
-					</span>
-				</li>
-				<li>
-					<div>생년월일</div>
-					<span>
-						<input type="text" v-model="user.birth" placeholder="ex)19910101" required maxlength="8">
-					</span>
-				</li>
-				<li>
-					<div></div>
-				</li>
-			</ul>
-			<div>
-				<button @click="fnJoin">회원가입</button>
-			</div>
-		</fieldset>
->>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
 	</div>
 </body>
 </html>
@@ -236,8 +149,7 @@ var app = new Vue({
             phone3: "",
             email: "",
     		birth: "",
-    		eventYn: ""
-    		
+    		eventYn: "",
     	},
     	idCheckFlg: false,
     	idCheckFlg2: false,
@@ -245,7 +157,14 @@ var app = new Vue({
     	pwCheckFlg2: false,
     	birthCheckFlg: false,
     	isEventYn: false,
-    	alertMessage: ""
+    	alertMessage: "",
+		allChecked: false,
+      	checkedItems: [],
+      	agreementItems: [
+        	{ id: 1, label: '이용약관 동의 (필수)' },
+        	{ id: 2, label: '개인정보 수집·이용 동의 (필수)' },
+        	{ id: 3, label: '본인은 만 14세 이상입니다. (필수)' },
+        ],
     }
     , methods: {
     	fnJoin: function() {
@@ -384,12 +303,27 @@ var app = new Vue({
 	            	self.alertMessage = "";
 	            }
 			} else {
-				return;
+				self.birthCheckFlg = false;
+            	self.alertMessage = "생년월일 8자리를 전부 입력하세요!";
 			}
 		},
         selectEmail: function() {
         	var self = this;
 			self.email2 = self.email3;
+		},
+		checkAll: function() {
+			var self = this;
+			if(self.allChecked) {
+				self.checkedItems = self.agreementItems.map(item => item.id);
+				$("#check4").prop('checked', true);
+			} else {
+				self.checkedItems = [];
+				$("#check4").prop('checked', false);
+			}
+		},
+		updateAllChecked: function() {
+			var self = this;
+			self.allChecked = self.checkedItems.length === self.agreementItems.length;
 		}
     }
     , created: function() {

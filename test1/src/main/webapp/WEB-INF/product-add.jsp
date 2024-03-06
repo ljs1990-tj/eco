@@ -38,7 +38,16 @@
 		<div>
 			적립율 : <input type="text" v-model="Prate">
 		</div>
-		
+		<tr>
+			<td width="30%">메인 이미지 : </td>
+			<td width="70%"><input type="file" id="file1" name="file1" accept=".jpg,.png,.gif"></td>
+		</tr>
+		<div>
+		<tr>
+			<td width="30%">설명에 들어갈 이미지 : </td>
+			<td width="70%"><input type="file" id="file2" name="file2" accept=".jpg,.png,.gif"></td>
+		</tr>
+		</div>
 		<div>
 			
 			내용 : <vue-editor v-model="contents"></vue-editor>
@@ -64,7 +73,7 @@
 		</div><div>
 			재고 갯수 : <input type="text" v-model="cnt">
 		</div>
-	
+		
 	<button @click="fnAdd">등록하기</button>
 	</div>
 </body>
@@ -75,7 +84,7 @@ const VueEditor = Vue2Editor.VueEditor;
 var app = new Vue({
     el: '#app',
     data: {
-    	code:"org",
+    	code:"${map.code}",
     	name:"",
     	price:"",
     	Srate:"",
@@ -112,6 +121,17 @@ var app = new Vue({
                 success: function(data) {
                 	if(data.result=="success"){
                 		alert("등록완료");
+                		var formMain = new FormData();
+                        formMain.append( "file1",  $("#file1")[0].files[0]);
+                        formMain.append("itemNo", data.itemNo);
+                        self.uploadMain(formMain);
+                        
+                        var formContents = new FormData();
+                        formContents.append("file2",$("#file2")[0].files[0]);
+                        formContents.append("itemNo", data.itemNo);
+                        self.uploadContents(formContents);
+                        /* location.href="AdminProductList.do"; */
+                		
                 	}else{
                 		alert("등록실패");
                 	}
@@ -119,6 +139,36 @@ var app = new Vue({
                 }
             });
         }
+    //파일 업로드
+    , uploadMain : function(form){
+    	var self = this;
+         $.ajax({
+             url : "/fileUploadMain.dox"
+           , type : "POST"
+           , processData : false
+           , contentType : false
+           , data : form
+           , success:function(response) { 
+        	   
+           }	           
+       });
+	},
+	
+	uploadContents : function(form){
+    	var self = this;
+         $.ajax({
+             url : "/fileUploadContents.dox"
+           , type : "POST"
+           , processData : false
+           , contentType : false
+           , data : form
+           , success:function(response) { 
+        	   
+           }	           
+       });
+	}
+	
+	
     }
     , created: function() {
     	var self = this;
