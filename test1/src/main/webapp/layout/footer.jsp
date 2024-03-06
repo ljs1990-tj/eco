@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!-- Footer -->
@@ -6,4 +7,14 @@
       	<p class="m-0 text-center text-white">Copyright &copy; Your Website 2024</p>
     </div>
     <!-- /.container -->
+=======
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!-- Footer -->
+<footer class="py-5 bg-dark">
+    <div class="container">
+      	<p class="m-0 text-center text-white">Copyright &copy; Your Website 2024</p>
+    </div>
+    <!-- /.container -->
+>>>>>>> branch 'aliya' of https://github.com/KDH94/teamProject.git
 </footer>

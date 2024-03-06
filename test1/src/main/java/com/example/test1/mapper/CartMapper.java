@@ -1,6 +1,9 @@
 package com.example.test1.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 
-public interface CartMapper { // basketMapper를 CartMapper로 변경
+@Mapper
+public interface CartMapper {
+
 
 }

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -77,7 +78,28 @@
 	tr:hover {
 	    background-color: #f3f3f3; 
 	}
-    
+
+    button {
+		background: #5cb85c;
+		color: white;
+		border: none;
+        border-radius: 5px;
+		padding: 10px 20px;
+		cursor: pointer;   
+	}
+
+    .content-area {
+        display: flex; 
+        flex-direction: column; 
+        justify-content: space-between; /* 콘텐츠와 버튼 사이의 공간 분배 */
+        height: 100%; 
+    }
+
+    .button-container {
+        text-align: right; /* 버튼 오른쪽 정렬 */
+        padding: 10px; 
+    }
+        
 </style>
 <body>
 	<div id="app">
@@ -132,12 +154,16 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div class="button-container"> <!-- 버튼 컨테이너 추가 -->
+                        <button>문의하기</button>
+                    </div>
 	            </div>
 	        </div>
 	    </div><!-- <div class="container">  -->
 	</div><!--<div id="app">  -->
 </body>
 </html>
+
 <script type="text/javascript">
 	var app = new Vue({
 		el : '#app',
@@ -151,14 +177,14 @@
 	            { id: 5, category: '상품', title: '친환경/유기농/무기농은 어떻게 다른가요?', detail: '▶ 친환경은 ㅇㅉㄱ ㅈㅉㄱ 유기농 ㅇㅉㄱ 무기농 ㅈㅉㄱ', showDetail: false },
 	            { id: 6, category: '취소/교환/환불', title: '교환(반품)진행 시 배송비가 부과되나요?', detail: '▶ 어우 그럼요', showDetail: false },
 	            { id: 7, category: '서비스이용', title: '상품후기는 어떻게 작성하나요?', detail: '▶ 구매하신 상품만 후기 작성이 가능합니다', showDetail: false },
-	            { id: 8, category: '서비스이용', title: '상품후기는 어떻게 작성하나요?', detail: '▶ 구매하신 상품만 후기 작성이 가능합니다', showDetail: false },
-	            { id: 9, category: '서비스이용', title: '상품후기는 어떻게 작성하나요?', detail: '▶ 구매하신 상품만 후기 작성이 가능합니다', showDetail: false },
-	            { id: 10, category: '서비스이용', title: '상품후기는 어떻게 작성하나요?', detail: '▶ 구매하신 상품만 후기 작성이 가능합니다', showDetail: false },
-	            { id: 11, category: '서비스이용', title: '상품후기는 어떻게 작성하나요?', detail: '▶ 구매하신 상품만 후기 작성이 가능합니다', showDetail: false },
-	            { id: 12, category: '서비스이용', title: '상품후기는 어떻게 작성하나요?', detail: '▶ 구매하신 상품만 후기 작성이 가능합니다', showDetail: false },
-	            { id: 13, category: '서비스이용', title: '상품후기는 어떻게 작성하나요?', detail: '▶ 구매하신 상품만 후기 작성이 가능합니다', showDetail: false },
-	            { id: 14, category: '서비스이용', title: '상품후기는 어떻게 작성하나요?', detail: '▶ 구매하신 상품만 후기 작성이 가능합니다', showDetail: false },
-	            { id: 15, category: '서비스이용', title: '상품후기는 어떻게 작성하나요?', detail: '▶ 구매하신 상품만 후기 작성이 가능합니다', showDetail: false },
+                { id: 8, category: '적립금', title: '적립금은 어떻게 받을 수 있나요?', detail: '▶ 구매하신 상품만 후기 작성이 가능합니다', showDetail: false },
+	            { id: 9, category: '시스템오류', title: '결제가 되지 않아요', detail: '▶ 구매하신 상품만 후기 작성이 가능합니다', showDetail: false },
+	            { id: 10, category: '회원', title: '회원정보는 어떻게 변경하나요?', detail: '▶ 구매하신 상품만 후기 작성이 가능합니다', showDetail: false },
+	            { id: 11, category: '배송', title: '배송이 늦는다고 문자가 왔어요', detail: '▶ 구매하신 상품만 후기 작성이 가능합니다', showDetail: false },
+	            { id: 12, category: '회원가입', title: '회원 가입시 어떤 혜택이 있나요?', detail: '▶ 구매하신 상품만 후기 작성이 가능합니다', showDetail: false },
+	            { id: 13, category: '회원', title: '주문하지도 않았는데 배송완료 알림 문자가 왔어요', detail: '▶ 구매하신 상품만 후기 작성이 가능합니다', showDetail: false },
+	            { id: 14, category: '배송', title: '배송 불가 지역으로 조회돼요', detail: '▶ 구매하신 상품만 후기 작성이 가능합니다', showDetail: false },
+	            { id: 15, category: '회원', title: '회원 탈퇴를 하고 싶어요', detail: '▶ 구매하신 상품만 후기 작성이 가능합니다', showDetail: false }
 			]
 		},
 		methods : {
