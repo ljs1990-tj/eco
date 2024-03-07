@@ -4,7 +4,6 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="../css/team_project_style.css">
 	<script src="js/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	<title>로그인 페이지</title>
@@ -34,7 +33,6 @@
 				<button @click="fnLogin">로그인</button>
 				<button @click="fnJoin">회원가입</button>
 			</div>
-			<div style="color: red;">{{resultMessage}}</div>
 		</fieldset>
 	</div>
 </body>
@@ -44,12 +42,15 @@ var app = new Vue({
     el: '#app',
     data: {
     	userId: "",
-    	userPw: "",
-    	resultMessage: ""
+    	userPw: ""
     }
     , methods: {
     	fnLogin: function() {
             var self = this;
+            if(self.userId == "") {
+            	alert("");
+            	return;
+            }
             var nparmap = {
             		userId: self.userId,
             		userPw: self.userPw
