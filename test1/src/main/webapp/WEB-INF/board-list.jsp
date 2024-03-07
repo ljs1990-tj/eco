@@ -1,60 +1,86 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<link rel="stylesheet" href="../css/team_project_style.css">
-	<script src="js/jquery.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<title>첫번째 페이지</title>
-	<style>
-		body {
-			font-family: Arial, sans-serif;
-		}
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../css/team_project_style.css">
+<script src="js/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<title>첫번째 페이지</title>
+<style>
+body {
+	font-family: Arial, sans-serif;
+}
 
-		table {
-			margin: 10px;
-			border-collapse: collapse;
-			width: 100%;
-		}
+table {
+	margin: 10px;
+	border-collapse: collapse;
+	width: 100%;
+}
 
-		th, td {
-			border: 1px solid #ddd;
-			padding: 8px;
-			text-align: center;
-			font-size: 14px;
-			font-family: Arial, sans-serif;
-		}
+th, td {
+	border: 1px solid #ddd;
+	padding: 8px;
+	text-align: center;
+	font-size: 14px;
+	font-family: Arial, sans-serif;
+}
 
-		th {
-			background-color: #f2f2f2;
-		}
+th {
+	background-color: #f2f2f2;
+}
 
-		tr:hover {
-			background-color: #f5f5f5;
-		}
+tr:hover {
+	background-color: #f5f5f5;
+}
 
-		button {
-			margin-top: 10px;
-			padding: 10px 20px;
-			font-size: 16px;
-			cursor: pointer;
-			background-color: #4CAF50;
-			color: white;
-			border: none;
-			border-radius: 4px;
-			transition: background-color 0.3s;
-			font-family: Arial, sans-serif;
-		}
+button {
+	margin-top: 10px;
+	padding: 10px 20px;
+	font-size: 16px;
+	cursor: pointer;
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	transition: background-color 0.3s;
+	font-family: Arial, sans-serif;
+}
 
-		button:hover {
-			background-color: #45a049;
-		}
-	</style>
+button:hover {
+	background-color: #45a049;
+}
+
+li {
+	display: inline-block;
+	margin-left: 10px;
+}
+
+ul {
+	padding: 5px 10px;
+	cursor: pointer;
+	background-color: #4CAF50;
+	color: white;
+	border-radius: 4px;
+	display: inline-block;
+	margin-right: 10px;
+	font-size: 16px;
+}
+
+ul:hover {
+	background-color: #45a049;
+}
+</style>
 </head>
 <body>
 	<div id="app">
+		<li>
+			<ul v-for="item in boardList"
+				:class="[kind==item.code ? 'select-tab' : 'tab']"
+				@click="fnGetList(item.code)">{{item.name}}
+			</ul>
+		</li>
 		<table>
 			<tr>
 				<th>번호</th>
@@ -67,8 +93,8 @@
 			</tr>
 			<tr v-for="item in list">
 				<td>{{ item.boardNo }}</td>
-				<td><a href="javascript:;" @click="fnView(item.boardNo)" v-html="item.title"></a></td>
-				<!--  <p v-html="info.contents">{{info.contents}}</p> -->
+				<td><a href="javascript:;" @click="fnView(item.boardNo)"
+					v-html="item.title"></a></td>
 				<td>{{ item.userId }}</td>
 				<td>{{ item.hits }}</td>
 				<td>{{ item.cDateTime }}</td>
@@ -77,7 +103,7 @@
 			</tr>
 		</table>
 		<button @click="fnWrite">글쓰기</button>
-		<button @click="fnDelete">삭제</button>
+		<!-- <button @click="fnDelete">삭제</button> -->
 	</div>
 </body>
 </html>
@@ -86,12 +112,17 @@
 		el: '#app',
 		data: {
 			list: [],
-			userId : "${userId}"
+			userId : "${userId}",
+			kind : 1,
+			boardList : ${boardList}
 		},
 		methods: {
-			fnGetList: function() {
+			fnGetList: function(kind) {
 				var self = this;
-				var nparmap = {};
+				self.kind = kind;
+				var nparmap = {
+							kind : kind
+							};
 				$.ajax({
 					url: "boardList.dox",
 					dataType: "json",
@@ -100,11 +131,13 @@
 					success: function(data) { 
 						console.log(data);
 						self.list = data.list;
+						
 					}
 				}); 
 			},
-			fnWrite: function(userId) {
-				$.pageChange("boardInsert.do", { userId : userId });
+			fnWrite: function() {
+				var self = this;
+				$.pageChange("boardInsert.do", { kind : self.kind });
 			},
 			fnView: function(boardNo) {
 				$.pageChange("boardView.do", { boardNo : boardNo });
@@ -136,7 +169,8 @@
 			},
 		},
 		created: function() {
-			this.fnGetList();
+			this.fnGetList(1);
+			
 		}
 	});
 </script>

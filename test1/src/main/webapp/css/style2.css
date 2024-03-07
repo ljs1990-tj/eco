@@ -1,5 +1,4 @@
 
-
 #HeaderAllTab html,
 #HeaderAllTab body {
 	height: 100%;
@@ -68,7 +67,7 @@
 #HeaderAllTab a:focus {
 	text-decoration: none;
 	outline: none;
-	color: #ffffff;
+	color: #2C9D59;
 }
 
 #HeaderAllTab ul,

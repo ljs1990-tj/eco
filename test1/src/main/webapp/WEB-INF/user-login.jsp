@@ -49,6 +49,10 @@ var app = new Vue({
     , methods: {
     	fnLogin: function() {
             var self = this;
+            if(self.userId == "") {
+            	alert("");
+            	return;
+            }
             var nparmap = {
             		userId: self.userId,
             		userPw: self.userPw

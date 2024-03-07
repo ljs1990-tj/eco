@@ -21,11 +21,8 @@
 				<option value="local">로컬푸드</option>
 				<option value="org">유기농</option>
 				<option value="vegan">비건</option>
-				
 			</select>
-			
 		</div>
-	
 		<div>
 			상품명 : <input type="text" v-model="name">
 		</div>

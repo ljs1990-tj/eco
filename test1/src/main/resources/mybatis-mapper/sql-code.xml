@@ -4,6 +4,9 @@
 
 <mapper namespace="com.example.test1.mapper.CodeMapper">
 	<select id="selectCodeList" parameterType="hashmap" resultType="com.example.test1.model.Code">
-
+		SELECT * FROM ECO_CODE WHERE KIND = #{kind}
 	</select>
+	
+	
+		
 </mapper>

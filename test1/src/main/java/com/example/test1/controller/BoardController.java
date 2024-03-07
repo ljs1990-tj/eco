@@ -1,12 +1,9 @@
 package com.example.test1.controller;
 
-import java.io.File;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.example.test1.dao.BoardService;
 import com.example.test1.dao.CodeService;
 import com.example.test1.model.Code;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 @Controller
@@ -38,10 +32,12 @@ public class BoardController {
 	@Autowired
 	CodeService codeService;
 
-	@RequestMapping("/boardList.do") //목록
-	public String searchList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
-			throws Exception {
-		request.setAttribute("map", map);
+	@RequestMapping("/boardList.do") //목록보기
+	public String boardList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		map.put("kind", "board");
+		List<Code> codeList = codeService.searchCodeList(map);
+		
+		request.setAttribute("boardList", new Gson().toJson(codeList));
 		return "/board-list";
 	}
 
@@ -53,6 +49,8 @@ public class BoardController {
 		return "/board-view";
 	}
 	
+	
+
 	@RequestMapping("/boardInsert.do") //게시글 작성
 	public String insertList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		request.setAttribute("map", map);
@@ -72,10 +70,9 @@ public class BoardController {
 		return "/board-edit";
 	}
 	
-	
 	@RequestMapping(value = "/boardList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String bbsList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+	public String boardList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = boardService.searchBoardList(map);
 		return new Gson().toJson(resultMap);
@@ -88,8 +85,6 @@ public class BoardController {
 		resultMap = boardService.searchBoardInfo(map);
 		return new Gson().toJson(resultMap);
 	}
-	
-
 
 	@RequestMapping(value = "/boardInsert.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -99,9 +94,6 @@ public class BoardController {
 		return new Gson().toJson(resultMap);
 	}
 
-	 
-
-
 	@RequestMapping(value = "/boardDelete.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String deleteBbsList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -109,8 +101,6 @@ public class BoardController {
 		resultMap = boardService.removeBoard(map);
 		return new Gson().toJson(resultMap);
 	}
-
-
 
 	@RequestMapping(value = "/boardEdit.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -120,6 +110,23 @@ public class BoardController {
 		return new Gson().toJson(resultMap);
 	}
 	
+	@RequestMapping("/customerService.do")
+	public String productOrganic(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
+			throws Exception {
+		request.setAttribute("map", map);
+		return "/customer-service";
+	}
 	
+	
+	//고객 문의 리스트
+	@RequestMapping(value = "/customerService.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String customerService(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = boardService.searchCustomerInquiryList(map);
+		return new Gson().toJson(resultMap);
+	}
 	
 }
+
+

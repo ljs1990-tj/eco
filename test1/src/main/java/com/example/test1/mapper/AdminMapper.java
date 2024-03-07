@@ -1,4 +1,5 @@
 package com.example.test1.mapper;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import com.example.test1.model.ProductFile;
 
 @Mapper
 public interface AdminMapper {
+
 	
 	void insertProduct(HashMap<String, Object> map);
 	List<Product> selectProductList(HashMap<String, Object> map);
@@ -21,10 +23,14 @@ public interface AdminMapper {
 	
 	void insertProductContentsFile (HashMap<String,Object> map);
 	List<ProductFile> selectProductFileList(HashMap<String, Object> map);
+	
 	List<ProductFile> selectProductContentsFileInfo(HashMap<String, Object> map);
 	void fileDelete(HashMap<String, Object> map);
 	void updateProductMainFile(HashMap<String, Object >map );
 	
 	List<Product> selectProductChart(HashMap<String, Object> map);
-}
 
+
+	
+
+}

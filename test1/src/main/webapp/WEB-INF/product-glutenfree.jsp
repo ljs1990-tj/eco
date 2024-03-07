@@ -111,8 +111,8 @@
 			
 			<div class="product-grid">
 				 <div class="product" v-for="item in list">
-				    <img src="" alt="">
-				    <p>{{item.itemName}}</p>
+				    <img src="" alt="썸네일 이미지">
+				    <p><a href="javascript:;" @click="fnDetailView(item.itemNo)">{{item.itemName}}</a></p>
 				    <p class="price">₩{{item.price}}</p>
 				  	<button @click="fnRemove(item.itemNo)">상품삭제</button>
 				  </div>
@@ -127,14 +127,17 @@
 var app = new Vue({
     el: '#app',
     data: {
-    	list : []
+    	list : [],
+    	code : 'gluten'
     }
     , methods: {
     	fnList: function() {
             var self = this;
-            var nparmap = {};
+            var nparmap = {
+            		code: self.code
+            };
             $.ajax({
-                url:"productList.dox",
+                url:"cordList.dox",
                 dataType:"json",
                 type: "POST",
                 data: nparmap,
@@ -168,6 +171,11 @@ var app = new Vue({
             	return;
             }
         },
+        /* 제품 상세 페이지  */
+        fnDetailView: function(itemNo) {
+			var self = this;
+			$.pageChange("/productView.do", {itemNo: itemNo});
+		},
         /* 오가닉 제품 페이지 이동  */
         fnOrganic: function() {
         	$.pageChange("/productOrganic.do", {});
