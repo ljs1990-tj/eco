@@ -19,7 +19,7 @@
 			<button @click="fnProdutList">상품 관리</button>
 		</div>
 		<div>
-			<button>판매통계</button>
+			<button @click="fnChart">판매통계</button>
 		</div>
 		<div>
 			<button>리뷰관리</button>
@@ -52,6 +52,9 @@
 
 			fnProdutList : function() {
 				location.href = "AdminProductList.do"
+			},
+			fnChart : function(){
+				location.href="AdminProductChart.do"
 			}
 
 		},

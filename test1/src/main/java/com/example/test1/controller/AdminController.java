@@ -61,8 +61,16 @@ public class AdminController {
 			request.setAttribute("map", map);
 			return "/admin-product-view";
 		}
-	
-	
+	//상품 차트 페이지
+	@RequestMapping("/AdminProductChart.do") 
+		public String AdminProductChart(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+			request.setAttribute("map", map);
+			
+			return "/admin-product-chart";
+	}
+		
+		
+		
 	@RequestMapping(value = "/productAdd.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String productAdd(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -217,6 +225,8 @@ public class AdminController {
 	
 	
 	
+	
+	
 	@RequestMapping(value = "/fileDelete.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String fileDelete(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -225,6 +235,13 @@ public class AdminController {
 		return new Gson().toJson(resultMap);
 	}
 	
+	@RequestMapping(value = "/AdminProductChart.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String ProductChart(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = adminService.searchProductChartList(map);
+		return new Gson().toJson(resultMap);
+	}
 	
 	
 }

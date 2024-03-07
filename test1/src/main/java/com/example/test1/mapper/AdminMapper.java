@@ -24,5 +24,7 @@ public interface AdminMapper {
 	List<ProductFile> selectProductContentsFileInfo(HashMap<String, Object> map);
 	void fileDelete(HashMap<String, Object> map);
 	void updateProductMainFile(HashMap<String, Object >map );
+	
+	List<Product> selectProductChart(HashMap<String, Object> map);
 }
 
