@@ -9,6 +9,8 @@ import com.example.test1.model.Cart;
 
 @Mapper
 public interface CartMapper {
+
 	List<Cart> selectCartList(HashMap<String, Object> map);
+
 	
 }
