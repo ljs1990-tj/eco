@@ -65,7 +65,7 @@ button:hover {
 				<td>{{info.nickName}}</td>
 			</tr>
 			<tr>
-				<th>내용</th>
+				<th>내용</th> 
 				<td v-html="info.contents">{{info.contents}}</td>
 			</tr>
 		</table>

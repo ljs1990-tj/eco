@@ -39,9 +39,11 @@ public class BoardController {
 	CodeService codeService;
 
 	@RequestMapping("/boardList.do") //목록
-	public String searchList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
-			throws Exception {
-		request.setAttribute("map", map);
+	public String boardList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		map.put("kind", "board");//key : value 값
+		List<Code> codeList = codeService.searchCodeList(map);
+		
+		request.setAttribute("boardList", new Gson().toJson(codeList));//받아온 값 넘길때 작성
 		return "/board-list";
 	}
 
@@ -75,7 +77,7 @@ public class BoardController {
 	
 	@RequestMapping(value = "/boardList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String bbsList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+	public String boardList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = boardService.searchBoardList(map);
 		return new Gson().toJson(resultMap);
@@ -90,7 +92,6 @@ public class BoardController {
 	}
 	
 
-
 	@RequestMapping(value = "/boardInsert.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String insertBoardList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -100,7 +101,6 @@ public class BoardController {
 	}
 
 	 
-
 
 	@RequestMapping(value = "/boardDelete.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody

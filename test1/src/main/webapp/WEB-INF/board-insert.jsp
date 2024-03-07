@@ -59,7 +59,14 @@ button:hover {
 
 <body>
 	<div id="app">
-
+		<tr>
+			<th>게시판 선택</th>
+			<td><select v-model="kind">
+					<option value="1">공지사항</option>
+					<option value="2">레시피게시판</option>
+					<option value="3">문의게시판</option>
+			</select></td>
+		</tr>
 		<div>
 			제목 : <input type="text" v-model="title">
 		</div>
@@ -86,7 +93,7 @@ const VueEditor = Vue2Editor.VueEditor;
 		data : {
 			info : {},
 			userId : "${userId}",//변수선언
-			//kind : "${map.kind}",//컨트롤러에서 가져온 map꺼내서 위에서 사용
+			kind : "${map.kind}",//컨트롤러에서 가져온 map꺼내서 위에서 사용
 			title : "${title}",
 			contents : "${contents}"
 		}
@@ -97,14 +104,14 @@ const VueEditor = Vue2Editor.VueEditor;
 			fnWrite : function() {
 				var self = this;
 	            if(self.title == "") {
-	            	alert("작성하세요");
+	            	alert("빈칸입니다");
 	            	return;
 	            }
 				var nparmap = {
 					userId : self.userId,
 					title : self.title,
 					contents : self.contents,
-					//kind : self.kind
+					kind : self.kind
 				};
 				$.ajax({
 					url : "boardInsert.dox",

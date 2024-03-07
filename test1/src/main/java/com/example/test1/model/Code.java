@@ -4,5 +4,7 @@ import lombok.Data;
 
 @Data
 public class Code {
-
+	private String kind;
+	private String name;
+	private String code;
 }
