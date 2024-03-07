@@ -65,11 +65,10 @@ var app = new Vue({
                 type: "POST",
                 data: nparmap,
                 success: function(data) {
+                	console.log(data);
                 	if(data.result == "success") {
-                		self.resultMessage = "";
+                		alert("로그인 성공!");
                 		$.pageChange("/main.do", {});
-                	} else if(data.result == "fail") {
-                		self.resultMessage = "로그인 실패!";
                 	}
                 }
             });
