@@ -43,6 +43,7 @@ ul, li {
 	border-radius: 10px;
 	padding: 20px;
 	margin: 20px;
+	/* overflow-y: auto; /* 수직 스크롤 활성화 */ */
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -76,11 +77,11 @@ ul, li {
 
 .button-container {
 	position: relative;
-	width: 440px;
 	height: 40px;
 	border: 2px solid #ccc;
-	bottom: 15px;
-	right: -20px;
+	text-align: center;
+	/* bottom: 15px;
+	right: -20px; */
 }
 
 /* .button-container button {
@@ -120,57 +121,79 @@ ul, li {
 		<header> </header>
 		<section>
 			<!-- 첫번째 -->
-			<div class="section-box1">
-				<fieldset>
-					<legend>개인 정보</legend>
-					<ul>
-						<li><span>아이디 : </span>{{user.userId}}</li>
-						<li><span>이름 : </span>{{user.name}}</li>
-						<li><span>닉네임 : </span>{{user.nickName}}</li>
-						<li><span>성별 : </span>{{user.gender}}</li>
-						<li><span>핸드폰 번호 : </span>{{user.phone1}} - {{user.phone2}} -
-							{{user.phone3}}</li>
-						<li><span>이메일 : </span>{{user.email}}</li>
-						<li><span>생년월일 : </span>{{user.birth}}</li>
-					</ul>
-				</fieldset>
-				<div>
-					<span>내등급 : </span><span>{{user.userGrade}}</span> <span>포인트
-						: </span><span>{{user.point}}</span>
+			<div style=" width: 1300px; overflow: hidden;">
+				<div style="overflow: hidden; width: 600px; float: left;">
+					<div style="width: 500px; border: 1px solid black;">
+						<div class="section-box1">
+							<fieldset>
+								<legend>개인 정보</legend>
+								<ul>
+									<li><span>아이디 : </span>{{user.userId}}</li>
+									<li><span>이름 : </span>{{user.name}}</li>
+									<li><span>닉네임 : </span>{{user.nickName}}</li>
+									<li><span>성별 : </span>{{user.gender}}</li>
+									<li><span>핸드폰 번호 : </span>{{user.phone1}} -
+										{{user.phone2}} - {{user.phone3}}</li>
+									<li><span>이메일 : </span>{{user.email}}</li>
+									<li><span>생년월일 : </span>{{user.birth}}</li>
+								</ul>
+							</fieldset>
+							<div>
+								<span>내등급 : </span><span>{{user.userGrade}}</span> <span>포인트
+									: </span><span>{{user.point}}</span>
+							</div>
+						</div>
+						<div class="button-container">
+							<!-- 등급혜택 자세히 보기 버튼 -->
+							<button @click="fnGradeselect()">등급혜택 자세히 보기</button>
+							<button @click="fnUsermodify()">정보수정</button>
+						</div>
+					</div>
 				</div>
-			</div>
-			<div class="button-container">
-				<button @click="fnGradeselect()">등급혜택 자세히 보기</button>
-				<button @click="fnUsermodify()">정보수정</button>
-			</div>
-			<!-- 두번째 -->
-			<div class="section-box2"></div>
-			<div class="button-container">
-				<button @click="">기본주소추가</button>
-				<button @click="">기본주소확정</button>
-				<button @click="">기본주소수정</button>
-				<button @click="">기본주소삭제</button>
-			</div>
-			<!-- 세번째 -->
-			<div class="section-box3">
-				<span>내가 쓴 레시피</span>
-				<button>더보기?</button>
-			</div>
-			<!-- 네번째 -->
-			<div class="section-box4">
-				<span>내주문 내여</span>
-				<button>더보기?</button>
+				<div style="width: 600px; float: left;">
+					<!-- 두번째 -->
+					<div style="width: 500px; border: 1px solid black;">
+						<div class="section-box2">
+							<div
+								style="width: 400px; height: 230px; overflow-y: scroll; border: 1px solid black;">
+							</div>
+						</div>
+						<div class="button-container" style="padding-top: 20px">
+							<button @click="">기본주소추가</button>
+							<button @click="">기본주소확정</button>
+							<button @click="">기본주소수정</button>
+							<button @click="">기본주소삭제</button>
+						</div>
+					</div>
+					<!-- 세번째 -->
+					<div class="section-box3" style="">
+						<span>내가 쓴 레시피</span>
+						<button>더보기?</button>
+					</div>
+					<!-- 네번째 -->
+					<div class="section-box4" style="">
+						<span>내주문 내여</span>
+						<button>더보기?</button>
+					</div>
+				</div>
 			</div>
 		</section>
 		<footer> </footer>
-				
+
 		<!-- 팝업 창 -->
 		<div v-if="isPopupOpen" class="popup">
 			<div class="popup-content">
-				<p style="color: black;">등급혜택 내역들입력</p>
+				<p style="color: black;">등급혜택 내역</p>
+				<!-- 여기에 등급혜택 내용을 추가하세요 -->
+				<ul>
+					<li>등급혜택 1</li>
+					<li>등급혜택 2</li>
+					<li>등급혜택 3</li>
+					<!-- 등급혜택 내용을 필요에 맞게 추가 -->
+				</ul>
 				<button @click="closePopup">닫기</button>
 			</div>
-		</div> 
+		</div>
 	</div>
 </body>
 </html>
@@ -195,13 +218,13 @@ ul, li {
 				point : ""
 			},
 			isPopupOpen : false
-			
+
 		},
 		methods : {
 			/* 등급혜택 창 열기 */
-			fnGradeselect : function(){
+			fnGradeselect : function() {
 				var self = this;
-				self.isPopupOpen = true; 
+				self.isPopupOpen = true;
 			},
 			/* 등급혜택 창 닫기 */
 			closePopup : function() {
