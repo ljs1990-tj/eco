@@ -81,7 +81,7 @@
     <!-- item End -->
 
     <!-- Header Section Begin -->
-    <header class="header">
+    <header class="header" id="HeaderAllTab">
         <div class="header__top">
             <div class="container">
                 <div class="row">

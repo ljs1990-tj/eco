@@ -81,7 +81,7 @@
     <!-- item End -->
 
     <!-- Header Section Begin -->
-    <header class="header">
+    <header class="header" id="HeaderAllTab">
         <div class="header__top">
             <div class="container">
                 <div class="row">
@@ -154,7 +154,7 @@
     <!-- Header Section End -->
 
     <!-- Hero Section Begin -->
-    <section class="hero">
+    <section class="hero" id="HeaderAllTab">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3">
@@ -755,12 +755,12 @@
 
 
 		<!-- 팝업 창 -->
-		<div v-if="isPopupOpen" class="popup">
+<!-- 		<div v-if="isPopupOpen" class="popup">
 			<div class="popup-content">
 				<p style="color: black;">팝업 내용을 여기에 추가하세요.</p>
 				<button @click="closePopup">닫기</button>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </body>
 </html>
