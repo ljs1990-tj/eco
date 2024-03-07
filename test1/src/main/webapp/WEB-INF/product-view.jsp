@@ -158,7 +158,7 @@ var app = new Vue({
                 url:"productView.dox",
                 dataType:"json",
                 type: "POST",
-                data: nparmap,
+                data: nparmap,l
                 success: function(data) {
                 	self.info = data.info;
                 }

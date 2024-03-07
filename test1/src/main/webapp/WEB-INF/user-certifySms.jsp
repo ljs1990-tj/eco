@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <script src="js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<title>첫번째 페이지</title>
+<title>본인인증</title>
 </head>
 <style>
 body {
@@ -55,8 +55,8 @@ body {
 		</header>
 		<section>
 			<div>
-				<span>핸드폰 번호 입력:</span> <input type="text" v-model="inputNumber"
-					:disabled="inputflg" @input="validateInput"  @keydown.enter="fnSms()">
+				<span>핸드폰 번호 입력:</span> 
+				<input type="text" v-model="inputNumber" :disabled="inputflg" @input="validateInput"  @keydown.enter="fnSms()">
 				<button v-if="!flg" @click="fnSms()">인증번호받기</button>
 				<button v-if="flg" @click="fnRePhone()">핸드폰번호 다시 입력하기</button>
 			</div>

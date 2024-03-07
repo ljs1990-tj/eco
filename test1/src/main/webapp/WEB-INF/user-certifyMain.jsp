@@ -80,18 +80,7 @@ a {
 				// 메인 페이지로 이동하는 로직을 여기에 작성
 				window.location.href = '/main.do';
 			}
-		/*      fnList : function() {
-		         var self = this;
-		         var nparmap = {};
-		         $.ajax({
-		             url : "test.dox",
-		             dataType : "json",
-		             type : "POST",
-		             data : nparmap,
-		             success : function(data) {
-		             }
-		         });
-		     } */
+
 		},
 		created : function() {
 			var self = this;
