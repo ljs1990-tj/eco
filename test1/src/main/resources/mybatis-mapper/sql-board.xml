@@ -49,7 +49,7 @@
 	<!-- 문의 등록  -->
 	<insert id="insertCustomerInquiry" parameterType="hashmap">
 		INSERT INTO ECO_BOARD
-		VALUES(null, #{title}, #{contents}, #{userId}, 10, 'N', null, #{kind}, 0, NOW(), NOW(), 2500) 
+		VALUES(null, #{title}, #{contents}, #{userId}, 0, 'N', null, #{kind}, 0, NOW(), NOW(), 2500) 
 	</insert>
 	
 </mapper>
