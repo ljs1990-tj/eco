@@ -16,33 +16,33 @@
             <fieldset>
                 <ul>
                     <li>
-                        <span>아이디 : </span>
+                        <span>아이디: </span>
                         <input type="text" v-model="user.userId" disabled>
                     </li>
                     <li>
-                        <span>비밀번호 : </span>
+                        <span>비밀번호: </span>
                         <input type="text" v-model="user.userPw" maxlength="16" @input="validatePassword($event, 'userPw')" >
                         <div>
                             <span v-if="!checkPasswordMatch" style="color: red;">{{ passwordErrorMessage }}</span>
                         </div>
                     </li>
                     <li>
-                        <span>비밀번호 확인 : </span>
+                        <span>비밀번호 확인: </span>
                         <input type="password" v-model="user.userPw2" maxlength="16" @input="validatePassword2($event, 'userPw2')" >
                         <div>
                             <span v-if="!checkPassword2Match" style="color: red;">{{ passwordConfirmErrorMessage }}</span>
                         </div>
                     </li>
                     <li>
-                        <span>이름 : </span>
+                        <span>이름: </span>
                         <input type="text" v-model="user.name" maxlength="30">
                     </li>
                     <li>
-                        <span>닉네임 : </span>
+                        <span>닉네임: </span>
                         <input type="text" v-model="user.nickName" maxlength="30">
                     </li>
                   	<li>
-						<span>성별 : </span>
+						<span>성별: </span>
 						<div>
 							<input type="radio" name="gender" value="남성" v-model="user.gender">남 
 							<input type="radio"name="gender" value="여성" v-model="user.gender">여
@@ -50,7 +50,7 @@
 						</div>
 					</li>
 					<li>
-						<span>핸드폰 번호 : </span>
+						<span>핸드폰 번호: </span>
 						<div>
 							 <input type="text" v-model="user.phone1"  maxlength="3" @input="allowOnlyNumbers($event, 'phone1')">-
        						<input type="text" v-model="user.phone2"  maxlength="4" @input="allowOnlyNumbers($event, 'phone2')">-
@@ -59,10 +59,10 @@
 						</div>
 					</li>
                     <li>
-                        <span>이메일 : </span>
+                        <span>이메일: </span>
                         <input type="text"  v-model="user.email" placeholder="이메일 아이디 입력">
                     <li>
-                        <span>생년월일 : </span>
+                        <span>생년월일: </span>
                         <input type="text" v-model="user.birth" placeholder="ex)19910101" @input="formatBirthDate">
                     </li>
                 </ul>
@@ -86,7 +86,7 @@
                 userPw2: "",
                 name: "",
                 nickName: "",
-                gender: "여성",
+                gender: "",
                 phone1: "",
                 phone2: "",
                 phone3: "",

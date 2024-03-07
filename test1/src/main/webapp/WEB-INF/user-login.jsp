@@ -48,7 +48,11 @@ var app = new Vue({
     	fnLogin: function() {
             var self = this;
             if(self.userId == "") {
-            	alert("");
+            	alert("아이디 입력해 주세요!");
+            	return;
+            }
+            if(self.userPw == "") {
+            	alert("비밀번호 입력해 주세요!");
             	return;
             }
             var nparmap = {
