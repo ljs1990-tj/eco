@@ -23,6 +23,6 @@
 		INSERT INTO ECO_ADDR
 			(USERID, ADDR, ADDRDETAIL, ZIPCODE, NAME, PHONE, ADDRREQUEST, ADDRNAME)
 		VALUES
-			(#{userId}, #{addr}, #{addrDetail}, #{zipCode}, #{name}, #{phone}, NULL, '집')
+			(#{userId}, #{addr}, #{addrDetail}, #{zipCode}, #{name}, #{phone}, NULL, #{addrName})
 	</insert>
 </mapper>

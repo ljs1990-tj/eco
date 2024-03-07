@@ -167,7 +167,8 @@ var app = new Vue({
         	zipCode: "",
         	addr: "",
         	addrDetail: "",
-        	phone: ""
+        	addrName: "집",
+        	phone: "",
     	},
     	idCheckFlg: false,
     	idCheckFlg2: false,
