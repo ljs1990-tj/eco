@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="css/style2.css" type="text/css">
 </head>
 
-<body class="HeaderAllTab">
+<body id="HeaderAllTab">
 
     <!-- Page Preloder -->
     <div id="preloder">

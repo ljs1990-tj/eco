@@ -90,9 +90,6 @@
 		</div>
 	
 	<button @click="ProductUpdate()">등록하기</button>
-	{{itemNo}}
-	{{mainFile}}
-	
 	</div>
 </body>
 </html>

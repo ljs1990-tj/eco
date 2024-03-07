@@ -89,7 +89,7 @@
   	}
 </style>
 <body>
-<%@ include file="../layout/header.jsp" %>
+
 	<div id="app">
 		<div class="container">
 			<div class="title">

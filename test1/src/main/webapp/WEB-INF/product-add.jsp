@@ -122,6 +122,7 @@ var app = new Vue({
                 	if(data.result=="success"){
                 		alert("등록완료");
                 		var formMain = new FormData();
+                		
                         formMain.append( "file1",  $("#file1")[0].files[0]);
                         formMain.append("itemNo", data.itemNo);
                         self.uploadMain(formMain);
@@ -130,7 +131,7 @@ var app = new Vue({
                         formContents.append("file2",$("#file2")[0].files[0]);
                         formContents.append("itemNo", data.itemNo);
                         self.uploadContents(formContents);
-                        /* location.href="AdminProductList.do"; */
+                        location.href="AdminProductList.do";
                 		
                 	}else{
                 		alert("등록실패");
