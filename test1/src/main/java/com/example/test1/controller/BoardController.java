@@ -127,6 +127,15 @@ public class BoardController {
 		return new Gson().toJson(resultMap);
 	}
 	
+	//고객 문의 등록
+	@RequestMapping(value = "/customerInquiry.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String customerInquiry(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = boardService.addCustomerInquiry(map);
+		return new Gson().toJson(resultMap);
+	}
+	
 }
 
 

@@ -27,8 +27,10 @@ public interface BoardMapper {
 	void boardEdit(HashMap<String, Object> map); //게시글 수정
 
 	
-	//고객 문의 리스트
-	List<Board> selectCustomerInquiryList(HashMap<String, Object> map);
+	
+	List<Board> selectCustomerInquiryList(HashMap<String, Object> map); //고객 문의 리스트
+	
+	void insertCustomerInquiry (HashMap<String, Object> map); //고객 문의 작성
 }
 
 

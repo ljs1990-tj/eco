@@ -124,7 +124,7 @@ public class BoardServiceimpl implements BoardService{
 		return resultMap;
 	}
 
-
+	//고객 문의 리스트
 	@Override
 	public HashMap<String, Object> searchCustomerInquiryList(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
@@ -137,6 +137,21 @@ public class BoardServiceimpl implements BoardService{
 		} catch (Exception e) {
 			// TODO: handle 
 			System.out.println(e.getMessage());
+			resultMap.put("reslut","fail");
+		}
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> addCustomerInquiry(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			boardMapper.insertCustomerInquiry(map);
+			
+			resultMap.put("reslut","success");
+		} catch (Exception e) {
+			// TODO: handle exception
 			resultMap.put("reslut","fail");
 		}
 		return resultMap;

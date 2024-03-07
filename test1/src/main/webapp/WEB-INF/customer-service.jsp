@@ -237,17 +237,17 @@
                      <!-- 제목 입력란 -->
 					<div class="input-group">
 						<label for="title">제목 <span>*</span></label>
-						<input type="text" id="title" name="title" placeholder="제목을 입력해주세요" required>
+						<input v-model="title" type="text" id="title" name="title" placeholder="제목을 입력해주세요" required>
 					</div>
 
 					<!-- 내용 입력란 -->
 					<div class="input-group">
 						<label for="content">내용 <span>*</span></label>
-						<textarea id="content" name="content" rows="10" require>
+						<textarea v-model="contents" id="content" name="content" rows="10" require>
 						</textarea>
 					</div> 
 					<div class="button-container">
-						<button>문의하기</button>
+						<button @click="fnInsert">문의하기</button>
 					</div>
 	            </div>
 	            
@@ -262,6 +262,11 @@
 		el : '#app',
 		data : {
 			list: [],
+			userId : "${userId}",
+			kind : 3,
+			title : "${title}",
+			contents : "${contents}",
+			
 			selectedMenu: 'faq',
 			selectedMenuItem: null, // 선택된 메뉴 아이템을 저장하기 위한 속성 추가	        
 			faqs : [ 
@@ -293,6 +298,24 @@
 					data : nparmap,
 					success : function(data) {
 						self.list = data.list;
+					}
+				});
+			},
+			fnInsert : function() {
+				var self = this;
+				var nparmap = {
+					userId : self.userId,
+					title : self.title,
+					contents : self.contents,
+					kind : self.kind
+				};
+				$.ajax({
+					url : "customerInquiry.dox",
+					dataType : "json",
+					type : "POST",
+					data : nparmap,
+					success : function(data) {
+						console.log(data.result);
 					}
 				});
 			},
