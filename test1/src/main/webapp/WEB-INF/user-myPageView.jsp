@@ -29,7 +29,7 @@
                     <li>
                         <span>비밀번호 확인 : </span>
                         <input type="password" v-model="user.userPw2" maxlength="16" @input="validatePassword2($event, 'userPw2')">
-                        <button @click="fnPwdTest">비밀번호 확인</button>
+                        <button  @click="fnPwdCheck">비밀번호 확인</button>
                         <div>
                             <span v-if="!checkPassword2Match" style="color: red;">{{ passwordConfirmErrorMessage }}</span>
                         </div>
@@ -171,12 +171,16 @@
 			        self.passwordConfirmErrorMessage = errorMessage;
 			    }
 			},
-			fnPwdTest : function(){
-			    if (self.user.userPw !== inputValue) {
+			fnPwdCheck : function(){
+			    if (self.user.userPw !== self.user.userPw2) {
 		            self.checkPassword2Match = true;
 		            self.checkPasswordMatch = true;
 		            self.checkPassword = false;
-		        } else {
+		            alert("비밀번호랑 비밀번호확인이 다릅니다.");
+		        }else if(self.user.userPw == "" || self.user.userPw2 == ""){
+		        	alert("비밀번호랑 비밀번호확인을 입력해 주세요");
+		        } 
+			    else {
 		            self.checkPassword = true;
 		        }
 			},
