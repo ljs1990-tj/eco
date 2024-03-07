@@ -6,7 +6,7 @@
 	<meta charset="UTF-8">
 	<script src="js/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	
+	<%-- <jsp:include page="/layout/menu.jsp"></jsp:include> --%>
 	<title>유기농 제품 페이지</title>
 </head>
 <style>
@@ -201,7 +201,7 @@ var app = new Vue({
     }
     , created: function() {
     	var self = this;
-		self.fnList('org');
+		self.fnList();
 	}
 });
 </script>
