@@ -20,6 +20,7 @@ public class UserServiceimpl implements UserService{
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			userMapper.insertUser(map);
+			userMapper.insertUserAddr(map);
 			resultMap.put("result", "success");
 		} catch (Exception e) {
 			// TODO: handle exception
