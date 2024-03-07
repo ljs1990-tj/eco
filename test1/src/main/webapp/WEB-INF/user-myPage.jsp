@@ -7,6 +7,7 @@
 <script src="js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <title>마이 페이지</title>
+
 </head>
 <style>
 body {
@@ -32,43 +33,45 @@ ul, li {
 }
 
 .section-box2 {
- 	position: relative;
-    top: 20px; /* 원하는 위치로 조절 (상단 여백) */
-    right: 0px; /* 원하는 위치로 조절 (우측 여백) */
-    width: 400px;
-    height: 250px;
-    background-color: #f0f0f0;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	position: relative;
+	top: 20px; /* 원하는 위치로 조절 (상단 여백) */
+	right: 0px; /* 원하는 위치로 조절 (우측 여백) */
+	width: 400px;
+	height: 250px;
+	background-color: #f0f0f0;
+	border: 2px solid #ccc;
+	border-radius: 10px;
+	padding: 20px;
+	margin: 20px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
 .section-box3 {
- 	position: relative;
-    top: 20px; /* 원하는 위치로 조절 (상단 여백) */
-    right: 0px; /* 원하는 위치로 조절 (우측 여백) */
-    width: 400px;
-    height: 250px;
-    background-color: #f0f0f0;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	position: relative;
+	top: 20px; /* 원하는 위치로 조절 (상단 여백) */
+	right: 0px; /* 원하는 위치로 조절 (우측 여백) */
+	width: 400px;
+	height: 250px;
+	background-color: #f0f0f0;
+	border: 2px solid #ccc;
+	border-radius: 10px;
+	padding: 20px;
+	margin: 20px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
 .section-box4 {
- 	position: relative;
-    top: 20px; /* 원하는 위치로 조절 (상단 여백) */
-    right: 0px; /* 원하는 위치로 조절 (우측 여백) */
-    width: 400px;
-    height: 250px;
-    background-color: #f0f0f0;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	position: relative;
+	top: 20px; /* 원하는 위치로 조절 (상단 여백) */
+	right: 0px; /* 원하는 위치로 조절 (우측 여백) */
+	width: 400px;
+	height: 250px;
+	background-color: #f0f0f0;
+	border: 2px solid #ccc;
+	border-radius: 10px;
+	padding: 20px;
+	margin: 20px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .button-container {
@@ -93,12 +96,30 @@ ul, li {
 .button-container button:hover {
 	background-color: rgb(107, 170, 27);
 } */
+/* 팝업창 */
+.popup {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+}
+
+.popup-content {
+	background: white;
+	padding: 20px;
+	border-radius: 8px;
+}
 </style>
 <body>
 	<div id="app">
 		<header> </header>
 		<section>
-		<!-- 첫번째 -->
+			<!-- 첫번째 -->
 			<div class="section-box1">
 				<fieldset>
 					<legend>개인 정보</legend>
@@ -107,24 +128,23 @@ ul, li {
 						<li><span>이름 : </span>{{user.name}}</li>
 						<li><span>닉네임 : </span>{{user.nickName}}</li>
 						<li><span>성별 : </span>{{user.gender}}</li>
-						<li><span>핸드폰 번호 : </span>{{user.phone1}} - {{user.phone2}} - {{user.phone3}}</li>
+						<li><span>핸드폰 번호 : </span>{{user.phone1}} - {{user.phone2}} -
+							{{user.phone3}}</li>
 						<li><span>이메일 : </span>{{user.email}}</li>
 						<li><span>생년월일 : </span>{{user.birth}}</li>
 					</ul>
 				</fieldset>
 				<div>
-					<span>내등급 : </span><span>{{user.userGrade}}</span> 
-					<span>포인트 : </span><span>{{user.point}}</span>
+					<span>내등급 : </span><span>{{user.userGrade}}</span> <span>포인트
+						: </span><span>{{user.point}}</span>
 				</div>
 			</div>
 			<div class="button-container">
-				<button @click="">등급혜택</button>
+				<button @click="fnGradeselect()">등급혜택 자세히 보기</button>
 				<button @click="fnUsermodify()">정보수정</button>
 			</div>
 			<!-- 두번째 -->
-			<div class="section-box2">
-				
-			</div>
+			<div class="section-box2"></div>
 			<div class="button-container">
 				<button @click="">기본주소추가</button>
 				<button @click="">기본주소확정</button>
@@ -142,7 +162,15 @@ ul, li {
 				<button>더보기?</button>
 			</div>
 		</section>
-
+		<footer> </footer>
+				
+		<!-- 팝업 창 -->
+		<div v-if="isPopupOpen" class="popup">
+			<div class="popup-content">
+				<p style="color: black;">등급혜택 내역들입력</p>
+				<button @click="closePopup">닫기</button>
+			</div>
+		</div> 
 	</div>
 </body>
 </html>
@@ -165,10 +193,21 @@ ul, li {
 				birth : "",
 				userGrade : "",
 				point : ""
-
-			}
+			},
+			isPopupOpen : false
+			
 		},
 		methods : {
+			/* 등급혜택 창 열기 */
+			fnGradeselect : function(){
+				var self = this;
+				self.isPopupOpen = true; 
+			},
+			/* 등급혜택 창 닫기 */
+			closePopup : function() {
+				var self = this;
+				self.isPopupOpen = false;
+			},
 			/* 개인정보 가져오기 */
 			information : function() {
 				var self = this;
@@ -200,7 +239,8 @@ ul, li {
 					return;
 				}
 				//패스워드 확인하는 팝업창
-				var popup = window.open('user-myPage-Password.do', 'Password Popup', 'width=500,height=500');
+				var popup = window.open('user-myPage-Password.do',
+						'Password Popup', 'width=500,height=500');
 			}
 		},
 		created : function() {

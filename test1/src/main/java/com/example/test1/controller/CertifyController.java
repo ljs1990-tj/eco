@@ -22,5 +22,7 @@ public class CertifyController {
 
 		return "/user-certifySms";
 	}
+	
+	// 광고창 열기
 
 }
