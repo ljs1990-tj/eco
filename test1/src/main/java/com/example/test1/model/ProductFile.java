@@ -13,3 +13,4 @@ public class ProductFile {
 	private String fileEtc;
 	private String path;
 }
+

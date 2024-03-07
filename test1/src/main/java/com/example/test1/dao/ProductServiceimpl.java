@@ -13,34 +13,34 @@ import com.example.test1.model.Product;
 import com.example.test1.model.ProductFile;
 
 @Service
-public class ProductServiceimpl implements ProductService{
-	
+public class ProductServiceimpl implements ProductService {
+
 	@Autowired
 	ProductMapper productMapper;
-	
+
 	@Autowired
 	HttpSession session;
-	
-	//제품 리스트
-	@Override 
+
+	// 제품 리스트
+	@Override
 	public HashMap<String, Object> searchProductList(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			List<Product> list = productMapper.selectProductList(map);
-			
+
 			resultMap.put("list", list);
-			resultMap.put("reslut","success");
+			resultMap.put("reslut", "success");
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
-			resultMap.put("reslut","fail");
+			resultMap.put("reslut", "fail");
 		}
-		
+
 		return resultMap;
 	}
-	
-	//제품 삭제
+
+	// 제품 삭제
 	@Override
 	public HashMap<String, Object> removeProduct(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
@@ -54,14 +54,14 @@ public class ProductServiceimpl implements ProductService{
 		}
 		return resultMap;
 	}
-	
-	//제품 상세 조회
+
+	// 제품 상세 조회
 	@Override
 	public HashMap<String, Object> searchProductInfo(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
-			Product product =  productMapper.selectProductInfo(map);
+			Product product = productMapper.selectProductInfo(map);
 			List<ProductFile> fileList = productMapper.selectProductContentsFileInfo(map);
 			List<ProductFile> fileDetailList = productMapper.selectProductDetailFileInfo(map);
 			resultMap.put("info", product);
@@ -75,7 +75,7 @@ public class ProductServiceimpl implements ProductService{
 		}
 		return resultMap;
 	}
-	
+
 	// cord 분류에 따른 제품 리스트
 	@Override
 	public HashMap<String, Object> searchCodeList(HashMap<String, Object> map) {
@@ -92,7 +92,5 @@ public class ProductServiceimpl implements ProductService{
 		}
 		return resultMap;
 	}
-	
-
 
 }

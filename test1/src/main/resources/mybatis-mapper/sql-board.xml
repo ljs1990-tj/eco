@@ -3,8 +3,10 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.test1.mapper.BoardMapper">
+	<!-- xxx.Mapper 동일한 이름 사용 안됨 -->
+	
 	<select id="selectBoardList" parameterType="hashmap" resultType="com.example.test1.model.Board">
-
+		SELECT * FROM ECO_BOARD WHERE KIND =#{kind}
 	</select>
 	
 	<!--문의 게시판 불러오기  -->
@@ -18,5 +20,40 @@
 	<insert id="insertCustomerInquiry" parameterType="hashmap">
 	
 	</insert>
+
+	<select id="selectBoardInfo" parameterType="hashmap" resultType="com.example.test1.model.Board">
+		SELECT * FROM ECO_BOARD B INNER JOIN ECO_USER U ON B.USERID = U.USERID
+		WHERE BOARDNO = #{boardNo}
+	</select>
+
+	
+<!-- 	<select id="viewList" parameterType="hashmap" resultType="com.example.test1.model.Board">
+		SELECT * FROM ECO_BOARD WHERE BOARDNO = #{boardNo}
+	</select> -->
+	
+
+	<insert id="writeBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="BOARDNO" keyColumn="BOARDNO">
+		INSERT INTO ECO_BOARD
+		VALUES(null, #{title}, #{contents}, #{userId}, 10, 'N', null, #{kind}, 0, NOW(), NOW(), 2500)
+	</insert>
+
+
+	<delete id="deleteBoard" parameterType="hashmap">
+		DELETE FROM ECO_BOARD 
+		WHERE BOARDNO = #{boardNo}
+	</delete>
+
+	<update id="boardEdit" parameterType="hashmap">
+		UPDATE ECO_BOARD SET CONTENTS = #{contents}, TITLE = #{title}, KIND = #{kind} 
+		WHERE BOARDNO = #{boardNo}
+	</update>
+
+
+	<insert id="insertBoardImage" parameterType="hashmap">
+		INSERT INTO ECO_BOARD_IMAGE 
+		VALUES(null, #{boardNo}, #{path}, #{fileName}, #{orgName}, #{fileSize}, #{etc})
+	</insert>
+
+
 	
 </mapper>

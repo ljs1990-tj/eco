@@ -28,7 +28,7 @@ var app = new Vue({
             var self = this;
             var nparmap = {};
             $.ajax({
-                url:"test.dox",
+                url:"boardList.dox",
                 dataType:"json",
                 type: "POST",
                 data: nparmap,
