@@ -13,4 +13,10 @@
 		ECO_BOARD
 		WHERE KIND = 3	
 	</select>
+	
+	<!-- 문의 등록  -->
+	<insert id="insertCustomerInquiry" parameterType="hashmap">
+	
+	</insert>
+	
 </mapper>

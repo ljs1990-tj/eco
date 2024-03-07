@@ -13,7 +13,7 @@
 	<title>고객센터</title>
 </head>
 <style>
-	.container {
+		.container {
 		display: flex; /* Flexbox 레이아웃 적용 */
 		width: 75%;
 		max-width: 1200px;
@@ -130,10 +130,50 @@
 		font-size: 25px;
 		color: #505050
 	}
+	.content-area input {
+		height: 40px;
+		width: 500px;
+		border: 1px solid rgb(148, 148, 148);
+		border-radius: 3px;
+	}
+
+	.content-area textarea {
+		height: 500px;
+		width: 500px;
+		border: 1px solid rgb(148, 148, 148);
+		border-radius: 3px;
+		resize: none;
+	}
+	.content-area label {
+		display: block;
+		margin-bottom: 8px; /* 라벨과 입력란 사이의 간격 추가 */
+	}
+
+	.content-area span {
+		color: red;
+		font-weight: bold;
+		font-size: 20px;
+	}
+
+	.input-group {
+		font-size: 17px;
+		font-weight: bold;
+		margin-bottom: 20px;
+	}
+
+	input[type="text"] {
+		font-size: 17px;
+		color: #303030;
+	}
+
+	textarea {
+		font-size: 17px;
+		color: #303030;
+	}
 
     .button-container {
-        text-align: right; /* 버튼 오른쪽 정렬 */
-        padding: 10px; 
+        text-align: left;
+        padding: 15px; 
     }
         
 </style>
@@ -143,7 +183,8 @@
 	        <div class="menu-area">
 				<h2>고객센터</h2>
 				<div class="menu-item" :class="{ 'menu-item-selected': selectedMenuItem === 'faq' }" @click="updateContent('faq')">자주하는 질문 <span class="align-right">></span></div>
-				<div class="menu-item" :class="{ 'menu-item-selected': selectedMenuItem === 'inquiry' }" @click="updateContent('inquiry')">1:1 문의 <span class="align-right">></span></div>				
+				<div class="menu-item" :class="{ 'menu-item-selected': selectedMenuItem === 'history' }" @click="updateContent('history')">문의 내역 <span class="align-right">></span></div>
+				<div class="menu-item" :class="{ 'menu-item-selected': selectedMenuItem === 'inquiry' }" @click="updateContent('inquiry')">1:1 문의하기 <span class="align-right">></span></div>				
 	        </div>
 	        
 	        <div class="content-area">
@@ -172,7 +213,7 @@
 				        </tbody>
 				    </table>
 	            </div>
-	            <div v-if="selectedMenu === 'inquiry'">
+	            <div v-if="selectedMenu === 'history'">
 	                <h2>1:1 문의</h2>
 	                <p>고객님께서 남겨주신 1:1 문의는 여기에 표기됩니다.</p>
                     <table>
@@ -191,10 +232,27 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div class="button-container"> 
-                        <button>문의하기</button>
-                    </div>
 	            </div>
+	            	<div v-if="selectedMenu === 'inquiry'">
+	                <h2>문의하기</h2>
+	                <p>A조 마켓의 중심은 항상 고객님입니다.</p>
+                     <!-- 제목 입력란 -->
+					<div class="input-group">
+						<label for="title">제목 <span>*</span></label>
+						<input type="text" id="title" name="title" placeholder="제목을 입력해주세요" required>
+					</div>
+
+					<!-- 내용 입력란 -->
+					<div class="input-group">
+						<label for="content">내용 <span>*</span></label>
+						<textarea id="content" name="content" rows="10" require>
+						</textarea>
+					</div> 
+					<div class="button-container">
+						<button>문의하기</button>
+					</div>
+	            </div>
+	            
 	        </div>
 	    </div><!-- <div class="container">  -->
 	</div><!--<div id="app">  -->
