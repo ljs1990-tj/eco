@@ -30,25 +30,25 @@ public class ProductController {
 	
 	//비건 제품 페이지
 	@RequestMapping("/productVegan.do") 
-    public String productVegan(Model model) throws Exception{
-
+    public String productVegan(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+		request.setAttribute("map", map);
         return "/product-vegan";
     }
 	
 	//글루텐프리 제품 페이지
 	@RequestMapping("/productGlutenFree.do") 
-    public String productGlutenFree(Model model) throws Exception{
-
+    public String productGlutenFree(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+		request.setAttribute("map", map);
         return "/product-glutenfree";
     }
 	
 	//로컬푸드 제품 페이지
 	@RequestMapping("/productLocalFood.do") 
-    public String productLocalFood(Model model) throws Exception{
-
+    public String productLocalFood(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+		request.setAttribute("map", map); 
         return "/product-localfood";
     }
-	
+
 	//상품 상세 페이지
 	@RequestMapping("/productView.do") 
 	public String productView(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
@@ -56,13 +56,21 @@ public class ProductController {
 	    return "/product-view";
 	}
 	
-	
 	//제품 리스트
 	@RequestMapping(value = "/productList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String productList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = productService.searchProductList(map);
+		return new Gson().toJson(resultMap);
+	}
+	
+	// cord 분류에 따른 제품 리스트
+	@RequestMapping(value = "/cordList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String cordList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = productService.searchCodeList(map);
 		return new Gson().toJson(resultMap);
 	}
 	
@@ -80,7 +88,7 @@ public class ProductController {
 	@ResponseBody
 	public String productView(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap = productService.searchProductList(map);
+		resultMap = productService.searchProductInfo(map);
 		return new Gson().toJson(resultMap);
 	}
 }

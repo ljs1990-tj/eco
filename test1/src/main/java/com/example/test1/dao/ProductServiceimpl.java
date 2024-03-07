@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.test1.mapper.ProductMapper;
 import com.example.test1.model.Product;
+import com.example.test1.model.ProductFile;
 
 @Service
 public class ProductServiceimpl implements ProductService{
@@ -27,10 +28,13 @@ public class ProductServiceimpl implements ProductService{
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			List<Product> list = productMapper.selectProductList(map);
+			
 			resultMap.put("list", list);
+			resultMap.put("reslut","success");
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
+			resultMap.put("reslut","fail");
 		}
 		
 		return resultMap;
@@ -58,13 +62,37 @@ public class ProductServiceimpl implements ProductService{
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			Product product =  productMapper.selectProductInfo(map);
+			List<ProductFile> fileList = productMapper.selectProductContentsFileInfo(map);
+			List<ProductFile> fileDetailList = productMapper.selectProductDetailFileInfo(map);
 			resultMap.put("info", product);
+			resultMap.put("filelist", fileList);
+			resultMap.put("fileDetailList", fileDetailList);
 			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
+	
+	// cord 분류에 따른 제품 리스트
+	@Override
+	public HashMap<String, Object> searchCodeList(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			List<Product> list = productMapper.selectCodeList(map);
+			List<ProductFile> fileList = productMapper.selectProductFileInfo(map);
+			resultMap.put("list", list);
+			resultMap.put("filelist", fileList);
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
 		}
 		return resultMap;
 	}
+	
+
 
 }
