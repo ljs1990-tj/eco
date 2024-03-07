@@ -6,4 +6,11 @@
 	<select id="selectBoardList" parameterType="hashmap" resultType="com.example.test1.model.Board">
 
 	</select>
+	
+	<!--문의 게시판 불러오기  -->
+	<select id="selectCustomerInquiryList" parameterType="hashmap" resultType="com.example.test1.model.Board">
+		SELECT * FROM
+		ECO_BOARD
+		WHERE KIND = 3	
+	</select>
 </mapper>

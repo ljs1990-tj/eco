@@ -201,7 +201,7 @@ var app = new Vue({
     }
     , created: function() {
     	var self = this;
-		self.fnList();
+		self.fnList('org');
 	}
 });
 </script>
