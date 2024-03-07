@@ -29,6 +29,13 @@ public class UserController {
 
         return "/main"; 
     }
+	
+	@RequestMapping("/footer.do") 
+    public String footer(Model model) throws Exception{		
+
+        return "/footer"; 
+    }
+	
 
 	@RequestMapping("/user-join.do") 
     public String userJoin(Model model) throws Exception{

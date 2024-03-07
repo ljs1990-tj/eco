@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -41,3 +43,4 @@ var app = new Vue({
 	}
 });
 </script>
+>>>>>>> branch 'aliya' of https://github.com/KDH94/teamProject.git

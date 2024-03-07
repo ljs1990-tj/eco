@@ -12,7 +12,6 @@
 <style>
 </style>
 <body>
-<<<<<<< HEAD
     <div id="app">
         <fieldset class="container-join">
             <div class="join-title">회원가입</div>
@@ -123,7 +122,7 @@
                 <button class="join-button" @click="fnJoin">회원가입</button>
             </div>
         </fieldset>
-=======
+
 	<div id="app">
 		<fieldset>
 			<legend>회원가입</legend>
@@ -213,7 +212,6 @@
 				<button @click="fnJoin">회원가입</button>
 			</div>
 		</fieldset>
->>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
 	</div>
 </body>
 </html>

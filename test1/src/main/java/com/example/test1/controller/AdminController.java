@@ -16,47 +16,48 @@ import com.google.gson.Gson;
 
 @Controller
 public class AdminController {
-	
-	
-	@Autowired
-	AdminService adminService;
-	
-	//어드민 페이지 메인
-	@RequestMapping("/admin-main.do") 
-    public String main(Model model) throws Exception{		
-
-        return "/admin-Main"; 
-    }
-	
-	//상품 추가 페이지
-	@RequestMapping("/productAdd.do") 
-	public String productAdd(Model model) throws Exception{
-
-		return "/product-add";
-	}
-	
-	//상품 리스트 페이지
-	@RequestMapping("/productList.do") 
-	public String productList(Model model) throws Exception{
-
-		return "/product-list";
-	}
-	
-	//상품 업데이트 페이지
-	@RequestMapping("/productUpdate.do") 
-	public String productUpdate(Model model) throws Exception{
-
-		return "/product-update";
-	}
-	
-	
-	@RequestMapping(value = "/productAdd.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public String productAdd(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap = adminService.addProduct(map);
-		return new Gson().toJson(resultMap);
-	}
 
 	
+	 
+	  @Autowired AdminService adminService;
+	 
+	  //어드민 페이지 메인
+	  
+	  @RequestMapping("/admin-main.do") public String main(Model model) throws
+	  Exception{
+	 
+	  return "/admin-Main"; }
+	  
+	  //상품 추가 페이지
+	  
+	  @RequestMapping("/productAdd.do") public String productAdd(Model model)
+	  throws Exception{
+	  
+	  return "/product-add"; }
+	  
+	  //상품 리스트 페이지
+	  
+	  @RequestMapping("/productList.do") public String productList(Model model)
+	  throws Exception{
+	  
+	  return "/product-list"; }
+	
+	  //상품 업데이트 페이지
+	  
+	  @RequestMapping("/productUpdate.do") public String productUpdate(Model model)
+	  throws Exception{
+	  
+	  return "/product-update"; }
+	  
+	  
+	/*
+	 * @RequestMapping(value = "/productAdd.dox", method = RequestMethod.POST,
+	 * produces = "application/json;charset=UTF-8")
+	 * 
+	 * @ResponseBody public String productAdd(Model model, @RequestParam
+	 * HashMap<String, Object> map) throws Exception { HashMap<String, Object>
+	 * resultMap = new HashMap<String, Object>(); resultMap =
+	 * adminService.addProduct(map); return new Gson().toJson(resultMap); }
+	 */
+	 
 }
