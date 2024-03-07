@@ -30,6 +30,9 @@
                         <span>비밀번호 확인 : </span>
                         <input type="password" v-model="user.userPw2" maxlength="16" @input="validatePassword2($event, 'userPw2')">
                         <button  @click="fnPwdCheck">비밀번호 확인</button>
+
+                        <input type="password" v-model="user.userPw2" maxlength="16" @input="validatePassword2($event, 'userPw2')" >
+
                         <div>
                             <span v-if="!checkPassword2Match" style="color: red;">{{ passwordConfirmErrorMessage }}</span>
                         </div>
@@ -135,6 +138,44 @@
                 var self = this;
                 var regex =  /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
                 self.validateInput(event, field, regex, "비밀번호는 최소 8글자, 최대 16글자이고 하나 이상의 숫자, 영문자 및 특수문자를 각각 포함해야 합니다!");
+            },
+            //비밀번호 확인 정규식 유효성 검사
+            validatePassword2: function (event, field) {
+                var self = this;
+                var regex =  /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
+                self.validateInput2(event, field, regex, "비밀번호는 최소 8글자, 최대 16글자이고 하나 이상의 숫자, 영문자 및 특수문자를 각각 포함해야 합니다!");
+            },
+            // 비밀번호 입력 필드 정규식 유효성 검사
+            validateInput: function (event, field, validationRegex, errorMessage) {
+                var self = this;
+                var inputValue = event.target.value;
+                console.log("validateInput 메소드 호출"); // 디버깅 문
+                if (validationRegex.test(inputValue)) {
+                    console.log("유효성 검사 성공:", inputValue); // 디버깅 문
+                    self.checkPasswordMatch = true;
+                    self.passwordErrorMessage = "";
+                } 
+                else {
+                    console.error("유효성 검사 실패:", inputValue); // 디버깅 문
+                    self.checkPasswordMatch = false;
+                    self.passwordErrorMessage = errorMessage;
+                }
+            },
+            //비밀번호 확인 입력 필드 정규식 유효성 검사
+            validateInput2: function (event, field, validationRegex, errorMessage) {
+                var self = this;
+                var inputValue = event.target.value;
+                console.log("validateInput 메소드 호출"); // 디버깅 문
+                if (validationRegex.test(inputValue)) {
+                    console.log("유효성 검사 성공:", inputValue); // 디버깅 문
+                    self.checkPassword2Match = true;
+                    self.passwordConfirmErrorMessage = "";
+                }
+                else {
+                    console.error("유효성 검사 실패:", inputValue); // 디버깅 문
+                    self.checkPassword2Match = false;
+                    self.passwordConfirmErrorMessage = errorMessage;
+                }
             },
             //비밀번호 확인 정규식 유효성 검사
             validatePassword2: function (event, field) {

@@ -16,4 +16,5 @@ public class Product {
 	private String uDateTime;
 	private int cnt;
 	private String code;
+	private String kind;
 }
