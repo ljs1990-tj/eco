@@ -11,11 +11,11 @@ import com.example.test1.mapper.UserMapper;
 import com.example.test1.model.User;
 
 @Service
-public class UserServiceimpl implements UserService{
+public class UserServiceimpl implements UserService {
 
 	@Autowired
 	UserMapper userMapper;
-	
+
 	@Autowired
 	HttpSession session;
 
@@ -25,6 +25,7 @@ public class UserServiceimpl implements UserService{
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			userMapper.insertUser(map);
+			userMapper.insertUserAddr(map);
 			resultMap.put("result", "success");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -39,14 +40,15 @@ public class UserServiceimpl implements UserService{
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		User user = userMapper.selectUser(map);
-		if(user == null) {
+		if (user == null) {
 			resultMap.put("result", "success");
 		} else {
 			resultMap.put("result", "fail");
 		}
 		return resultMap;
 	}
-	//유저 정보 가져오기
+
+	// 유저 정보 가져오기
 	@Override
 	public HashMap<String, Object> getUser(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
@@ -62,7 +64,8 @@ public class UserServiceimpl implements UserService{
 		}
 		return resultMap;
 	}
-	//유저정보 수정
+
+	// 유저정보 수정
 	@Override
 	public HashMap<String, Object> modifyUser(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
@@ -87,8 +90,8 @@ public class UserServiceimpl implements UserService{
 			resultMap.put("result", "fail");
 			resultMap.put("message", "아이디가 존재하지 않습니다.");
 		} else { // 아이디가 있는 경우
-			String userPw = (String)map.get("userPw");
-			if(user.getUserPw().equals(userPw)) {
+			String userPw = (String) map.get("userPw");
+			if (user.getUserPw().equals(userPw)) {
 				resultMap.put("result", "success");
 				resultMap.put("message", user.getName() + "님 환영합니다.");
 				session.setAttribute("userId", user.getUserId());
@@ -96,7 +99,7 @@ public class UserServiceimpl implements UserService{
 				session.setAttribute("userType", user.getUserType());
 			}
 		}
-		
+
 		return resultMap;
 	}
 }

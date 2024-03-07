@@ -26,10 +26,7 @@ public interface BoardMapper {
 	void updateHit(HashMap<String, Object> map); //조회수 증가
 
 	void boardEdit(HashMap<String, Object> map); //게시글 수정
-	
-	
 
-	
 }
 
 

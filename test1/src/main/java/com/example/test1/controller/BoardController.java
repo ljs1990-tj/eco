@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import java.util.HashMap;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +28,7 @@ import com.example.test1.model.Code;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class BoardController {
@@ -74,7 +79,6 @@ public class BoardController {
 		return "/board-edit";
 	}
 	
-	
 	@RequestMapping(value = "/boardList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String boardList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -90,7 +94,6 @@ public class BoardController {
 		resultMap = boardService.searchBoardInfo(map);
 		return new Gson().toJson(resultMap);
 	}
-	
 
 	@RequestMapping(value = "/boardInsert.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -100,8 +103,6 @@ public class BoardController {
 		return new Gson().toJson(resultMap);
 	}
 
-	 
-
 	@RequestMapping(value = "/boardDelete.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String deleteBbsList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -109,8 +110,6 @@ public class BoardController {
 		resultMap = boardService.removeBoard(map);
 		return new Gson().toJson(resultMap);
 	}
-
-
 
 	@RequestMapping(value = "/boardEdit.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -120,6 +119,10 @@ public class BoardController {
 		return new Gson().toJson(resultMap);
 	}
 	
-	
-	
+	@RequestMapping("/customerService.do")
+	public String productOrganic(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
+			throws Exception {
+		request.setAttribute("map", map);
+		return "/customer-service";
+	}
 }

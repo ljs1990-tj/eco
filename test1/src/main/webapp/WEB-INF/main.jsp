@@ -109,13 +109,7 @@ body {
 			</div>
 			<div>장바구니</div>
 		</div>
-		<!-- 팝업 창 -->
-		<div v-if="isPopupOpen" class="popup">
-			<div class="popup-content">
-				<p style="color: black;">팝업 내용을 여기에 추가하세요.</p>
-				<button @click="closePopup">닫기</button>
-			</div>
-		</div>
+
 	</div>
 </body>
 </html>

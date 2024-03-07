@@ -5,68 +5,77 @@
 <mapper namespace="com.example.test1.mapper.AdminMapper">
 
 
-<insert id="insertProduct" parameterType="hashmap" useGeneratedKeys="true" keyProperty="itemNo" keyColumn="itemNo">
-		INSERT INTO ECO_PRODUCT
+	<insert id="insertProduct" parameterType="hashmap"
+		useGeneratedKeys="true" keyProperty="itemNo" keyColumn="itemNo">
+		INSERT INTO
+		ECO_PRODUCT
 		VALUES
-			(null,#{name}, #{price}, #{Srate}, #{Prate}, #{contents}, #{trans}, #{sellYN}, NOW(), NOW(), #{cnt}, #{code})
+		(null,#{name}, #{price}, #{Srate}, #{Prate}, #{contents}, #{trans}, #{sellYN},
+		NOW(), NOW(), #{cnt}, #{code})
 	</insert>
-	
-<select id="selectProductList" parameterType="hashmap" resultType="com.example.test1.model.Product">
+	<select id="selectProductList" parameterType="hashmap"
+		resultType="com.example.test1.model.Product">
 		SELECT * FROM
 		ECO_PRODUCT
 		WHERE 1=1
 		<if test="code !=''">
-		AND CODE = #{code}
+			AND CODE = #{code}
 		</if>
 		<if test="keyword !=''">
-		AND ITEM_NAME LIKE '%' #{keyword} '%'
+			AND ITEM_NAME LIKE '%' #{keyword} '%'
 		</if>
 	</select>
-	
-	
-	<select id="selectProductView" parameterType="hashmap" resultType="com.example.test1.model.Product">
+	<select id="selectProductView" parameterType="hashmap"
+		resultType="com.example.test1.model.Product">
 		SELECT * FROM
 		ECO_PRODUCT
 		WHERE ITEM_NO = #{itemNo}
 	</select>
-	
+
 	<update id="updateProduct" parameterType="hashmap">
 		UPDATE ECO_PRODUCT
 		SET
-			ITEM_NAME = #{name},
-			PRICE = #{price},
-			S_RATE = #{Srate},
-			P_RATE = #{Prate},
-			CONTENTS = #{contents},
-			TRANS_INFO =#{trans},
-			SELLYN = #{sellYN},
-			UDATETIME = NOW(),
-			CNT = #{cnt},
-			CODE = #{code}
+		ITEM_NAME = #{name},
+		PRICE = #{price},
+		S_RATE = #{Srate},
+		P_RATE = #{Prate},
+		CONTENTS = #{contents},
+		TRANS_INFO =#{trans},
+		SELLYN = #{sellYN},
+		UDATETIME = NOW(),
+		CNT = #{cnt},
+		CODE = #{code}
 		WHERE ITEM_NO = #{itemNo}
 	</update>
-	
-	<select id="selectProductFileInfo" parameterType="hashmap" resultType="com.example.test1.model.ProductFile">
+
+	<select id="selectProductFileInfo" parameterType="hashmap"
+		resultType="com.example.test1.model.ProductFile">
 		SELECT P.*,
-			FILEPATH || FILENAME AS PATH
+		FILEPATH || FILENAME AS PATH
 		FROM ECO_PRODUCT_IMAGE P
 		WHERE KIND = 1
 	</select>
-	<select id="selectProductContentsFileInfo" parameterType="hashmap" resultType="com.example.test1.model.ProductFile">
+	<select id="selectProductContentsFileInfo"
+		parameterType="hashmap"
+		resultType="com.example.test1.model.ProductFile">
 		SELECT P.*,
-			FILEPATH || FILENAME AS PATH
+		FILEPATH || FILENAME AS PATH
 		FROM ECO_PRODUCT_IMAGE P
 		WHERE KIND = 2
 	</select>
-	
+
 	<insert id="insertProductFile" parameterType="hashmap">
-		INSERT INTO ECO_PRODUCT_IMAGE
-		VALUES(NULL, #{itemNo}, #{path}, #{fileName}, #{orgName}, #{fileSize}, #{etc},1)
+		INSERT INTO
+		ECO_PRODUCT_IMAGE
+		VALUES(NULL, #{itemNo}, #{path}, #{fileName},
+		#{orgName}, #{fileSize}, #{etc},1)
 	</insert>
-	
+
 	<insert id="insertProductContentsFile" parameterType="hashmap">
-		INSERT INTO ECO_PRODUCT_IMAGE
-		VALUES(NULL, #{itemNo}, #{path}, #{fileName}, #{orgName}, #{fileSize}, #{etc},2)
+		INSERT INTO
+		ECO_PRODUCT_IMAGE
+		VALUES(NULL, #{itemNo}, #{path}, #{fileName},
+		#{orgName}, #{fileSize}, #{etc},2)
 	</insert>
-	
+
 </mapper>
