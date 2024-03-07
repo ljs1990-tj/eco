@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.test1.mapper.AdminMapper">
+
+
+<insert id="insertProduct" parameterType="hashmap">
+		INSERT INTO ECO_PRODUCT
+		VALUES
+			(null,#{name}, #{price}, #{Srate}, #{Prate}, #{contents}, #{trans}, #{sellYN}, NOW(), NOW(), #{cnt}, #{code})
+	</insert>
+</mapper>

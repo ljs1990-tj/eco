@@ -21,16 +21,16 @@
                     </li>
                     <li>
                         <span>비밀번호 : </span>
-                        <input type="text" v-model="user.userPw" maxlength="16" @input="validatePassword($event, 'userPw')" required>
+                        <input type="text" v-model="user.userPw" maxlength="16" @input="validatePassword($event, 'userPw')" >
                         <div>
                             <span v-if="!checkPasswordMatch" style="color: red;">{{ passwordErrorMessage }}</span>
                         </div>
                     </li>
                     <li>
                         <span>비밀번호 확인 : </span>
-                        <input type="password" v-model="user.userPw2" maxlength="16" @input="validatePassword($event, 'userPw2')" required>
+                        <input type="password" v-model="user.userPw2" maxlength="16" @input="validatePassword2($event, 'userPw2')" >
                         <div>
-                            <span v-if="!checkPasswordMatch" style="color: red;">{{ passwordConfirmErrorMessage }}</span>
+                            <span v-if="!checkPassword2Match" style="color: red;">{{ passwordConfirmErrorMessage }}</span>
                         </div>
                     </li>
                     <li>
@@ -60,8 +60,7 @@
 					</li>
                     <li>
                         <span>이메일 : </span>
-                        <input type="text" v-model="user.email" placeholder="이메일 직접입력">
-                    </li>
+                        <input type="text"  v-model="user.email" placeholder="이메일 아이디 입력">
                     <li>
                         <span>생년월일 : </span>
                         <input type="text" v-model="user.birth" placeholder="ex)19910101" @input="formatBirthDate">
@@ -82,7 +81,7 @@
         el: '#app',
         data: {
             user: {
-                userId: "test123",
+                userId: "${userId}",
                 userPw: "",
                 userPw2: "",
                 name: "",
@@ -95,6 +94,7 @@
                 birth: ""
             },
             checkPasswordMatch: true,
+            checkPassword2Match: true,
             passwordErrorMessage: "",
             passwordConfirmErrorMessage: ""
         },
@@ -114,28 +114,62 @@
                     }
                 });
             },
-            allowOnlyNumbers: function (event, field) {
-                this.user[field] = event.target.value.replace(/[^0-9]/g, '');
-            },
+           
+         	 // 핸드폰 번호 입력 정규식 - 숫자만 허용
+			allowOnlyNumbers: function (event, field) {
+				var self = this;
+				self.user[field] = event.target.value.replace(/[^0-9]/g, '');
+			},
+            //생일 입력 정규식
             formatBirthDate: function () {
                 var formattedDate = moment(this.user.birth, "YYYYMMDD").format("YYYY-MM-DD");
                 this.user.birth = formattedDate;
             },
+        	//비밀번호 정규식 유효성 검사
+            validatePassword: function (event, field) {
+                var self = this;
+                var regex =  /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
+                self.validateInput(event, field, regex, "비밀번호는 최소 8글자, 최대 16글자이고 하나 이상의 숫자, 영문자 및 특수문자를 각각 포함해야 합니다!");
+            },
+            //비밀번호 확인 정규식 유효성 검사
+            validatePassword2: function (event, field) {
+                var self = this;
+                var regex =  /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
+                self.validateInput2(event, field, regex, "비밀번호는 최소 8글자, 최대 16글자이고 하나 이상의 숫자, 영문자 및 특수문자를 각각 포함해야 합니다!");
+            },
+            // 비밀번호 입력 필드 정규식 유효성 검사
             validateInput: function (event, field, validationRegex, errorMessage) {
-                this.user[field] = event.target.value.replace(/[^0-9]/g, '');
-
-                if (!validationRegex.test(this.user[field])) {
-                    this.checkPasswordMatch = false;
-                    this.passwordErrorMessage = errorMessage;
-                } else {
-                    this.checkPasswordMatch = true;
-                    this.passwordErrorMessage = "";
+                var self = this;
+                var inputValue = event.target.value;
+                console.log("validateInput 메소드 호출"); // 디버깅 문
+                if (validationRegex.test(inputValue)) {
+                    console.log("유효성 검사 성공:", inputValue); // 디버깅 문
+                    self.checkPasswordMatch = true;
+                    self.passwordErrorMessage = "";
+                } 
+                else {
+                    console.error("유효성 검사 실패:", inputValue); // 디버깅 문
+                    self.checkPasswordMatch = false;
+                    self.passwordErrorMessage = errorMessage;
                 }
             },
-            validatePassword: function (event, field) {
-                var regex = /^[a-zA-Z0-9!@#$%^&*()-_+=]+$/;
-                this.validateInput(event, field, regex, "비밀번호는 최소 8글자, 최대 16글자이고 하나 이상의 숫자, 영문자 및 특수문자를 각각 포함되어야 합니다!");
+            //비밀번호 확인 입력 필드 정규식 유효성 검사
+            validateInput2: function (event, field, validationRegex, errorMessage) {
+                var self = this;
+                var inputValue = event.target.value;
+                console.log("validateInput 메소드 호출"); // 디버깅 문
+                if (validationRegex.test(inputValue)) {
+                    console.log("유효성 검사 성공:", inputValue); // 디버깅 문
+                    self.checkPassword2Match = true;
+                    self.passwordConfirmErrorMessage = "";
+                }
+                else {
+                    console.error("유효성 검사 실패:", inputValue); // 디버깅 문
+                    self.checkPassword2Match = false;
+                    self.passwordConfirmErrorMessage = errorMessage;
+                }
             },
+            //정보수정하기
             fnmodify: function () {
                 var self = this;
                 if ((!self.user.userPw || !self.user.userPw.trim()) && (!self.user.userPw2 || !self.user.userPw2.trim())) {
@@ -170,11 +204,10 @@
                     alert("이메일을 입력해 주세요");
                     return;
                 }
-                if (self.user.birth) {
+                if (self.user.birth == "") {
                     alert("생년월일을 입력해 주세요");
                     return;
                 }
-
                 var nparmap = self.user;
                 $.ajax({
                     url: "user-modify.dox",

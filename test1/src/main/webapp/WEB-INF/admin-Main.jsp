@@ -49,7 +49,7 @@ var app = new Vue({
     		location.href="productAdd.do";
     	},
     	fnProdutList: function(){
-    		location.href="productList.do"
+    		location.href="AdminProductList.do"
     	}
     	
     	

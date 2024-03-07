@@ -47,6 +47,10 @@ var app = new Vue({
     , methods: {
     	fnLogin: function() {
             var self = this;
+            if(self.userId == "") {
+            	alert("");
+            	return;
+            }
             var nparmap = {
             		userId: self.userId,
             		userPw: self.userPw
@@ -57,7 +61,12 @@ var app = new Vue({
                 type: "POST",
                 data: nparmap,
                 success: function(data) {
-                	
+                	if(data.result == "success") {
+                		self.resultMessage = "";
+                		$.pageChange("/main.do", {});
+                	} else if(data.result == "fail") {
+                		self.resultMessage = "로그인 실패!";
+                	}
                 }
             });
         },
