@@ -12,7 +12,6 @@
 </style>
 <body>
 	<div id="app">
-	
 	<div>
 		<button @click="fnProductAdd">상품등록</button>
 	</div><div>
@@ -51,12 +50,9 @@ var app = new Vue({
     	fnProdutList: function(){
     		location.href="AdminProductList.do"
     	}
-    	
-    	
     }
     , created: function() {
     	var self = this;
-			
 	}
 });
 </script>

@@ -33,6 +33,7 @@
 				<button @click="fnLogin">로그인</button>
 				<button @click="fnJoin">회원가입</button>
 			</div>
+			<div style="color: red;">{{resultMessage}}</div>
 		</fieldset>
 	</div>
 </body>
@@ -42,7 +43,8 @@ var app = new Vue({
     el: '#app',
     data: {
     	userId: "",
-    	userPw: ""
+    	userPw: "",
+    	resultMessage: ""
     }
     , methods: {
     	fnLogin: function() {

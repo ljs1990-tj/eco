@@ -122,8 +122,15 @@
                 <li>
                     <div class="join-divide">이용약관 동의<span class="required-star">*</span></div>
                     <div><label for="check_all"><input type="checkbox" id="check_all" v-model="allChecked" @change="checkAll">전체 동의합니다.</label></div>
+                    <div class="join-divide">　</div>
                     <div style="padding-left: 125px; font-size: 10px;">선택항목에 동의하지 않더라도 회원가입은 가능합니다.</div>
 			        <div v-for="(item, index) in agreementItems" :key="index">
+			          <label :for="'check' + (index)">
+			            <input type="checkbox" :id="'check' + (index)" v-model="checkedItems" :value="item.id" @change="updateAllChecked">
+			            {{item.label}}
+			          </label>
+			        </div>
+			        <div>
 		          	<div class="join-divide" style="color: white;">·</div>
 			          <label :for="'check' + (index + 1)">
 			            <input type="checkbox" :id="'check' + (index + 1)" v-model="checkedItems" :value="item.id" @change="updateAllChecked">{{item.label}}
@@ -183,7 +190,7 @@ var app = new Vue({
         	{ id: 1, label: '이용약관 동의 (필수)' },
         	{ id: 2, label: '개인정보 수집·이용 동의 (필수)' },
         	{ id: 3, label: '본인은 만 14세 이상입니다. (필수)' },
-        ],
+        ],s
         addrDetail1: "",
         addrDetail2: "",
     }

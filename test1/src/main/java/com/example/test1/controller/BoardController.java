@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class BoardController {
-	
-	@RequestMapping("/customerService.do") 
-	public String productOrganic(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+
+	@RequestMapping("/customerService.do")
+	public String productOrganic(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
+			throws Exception {
 		request.setAttribute("map", map);
 		return "/customer-service";
 	}
