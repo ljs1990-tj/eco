@@ -53,26 +53,31 @@ button:hover {
 }
 
 li {
+	display: inline-block;
 	margin-left: 10px;
-	list-style: none;
 }
 
 ul {
-	display: inline-block; /* 일자정렬 */
-	padding: 3px;
+	padding: 5px 10px;
 	cursor: pointer;
+	background-color: #4CAF50;
+	color: white;
+	border-radius: 4px;
+	display: inline-block;
+	margin-right: 10px;
+	font-size: 16px;
 }
 
 ul:hover {
-	background-color: black;
-	color: white;
+	background-color: #45a049;
 }
 </style>
 </head>
 <body>
 	<div id="app">
 		<li>
-			<ul v-for="item in boardList" :class="[kind==item.code ? 'select-tab' : 'tab']"
+			<ul v-for="item in boardList"
+				:class="[kind==item.code ? 'select-tab' : 'tab']"
 				@click="fnGetList(item.code)">{{item.name}}
 			</ul>
 		</li>
@@ -88,7 +93,8 @@ ul:hover {
 			</tr>
 			<tr v-for="item in list">
 				<td>{{ item.boardNo }}</td>
-				<td><a href="javascript:;" @click="fnView(item.boardNo)" v-html="item.title"></a></td>
+				<td><a href="javascript:;" @click="fnView(item.boardNo)"
+					v-html="item.title"></a></td>
 				<td>{{ item.userId }}</td>
 				<td>{{ item.hits }}</td>
 				<td>{{ item.cDateTime }}</td>

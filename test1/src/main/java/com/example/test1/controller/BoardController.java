@@ -38,12 +38,12 @@ public class BoardController {
 	@Autowired
 	CodeService codeService;
 
-	@RequestMapping("/boardList.do") //목록
+	@RequestMapping("/boardList.do") //목록보기
 	public String boardList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
-		map.put("kind", "board");//key : value 값
+		map.put("kind", "board");
 		List<Code> codeList = codeService.searchCodeList(map);
 		
-		request.setAttribute("boardList", new Gson().toJson(codeList));//받아온 값 넘길때 작성
+		request.setAttribute("boardList", new Gson().toJson(codeList));
 		return "/board-list";
 	}
 
