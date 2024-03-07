@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.test1.mapper.CartMapper">
+    <insert id="addCartProduct">
+        replace into ECO_CART(ITEM_NO, USER_ID, CNT) 
+        values (#{ITEM_NO}, #{USER_ID}, #{CNT})
+    </insert>
+
+    <!-- Duplicate check select -->
+    <select id="checkPK" resultType="com.example.test1.model.Cart">
+        select USER_ID, ITEM_NO from ECO_CART where USER_ID = #{USER_ID} and ITEM_NO = #{ITEM_NO} 
+    </select>
+
+    <select id="getList" resultType="com.example.test1.model.Cart">
+         <![CDATA[
+	    set @rownum := 0;
+	    select distinct p.ITEM_NO, p.ITEM_NAME, p.PRICE, ca.USER_ID, ca.CNT, pi.FILE_PATH
+	    from (select @rownum:=@rownum+1 as rownum, p.ITEM_NO, p.ITEM_NAME, p.PRICE, c.USER_ID, ca.CNT, pi.FILE_PATH
+          from ECO_USER as c
+          join ECO_CART as ca on c.USER_ID = ca.USER_ID
+          inner join ECO_PRODUCT as p on ca.ITEM_NO = p.ITEM_NO
+          left join ECO_PRODUCT_IMAGE as pi on p.ITEM_NO = pi.ITEM_NO, (SELECT @rownum := 0) Temp
+          where c.USER_ID = #{USER_ID} and @rownum < #{cri.pageNum} * #{cri.amount}
+         ) a 
+    where a.rownum > (#{cri.pageNum}-1) * #{cri.amount};
+    ]]>
+    </select>
+
+    <select id="getCartCount" resultType="int"> 
+        select count(*) from ECO_CART where USER_ID = #{USER_ID}
+    </select>
+
+    <update id="updateCart" parameterType="com.example.test1.model.Cart"> 
+        update ECO_CART set CNT=#{CNT} where USER_ID=#{USER_ID} and ITEM_NO=#{ITEM_NO};
+    </update>
+
+    <delete id="deleteCart" parameterType="HashMap"> 
+        DELETE FROM ECO_CART WHERE USER_ID=#{USER_ID} and ITEM_NO in
+        <foreach collection="itemNos" item="ITEM_NO" open="(" separator="," close=")"> 
+            #{ITEM_NO}
+        </foreach>;
+    </delete>
+    
+    <!-- Calculating total price for selected items in the cart for a given user -->
+	<select id="getTotalPrice" resultType = "int" parameterType="java.util.List">
+	    select sum(ca.CNT * p.PRICE) from ECO_CART ca
+	    join ECO_PRODUCT p on ca.ITEM_NO = p.ITEM_NO
+	    where ca.USER_ID = #{USER_ID}
+	    and ca.ITEM_NO in
+	    <foreach collection="list" item="ITEM_NO" index="index" open="(" separator="," close=")">
+	        #{ITEM_NO}
+	    </foreach>
+	</select>
+	
+	<!-- Fetching order information for selected items in the cart for a given user -->
+	<select id="getOrderInfo" resultType = "com.example.test1.model.Cart" parameterType="java.util.List">
+	    select ca.ITEM_NO, ca.CNT, p.PRICE, p.ITEM_NAME, pi.FILE_PATH
+	    from ECO_CART ca
+	    join ECO_PRODUCT p on ca.ITEM_NO = p.ITEM_NO
+	    left join ECO_PRODUCT_IMAGE pi on p.ITEM_NO = pi.ITEM_NO
+	    where ca.USER_ID = #{USER_ID}
+	    and ca.ITEM_NO in
+	    <foreach collection="list" item="ITEM_NO" index="index" open="(" separator="," close=")">
+	        #{ITEM_NO}
+	    </foreach>
+	</select>
+
+</mapper>
