@@ -196,7 +196,7 @@
                     alert("별명을 입력해 주세요");
                     return;
                 }
-                if (self.user.phone1 || self.user.phone2 || self.user.phone3 == "") {
+                if (self.user.phone1 == "" || self.user.phone2 == "" || self.user.phone3 == "") {
                     alert("핸드폰 번호를 입력해 주세요");
                     return;
                 }
