@@ -27,12 +27,23 @@
                         </div>
                     </li>
                     <li>
+<<<<<<< HEAD
                         <span>비밀번호 확인: </span>
+=======
+                        <span>비밀번호 확인 : </span>
+                        <input type="password" v-model="user.userPw2" maxlength="16" @input="validatePassword2($event, 'userPw2')">
+                        <button  @click="fnPwdCheck">비밀번호 확인</button>
+
+>>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
                         <input type="password" v-model="user.userPw2" maxlength="16" @input="validatePassword2($event, 'userPw2')" >
+
                         <div>
                             <span v-if="!checkPassword2Match" style="color: red;">{{ passwordConfirmErrorMessage }}</span>
                         </div>
                     </li>
+                    <div>
+                		<span v-if="!checkPassword"style="color: red;">비밀번호랑 비밀번호 확인이 다릅니다.</span>
+                    </div>
                     <li>
                         <span>이름: </span>
                         <input type="text" v-model="user.name" maxlength="30">
@@ -67,7 +78,7 @@
                     </li>
                 </ul>
                 <div>
-                    <button @click="fnmodify()">수정하기</button>
+                    <button @click="fnmodify()" @keydown.enter="fnmodify()">수정하기</button>
                 </div>
             </fieldset>
         </div>
@@ -93,6 +104,7 @@
                 email: "",
                 birth: ""
             },
+            checkPassword : true,
             checkPasswordMatch: true,
             checkPassword2Match: true,
             passwordErrorMessage: "",
@@ -169,6 +181,54 @@
                     self.passwordConfirmErrorMessage = errorMessage;
                 }
             },
+            //비밀번호 확인 정규식 유효성 검사
+            validatePassword2: function (event, field) {
+                var self = this;
+                var regex =  /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
+                self.validateInput2(event, field, regex, "비밀번호는 최소 8글자, 최대 16글자이고 하나 이상의 숫자, 영문자 및 특수문자를 각각 포함해야 합니다!");
+            },
+         // 비밀번호 입력 필드 정규식 유효성 검사
+            validateInput: function (event, field, validationRegex, errorMessage) {
+                var self = this;
+                var inputValue = event.target.value;
+                    if (validationRegex.test(inputValue)) {
+                        console.log("유효성 검사 성공:", inputValue);
+                        self.checkPasswordMatch = true;
+                        self.passwordErrorMessage = "";
+                    } else {
+                        console.error("유효성 검사 실패:", inputValue);
+                        self.checkPasswordMatch = false;
+                        self.passwordErrorMessage = errorMessage;
+                    }
+            },
+            // 비밀번호 확인 입력 필드 정규식 유효성 검사
+           validateInput2: function (event, field, validationRegex, errorMessage) {
+			    var self = this;
+			    var inputValue = event.target.value;
+			    // 나머지는 유효성 검사
+			    if (validationRegex.test(inputValue)) {
+			        console.log("유효성 검사 성공:", inputValue);
+			        self.checkPassword2Match = true;
+			        self.passwordConfirmErrorMessage = "";
+			    } else {
+			        console.error("유효성 검사 실패:", inputValue);
+			        self.checkPassword2Match = false;
+			        self.passwordConfirmErrorMessage = errorMessage;
+			    }
+			},
+			fnPwdCheck : function(){
+			    if (self.user.userPw !== self.user.userPw2) {
+		            self.checkPassword2Match = true;
+		            self.checkPasswordMatch = true;
+		            self.checkPassword = false;
+		            alert("비밀번호랑 비밀번호확인이 다릅니다.");
+		        }else if(self.user.userPw == "" || self.user.userPw2 == ""){
+		        	alert("비밀번호랑 비밀번호확인을 입력해 주세요");
+		        } 
+			    else {
+		            self.checkPassword = true;
+		        }
+			},
             //정보수정하기
             fnmodify: function () {
                 var self = this;
@@ -196,7 +256,7 @@
                     alert("별명을 입력해 주세요");
                     return;
                 }
-                if (self.user.phone1 || self.user.phone2 || self.user.phone3 == "") {
+                if (self.user.phone1 == "" || self.user.phone2 == "" || self.user.phone3 == "") {
                     alert("핸드폰 번호를 입력해 주세요");
                     return;
                 }

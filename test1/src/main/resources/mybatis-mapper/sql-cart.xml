@@ -13,7 +13,7 @@
         select USER_ID, ITEM_NO from ECO_CART where USER_ID = #{USER_ID} and ITEM_NO = #{ITEM_NO} 
     </select>
 
-    <select id="getList" resultType="com.example.test1.model.Cart">
+    <select id="selectProductList" resultType="com.example.test1.model.Cart">
          <![CDATA[
 	    set @rownum := 0;
 	    select distinct p.ITEM_NO, p.ITEM_NAME, p.PRICE, ca.USER_ID, ca.CNT, pi.FILE_PATH

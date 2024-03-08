@@ -21,11 +21,8 @@
 				<option value="local">로컬푸드</option>
 				<option value="org">유기농</option>
 				<option value="vegan">비건</option>
-				
 			</select>
-			
 		</div>
-	
 		<div>
 			상품명 : <input type="text" v-model="name">
 		</div>
@@ -38,12 +35,32 @@
 		<div>
 			적립율 : <input type="text" v-model="Prate">
 		</div>
+		
+		<div>
+		현재 리스트 썸네일 이미지 : 
+		<template v-for="item in mainFile">
+		<img :src="item.filePath+item.fileName" alt="썸네일">
+		<button @click="fnFileDelete(item.fileNo)">◀X</button>
+		</template>
+		
+		</div>
 		<tr>
-				<td width="30%">메인이미지 : </td>
+				<td width="30%">리스트 썸네일 이미지 : </td>
 				<td width="70%"><input type="file" id="file1" name="file1" accept=".jpg,.png,.gif"></td>
 			</tr>
 		<div>
+		<div>
+		현재 컨텐츠 썸네일 이미지 : 
+		<template v-for="item in contentsFile">
+		<img :src="item.filePath+item.fileName">
+		</template>
 		
+		</div>
+		<tr>
+			<td width="30%">컨텐츠 썸네일에 들어갈 이미지 : </td>
+			<td width="70%"><input type="file" id="file2" name="file2" accept=".jpg,.png,.gif"></td>
+		</tr>
+		</div>
 		<div>
 			
 			내용 : <vue-editor v-model="contents"></vue-editor>
@@ -64,12 +81,12 @@
 				<option value="Y">재고있음</option>
 				<option value="N">재고없음</option>	
 			</select>
-		</div><div>
+		</div>
+		<div>
 			재고 갯수 : <input type="text" v-model="cnt">
 		</div>
 	
 	<button @click="ProductUpdate()">등록하기</button>
-	{{itemNo}}
 	</div>
 </body>
 </html>
@@ -88,7 +105,9 @@ var app = new Vue({
     	contents:"",
     	trans:"",
     	sellYN:"",
-    	cnt:""
+    	cnt:"",
+    	mainFile : [],
+    	contentsFile : []
     	
     	
     }
@@ -116,10 +135,23 @@ var app = new Vue({
                 		self.trans = data.item.transInfo;
                 		self.sellYN = data.item.sellYn;
                 		self.cnt = data.item.cnt;
+                		var mainCnt = 0;
+                		var contentsCnt = 0;
+                		for(var i=0 ; i<data.filelist.length;i++){
+                			if(data.filelist[i].kind == "1"){
+                				self.mainFile[mainCnt] = data.filelist[i];
+                				mainCnt++;
+                			}if(data.filelist[i].kind =="2"){
+                				self.contentsFile[contentsCnt] = data.filelist[i];
+                				contentsCnt++;
+                			}
+                		}console.log(self.mainFile);
+                		console.log(self.contentsFile);
+                		
+                	
+                		
 
                 		
-                	}else{
-                		alert("등록실패");
                 	}
                 	
                 }
@@ -148,10 +180,9 @@ var app = new Vue({
                     	if(data.result=="success"){
                     		
                     		alert("등록완료");
-                    		var form = new FormData();
-                            form.append( "file1",  $("#file1")[0].files[0]);
-                            form.append("itemNo", self.itemNo);
-                            self.uploadMain(form);
+                    		
+                    		/* 이 부분에 이미지를 수정하는 작업을 해줄것임 */
+                            
                             location.href="AdminProductList.do";
                             
                     	}else{
@@ -174,7 +205,43 @@ var app = new Vue({
 	        	   
 	           }	           
 	       });
-		}
+		},
+		
+		
+		uploadContents : function(form){
+	    	var self = this;
+	         $.ajax({
+	             url : "/fileUploadContents.dox"
+	           , type : "POST"
+	           , processData : false
+	           , contentType : false
+	           , data : form
+	           , success:function(response) { 
+	        	   
+	           }	           
+	       });
+		},
+		fnFileDelete : function(fileNo){
+            var self = this;
+            var nparmap = {
+            		
+            		fileNo : fileNo	
+            };
+            $.ajax({
+                url:"fileDelete.dox",
+                dataType:"json",
+                type: "POST",
+                data: nparmap,
+                success: function(data) {
+                	if(data.result=="success"){
+                		alert("삭제완료");
+                		self.fnView();
+                        
+                	}
+                	
+                }
+            });
+    } 
     }
     , created: function() {
     	var self = this;
