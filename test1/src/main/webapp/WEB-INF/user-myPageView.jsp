@@ -27,14 +27,11 @@
                         </div>
                     </li>
                     <li>
-<<<<<<< HEAD
-                        <span>비밀번호 확인: </span>
-=======
                         <span>비밀번호 확인 : </span>
                         <input type="password" v-model="user.userPw2" maxlength="16" @input="validatePassword2($event, 'userPw2')">
                         <button  @click="fnPwdCheck">비밀번호 확인</button>
 
->>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
+
                         <input type="password" v-model="user.userPw2" maxlength="16" @input="validatePassword2($event, 'userPw2')" >
 
                         <div>
