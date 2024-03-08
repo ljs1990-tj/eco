@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <script src="js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <title>마이 페이지</title>
 
 </head>
@@ -155,14 +156,32 @@ ul, li {
 					<div style="width: 500px; border: 1px solid black;">
 						<div class="section-box2">
 							<div
-								style="width: 400px; height: 230px; overflow-y: scroll; border: 1px solid black;">
+								style="width: 400px; height: 230px; border: 1px solid black; overflow-y: scroll;">
+								<div v-for="address in addrList" >
+									<fieldset>
+										<legend>주소 정보</legend>
+										<ul>
+											<input type="radio" v-model="radio" :value="address.addrNo">
+											<span>주소:</span>{{address.addr }}
+											</li>
+											<li><span>주소 번호:</span> {{ address.addrNo }}</li>
+											<li><span>상세 주소:</span> {{ address.addrDetail }}</li>
+											<li><span>우편번호:</span> {{ address.zipCode }}</li>
+											<li><span>수령인 이름:</span> {{ address.name }}</li>
+											<li><span>전화번호:</span> {{ address.phone }}</li>
+											<li><span>주소 이름:</span> {{ address.addrName }}</li>
+										</ul>
+									</fieldset>
+								</div>
 							</div>
 						</div>
 						<div class="button-container" style="padding-top: 20px">
-							<button @click="">기본주소추가</button>
-							<button @click="">기본주소확정</button>
-							<button @click="">기본주소수정</button>
-							<button @click="">기본주소삭제</button>
+							<!-- 기본주소추가 버튼 클릭 이벤트 -->
+							<button @click="addDefaultAddress()">주소추가</button>
+							<!-- 기본주소수정 버튼 클릭 이벤트 -->
+							<button @click="updateSelectedAddresses()">주소수정</button>
+							<!-- 기본주소삭제 버튼 클릭 이벤트 -->
+							<button @click="deleteSelectedAddresses">주소삭제</button>
 						</div>
 					</div>
 					<!-- 세번째 -->
@@ -217,8 +236,9 @@ ul, li {
 				userGrade : "",
 				point : ""
 			},
-			isPopupOpen : false
-
+			addrList : [],
+			isPopupOpen : false,
+			radio : ""
 		},
 		methods : {
 			/* 등급혜택 창 열기 */
@@ -230,6 +250,44 @@ ul, li {
 			closePopup : function() {
 				var self = this;
 				self.isPopupOpen = false;
+			},
+			/* 주소 목록 삭제하기 */
+				deleteSelectedAddresses: function() {
+			    var self = this;
+			    // 여기서는 배열로 서버에 전달
+			    $.ajax({
+			        url: "delete-addresses.dox",
+			        dataType: "json",
+			        type: "POST",
+			        data: {
+			        	 addrNo: self.radio
+			        },
+			        success: function(data) {
+			            console.log("주소 삭제 응답:", data);
+			            // 서버 응답 후 데이터 갱신 및 화면 업데이트
+			            location.reload(true);
+			        },
+			        error: function(error) {
+			            console.error("주소 삭제 실패:", error);
+			            // 실패할 경우에 대한 처리를 수행
+			        }
+			    });
+			},
+			/* 주소목록 추가하기 */
+			addDefaultAddress : function() {
+
+			},
+			//주소값 수정하기
+			updateSelectedAddresses : function() {
+				var self = this;
+				// 선택된 주소 정보에 대한 처리를 수행
+				for (var i = 0; i < self.addrList.length; i++) {
+					var address = self.addrList[i];
+					if (address.selected) {
+						console.log("주소 수정 - addrNo:", address.addrNo);
+						// 여기에 수정 로직을 추가
+					}
+				}
 			},
 			/* 개인정보 가져오기 */
 			information : function() {
@@ -252,6 +310,30 @@ ul, li {
 					}
 				});
 			},
+			/* 주소록 가져오기 */
+			getAddress : function() {
+				var self = this;
+				// 세션 값이 없을 경우 로그인 페이지로 이동
+				if (!self.user.userId) {
+					alert("로그인 후 입장 가능합니다.");
+					window.location.href = "/user-login.do";
+					return;
+				}
+				var nparmap = {
+					userId : self.user.userId
+				};
+
+				$.ajax({
+					url : "user-addr.dox",
+					dataType : "json",
+					type : "POST",
+					data : nparmap,
+					success : function(data) {
+						console.log(data);
+						self.addrList = data.addr;
+					}
+				});
+			},
 			/* 개인정보 수정 페이지 이동 */
 			fnUsermodify : function() {
 				var self = this;
@@ -269,6 +351,7 @@ ul, li {
 		created : function() {
 			var self = this;
 			self.information();
+			self.getAddress();
 		}
 	});
 </script>

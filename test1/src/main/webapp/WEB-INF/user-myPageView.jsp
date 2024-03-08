@@ -95,7 +95,11 @@
                 phone2: "",
                 phone3: "",
                 email: "",
-                birth: ""
+                birth: "",
+                zipCode: "",
+            	addr: "",
+            	addrDetail: "",
+            	addrName: "집",
             },
             checkPassword : true,
             checkPasswordMatch: true,

@@ -110,4 +110,23 @@ public class UserController {
 		return new Gson().toJson(resultMap);
 	}
 
+	// 유저 주소록 삭제하기
+	@RequestMapping(value = "/delete-addresses.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String deleteaddresses(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = userService.AddrDelete(map);
+		return new Gson().toJson(resultMap);
+	}
+
+	// 유저 주소록 가져오기
+	@RequestMapping(value = "/user-addr.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String useraddr(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = userService.getAddr(map);
+		System.out.println(resultMap);
+		return new Gson().toJson(resultMap);
+	}
+
 }
