@@ -11,7 +11,11 @@
 <style>
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.3/vue.min.js"></script>
-	<script src="https://unpkg.com/vue2-editor@2.3.11/dist/index.js"></script>
+	
+<!-- Quill CDN -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    
 <body>
 	<div id="app">
 		<div>
@@ -50,7 +54,7 @@
 		</div>
 		<div>
 			
-			내용 : <vue-editor v-model="contents"></vue-editor>
+			내용 :  <div id="editor" style="height: 300px;"></div>
 			
 		</div>
 		
@@ -79,8 +83,6 @@
 </body>
 </html>
 <script type="text/javascript">
-Vue.use(Vue2Editor);
-const VueEditor = Vue2Editor.VueEditor;
 var app = new Vue({
     el: '#app',
     data: {
@@ -96,7 +98,6 @@ var app = new Vue({
     	
     	
     }
-	, components: {VueEditor}
     , methods: {
     	fnAdd: function() {
             var self = this;
@@ -168,8 +169,29 @@ var app = new Vue({
            }	           
        });
 	}
+	  
 	
 	
+    },
+    mounted: function () {
+        // Quill 에디터 초기화
+        var quill = new Quill('#editor', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                    ['bold', 'italic', 'underline'],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    ['link', 'image'],
+                    ['clean']
+                ]
+            }
+        });
+
+        // 에디터 내용이 변경될 때마다 Vue 데이터를 업데이트
+        quill.on('text-change', function() {
+            app.contents = quill.root.innerHTML;
+        });
     }
     , created: function() {
     	var self = this;

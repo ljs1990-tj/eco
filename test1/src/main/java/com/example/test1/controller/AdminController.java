@@ -76,6 +76,13 @@ public class AdminController {
 		return "/KakaoPay";
 	}
 	
+	@RequestMapping("/AdminUserList.do") 
+	public String AdminUserList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+		
+		
+		return "/admin-user-list";
+	}
+	
 	
 		
 		
@@ -248,6 +255,14 @@ public class AdminController {
 	public String ProductChart(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = adminService.searchProductChartList(map);
+		return new Gson().toJson(resultMap);
+	}
+	
+	@RequestMapping(value = "/AdminUserList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String AdminUserList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = adminService.searchUserList(map);
 		return new Gson().toJson(resultMap);
 	}
 	

@@ -84,15 +84,22 @@
 		WHERE FILENO = #{fileNo}
 	</delete>
 	
-	
-
-		<select id="selectProductChart" parameterType="hashmap" resultType="com.example.test1.model.Chart">
+	<select id="selectProductChart" parameterType="hashmap" resultType="com.example.test1.model.Chart">
 		SELECT P.CODE,P.ITEM_NAME,VALUE,MONTH,VALUE*(PRICE*(100-S_RATE)/100) AS TOTALPAY,PRICE
 		FROM ECO_PRODUCT P
 		INNER JOIN ECO_PRODUCT_CHART C ON P.ITEM_NO = C.ITEM_NO
 		GROUP BY P.CODE,MONTH
 		ORDER BY MONTH ASC;
-		</select>
+	</select>
+	
+	<select id="selectUserList" parameterType="hashmap" resultType="com.example.test1.model.User">
+		SELECT *
+		FROM ECO_USER
+		WHERE 1=1
+		<if test="keyword !=''">
+		AND USERID LIKE '%' #{keyword} '%'
+		</if>
+	</select>
 	
 	
 </mapper>
