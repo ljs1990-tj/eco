@@ -69,6 +69,14 @@ public class AdminController {
 			return "/admin-product-chart";
 	}
 		
+	@RequestMapping("/KakaoPay.do") 
+	public String kakaoPay(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+		request.setAttribute("map", map);
+		
+		return "/KakaoPay";
+	}
+	
+	
 		
 		
 	@RequestMapping(value = "/productAdd.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
