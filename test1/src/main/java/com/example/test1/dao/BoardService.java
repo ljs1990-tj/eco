@@ -23,7 +23,13 @@ public interface BoardService {
 	
 	HashMap<String, Object> searchCustomerInquiryList(HashMap<String, Object> map); //고객 문의 리스트
 	
-	HashMap<String, Object> addCustomerInquiry (HashMap<String, Object> map); //고객 문의 작성
+	HashMap<String, Object> addCustomerInquiry(HashMap<String, Object> map); //고객 문의 작성
+	
+	HashMap<String, Object> searchInquiryInfo(HashMap<String, Object> map); //등록한 문의 정보 확인 
+
+	HashMap<String, Object> removeInquiry(HashMap<String, Object> map); //등록한 문의 삭제
+	
+	HashMap<String, Object> editInquiry(HashMap<String, Object> map); //등록한 문의 수정
 	
 	
 }

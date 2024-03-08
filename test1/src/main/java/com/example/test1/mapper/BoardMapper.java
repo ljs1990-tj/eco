@@ -31,6 +31,12 @@ public interface BoardMapper {
 	List<Board> selectCustomerInquiryList(HashMap<String, Object> map); //고객 문의 리스트
 	
 	void insertCustomerInquiry (HashMap<String, Object> map); //고객 문의 작성
+	
+	Board selectInquiryInfo(HashMap<String, Object> map);//등록한 문의 보기
+	
+	void deleteInquiry(HashMap<String, Object> map); // 등록한 문의 삭제
+	
+	void updateInquiry(HashMap<String, Object> map); // 등록한 문의 수정
 }
 
 
