@@ -12,5 +12,6 @@ public class ProductFile {
 	private String fileSize;
 	private String fileEtc;
 	private String path;
+	private String kind;
 }
 

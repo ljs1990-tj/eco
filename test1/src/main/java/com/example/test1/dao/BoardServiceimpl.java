@@ -8,14 +8,16 @@ import org.springframework.stereotype.Service;
 
 import com.example.test1.mapper.BoardMapper;
 import com.example.test1.model.Board;
+
+import com.example.test1.model.Product;
 import com.example.test1.model.BoardImage;
 import com.example.test1.model.Comment;
 
 @Service
-public class BoardServiceimpl implements BoardService {
-
+public class BoardServiceimpl implements BoardService{
 	@Autowired
 	BoardMapper boardMapper;
+
 
 	@Override
 	public HashMap<String, Object> searchBoardList(HashMap<String, Object> map) {
@@ -126,4 +128,25 @@ public class BoardServiceimpl implements BoardService {
 	}
 
 
+	@Override
+	public HashMap<String, Object> searchCustomerInquiryList(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			List<Board> list = boardMapper.selectCustomerInquiryList(map);
+			
+			resultMap.put("list", list);
+			resultMap.put("reslut","success");
+		} catch (Exception e) {
+			// TODO: handle 
+			System.out.println(e.getMessage());
+			resultMap.put("reslut","fail");
+		}
+		return resultMap;
+	}
+
+	
+	
+	
+	
 }
