@@ -55,7 +55,7 @@
                 <li>
                     <div class="join-divide">이름<span class="required-star">*</span></div>
                     <span>
-                        <input type="text" class="join-input" v-model="user.name" maxlength="20">
+                        <input type="text" class="join-input" v-model="user.name" maxlength="30">
                     </span>
                 </li>
                 <li>
@@ -125,16 +125,10 @@
                     <div class="join-divide">　</div>
                     <div style="padding-left: 125px; font-size: 10px;">선택항목에 동의하지 않더라도 회원가입은 가능합니다.</div>
 			        <div v-for="(item, index) in agreementItems" :key="index">
-			          <label :for="'check' + (index)">
-			            <input type="checkbox" :id="'check' + (index)" v-model="checkedItems" :value="item.id" @change="updateAllChecked">
-			            {{item.label}}
-			          </label>
-			        </div>
-			        <div>
-		          	<div class="join-divide" style="color: white;">·</div>
-			          <label :for="'check' + (index + 1)">
-			            <input type="checkbox" :id="'check' + (index + 1)" v-model="checkedItems" :value="item.id" @change="updateAllChecked">{{item.label}}
-			          </label>
+			          	<div class="join-divide" style="color: white;">·</div>
+						<label :for="'check' + (index + 1)">
+			            	<input type="checkbox" :id="'check' + (index + 1)" v-model="checkedItems" :value="item.id" @change="updateAllChecked">{{item.label}}
+						</label>
 			        </div>
 			        <div>
 			        <div class="join-divide" style="color: white;">·</div>
@@ -190,7 +184,7 @@ var app = new Vue({
         	{ id: 1, label: '이용약관 동의 (필수)' },
         	{ id: 2, label: '개인정보 수집·이용 동의 (필수)' },
         	{ id: 3, label: '본인은 만 14세 이상입니다. (필수)' },
-        ],s
+        ],
         addrDetail1: "",
         addrDetail2: "",
     }
@@ -266,7 +260,6 @@ var app = new Vue({
         },
         fnIdCheck: function(){
         	var self = this;
-        	//var regId = /^[a-zA-Z0-9]*$/;
         	var regId = /^[a-z0-9_]{5,20}$/;
         	if(regId.test(self.user.userId)) {
         		self.idCheckFlg2 = true;
@@ -325,6 +318,10 @@ var app = new Vue({
 				var dtYear = dtArray[1];
 	            var dtMonth = dtArray[2];
 	            var dtDay = dtArray[3];
+	            
+	            var vDateObj = new Date(vDate.substr(0, 4), vDate.substr(4, 2) - 1, vDate.substr(6, 2)); // 8자리로 입력한 날짜 문자열을 날짜 객체로 전환
+	            var currentDate = new Date();
+	            var limitAge = new Date(currentDate.getFullYear() - 14, currentDate.getMonth(), currentDate.getDate());
 	
 	            if (dtMonth < 1 || dtMonth > 12) {
 	            	self.birthCheckFlg = false;
@@ -336,11 +333,14 @@ var app = new Vue({
 	            	self.birthCheckFlg = false;
 	            	self.alertMessage = "알맞지 않은 날짜를 입력하셨습니다. 다시 한번 확인해 주세요!";
 	            } else if (dtMonth == 2) {
-	                var isleap = (dtYear % 4 == 0 && (dtYear % 100 != 0 || dtYear % 400 == 0));
-	                if (dtDay > 29 || (dtDay == 29 && !isleap)) {
+	                var isLeap = (dtYear % 4 == 0 && (dtYear % 100 != 0 || dtYear % 400 == 0));
+	                if (dtDay > 29 || (dtDay == 29 && !isLeap)) {
 	                	self.birthCheckFlg = false;
 	                	self.alertMessage = "알맞지 않은 날짜를 입력하셨습니다. 다시 한번 확인해 주세요!";
 	                }
+	            } else if(vDateObj > limitAge) {
+	            	self.birthCheckFlg = false;
+                	self.alertMessage = "만 14세 미만은 가입이 불가합니다!";
 	            } else {
 	            	self.birthCheckFlg = true;
 	            	self.alertMessage = "";
