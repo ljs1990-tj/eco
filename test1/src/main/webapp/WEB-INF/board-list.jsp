@@ -93,8 +93,7 @@ ul:hover {
 			</tr>
 			<tr v-for="item in list">
 				<td>{{ item.boardNo }}</td>
-				<td><a href="javascript:;" @click="fnView(item.boardNo)"
-					v-html="item.title"></a></td>
+				<td><a href="javascript:;" @click="fnView(item.boardNo, kind)" v-html="item.title"></a></td>
 				<td>{{ item.userId }}</td>
 				<td>{{ item.hits }}</td>
 				<td>{{ item.cDateTime }}</td>
@@ -114,7 +113,9 @@ ul:hover {
 			list: [],
 			userId : "${userId}",
 			kind : 1,
-			boardList : ${boardList}
+			boardList : ${boardList},
+	
+			
 		},
 		methods: {
 			fnGetList: function(kind) {
@@ -137,10 +138,23 @@ ul:hover {
 			},
 			fnWrite: function() {
 				var self = this;
-				$.pageChange("boardInsert.do", { kind : self.kind });
+				if(self.userId != ""){					
+					$.pageChange("boardInsert.do", { kind : self.kind });
+				} else {
+					alert("로그인 후 이용");
+					$.pageChange("/user-login.do", {});						
+				}
 			},
-			fnView: function(boardNo) {
-				$.pageChange("boardView.do", { boardNo : boardNo });
+			fnView: function(boardNo, kind) {
+				var self = this;
+				if(self.userId != ""){					
+					$.pageChange("/boardView.do", {
+						boardNo : boardNo, kind : kind						
+					});
+				} else {
+					alert("로그인 후 이용");
+					$.pageChange("/user-login.do", {});						
+				}
 			},
 			fnDelete : function() {
 				var self = this;
@@ -167,10 +181,10 @@ ul:hover {
 					}
 				});
 			},
+			
 		},
 		created: function() {
-			this.fnGetList(1);
-			
+			this.fnGetList(this.kind);
 		}
 	});
 </script>

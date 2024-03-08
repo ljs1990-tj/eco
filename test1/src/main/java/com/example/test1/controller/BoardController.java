@@ -49,6 +49,7 @@ public class BoardController {
 		List<Code> codeList = codeService.searchCodeList(map);
 		
 		request.setAttribute("boardList", new Gson().toJson(codeList));
+		request.setAttribute("map", map);
 		return "/board-list";
 	}
 
@@ -76,6 +77,7 @@ public class BoardController {
 	@RequestMapping("/boardEdit.do") //게시글 수정
 	public String editList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		request.setAttribute("map", map);
+		
 		return "/board-edit";
 	}
 	

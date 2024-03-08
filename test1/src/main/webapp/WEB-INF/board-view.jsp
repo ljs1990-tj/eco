@@ -76,6 +76,7 @@ button:hover {
 			<button @click="fnEdit">수정</button>
 			<button @click="fnDelete">삭제</button>
 			<button @click="fnList">목록으로 가기</button>
+			{{kind}}
 		</div>
 	</div>
 </body>
@@ -86,7 +87,8 @@ var app = new Vue({
     data: {
     	boardNo : "${map.boardNo}",
     	info : {},
-    	userId : "${userId}"
+    	userId : "${userId}",
+    	kind: "${map.kind}"
     	
     }   
     , methods: {
@@ -129,7 +131,8 @@ var app = new Vue({
 				});
 			},
 			fnList : function(){
-				location.href = "/boardList.do";
+				var self = this;
+				$.pageChange("/boardList.do", { kind : self.kind });
 			},
 			fnEdit : function(){
 				var self = this;

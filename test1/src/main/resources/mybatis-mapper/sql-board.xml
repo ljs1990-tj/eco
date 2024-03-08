@@ -7,6 +7,7 @@
 	
 	<select id="selectBoardList" parameterType="hashmap" resultType="com.example.test1.model.Board">
 		SELECT * FROM ECO_BOARD WHERE KIND =#{kind}
+		
 	</select>
 	
 
@@ -23,7 +24,7 @@
 
 	<insert id="writeBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="BOARDNO" keyColumn="BOARDNO">
 		INSERT INTO ECO_BOARD
-		VALUES(null, #{title}, #{contents}, #{userId}, 10, 'N', null, #{kind}, 0, NOW(), NOW(), 2500)
+		VALUES(null, #{title}, #{contents}, #{userId}, #{hits}, 'N', null, #{kind}, 0, NOW(), NOW(), 3000)
 	</insert>
 
 
@@ -37,6 +38,9 @@
 		WHERE BOARDNO = #{boardNo}
 	</update>
 
+	<update id="updateHit" parameterType="hashmap">
+		UPDATE ECO_BOARD SET HITS = HITS + 1 WHERE BOARDNO = #{boardNo}
+	</update>
 
 	<insert id="insertBoardImage" parameterType="hashmap">
 		INSERT INTO ECO_BOARD_IMAGE 

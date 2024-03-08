@@ -32,7 +32,8 @@ public class BoardServiceimpl implements BoardService {
 		return board;
 	
 	}
-
+	
+	
 	/*
 	 * @Override public HashMap<String, Object> searchBoardInfo(HashMap<String,
 	 * Object> map) { // TODO Auto-generated method stub HashMap<String, Object>
@@ -94,12 +95,14 @@ public class BoardServiceimpl implements BoardService {
 	public HashMap<String, Object> searchBoardInfo(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		//boardMapper.updateHit(map); // 조회수 증가
+
+		boardMapper.updateHit(map); // 조회수 증가
+		
 		try {
 			Board board = boardMapper.selectBoardInfo(map);// 게시글 상세 조회
-			//System.out.println("board에 뭐있나여 "+board);
 			resultMap.put("info", board);
 			resultMap.put("result", "success");
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
