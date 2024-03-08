@@ -39,7 +39,10 @@
 		<div>
 			<button>판매자관리</button>
 		</div>
-
+	
+	<div>
+		<button>카카오페이</button>
+	</div>
 
 	</div>
 </body>
