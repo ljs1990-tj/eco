@@ -69,14 +69,14 @@ button:hover {
 				<td v-html="info.contents">{{info.contents}}</td>
 			</tr>
 		</table>
-	<!-- <div v-if="info.userId == sessionId || sessionStatus == 'A'">
-			<button @click="fnRemove">삭제</button>
-		</div> -->
-		<div>
-			<button @click="fnEdit">수정</button>
+	<div v-if="info.userId == userId || userType == 'A'">
 			<button @click="fnDelete">삭제</button>
+			<button @click="fnEdit">수정</button>
+		</div> 
+		<div>
+			<!-- <button @click="fnDelete">삭제</button> -->
 			<button @click="fnList">목록으로 가기</button>
-			{{kind}}
+			
 		</div>
 	</div>
 </body>
@@ -88,8 +88,8 @@ var app = new Vue({
     	boardNo : "${map.boardNo}",
     	info : {},
     	userId : "${userId}",
-    	kind: "${map.kind}"
-    	
+    	kind: "${map.kind}",
+    	userType : "${userType}"
     }   
     , methods: {
     	fnView : function(){
@@ -136,7 +136,7 @@ var app = new Vue({
 			},
 			fnEdit : function(){
 				var self = this;
-				$.pageChange("/boardEdit.do", { boardNo : self.boardNo });
+				$.pageChange("/boardEdit.do", { boardNo : self.boardNo, kind : self.kind });
 			}
 
         },
