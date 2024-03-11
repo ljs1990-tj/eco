@@ -184,7 +184,8 @@
 				<div class="menu-item" :class="{ 'menu-item-selected': selectedMenuItem === 'history' }" @click="updateContent('history')">문의 내역 <span class="align-right">></span></div>
 				<div class="menu-item" :class="{ 'menu-item-selected': selectedMenuItem === 'inquiry' }" @click="updateContent('inquiry')">1:1 문의하기 <span class="align-right">></span></div>				
 	        </div>
-	        
+	        {{userId}}
+	        {{userType}}
 	        <div class="content-area">
 	            <div v-if="selectedMenu === 'faq'">
 	                <h2>자주하는 질문</h2>
@@ -223,11 +224,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in list">
-                                <td>{{item.title}}</td>
-                                <td>{{item.uDateTime}}</td>
-                                <td>답변 완료</td>
-                            </tr>
+					        <tr v-for="item in list" >
+					        <template v-if="item.userId == userId || userType == 'A' ">
+					            <td @click="fnView(item.boardNo)" >{{ item.title }}</td>
+					            <td>{{ item.uDateTime }}</td>
+					            <td>답변 대기</td>		        
+					        </template>
+					        </tr>
                         </tbody>
                     </table>
 	            </div>
@@ -237,17 +240,17 @@
                      <!-- 제목 입력란 -->
 					<div class="input-group">
 						<label for="title">제목 <span>*</span></label>
-						<input type="text" id="title" name="title" placeholder="제목을 입력해주세요" required>
+						<input v-model="title" type="text" id="title" name="title" placeholder="제목을 입력해주세요" required>
 					</div>
 
 					<!-- 내용 입력란 -->
 					<div class="input-group">
 						<label for="content">내용 <span>*</span></label>
-						<textarea id="content" name="content" rows="10" require>
+						<textarea v-model="contents" id="content" name="content" rows="10" require>
 						</textarea>
 					</div> 
 					<div class="button-container">
-						<button>문의하기</button>
+						<button @click="fnInsert">문의하기</button>
 					</div>
 	            </div>
 	            
@@ -262,6 +265,13 @@
 		el : '#app',
 		data : {
 			list: [],
+			userId : "${userId}",
+			userType : "${userType}",
+			kind : 3,
+			title : "${title}",
+			contents : "${contents}",
+			
+			
 			selectedMenu: 'faq',
 			selectedMenuItem: null, // 선택된 메뉴 아이템을 저장하기 위한 속성 추가	        
 			faqs : [ 
@@ -292,9 +302,36 @@
 					type : "POST",
 					data : nparmap,
 					success : function(data) {
+						console.log(data.list);
 						self.list = data.list;
 					}
 				});
+			},
+			fnInsert : function() {
+				var self = this;
+				var nparmap = {
+					userId : self.userId,
+					title : self.title,
+					contents : self.contents,
+					kind : self.kind
+				};
+				$.ajax({
+					url : "customerInquiry.dox",
+					dataType : "json",
+					type : "POST",
+					data : nparmap,
+					success : function(data) {
+						if(data.result == "success"){
+							alert("문의 내용이 등록됐습니다.");
+							$.pageChange("/customerService.do", {});
+						}else {
+							alert("다시 시도해주세요");
+						}
+					}
+				});
+			},
+			fnView : function(boardNo) {
+				$.pageChange("customerInquiryView.do", { boardNo : boardNo });
 			},
 			/* 선택한 메뉴에 따른 항목 업데이트 함수 */
 			updateContent : function(menu) {
@@ -310,6 +347,7 @@
 	                }
 	            });
 	        }
+		
 		},
 		created : function() {
 			var self = this;

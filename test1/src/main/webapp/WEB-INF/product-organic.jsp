@@ -6,6 +6,7 @@
 	<meta charset="UTF-8">
 	<script src="js/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<jsp:include page="/layout/header.jsp"></jsp:include>
 	<title>친환경 제품 페이지</title>
 </head>
 <style>
@@ -121,9 +122,10 @@
 			</div>
 		</div>
 	</div>
-	
 </body>
+
 </html>
+
 <script type="text/javascript">
 var app = new Vue({
     el: '#app',
