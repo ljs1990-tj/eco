@@ -675,7 +675,7 @@
     </section>
     <!-- Blog Section End -->
 
-    <!-- Footer Section Begin -->
+<!-- Footer Section Begin -->
     <footer class="footer spad">
         <div class="container">
             <div class="row">
@@ -685,29 +685,25 @@
                             <a href="./index.jsp"><img src="img/logo.png" alt=""></a>
                         </div>
                         <ul>
-                            <li>주소: 더조은</li>
-                            <li>연락처: 1111-0000</li>
-                            <li>이메일: thejoeun@naver.com</li>
+                            <li>고객행복센터</li>
+                            <li>1644-1107</li>
+                            <li>월-금요일 오전 10시 - 오후 10시</li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
                     <div class="footer__widget">
-                        <h6>사이트맵</h6>
+                        <h6>A소개   이용약관   개인정보처리방침  이용안내</h6>
                         <ul>
-                          <li><a href="#">회사 소개</a></li>
-                          <li><a href="#">저희에 대하여</a></li>
-                          <li><a href="#">안전한 쇼핑</a></li>
-                          <li><a href="#">배송 정보</a></li>
-                          <li><a href="#">개인 정보 정책</a></li>
-                          <li><a href="#">사이트맵</a></li>
+                          <li><a href="#">서비스</a></li>
+                          <li><a href="#">고객지원</a></li>
+                          <li><a href="#">사업자등록번호</a></li>
                       </ul>
                       <ul>
-                          <li><a href="#">우리에 대하여</a></li>
-                          <li><a href="#">우리의 서비스</a></li>
-                          <li><a href="#">프로젝트</a></li>
-                          <li><a href="#">연락처</a></li>
-                          <li><a href="#">고객 후기</a></li>
+                          <li><a href="#">입점문의</a></li>
+                          <li><a href="#">채용문의</a></li>
+                          <li><a href="#">회사정보</a></li>
+                          <li><a href="#">개인 정보 정책</a></li>
                       </ul>
                       
                     </div>
