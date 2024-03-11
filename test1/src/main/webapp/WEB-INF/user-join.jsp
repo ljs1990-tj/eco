@@ -190,7 +190,7 @@ var app = new Vue({
         	{ id: 1, label: '이용약관 동의 (필수)' },
         	{ id: 2, label: '개인정보 수집·이용 동의 (필수)' },
         	{ id: 3, label: '본인은 만 14세 이상입니다. (필수)' },
-        ],s
+        ],
         addrDetail1: "",
         addrDetail2: "",
     }

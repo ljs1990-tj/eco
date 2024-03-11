@@ -30,7 +30,7 @@ public class CertifyController {
 		return "/test";
 	}
 
-	// 유저 정보 수정하기
+	// 유저 정보 
 	@RequestMapping("/user-myPage.do")
 	public String userMyPage(Model model) throws Exception {
 
@@ -87,15 +87,7 @@ public class CertifyController {
 	public String userModify(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = userService.modifyUser(map);
-		return new Gson().toJson(resultMap);
-	}
-
-	// 유저 주소록 삭제하기
-	@RequestMapping(value = "/delete-addresses.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public String deleteaddresses(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap = userService.AddrDelete(map);
+		System.out.println(resultMap);
 		return new Gson().toJson(resultMap);
 	}
 
@@ -109,13 +101,33 @@ public class CertifyController {
 		return new Gson().toJson(resultMap);
 	}
 
+	// 유저 주소록 삭제하기
+	@RequestMapping(value = "/delete-addresses.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String deleteaddresses(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = userService.AddrDelete(map);
+		System.out.println(resultMap);
+		return new Gson().toJson(resultMap);
+	}
+
 	// 유저 주소록 추가하기
 	@RequestMapping(value = "/user-addr-add.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String useraddradd(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		// resultMap = userService.getAddr(map);
+		resultMap = userService.addAddr(map);
 		System.out.println(resultMap);
+		return new Gson().toJson(resultMap);
+	}
+
+	// 유저 주소록 수정하기
+	@RequestMapping(value = "/user-addr-update.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String useraddrupdate(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		// resultMap = userService.addAddr(map);
+		// System.out.println(resultMap);
 		return new Gson().toJson(resultMap);
 	}
 

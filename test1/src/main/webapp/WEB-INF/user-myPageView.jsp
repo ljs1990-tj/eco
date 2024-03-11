@@ -110,10 +110,6 @@
         methods: {
             information: function () {
                 var self = this;
-                if(self.user.userId == ""){
-            		alert("로그인 후 입장 가능합니다.");
-            		window.location.href = "/user-login.do";
-            	}
                 var nparmap = self.user;
                 $.ajax({
                     url: "user-mypage.dox",
@@ -286,6 +282,10 @@
                     alert("생년월일을 입력해 주세요");
                     return;
                 }
+                if(self.user.userId == ""){
+            		alert("로그인 후 입장 가능합니다.");
+            		window.location.href = "/user-login.do";
+            	}
                 var nparmap = self.user;
                 $.ajax({
                     url: "user-modify.dox",
@@ -293,19 +293,28 @@
                     type: "POST",
                     data: nparmap,
                     success: function (data) {
-                        console.log(self.user);
-                        alert("사용자 정보가 수정되었습니다.");
-                        location.href = "main.do";
-                    },
-                    error: function (error) {
-                        alert("사용자 정보 수정에 실패했습니다. 다시 시도하세요.");
+                    	console.log(self.user);
+                    	//성공시 부모창 새로고침후 팝업창 닫기
+    			    	if (data.result == "success") {
+    						alert("사용자 정보가 수정되었습니다.");
+                            location.href = "main.do";
+    						
+    					} else {
+    						alert("사용자 정보 수정에 실패했습니다. 다시 시도하세요.");
+    						return;
+    					}
                     }
                 });
             }
         },
         created: function () {
-            var self = this;       
+            var self = this;
+            if(self.user.userId == ""){
+        		alert("로그인 후 입장 가능합니다.");
+        		window.location.href = "/user-login.do";
+        	}
             self.information();
+            
         }
     });
 </script>

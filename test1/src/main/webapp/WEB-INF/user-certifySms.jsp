@@ -130,7 +130,8 @@ body {
 				if(self.inputNumber == ""){
 					alert("핸드폰 번호를 입력해주세요");
 					return;
-				}else if (self.inputNumber.length !== 11) {
+				} 
+				if (self.inputNumber.length !== 11) {
 			        alert("핸드폰번호 11자리여야 합니다.");
 			        return;
 			    }
@@ -224,7 +225,6 @@ body {
 		},
 		created : function() {
 			var self = this;
-
 		}
 	});
 </script>
