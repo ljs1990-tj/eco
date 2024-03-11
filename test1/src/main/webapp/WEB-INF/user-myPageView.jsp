@@ -27,8 +27,9 @@
                         </div>
                     </li>
                     <li>
-                        <span>비밀번호 확인: </span>
-                        <input type="password" v-model="user.userPw2" maxlength="16" @input="validatePassword2($event, 'userPw2')" >
+                        <span>비밀번호 확인 : </span>
+                        <input type="password" v-model="user.userPw2" maxlength="16" @input="validatePassword2($event, 'userPw2')">
+                        <button  @click="fnPwdCheck">비밀번호 확인</button>
                         <div>
                             <span v-if="!checkPassword2Match" style="color: red;">{{ passwordConfirmErrorMessage }}</span>
                         </div>
@@ -91,7 +92,11 @@
                 phone2: "",
                 phone3: "",
                 email: "",
-                birth: ""
+                birth: "",
+                zipCode: "",
+            	addr: "",
+            	addrDetail: "",
+            	addrName: "집",
             },
             checkPasswordMatch: true,
             checkPassword2Match: true,
@@ -101,6 +106,10 @@
         methods: {
             information: function () {
                 var self = this;
+                if(self.user.userId == ""){
+            		alert("로그인 후 입장 가능합니다.");
+            		window.location.href = "/user-login.do";
+            	}
                 var nparmap = self.user;
                 $.ajax({
                     url: "user-mypage.dox",
@@ -169,25 +178,90 @@
                     self.passwordConfirmErrorMessage = errorMessage;
                 }
             },
+            //비밀번호 확인 정규식 유효성 검사
+            validatePassword2: function (event, field) {
+                var self = this;
+                var regex =  /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
+                self.validateInput2(event, field, regex, "비밀번호는 최소 8글자, 최대 16글자이고 하나 이상의 숫자, 영문자 및 특수문자를 각각 포함해야 합니다!");
+            },
+            // 비밀번호 입력 필드 정규식 유효성 검사
+            validateInput: function (event, field, validationRegex, errorMessage) {
+                var self = this;
+                var inputValue = event.target.value;
+                    if (validationRegex.test(inputValue)) {
+                        console.log("유효성 검사 성공:", inputValue);
+                        self.checkPasswordMatch = true;
+                        self.passwordErrorMessage = "";
+                    } else {
+                        console.error("유효성 검사 실패:", inputValue);
+                        self.checkPasswordMatch = false;
+                        self.passwordErrorMessage = errorMessage;
+                    }
+            },
+            // 비밀번호 확인 입력 필드 정규식 유효성 검사
+           validateInput2: function (event, field, validationRegex, errorMessage) {
+			    var self = this;
+			    var inputValue = event.target.value;
+			    // 나머지는 유효성 검사
+			    if (validationRegex.test(inputValue)) {
+			        console.log("유효성 검사 성공:", inputValue);
+			        self.checkPassword2Match = true;
+			        self.passwordConfirmErrorMessage = "";
+			    } else {
+			        console.error("유효성 검사 실패:", inputValue);
+			        self.checkPassword2Match = false;
+			        self.passwordConfirmErrorMessage = errorMessage;
+			    }
+			},
+			//비밀번호 체크
+			fnPwdCheck: function () {
+			    var self = this;
+			    if (self.user.userPw !== self.user.userPw2) {
+			        self.checkPassword2Match = true;
+			        self.checkPasswordMatch = true;
+			        self.checkPassword = false;
+			        self.user.userPw = "";
+			        self.user.userPw2 = "";
+			        alert("비밀번호랑 비밀번호확인이 다릅니다.");
+			    } else if (self.user.userPw == "" || self.user.userPw2 == "") {
+			        self.user.userPw = "";
+			        self.user.userPw2 = "";
+			        alert("비밀번호랑 비밀번호확인을 입력해 주세요");
+			    } else if (self.user.userPw == self.user.userPw2) {
+			        alert("비밀번호가 일치합니다.");
+			      
+			    } else {
+			        self.checkPassword = true;
+			    }
+			},
             //정보수정하기
             fnmodify: function () {
                 var self = this;
                 if ((!self.user.userPw || !self.user.userPw.trim()) && (!self.user.userPw2 || !self.user.userPw2.trim())) {
-                    alert("비밀번호와 비밀번호 확인을 모두 기입해 주세요.");
+                	self.user.userPw = "";
+		            self.user.userPw2 = "";
+                	alert("비밀번호와 비밀번호 확인을 모두 기입해 주세요.");
                     return;
                 }
                 if (self.user.userPw == "") {
-                    alert("비밀번호를 기입해 주세요.");
+                	self.user.userPw = "";
+		            self.user.userPw2 = "";
+                	alert("비밀번호를 기입해 주세요.");
                     return;
                 }
                 if (self.user.userPw2 == "") {
-                    alert("비밀번호 확인 기입해 주세요.");
+                	self.user.userPw = "";
+		            self.user.userPw2 = "";
+                	alert("비밀번호 확인 기입해 주세요.");
                     return;
                 }
                 if (self.user.userPw != self.user.userPw2) {
-                    alert("비밀번호랑 비밀번호 확인이 다릅니다.");
+                	self.user.userPw = "";
+		            self.user.userPw2 = "";
+                	alert("비밀번호랑 비밀번호 확인이 다릅니다.");
                     return;
                 }
+         
                 if (self.user.name == "") {
                     alert("이름을 입력해 주세요");
                     return;
