@@ -135,5 +135,19 @@ public class UserServiceimpl implements UserService {
 
 		return resultMap;
 	}
+	//마이페이지 주소 추가
+		@Override
+		public HashMap<String, Object> addAddr(HashMap<String, Object> map) {
+			// TODO Auto-generated method stub
+			HashMap<String, Object> resultMap = new HashMap<String, Object>();
+			try {
+				userMapper.insertMyPageAddrAdd(map);
+				resultMap.put("result", "success");
+			} catch (Exception e) {
+				resultMap.put("result", "fail");
+				System.out.println(e.getMessage());
+			}
+			return resultMap;
+		}
 
 }
