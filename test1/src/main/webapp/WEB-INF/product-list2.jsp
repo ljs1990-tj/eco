@@ -7,7 +7,7 @@
 	<script src="js/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	<%-- <jsp:include page="/layout/menu.jsp"></jsp:include> --%>
-	<title>글루텐 프리 제품 페이지</title>
+	<title>유기농 제품 페이지</title>
 </head>
 <style>
   	body {
@@ -87,7 +87,7 @@
 	<div id="app">
 		<div class="container">
 			<div class="title">
-			  <h1>Shop GlutenFree’s</h1>
+			  <h1>Shop Organic’s</h1>
 			</div>
 			
 			<div class="description">
@@ -100,7 +100,9 @@
 			  <li @click="fnGluten">글루텐프리</li>
 			  <li @click="fnLocal">로컬푸드</li>
 			</ul>
-			
+			<div>
+			<input type="text" v-model="keyword"> <button @click="fnList">검색</button>
+			</div>
 			<div class="filter">
 			  <select name="items" id="items">
 			    <option >인기 순</option>
@@ -111,9 +113,9 @@
 			
 			<div class="product-grid">
 				 <div class="product" v-for="item in list">
-				    <img src="" alt="썸네일 이미지">
+				    <img src="" alt="">
 				    <p><a href="javascript:;" @click="fnDetailView(item.itemNo)">{{item.itemName}}</a></p>
-				    <p class="price">₩{{item.price}}</p>
+				    <p class="price">{{item.price}}</p>
 				  	<button @click="fnRemove(item.itemNo)">상품삭제</button>
 				  </div>
 			</div>
@@ -128,16 +130,20 @@ var app = new Vue({
     el: '#app',
     data: {
     	list : [],
-    	code : 'gluten'
+    	keyword : "",
+    	code : "org"
+    	
     }
     , methods: {
     	fnList: function() {
             var self = this;
             var nparmap = {
-            		code: self.code
+            		keyword : self.keyword,
+            		code : self.code
+            		
             };
             $.ajax({
-                url:"cordList.dox",
+                url:"productList.dox",
                 dataType:"json",
                 type: "POST",
                 data: nparmap,

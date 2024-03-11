@@ -16,4 +16,7 @@ public class Board {
 	private String cDateTime;
 	private String uDateTime;
 	private int kCal;
+	private String nickName;
+	
+	private String userType; //user sql꺼
 }

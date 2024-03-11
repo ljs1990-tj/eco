@@ -1,17 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<script src="js/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<title>고객 센터</title>
+	<title>고객센터</title>
 </head>
 <style>
-	.container {
+		.container {
 		display: flex; /* Flexbox 레이아웃 적용 */
-		width: 80%;
+		width: 75%;
 		max-width: 1200px;
 		margin: 0 auto;
 		padding: 20px;
@@ -20,8 +22,13 @@
 	}
 	
 	.menu-area {
-		width: 20%;
-		padding: 10px; 
+		width: 25%;
+		padding: 35px;
+	}
+
+	.menu-area h2 {
+		font-size: 35px;
+		color: #505050;
 	}
 	
 	.content-area {
@@ -30,22 +37,44 @@
 		background: #ffffff; /* 배경색 */
 		border-left: 1px solid #ffffffa2; /* 구분선 */
 	}
+
+	.content-area p{
+		font-size: 16px;
+		font-weight: 500;
+		color: #8f8f8f;
+	}
+	.content-area th, td {
+		color: #4e4e4e;
+		font-size: 14px;
+		font-weight: 550;
+	}
+
 	
 	/* 메뉴 스타일링 */
 	.menu-item {
-		padding: 8px;
-		margin-bottom: 5px;
+		padding: 10px;
+		/* margin-bottom: 5px; */
 		cursor: pointer;
 		transition: background-color 0.3s;
+		display: flex;
+		font-size: 15px;
+		font-weight: 600;
+		justify-content: space-between; /* 내용 사이에 공간을 최대로 만들어 줌 */
+		align-items: center; /* 세로 중앙 정렬 */
+		border: 0.5px solid #d4d4d446;
+		width: 250px;
+		height: 40px;
+		color: #6d6d6d;
+	}
+
+	.align-right {
+		color: #6d6d6d;
+		font-size: 20px;
 	}
 	
-	.menu-item:hover {
+	.menu-item-selected, .menu-item:hover {
 		background-color: #f1f1f1;
-        color: rgb(0, 138, 57);
-	}
-	
-	p{
-		font-size: 14px
+		color: rgb(0, 138, 57);
 	}
 	
 	table {
@@ -57,7 +86,10 @@
         border-top: 2px solid black;
         border-bottom: 1px solid rgb(180, 180, 180); 
 	    padding: 8px; 
-	    text-align: center; 
+	    text-align: center;
+		padding-top: 20px; /* 상단 패딩 증가 */
+		padding-bottom: 20px; /* 하단 패딩 증가 */
+		text-align: left; /* `<td>`에 적용되는 정렬 */ 
 	}
 
 	td {
@@ -66,15 +98,15 @@
 	    padding: 8px; 
 	    text-align: left;
         cursor: pointer;
+		padding-top: 15px; /* 상단 패딩 증가 */
+		padding-bottom: 15px; /* 하단 패딩 증가 */
+		text-align: left; /* `<td>`에 적용되는 정렬 */
 	}
 	
 	thead {
 	    background-color: #fdfcfc; 
 	}
 	
-	tr:hover {
-	    background-color: #f3f3f3; 
-	}
 
     button {
 		background: #5cb85c;
@@ -89,12 +121,57 @@
         display: flex; 
         flex-direction: column; 
         justify-content: space-between; /* 콘텐츠와 버튼 사이의 공간 분배 */
-        height: 100%; 
+        height: 100%;
+		margin-top: 40px; 
     }
+	.content-area h2 {
+		font-size: 25px;
+		color: #505050
+	}
+	.content-area input {
+		height: 40px;
+		width: 500px;
+		border: 1px solid rgb(148, 148, 148);
+		border-radius: 3px;
+	}
+
+	.content-area textarea {
+		height: 500px;
+		width: 500px;
+		border: 1px solid rgb(148, 148, 148);
+		border-radius: 3px;
+		resize: none;
+	}
+	.content-area label {
+		display: block;
+		margin-bottom: 8px; /* 라벨과 입력란 사이의 간격 추가 */
+	}
+
+	.content-area span {
+		color: red;
+		font-weight: bold;
+		font-size: 20px;
+	}
+
+	.input-group {
+		font-size: 17px;
+		font-weight: bold;
+		margin-bottom: 20px;
+	}
+
+	input[type="text"] {
+		font-size: 17px;
+		color: #303030;
+	}
+
+	textarea {
+		font-size: 17px;
+		color: #303030;
+	}
 
     .button-container {
-        text-align: right; /* 버튼 오른쪽 정렬 */
-        padding: 10px; 
+        text-align: left;
+        padding: 15px; 
     }
         
 </style>
@@ -102,10 +179,13 @@
 	<div id="app">
 	    <div class="container">
 	        <div class="menu-area">
-	            <div class="menu-item" @click="updateContent('faq')">자주하는 질문 ▶</div>
-            	<div class="menu-item" @click="updateContent('inquiry')">1:1 문의 ▶</div>
+				<h2>고객센터</h2>
+				<div class="menu-item" :class="{ 'menu-item-selected': selectedMenuItem === 'faq' }" @click="updateContent('faq')">자주하는 질문 <span class="align-right">></span></div>
+				<div class="menu-item" :class="{ 'menu-item-selected': selectedMenuItem === 'history' }" @click="updateContent('history')">문의 내역 <span class="align-right">></span></div>
+				<div class="menu-item" :class="{ 'menu-item-selected': selectedMenuItem === 'inquiry' }" @click="updateContent('inquiry')">1:1 문의하기 <span class="align-right">></span></div>				
 	        </div>
-	        
+	        {{userId}}
+	        {{userType}}
 	        <div class="content-area">
 	            <div v-if="selectedMenu === 'faq'">
 	                <h2>자주하는 질문</h2>
@@ -115,46 +195,65 @@
 				            <tr>
 				                <th>번호</th>
 				                <th>카테고리</th>
-				                <th>제목</th>
+				                <th style="text-align: center;">제목</th>
 				            </tr>
 				        </thead>
 				        <tbody>
-				             <template v-for="(faq, index) in faqs" :key="faq.id">
-						        <tr @click="toggleDetail(index)">
+				             <template v-for="(faq, index) in faqs">
+						        <tr @click="toggleDetail(index)" :key="faq.id">
 						            <td>{{ index + 1 }}</td>
 						            <td>{{ faq.category }}</td>
 						            <td>{{ faq.title }}</td>
 						        </tr>
-						        <tr v-if="faq.showDetail">
+						        <tr v-if="faq.showDetail" :key="faq.id">
 						            <td colspan="3">{{ faq.detail }}</td>
 						        </tr>
 						    </template>
 				        </tbody>
 				    </table>
 	            </div>
-	            <div v-if="selectedMenu === 'inquiry'">
+	            <div v-if="selectedMenu === 'history'">
 	                <h2>1:1 문의</h2>
 	                <p>고객님께서 남겨주신 1:1 문의는 여기에 표기됩니다.</p>
                     <table>
                         <thead>
                             <tr>
-                                <th>제목</th>
-                                <th>작성일</th>
-                                <th>답변상태</th>
+                                <th style="width: 60%; text-align: center;">제목</th>
+                                <th style="width: 20%;">작성일</th>
+                                <th style="width: 20%;">답변상태</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>제목 영역</td>
-                                <td>작성일 영역</td>
-                                <td>답변상태 영역</td>
-                            </tr>
+					        <tr v-for="item in list" >
+					        <template v-if="item.userId == userId || userType == 'A' ">
+					            <td @click="fnView(item.boardNo)" >{{ item.title }}</td>
+					            <td>{{ item.uDateTime }}</td>
+					            <td>답변 대기</td>		        
+					        </template>
+					        </tr>
                         </tbody>
                     </table>
-                    <div class="button-container"> <!-- 버튼 컨테이너 추가 -->
-                        <button>문의하기</button>
-                    </div>
 	            </div>
+	            	<div v-if="selectedMenu === 'inquiry'">
+	                <h2>문의하기</h2>
+	                <p>A조 마켓의 중심은 항상 고객님입니다.</p>
+                     <!-- 제목 입력란 -->
+					<div class="input-group">
+						<label for="title">제목 <span>*</span></label>
+						<input v-model="title" type="text" id="title" name="title" placeholder="제목을 입력해주세요" required>
+					</div>
+
+					<!-- 내용 입력란 -->
+					<div class="input-group">
+						<label for="content">내용 <span>*</span></label>
+						<textarea v-model="contents" id="content" name="content" rows="10" require>
+						</textarea>
+					</div> 
+					<div class="button-container">
+						<button @click="fnInsert">문의하기</button>
+					</div>
+	            </div>
+	            
 	        </div>
 	    </div><!-- <div class="container">  -->
 	</div><!--<div id="app">  -->
@@ -165,7 +264,16 @@
 	var app = new Vue({
 		el : '#app',
 		data : {
-			selectedMenu: 'faq',	        
+			list: [],
+			userId : "${userId}",
+			userType : "${userType}",
+			kind : 3,
+			title : "${title}",
+			contents : "${contents}",
+			
+			
+			selectedMenu: 'faq',
+			selectedMenuItem: null, // 선택된 메뉴 아이템을 저장하기 위한 속성 추가	        
 			faqs : [ 
 				{ id: 1, category: '주문/결제', title: '결제(환불)는 어떻게 하나요?', detail: '▶ 결제(환불)는 다음과 같이 진행해주시면 됩니다. ~~', showDetail: false },
 	            { id: 2, category: '배송', title: '주문한 상품은 언제 배송되나요?', detail: '▶ 주문일로부터 약 1~2일이 소요됩니다', showDetail: false },
@@ -189,17 +297,46 @@
 				var self = this;
 				var nparmap = {};
 				$.ajax({
-					url : "test.dox",
+					url : "customerService.dox",
 					dataType : "json",
 					type : "POST",
 					data : nparmap,
 					success : function(data) {
+						console.log(data.list);
+						self.list = data.list;
 					}
 				});
+			},
+			fnInsert : function() {
+				var self = this;
+				var nparmap = {
+					userId : self.userId,
+					title : self.title,
+					contents : self.contents,
+					kind : self.kind
+				};
+				$.ajax({
+					url : "customerInquiry.dox",
+					dataType : "json",
+					type : "POST",
+					data : nparmap,
+					success : function(data) {
+						if(data.result == "success"){
+							alert("문의 내용이 등록됐습니다.");
+							$.pageChange("/customerService.do", {});
+						}else {
+							alert("다시 시도해주세요");
+						}
+					}
+				});
+			},
+			fnView : function(boardNo) {
+				$.pageChange("customerInquiryView.do", { boardNo : boardNo });
 			},
 			/* 선택한 메뉴에 따른 항목 업데이트 함수 */
 			updateContent : function(menu) {
 				this.selectedMenu = menu;
+				this.selectedMenuItem = menu;
 			},
 			/* 질문 토글에 기능  */
 			toggleDetail: function(index) {
@@ -210,6 +347,7 @@
 	                }
 	            });
 	        }
+		
 		},
 		created : function() {
 			var self = this;

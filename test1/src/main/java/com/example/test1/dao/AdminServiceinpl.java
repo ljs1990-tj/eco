@@ -51,8 +51,10 @@ public class AdminServiceinpl implements AdminService {
 	public HashMap<String, Object> searchProductList(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
-			List<Product> List = adminMapper.selectProductList(map);
-			List<ProductFile> fileList = adminMapper.selectProductFileInfo(map);
+
+			List<Product> List =  adminMapper.selectProductList(map);
+			List<ProductFile> fileList = adminMapper.selectProductFileList(map);
+
 			resultMap.put("list", List);
 			resultMap.put("filelist", fileList);
 			resultMap.put("reslut", "success");
@@ -92,6 +94,8 @@ public class AdminServiceinpl implements AdminService {
 		try {
 
 			adminMapper.updateProduct(map);
+			
+			
 			resultMap.put("result", "success");
 
 		} catch (Exception e) {
@@ -135,6 +139,38 @@ public class AdminServiceinpl implements AdminService {
 		}
 		return resultMap;
 
+	}
+
+	@Override
+	public HashMap<String, Object> removefile(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			adminMapper.fileDelete(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+		}
+		
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> searchProductChartList(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			List<Product> ProductList = adminMapper.selectProductChart(map);
+			resultMap.put("result", "success");
+			resultMap.put("ProductList", ProductList);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
 	}
 
 }
