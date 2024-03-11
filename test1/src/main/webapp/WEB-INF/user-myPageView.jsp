@@ -16,11 +16,11 @@
             <fieldset>
                 <ul>
                     <li>
-                        <span>아이디 : </span>
+                        <span>아이디: </span>
                         <input type="text" v-model="user.userId" disabled>
                     </li>
                     <li>
-                        <span>비밀번호 : </span>
+                        <span>비밀번호: </span>
                         <input type="text" v-model="user.userPw" maxlength="16" @input="validatePassword($event, 'userPw')" >
                         <div>
                             <span v-if="!checkPasswordMatch" style="color: red;">{{ passwordErrorMessage }}</span>
@@ -34,19 +34,16 @@
                             <span v-if="!checkPassword2Match" style="color: red;">{{ passwordConfirmErrorMessage }}</span>
                         </div>
                     </li>
-                    <div>
-                		<span v-if="!checkPassword"style="color: red;">비밀번호랑 비밀번호 확인이 다릅니다.</span>
-                    </div>
                     <li>
-                        <span>이름 : </span>
+                        <span>이름: </span>
                         <input type="text" v-model="user.name" maxlength="30">
                     </li>
                     <li>
-                        <span>닉네임 : </span>
+                        <span>닉네임: </span>
                         <input type="text" v-model="user.nickName" maxlength="30">
                     </li>
                   	<li>
-						<span>성별 : </span>
+						<span>성별: </span>
 						<div>
 							<input type="radio" name="gender" value="남성" v-model="user.gender">남 
 							<input type="radio"name="gender" value="여성" v-model="user.gender">여
@@ -54,7 +51,7 @@
 						</div>
 					</li>
 					<li>
-						<span>핸드폰 번호 : </span>
+						<span>핸드폰 번호: </span>
 						<div>
 							 <input type="text" v-model="user.phone1"  maxlength="3" @input="allowOnlyNumbers($event, 'phone1')">-
        						<input type="text" v-model="user.phone2"  maxlength="4" @input="allowOnlyNumbers($event, 'phone2')">-
@@ -63,15 +60,15 @@
 						</div>
 					</li>
                     <li>
-                        <span>이메일 : </span>
+                        <span>이메일: </span>
                         <input type="text"  v-model="user.email" placeholder="이메일 아이디 입력">
                     <li>
-                        <span>생년월일 : </span>
+                        <span>생년월일: </span>
                         <input type="text" v-model="user.birth" placeholder="ex)19910101" @input="formatBirthDate">
                     </li>
                 </ul>
                 <div>
-                    <button @click="fnmodify()" @keydown.enter="fnmodify()">수정하기</button>
+                    <button @click="fnmodify()">수정하기</button>
                 </div>
             </fieldset>
         </div>
@@ -90,7 +87,7 @@
                 userPw2: "",
                 name: "",
                 nickName: "",
-                gender: "여성",
+                gender: "",
                 phone1: "",
                 phone2: "",
                 phone3: "",
@@ -101,7 +98,6 @@
             	addrDetail: "",
             	addrName: "집",
             },
-            checkPassword : true,
             checkPasswordMatch: true,
             checkPassword2Match: true,
             passwordErrorMessage: "",
@@ -184,7 +180,7 @@
                 var regex =  /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
                 self.validateInput2(event, field, regex, "비밀번호는 최소 8글자, 최대 16글자이고 하나 이상의 숫자, 영문자 및 특수문자를 각각 포함해야 합니다!");
             },
-         // 비밀번호 입력 필드 정규식 유효성 검사
+            // 비밀번호 입력 필드 정규식 유효성 검사
             validateInput: function (event, field, validationRegex, errorMessage) {
                 var self = this;
                 var inputValue = event.target.value;
@@ -270,7 +266,7 @@
                     alert("별명을 입력해 주세요");
                     return;
                 }
-                if (self.user.phone1 == "" || self.user.phone2 == "" || self.user.phone3 == "") {
+                if (self.user.phone1 || self.user.phone2 || self.user.phone3 == "") {
                     alert("핸드폰 번호를 입력해 주세요");
                     return;
                 }
