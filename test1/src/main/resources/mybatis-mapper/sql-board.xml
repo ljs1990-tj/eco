@@ -56,10 +56,34 @@
 	</update>
 
 	<insert id="insertBoardImage" parameterType="hashmap">
-		INSERT INTO ECO_BOARD_IMAGE 
-		VALUES(null, #{boardNo}, #{path}, #{fileName}, #{orgName}, #{fileSize}, #{etc})
+		INSERT INTO ECO_BOARD_IMAGE
+		VALUES(null, #{itemNo}, #{filePath}, #{fileName}, #{fileorgName}, #{fileSize}, #{filEtc}, #{kind})
 	</insert>
 
+	<!-- 상품 리스트에 이미지 불러오기  -->
+	<select id="selectBoardFileInfo" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
+		SELECT P.*,
+			FILEPATH || FILENAME AS PATH
+		FROM ECO_PRODUCT_IMAGE P
+		WHERE KIND = 1
+	</select>
 	
+	<!-- 상품 상세보기에서 이미지 불러오기  -->
+	<select id="selectBoardContentsFileInfo" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
+		SELECT P.*,
+			FILEPATH || FILENAME AS PATH
+		FROM ECO_PRODUCT_IMAGE P
+		WHERE KIND = 2
+		AND ITEMNO = #{itemNo}
+	</select>
+	
+	<!-- 상품 상세보기 화면에 상품 상세 정보에 보여줄 이미지 불러오기  -->
+	<select id="selectBoardDetailFileInfo" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
+		SELECT P.*,
+			FILEPATH || FILENAME AS PATH
+		FROM ECO_PRODUCT_IMAGE P
+		WHERE KIND = 3
+		AND ITEMNO = #{itemNo}
+	</select>
 	
 </mapper>

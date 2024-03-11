@@ -10,7 +10,7 @@ import com.example.test1.mapper.BoardMapper;
 import com.example.test1.model.Board;
 
 import com.example.test1.model.Product;
-import com.example.test1.model.BoardImage;
+import com.example.test1.model.BoardFile;
 import com.example.test1.model.Comment;
 
 @Service
@@ -72,7 +72,7 @@ public class BoardServiceimpl implements BoardService{
 	}
 
 	@Override
-	public HashMap<String, Object> inBoardImage(HashMap<String, Object> map) {
+	public HashMap<String, Object> inBoardFile(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -144,6 +144,8 @@ public class BoardServiceimpl implements BoardService{
 		}
 		return resultMap;
 	}
+
+
 
 	
 	

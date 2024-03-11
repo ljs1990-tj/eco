@@ -5,6 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="../css/team_project_style.css">
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 <script src="js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script
@@ -59,6 +61,7 @@ button:hover {
 
 <body>
 	<div id="app">
+	
 		<tr>
 			<th>게시판 선택</th>
 			<td><select v-model="kind">
@@ -77,7 +80,7 @@ button:hover {
 		<div>
 			내용 :
 			<!-- <textarea row="30" cols="60" v-model="contents"></textarea> 대신 vue-editor 코드 작성 가능-->
-			<vue-editor v-model="contents"></vue-editor>
+			 <div id="editor" v-model="contents" style="height: 300px; "></div>
 		</div>
 		<button @click="fnWrite">작성완료</button>
 		<!-- {{userId}} -->
@@ -86,8 +89,6 @@ button:hover {
 </body>
 </html>
 <script type="text/javascript">
-Vue.use(Vue2Editor);
-const VueEditor = Vue2Editor.VueEditor;
 	var app = new Vue({
 		el : '#app',
 		data : {
@@ -97,8 +98,7 @@ const VueEditor = Vue2Editor.VueEditor;
 			title : "${title}",
 			contents : "${contents}"
 		}
-		,
-		components: {VueEditor}
+		
 		,
 		methods : {
 			fnWrite : function() {
@@ -155,6 +155,26 @@ const VueEditor = Vue2Editor.VueEditor;
 				});
 			} */
 		},
+		mounted: function () {
+	        // Quill 에디터 초기화
+	        var quill = new Quill('#editor', {
+	            theme: 'snow',
+	            modules: {
+	                toolbar: [
+	                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+	                    ['bold', 'italic', 'underline'],
+	                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+	                    ['link', 'image'],
+	                    ['clean']
+	                ]
+	            }
+	        });
+
+	        // 에디터 내용이 변경될 때마다 Vue 데이터를 업데이트
+	        quill.on('text-change', function() {
+	            app.contents = quill.root.innerHTML;
+	        });
+	    },
 		created : function() {
 			var self = this;
 		}

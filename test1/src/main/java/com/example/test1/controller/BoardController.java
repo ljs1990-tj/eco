@@ -72,6 +72,15 @@ public class BoardController {
 		return "/board-edit";
 	}
 	
+	@RequestMapping("/boardRecipe.do")//레시피 게시판 보기
+	public String boardRecipe(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		// request의 HttpServletRequest
+		request.setAttribute("map", map);
+		
+		return "/board-recipe";
+	}
+	
+	
 	@RequestMapping(value = "/boardList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String boardList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -112,6 +121,15 @@ public class BoardController {
 		return new Gson().toJson(resultMap);
 	}
 	
+	@RequestMapping(value = "/boardRecipe.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String boardRecipeList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = boardService.searchBoardList(map);
+		return new Gson().toJson(resultMap);
+	}
+	
+	
 	@RequestMapping("/customerService.do")
 	public String productOrganic(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
 			throws Exception {
@@ -128,6 +146,8 @@ public class BoardController {
 		resultMap = boardService.searchCustomerInquiryList(map);
 		return new Gson().toJson(resultMap);
 	}
+	
+
 	
 }
 

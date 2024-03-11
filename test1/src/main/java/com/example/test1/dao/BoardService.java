@@ -20,7 +20,8 @@ public interface BoardService {
 	
 	HashMap<String, Object> editBoard(HashMap<String, Object> map); //게시글 수정
 	
-	HashMap<String, Object> inBoardImage(HashMap<String, Object> map); //첨부파일 삽입
+	HashMap<String, Object> inBoardFile(HashMap<String, Object> map); //첨부파일 삽입
+	
 	
 	
 }
