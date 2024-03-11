@@ -136,7 +136,7 @@
 				      }).open();
 				    },
 			/* 해당유저 정보 가져오기 */			
-			fnuserAddList : function() {
+			fnUserAddUpdate : function() {
 				var self = this;
 				var nparmap = {
 						addrNo : self.addrNo
@@ -219,7 +219,7 @@
 	          		window.opener.location.href = "/user-login.do";
 	          		window.close();
 	          	}
-			self.fnuserAddList();
+			self.fnUserAddUpdate();
 		}
 	});
 </script>

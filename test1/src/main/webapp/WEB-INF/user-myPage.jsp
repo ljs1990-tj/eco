@@ -302,7 +302,6 @@ ul, li {
 			    console.log(addrNo);
 			    var popup = window.open('/user-myPage-addrUpdate.do?addrNo=' + addrNo,
 			            'addrUpdate Popup', 'width=900,height=900');
-			    
 			},
 			/* 개인정보 가져오기 */
 			information : function() {
