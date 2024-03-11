@@ -6,7 +6,7 @@
 	<meta charset="UTF-8">
 	<script src="js/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<%-- <jsp:include page="/layout/menu.jsp"></jsp:include> --%>
+	
 	<title>유기농 제품 페이지</title>
 </head>
 <style>
@@ -115,7 +115,7 @@
 				 <div class="product" v-for="item in list">
 				    <img src="" alt="">
 				    <p><a href="javascript:;" @click="fnDetailView(item.itemNo)">{{item.itemName}}</a></p>
-				    <p class="price">₩{{item.price}}</p>
+				    <p class="price">{{item.price}}</p>
 				  	<button @click="fnRemove(item.itemNo)">상품삭제</button>
 				  </div>
 			</div>

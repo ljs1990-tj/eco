@@ -130,14 +130,15 @@
 		            <select name="quantity" id="quantity">
 		                <option value="1">1</option>
 		            </select>
-		            
 		            <button>장바구니</button>
 		            <button>구매하기</button>
 		        </div>
-		        
-		    </div><!-- <div class="right-panel"> -->
-		</div><!-- <div class="container">  -->
-	</div><!-- <div id="app"> -->
+		      
+		    </div>
+		    
+		</div>
+		
+	</div>
 </body>
 </html>
 <script type="text/javascript">
@@ -162,7 +163,14 @@ var app = new Vue({
                 success: function(data) {
                 	console.log(data.filelist);
                 	self.info = data.item;
-                	self.fileList = data.filelist;
+                	var ContentsCnt = 0;
+                	for(var i =0 ; i<data.filelist.length ; i++){
+                		if(data.filelist[i].kind == "2"){
+                			self.fileList[ContentsCnt] = data.filelist[i];
+                			ContentsCnt++;
+                		}
+                	}
+                	
                 }
             });
         }

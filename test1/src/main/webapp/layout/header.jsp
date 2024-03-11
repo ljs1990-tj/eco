@@ -25,7 +25,8 @@
     <link rel="stylesheet" href="css/style2.css" type="text/css">
 </head>
 
-<body>
+<body id="HeaderAllTab">
+
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -151,6 +152,7 @@
             </div>
         </div>
     </header>
+    
     <!-- Header Section End -->
 
     <!-- Js Plugins -->
@@ -163,6 +165,6 @@
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
     <script src="js/jquery.js"></script>
-
+    
 </body>
 </html>
