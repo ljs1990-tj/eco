@@ -35,7 +35,7 @@ public class UserController {
 		return "/footer";
 	}
 
-	@RequestMapping("/user-join.do")
+	@RequestMapping("/	")
 	public String userJoin(Model model) throws Exception {
 
 		return "/user-join";

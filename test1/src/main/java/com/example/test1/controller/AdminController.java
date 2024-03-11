@@ -27,6 +27,9 @@ public class AdminController {
 	@Autowired
 	AdminService adminService;
 	
+	@Autowired
+	UserService userService;
+	
 	//어드민 페이지 메인
 	@RequestMapping("/admin-main.do") 
     public String main(Model model) throws Exception{		
@@ -75,6 +78,22 @@ public class AdminController {
 		
 		return "/KakaoPay";
 	}
+	//유저리스트
+	@RequestMapping("/AdminUserList.do") 
+	public String AdminUserList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+		
+		
+		return "/admin-user-list";
+	}
+	
+	
+	
+	@RequestMapping("/adminUserDetail.do") 
+	public String adminUserDetail(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+		request.setAttribute("map", map);
+		
+		return "/admin-user-detail";
+	}
 	
 	
 		
@@ -118,7 +137,7 @@ public class AdminController {
         
         return fileName;
     }
-	
+	// 이미지 업로드 ( 리스트에 보이는 썸네일 )
 	@RequestMapping("/fileUploadMain.dox")
     public String result(@RequestParam("file1") MultipartFile multi, @RequestParam("itemNo") int itemNo, HttpServletRequest request,HttpServletResponse response, Model model)
     {
@@ -169,7 +188,7 @@ public class AdminController {
     }
 	
 	
-	
+	//이미지 업로드 ( 상세보기 썸네일 )
 	@RequestMapping("/fileUploadContents.dox")
     public String result2(@RequestParam("file2") MultipartFile multi, @RequestParam("itemNo") int itemNo, HttpServletRequest request,HttpServletResponse response, Model model)
     {
@@ -222,7 +241,7 @@ public class AdminController {
 	
 	
 	
-	
+	//상품 업데이트 쿼리문
 	@RequestMapping(value = "/AdminProductUpdate.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String productUpdate(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -234,7 +253,7 @@ public class AdminController {
 	
 	
 	
-	
+	//파일 삭제 쿼리
 	@RequestMapping(value = "/fileDelete.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String fileDelete(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -242,7 +261,7 @@ public class AdminController {
 		resultMap = adminService.removefile(map);
 		return new Gson().toJson(resultMap);
 	}
-	
+	//상품 월 매출 차트
 	@RequestMapping(value = "/AdminProductChart.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String ProductChart(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -250,6 +269,43 @@ public class AdminController {
 		resultMap = adminService.searchProductChartList(map);
 		return new Gson().toJson(resultMap);
 	}
+	//유저 리스트 가져오기
+	@RequestMapping(value = "/AdminUserList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String AdminUserList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = adminService.searchUserList(map);
+		return new Gson().toJson(resultMap);
+	}
+	
+	@RequestMapping(value = "/AdminUserDetail.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String AdminUserDetail(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = adminService.searchUserInfo(map);
+		return new Gson().toJson(resultMap);
+	}
+	
+	
+	
+	@RequestMapping(value = "/AdminUserTypeEdit.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String AdminUserTypeEdit(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = adminService.updateUserType(map);
+		return new Gson().toJson(resultMap);
+	}
+	
+	
+	@RequestMapping(value = "/AdminUserLoginCntZero.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String AdminUserLoginCntZero(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = adminService.updateUserLoginCntZero(map);
+		return new Gson().toJson(resultMap);
+	}
+	
+	
 	
 	
 }

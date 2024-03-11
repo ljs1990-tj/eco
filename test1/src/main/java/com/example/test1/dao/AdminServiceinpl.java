@@ -9,24 +9,12 @@ import org.springframework.stereotype.Service;
 import com.example.test1.mapper.AdminMapper;
 import com.example.test1.model.Product;
 import com.example.test1.model.ProductFile;
+import com.example.test1.model.User;
 
 @Service
 public class AdminServiceinpl implements AdminService {
 
-	/*
-	 * @Autowired AdminMapper adminMapper;
-	 * 
-	 * @Override public HashMap<String, Object> addProduct(HashMap<String, Object>
-	 * map) { // TODO Auto-generated method stub HashMap<String, Object> resultMap =
-	 * new HashMap<String, Object>(); try { adminMapper.insertProduct(map);
-	 * resultMap.put("result","success"); } catch (Exception e) { // TODO: handle
-	 * exception System.out.println(e.getMessage()); resultMap.put("result",
-	 * "fail"); }
-	 * 
-	 * 
-	 * 
-	 * return resultMap; }
-	 */
+	
 	@Autowired
 	AdminMapper adminMapper;
 
@@ -165,6 +153,70 @@ public class AdminServiceinpl implements AdminService {
 			List<Product> ProductList = adminMapper.selectProductChart(map);
 			resultMap.put("result", "success");
 			resultMap.put("ProductList", ProductList);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> searchUserList(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			List<User> userList = adminMapper.selectUserList(map);
+			resultMap.put("userList", userList);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> searchUserInfo(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		try {
+			User userInfo = adminMapper.selectAdminUserInfo(map);
+			resultMap.put("userInfo", userInfo);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+		}
+		
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> updateUserType(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			adminMapper.updateUserType(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+		}
+		// TODO Auto-generated method stub
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> updateUserLoginCntZero(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			adminMapper.updateUserLoginCntZero(map);
+			resultMap.put("result", "success");
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
