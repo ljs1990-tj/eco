@@ -46,6 +46,12 @@ public class UserController {
 		session.invalidate();
 		return "/user-login";
 	}
+	
+	@RequestMapping("/find-password.do") 
+    public String findPassword(Model model) throws Exception{
+		
+        return "/find-password";
+    }
 
 	// 유저 정보 수정하기
 	@RequestMapping("/user-myPage.do")
