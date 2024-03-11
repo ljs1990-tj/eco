@@ -46,6 +46,12 @@ public class UserController {
 		session.invalidate();
 		return "/user-login";
 	}
+	
+	@RequestMapping("/find-password.do") 
+    public String findPassword(Model model) throws Exception{
+		
+        return "/find-password";
+    }
 
 	
 	@RequestMapping(value = "/user-join.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")

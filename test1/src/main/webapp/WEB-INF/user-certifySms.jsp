@@ -56,11 +56,11 @@ body {
 		<section>
 			<div>
 				<span>핸드폰 번호 입력:</span> 
-				<input type="text" v-model="inputNumber" :disabled="inputflg" @input="validateInput"  @keydown.enter="fnSms()">
-				<button v-if="!flg" @click="fnSms()">인증번호받기</button>
-				<button v-if="flg" @click="fnRePhone()">핸드폰번호 다시 입력하기</button>
+				<input type="text" v-model="inputNumber" :disabled="inputFlg" @input="validateInput"  @keydown.enter="fnSms()">
+				<button v-if="!phoneAuthFlg" @click="fnSms()">인증번호받기</button>
+				<button v-if="phoneAuthFlg" @click="fnRePhone()">핸드폰번호 다시 입력하기</button>
 			</div>
-			<div v-if="flg">
+			<div v-if="phoneAuthFlg">
 				<h3>인증번호</h3>
 				<input type="text" v-model="inputNumber1" placeholder="숫자 6자리 입력"
 					@input="validateInput1" @keydown.enter="fnAuth()">
@@ -71,7 +71,7 @@ body {
 				<button @click="fnClose()">닫기</button>
 				<button @click="fnAuth()">확인</button>
 			</div>
-			<button v-if="!flg" @click="fnClose()">닫기</button>
+			<button v-if="!phoneAuthFlg" @click="fnClose()">닫기</button>
 			<div class="passCertiInfo">
 				<h3 class="infoTitle">
 					<strong>인증번호 문자를 못 받으셨나요?</strong>
@@ -97,8 +97,8 @@ body {
 	var app = new Vue({
 		el : '#app',
 		data : {
-			flg : false,
-			inputflg : false,
+			phoneAuthFlg : false,
+			inputFlg : false,
 			inputNumber : "",	//핸드폰 번호 입력
 			inputNumber1 : "",	//인증번호 입력
 			timer : "",			//인증시간표시
@@ -147,13 +147,13 @@ body {
 						if (data.response.statusCode == "2000") {
 							alert("문자전송했습니다");
 							self.number = data.number;	//인증번호를 가져와서 저장
-							self.inputflg = true;
-							self.flg = true;
+							self.inputFlg = true;
+							self.phoneAuthFlg = true;
 							setInterval(self.fnTimer, 1000);	//함수호출하여 시간표시
 						} else {
 							alert("문자전송실패했습니다");
-							self.inputflg = false;
-							self.flg = false;
+							self.inputFlg = false;
+							self.phoneAuthFlg = false;
 						}
 					}
 				});
@@ -161,8 +161,8 @@ body {
 			/* 핸드폰번호 다시 입력 */
 			fnRePhone : function() {
 				var self = this;
-				self.inputflg = false;
-				self.flg = false;
+				self.inputFlg = false;
+				self.phoneAuthFlg = false;
 				self.inputNumber = "";
 				
 			},
@@ -217,7 +217,7 @@ body {
 			    }
 			},
 			//팝업창 닫기
-				fnClose : function() {
+			fnClose : function() {
 				var self = this;
 				window.close();
 			}
