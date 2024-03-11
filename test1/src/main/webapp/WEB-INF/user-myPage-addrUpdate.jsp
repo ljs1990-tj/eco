@@ -6,13 +6,14 @@
 <meta charset="UTF-8">
 <script src="js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<title>첫번째 페이지</title>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<title>주소정보 수정하기</title>
 </head>
 <style>
 </style>
 <body>
 	<div id="app">
-	{{addrNo}}
+		{{addrNo}}
 		<div>
 			<span>받는 분 성함 : </span> <input type="text" v-model="user.name"
 				placeholder="직접 입력">
@@ -45,9 +46,8 @@
 		<div class="margin-bottom-10px"></div>
 		<input type="text" v-model="user.addr" placeholder="주소">
 		<div></div>
-		<input type="text" v-model="addrDetail1" ref="addrDetail1"
-			placeholder="상세주소"> <input type="text" v-model="addrDetail2"
-			placeholder="참고항목">
+		<input type="text" v-model="addrDetail1" ref="addrDetail1"	placeholder="상세주소"> 
+		<input type="text" v-model="addrDetail2" placeholder="참고항목">
 		<div style="margin-bottom: 10px;"></div>
 		<div style="padding-left: 110px; font-size: 10px;">※ 현재 주소는 집
 			주소로 기본 저장되며, 후에 마이페이지에서 수정이 가능합니다.</div>
@@ -59,7 +59,7 @@
 	</div>
 </body>
 </html>
-<<script type="text/javascript">
+<script type="text/javascript">
 	var app = new Vue({
 		el : '#app',
 		data : {
@@ -136,20 +136,31 @@
 				      }).open();
 				    },
 			/* 해당유저 정보 가져오기 */			
-			fnUserAddUpdate : function() {
+			fnUserAddr : function() {
 				var self = this;
 				var nparmap = {
 						addrNo : self.addrNo
 				};
 				$.ajax({
-					url : "user-mypage.dox",
+					url : "user-addr-mypage.dox",
 					dataType : "json",
 					type : "POST",
 					data : nparmap,
 					success : function(data) {
 						console.log(data);
-						self.user.name = data.user.name;
-						self.user.phone = data.user.phone1 + data.user.phone2 + data.user.phone3; 
+						console.log(self.addrNo);
+						self.user.name = data.info.name;
+						self.user.phone = data.info.phone;
+						self.user.addrName = data.info.addrName;
+						self.user.addrRequest = data.info.addrRequest;
+						var atIdx = data.user.email.indexOf('@');
+                        self.email1 = data.user.email.substring(0, atIdx);
+                        self.email2 = data.user.email.substring(atIdx + 1);
+						//
+                        self.user.zipCode = data.info.zipCode;
+						self.user.addr = data.info.addr;
+						self.addrDetail1 = data.info.addrDetail1;
+						self.addrDetail2 = data.info.addrDetail2;
 					}
 				});
 			},
@@ -216,10 +227,9 @@
 			var self = this;
 			  if(self.user.userId == ""){
 	          		alert("로그인 후 입장 가능합니다.");
-	          		window.opener.location.href = "/user-login.do";
 	          		window.close();
 	          	}
-			self.fnUserAddUpdate();
+			self.fnUserAddr();
 		}
 	});
 </script>

@@ -18,5 +18,7 @@ public interface UserService {
 	
 	HashMap<String, Object> AddrDelete(HashMap<String, Object> map); //유저 주소 삭제
 	
-	HashMap<String, Object> addAddr(HashMap<String, Object> map); //마이페이지 주소 추카
+	HashMap<String, Object> addAddr(HashMap<String, Object> map); //마이페이지 주소 추가
+	
+	HashMap<String, Object> selectAddr(HashMap<String, Object> map); //마이페이지 주소록 가져오기
 }
