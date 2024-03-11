@@ -252,29 +252,31 @@ ul, li {
 				self.isPopupOpen = false;
 			},
 			/* 주소 목록 삭제하기 */
-				deleteSelectedAddresses: function() {
-			    var self = this;
-			    // 여기서는 배열로 서버에 전달
-			    $.ajax({
-			        url: "delete-addresses.dox",
-			        dataType: "json",
-			        type: "POST",
-			        data: {
-			        	 addrNo: self.radio
-			        },
-			        success: function(data) {
-			            console.log("주소 삭제 응답:", data);
-			            // 서버 응답 후 데이터 갱신 및 화면 업데이트
-			            location.reload(true);
-			        },
-			        error: function(error) {
-			            console.error("주소 삭제 실패:", error);
-			            // 실패할 경우에 대한 처리를 수행
-			        }
-			    });
+			deleteSelectedAddresses : function() {
+				var self = this;
+				// 여기서는 배열로 서버에 전달
+				$.ajax({
+					url : "delete-addresses.dox",
+					dataType : "json",
+					type : "POST",
+					data : {
+						addrNo : self.radio
+					},
+					success : function(data) {
+						console.log("주소 삭제 응답:", data);
+						// 서버 응답 후 데이터 갱신 및 화면 업데이트
+						location.reload(true);
+					},
+					error : function(error) {
+						console.error("주소 삭제 실패:", error);
+						// 실패할 경우에 대한 처리를 수행
+					}
+				});
 			},
 			/* 주소목록 추가하기 */
 			addDefaultAddress : function() {
+				var popup = window.open('/user-myPage-addrAdd.do',
+						'Certification Popup', 'width=600,height=600');
 
 			},
 			//주소값 수정하기
@@ -293,11 +295,7 @@ ul, li {
 			information : function() {
 				var self = this;
 				// 세션 값이 없을 경우 로그인 페이지로 이동
-				if (!self.user.userId) {
-					alert("로그인 후 입장 가능합니다.");
-					window.location.href = "/user-login.do";
-					return;
-				}
+
 				var nparmap = self.user;
 				$.ajax({
 					url : "user-mypage.dox",

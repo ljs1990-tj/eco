@@ -47,27 +47,7 @@ public class UserController {
 		return "/user-login";
 	}
 
-	// 유저 정보 수정하기
-	@RequestMapping("/user-myPage.do")
-	public String userMyPage(Model model) throws Exception {
-
-		return "/user-myPage";
-	}
-
-	// 유저 정보 수정하기
-	@RequestMapping("/user-myPageView.do")
-	public String userMyPageList(Model model) throws Exception {
-
-		return "/user-myPageView";
-	}
-
-	// 유저 비밀번호 재확인
-	@RequestMapping("/user-myPage-Password.do")
-	public String usermyPagePassword(Model model) throws Exception {
-
-		return "/user-myPage-Password";
-	}
-
+	
 	@RequestMapping(value = "/user-join.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String userJoin(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -92,41 +72,6 @@ public class UserController {
 		return new Gson().toJson(resultMap);
 	}
 
-	// 유저정보 가져오기
-	@RequestMapping(value = "/user-mypage.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public String userMyPage(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap = userService.getUser(map);
-		return new Gson().toJson(resultMap);
-	}
-
-	// 유저정보 수정하기
-	@RequestMapping(value = "/user-modify.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public String userModify(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap = userService.modifyUser(map);
-		return new Gson().toJson(resultMap);
-	}
-
-	// 유저 주소록 삭제하기
-	@RequestMapping(value = "/delete-addresses.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public String deleteaddresses(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap = userService.AddrDelete(map);
-		return new Gson().toJson(resultMap);
-	}
-
-	// 유저 주소록 가져오기
-	@RequestMapping(value = "/user-addr.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public String useraddr(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap = userService.getAddr(map);
-		System.out.println(resultMap);
-		return new Gson().toJson(resultMap);
-	}
+	
 
 }
