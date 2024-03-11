@@ -287,32 +287,22 @@ ul, li {
 						'Certification Popup', 'width=600,height=600');
 
 			},
-			//주소값 수정하기
+			// 주소록값 수정하기
 			updateSelectedAddresses : function() {
-				var self = this;
-				  if(self.user.userId == ""){
-		          		alert("로그인 후 입장 가능합니다.");
-		          		window.location.href = "/user-login.do";
-		          	}
-					$.ajax({
-						url : "/user-addr-update.dox",
-						dataType : "json",
-						type : "POST",
-						data : {
-							addrNo : self.radio
-						},
-						success : function(data) {
-							console.log(self.radio);
-							//성공시 부모창 새로고침후 팝업창 닫기
-					    	if (data.result == "success") {
-					    		location.reload(true);
-							} else {
-								alert("다시 시도해주세요");
-								return;
-							}
-						}
-					});
-		
+			    var self = this;
+				var addrNo = self.radio;
+				if(addrNo == ""){
+					alert("수정할 정보를 선택해 주세요");
+					return;
+				}
+			    if(self.user.userId == "") {
+			        alert("로그인 후 입장 가능합니다.");
+			        window.location.href = "/user-login.do";
+			    }
+			    console.log(addrNo);
+			    var popup = window.open('/user-myPage-addrUpdate.do?addrNo=' + addrNo,
+			            'addrUpdate Popup', 'width=900,height=900');
+			    
 			},
 			/* 개인정보 가져오기 */
 			information : function() {
@@ -351,6 +341,7 @@ ul, li {
 			fnUsermodify : function() {
 				var self = this;
 				// 세션 값이 없을 경우 로그인 페이지로 이동
+			
 				if (!self.user.userId) {
 					alert("로그인 후 입장 가능합니다.");
 					window.location.href = "/user-login.do";

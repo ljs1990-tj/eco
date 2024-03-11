@@ -135,24 +135,7 @@
 				        }
 				      }).open();
 				    },
-			/* 해당유저 정보 가져오기 */			
-			fnuserAddList : function() {
-				var self = this;
-				var nparmap = {
-						userId : self.user.userId
-				};
-				$.ajax({
-					url : "user-mypage.dox",
-					dataType : "json",
-					type : "POST",
-					data : nparmap,
-					success : function(data) {
-						console.log(data);
-						self.user.name = data.user.name;
-						self.user.phone = data.user.phone1 + data.user.phone2 + data.user.phone3; 
-					}
-				});
-			},
+
 			/* 주소록 추가하기 */
 			fnUserAddrAdd: function() {
 			   var self = this;
@@ -224,7 +207,6 @@
 	          		window.opener.location.href = "/user-login.do";
 	          		window.close();
 	          	}
-			self.fnuserAddList();
 		}
 	});
 </script>

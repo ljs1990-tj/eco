@@ -2,6 +2,7 @@ package com.example.test1.controller;
 
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +24,6 @@ public class CertifyController {
 	@Autowired
 	HttpSession session;
 
-	// 테스트 전용
-	@RequestMapping("/test.do")
-	public String test(Model model) throws Exception {
-
-		return "/test";
-	}
 
 	// 유저 정보 
 	@RequestMapping("/user-myPage.do")
@@ -65,12 +60,20 @@ public class CertifyController {
 		return "/user-certifySms";
 	}
 
-	// 테스트 전용
+	// 유저 주소록 추가하기
 	@RequestMapping("/user-myPage-addrAdd.do")
 	public String usermyPageaddrAdd(Model model) throws Exception {
 
 		return "/user-myPage-addrAdd";
 	}
+	
+	// 유저 주소록 수정하기
+	@RequestMapping("/user-myPage-addrUpdate.do")
+	   public String usermyPageaddrUpdate(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
+	         throws Exception {
+	      request.setAttribute("map", map);
+	      return "/user-myPage-addrUpdate"; 
+	   }
 
 	// 유저정보 가져오기
 	@RequestMapping(value = "/user-mypage.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
