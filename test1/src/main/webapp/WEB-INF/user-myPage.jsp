@@ -254,7 +254,7 @@ ul, li {
 			/* 주소 목록 삭제하기 */
 			deleteSelectedAddresses : function() {
 				var self = this;
-				// 여기서는 배열로 서버에 전달
+
 				$.ajax({
 					url : "delete-addresses.dox",
 					dataType : "json",
