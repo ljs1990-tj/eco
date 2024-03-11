@@ -79,7 +79,7 @@
                     <div class="margin-bottom-10px"></div>
 					<input type="text" class="join-input" v-model="user.addr" placeholder="주소">
 					<div class="join-divide margin-bottom-10px"></div>
-					<input type="text" class="join-input" v-model="addrDetail1" placeholder="상세주소">
+					<input type="text" class="join-input" v-model="addrDetail1" placeholder="상세주소" ref="addrDetail1">
 					<div style="margin-bottom: 10px;"></div>
                     <div class="join-divide margin-bottom-10px"></div>
 					<input type="text" class="join-input" v-model="addrDetail2" placeholder="참고항목">

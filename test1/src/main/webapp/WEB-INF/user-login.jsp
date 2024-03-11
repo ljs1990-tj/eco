@@ -64,6 +64,7 @@
 }
 </style>
 <body>
+	<!-- header -->
 	<%@ include file="../layout/header.jsp"%>
 	<div id="app">
 		<fieldset class="con-login">
@@ -89,6 +90,8 @@
 			<div style="color: red; margin-left: 20px;">{{resultMessage}}</div>
 		</fieldset>
 	</div>
+	<!-- footer -->
+	<%@ include file="../layout/footer.jsp"%>
 </body>
 <script type="text/javascript">
 var app = new Vue({
