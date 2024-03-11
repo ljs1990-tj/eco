@@ -46,7 +46,7 @@
         </div>
         <div class="item__menu__widget">
             <div class="header__top__right__auth">
-                <a href="#"><i class="fa fa-user"></i> 로그인</a>
+                <a href="/user-login.do"><i class="fa fa-user"></i> 로그인</a>
             </div>
         </div>
         <nav class="item__menu__nav mobile-menu">
@@ -89,7 +89,7 @@
                         <div class="header__top__left">
                             <ul>
                                 <li><i class="fa fa-envelope"></i> thejoeun@naver.com</li>
-                                <li>1만원 부터 무료 배송</li>
+                                <li>1만원부터 무료 배송</li>
                             </ul>
                         </div>
                     </div>
@@ -230,7 +230,7 @@
                     </div>
                     <div class="col-lg-3">
                         <div class="categories__item set-bg" data-setbg="img/categories/cat-4.jpg">
-                            <h5><a href="#">로컬추드</a></h5>
+                            <h5><a href="#">로컬푸드</a></h5>
                         </div>
                     </div>
                     <div class="col-lg-3">

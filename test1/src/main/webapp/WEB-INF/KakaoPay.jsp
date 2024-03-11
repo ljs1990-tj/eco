@@ -34,7 +34,7 @@
                 {
                     pg: "kakaopay.TC0ONETIME", //Test는 TC0ONETIME
                     pay_method: "card",
-                    merchant_uid: "57008833-33006", //그냥 랜덤
+                    merchant_uid: "57008833-33008", //그냥 랜덤
                     name: "테스트 상점", // 상표명
                     amount: 1004, // 가격
                     buyer_email: 'test@naver.com', //유저 이메일
