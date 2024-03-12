@@ -16,7 +16,7 @@ public interface UserMapper {
 
 	void updateUser(HashMap<String, Object> map); // 유저 정보수정
 
-	void insertUserAddr(HashMap<String, Object> map); // 유저 회원가입
+	void insertUserAddr(HashMap<String, Object> map); // 유저 회원가입 (주소)
 
 	List<Addr> selectAddr(HashMap<String, Object> map); // 유저 주소
 
@@ -25,4 +25,8 @@ public interface UserMapper {
 	void insertMyPageAddrAdd(HashMap<String, Object> map); //마이페이지 주소 추가
 	
 	Addr selectAddrAddNo(HashMap<String, Object> map);	//유저 마이페이지 주소록 가져오기
+	
+	void updateLoginCnt(HashMap<String, Object> map); // 로그인 실패 시 카운트 증가
+	
+	void updateLoginCnt2(HashMap<String, Object> map); // 로그인 성공 시 카운트 초기화
 }
