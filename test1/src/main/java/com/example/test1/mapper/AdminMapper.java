@@ -38,4 +38,5 @@ public interface AdminMapper {
 	void updateUserType(HashMap<String, Object> map);
 	void updateUserLoginCntZero(HashMap<String, Object> map);
 
+	int selectUserListCnt(HashMap<String, Object> map);
 }

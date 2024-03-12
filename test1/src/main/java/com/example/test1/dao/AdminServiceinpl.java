@@ -167,7 +167,9 @@ public class AdminServiceinpl implements AdminService {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			List<User> userList = adminMapper.selectUserList(map);
+			int cnt = adminMapper.selectUserListCnt(map);
 			resultMap.put("userList", userList);
+			resultMap.put("cnt", cnt);
 			resultMap.put("result", "success");
 		} catch (Exception e) {
 			// TODO: handle exception

@@ -89,7 +89,7 @@
   	}
 </style>
 <body>
-
+<%@ include file="../layout/header.jsp"%>
 	<div id="app">
 		<div class="container">
 			<div class="title">
@@ -129,7 +129,8 @@
 				    </template>
 				    </template>
 				    <p><a href="javascript:;" @click="fnDetailView(item.itemNo)">{{item.itemName}}</a></p>
-				    <p class="price"><del>₩{{item.price}}</del><br>할인가₩{{(item.price)*((100-item.sRate)/100)}}<br> 할인율{{item.sRate}}%</p>
+				    <p class="price" v-if="item.sRate!=0"><del>₩{{item.price}}</del><br>할인가₩{{(item.price)*((100-item.sRate)/100)}}<br> 할인율{{item.sRate}}%</p>
+				  	<p class="price" v-if="item.sRate == 0">₩{{item.price}}</p>
 				  	<button @click="fnRemove(item.itemNo)">상품삭제</button>
 				  	<button @click="fnEdit(item.itemNo)">상품 수정</button>
 				  </div>

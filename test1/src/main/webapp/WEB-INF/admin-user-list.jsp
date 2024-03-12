@@ -35,7 +35,16 @@ table {
 <body>
 
 	<div id="app">
-	
+	<select v-model="selectNum" @click="fnPageList(1)">
+			<option value="5">5개</option>
+			<option value="10">10개</option>
+			<option value="20">20개 </option>
+			<option value="30">30개 </option>
+		</select>
+	<select v-model ="keywordType">
+		<option value="id">아이디</option>
+		<option value="name">닉네임</option>
+	</select>
 	<input type="text" v-model="keyword" @keyup="fnList()"><button @click="fnList()">검색</button>
 		<table>
 			
@@ -72,7 +81,16 @@ table {
 		
 		
 		</table>
-	
+		<a href="javascript:;" @click="fnPageMove(1)">◀</a>
+	<template v-for="n in pageCount">
+		
+		<a  href="javascript:;" @click="fnPageList(n)" style="color : red;"  :class="selectPage == n ? 'select-tab' : 'tab'"v-if > ({{n}}) </a>
+		
+	</template >
+		<a href="javascript:;" @click="fnPageMove(2)"> ▶</a>
+		<a href="javascript:;" @click="fnPageMove(3)"> ≥</a>
+		<div><button @click="fnMoveAdminPage">관리자페이지로 돌아가기</button></div>
+		
 	</div>
 </body>
 </html>
@@ -81,14 +99,32 @@ var app = new Vue({
     el: '#app',
     data: {
     	list : [],
-    	keyword : ""
+    	keyword : "",
+    	pageCount : 1,
+    	selectPage : 1,
+    	selectNum : 10,
+    	selectType : "id",
+    	startNum :1,
+		lastNum : 10,
+		type : "id",
+		order : "DESC",
+		keywordType : "id",
+	
+    	
     }
     , methods: {
     	
     	fnList: function() {
             var self = this;
+            
             var nparmap = {
-            		keyword : self.keyword
+            		keyword : self.keyword,
+            		startNum : self.startNum,
+                	lastNum : self.lastNum,
+                	keywordType : self.keywordType,
+                	type : self.type,
+                	order : self.order
+                	
             };
             $.ajax({
                 url:"AdminUserList.dox",
@@ -98,14 +134,91 @@ var app = new Vue({
                 success: function(data) {
                 	console.log(data);
                 	self.list = data.userList;
-                	
+                	self.pageCount = Math.ceil(data.cnt/self.selectNum);
                 }
             });
         },
+        fnOrder : function(type,order){
+    		var self = this;
+            self.selectList = [];
+            self.type=type;
+            self.order = order;
+            
+            var startNum = ((self.selectPage-1)*self.selectNum)+1;
+            var lastNum =self.selectPage *self.selectNum; 
+            self.selectPage =self.selectPage;
+            var nparmap = {keyword : self.keyword, keywordType : self.keywordType , 
+            	startNum : startNum,
+            	lastNum : lastNum,
+            	kind : self.kind,
+            	type : type,
+            	order : order
+            };
+            $.ajax({
+                url:"AdminUserList.dox",
+                dataType:"json",	
+                type : "POST", 
+                data : nparmap,
+                success : function(data) { 
+                	self.list = data.list;
+                	self.pageCount = Math.ceil(data.cnt/self.selectNum);
+                }	
+            }); 
+        
+    	},
+        fnPageList : function(num){
+            var self = this;
+            
+            var startNum = ((num-1)*self.selectNum)+1;
+            var lastNum =num *self.selectNum;
+            self.selectPage = num;
+            var nparmap = {keyword : self.keyword, keywordType : self.keywordType , 
+            	startNum : startNum,
+            	lastNum : lastNum,
+            	kind : self.kind,
+            	type: self.type,
+            	order : self.order
+            };
+            $.ajax({
+                url:"AdminUserList.dox",
+                dataType:"json",	
+                type : "POST", 
+                data : nparmap,
+                success : function(data) { 
+                	self.list = data.userList;
+                	self.pageCount = Math.ceil(data.cnt/self.selectNum);
+                }	
+            }); 
+        },
+        fnPageMove : function(num){
+    		var self = this;
+    		if(num ==1){
+    			if(self.selectPage ==1){
+    				self.selectPage = 1;
+    			}else{
+    				self.selectPage = self.selectPage-1;
+                	console.log(self.selectPage);
+    			}
+            	
+            }else if(num ==2){
+            	if(self.selectPage >= self.pageCount){
+            		self.selectPage = self.pageCount;
+            	}else{
+            		self.selectPage = self.selectPage +1;
+            		console.log(self.selectPage);
+            	}
+            }
+            else if(num ==3){
+        		self.selectPage = self.pageCount;
+        	}
+    		self.fnPageList(self.selectPage);
+    	},
         fnMoveUserDetail : function(userId){
         	
         	$.pageChange("/adminUserDetail.do", { userId : userId });
-        }
+        },
+        fnMoveAdminPage : function(){location.href="/admin-main.do"}
+        
     	
     }
     , created: function() {

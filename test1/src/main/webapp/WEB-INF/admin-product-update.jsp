@@ -53,6 +53,7 @@
 		현재 컨텐츠 썸네일 이미지 : 
 		<template v-for="item in contentsFile">
 		<img :src="item.filePath+item.fileName">
+		<button @click="fnFileDelete(item.fileNo)">◀X</button>
 		</template>
 		
 		</div>
@@ -87,6 +88,7 @@
 		</div>
 	
 	<button @click="ProductUpdate()">등록하기</button>
+	<button @click="fnReturn">돌아가기</button>
 	</div>
 </body>
 </html>
@@ -147,11 +149,6 @@ var app = new Vue({
                 			}
                 		}console.log(self.mainFile);
                 		console.log(self.contentsFile);
-                		
-                	
-                		
-
-                		
                 	}
                 	
                 }
@@ -235,13 +232,18 @@ var app = new Vue({
                 success: function(data) {
                 	if(data.result=="success"){
                 		alert("삭제완료");
-                		self.fnView();
+                		$.pageChange("/AdminProductUpdate.do",{itemNo : self.itemNo});
                         
                 	}
                 	
                 }
             });
-    } 
+    },
+    fnReturn : function(){
+    	location.href="AdminProductList.do"
+    	
+    }
+    
     }
     , created: function() {
     	var self = this;
