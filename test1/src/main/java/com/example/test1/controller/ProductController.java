@@ -20,7 +20,7 @@ public class ProductController {
 
 	@Autowired
 	ProductService productService;
-
+	
 	// 유기농 제품 페이지
 	@RequestMapping("/productOrganic.do")
 	public String productOrganic(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
