@@ -7,7 +7,7 @@
 	<!-- 문의 게시판 관리자 답글 입력 -->
 	<insert id="insertAdminComment" parameterType="hashmap">
 		INSERT INTO ECO_COMMENT
-		VALUES (NULL, #{boardNo}, #{comment}, '#{userId}, 0, NULL, NOW(), NOW());
+		VALUES (NULL, #{boardNo}, #{comment}, #{userId}, 0, NULL, NOW(), NOW());
 	</insert>
 	
 </mapper>

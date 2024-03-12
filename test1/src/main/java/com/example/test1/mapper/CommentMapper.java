@@ -10,6 +10,9 @@ import com.example.test1.model.Code;
 @Mapper
 public interface CommentMapper {
 	
+	//관리자 문의 내용 답글 달기
+	void insertAdminComment(HashMap<String, Object> map); 
+	
 	
 }
 

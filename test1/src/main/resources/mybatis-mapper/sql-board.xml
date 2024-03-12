@@ -44,7 +44,7 @@
 	<select id="selectCustomerInquiryList" parameterType="hashmap" resultType="com.example.test1.model.Board">
 		SELECT * FROM
 		ECO_BOARD B
-		INNER JOIN ECO_USER U ON B.USERID = U.USERID <!-- ECE_USER에 있는 userType 가져올려고 씀 -->
+		INNER JOIN ECO_USER U ON B.USERID = U.USERID <!-- ECO_USER에 있는 userType 가져올려고 씀 -->
 		WHERE KIND = 3	
 	</select>
 	
@@ -56,8 +56,10 @@
 	
 	<!-- 등록한 문의 내용 확인 -->
 	<select id="selectInquiryInfo" parameterType="hashmap" resultType="com.example.test1.model.Board">
-		SELECT * FROM ECO_BOARD B INNER JOIN ECO_USER U ON B.USERID = U.USERID
-		WHERE BOARDNO = #{boardNo}
+		SELECT * 
+		FROM ECO_BOARD B 
+		INNER JOIN ECO_USER U ON B.USERID = U.USERID
+		WHERE B.BOARDNO = #{boardNo}
 	</select>
 	
 	<!-- 등록한 문의 삭제 -->
@@ -74,11 +76,11 @@
 	</update>
 	
 	<!-- 관리자 답변 내용 확인  -->
-	<select id="selectAdminComment" parameterType="hashmap" resultType="com.example.test1.model.Board">
+	<select id="selectAdminComment" parameterType="hashmap" resultType="com.example.test1.model.Comment">
 		SELECT * 
-		FROM ECO_BOARD B
-		INNER JOIN ECO_COMMENT C ON B.BOARDNO = C.BOARDNO
-		WHERE B.BOARDNO = #{boardNo} AND B.KIND = 3;
+		FROM ECO_COMMENT
+		WHERE BOARDNO = #{boardNo}
 	</select>
+	
 	
 </mapper>

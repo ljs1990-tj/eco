@@ -22,6 +22,15 @@ public class CommentController {
 	CommentService commentService;
 	@Autowired
 	HttpSession session;
+	
+	//관리자 답글
+	@RequestMapping(value = "/adminCommentInsert.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String adminCommentInsert(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = commentService.addAdminComment(map);
+		return new Gson().toJson(resultMap);
+	}
 
 
 }

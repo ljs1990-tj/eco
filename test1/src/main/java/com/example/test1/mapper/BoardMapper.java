@@ -38,7 +38,7 @@ public interface BoardMapper {
 	
 	void updateInquiry(HashMap<String, Object> map); // 등록한 문의 수정
 	
-	Board selectAdminComment(HashMap<String, Object> map); // 문의글에 관리자가 남긴 코멘트 출력 
+	Comment selectAdminComment(HashMap<String, Object> map); // 문의글에 관리자가 남긴 코멘트 출력 
 }
 
 

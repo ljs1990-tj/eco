@@ -149,13 +149,14 @@
 			
 			<template v-if="userType == 'A' ">
 	            <div class="textarea-container">
-	                <textarea placeholder="답변을 남겨주세요"></textarea>
+	                <textarea placeholder="답변을 남겨주세요" v-model="comment.comment"></textarea>
 	                <div class="button-container">
-	                    <button>답변 남기기</button>
+	                    <button @click="fnAddComment">답변 남기기</button>
 	                </div>
 	            </div>			
 			</template>
         </div>
+        
 	</div>
 </body>
 </html>
@@ -166,9 +167,10 @@ var app = new Vue({
     	boardNo : "${map.boardNo}",
     	info : {},
     	comment : {},
-    	userId : "${userId}",
-    	userType : "${userType}",
-    	contents : ""
+    	userId : "${map.userId}",
+    	userType : "${map.userType}",
+    	contents : "",
+    	
     }
     , methods: {
     	fnView: function() {
@@ -182,12 +184,15 @@ var app = new Vue({
                 type: "POST",
                 data: nparmap,
                 success: function(data) {
-                	console.log(data.info);
+                	/* console.log(data.info);
                 	console.log(data.comment);
-                	
+                	 */
+                	console.log(data);
                 	self.info = data.info;
-                	self.comment = data.comment;
-                	self.contents = data.info.contents;
+                	if(data.comment != null){
+                		self.comment = data.comment;	
+                	}
+                	
                 }
             });
         },
@@ -233,6 +238,29 @@ var app = new Vue({
 						$.pageChange("/customerService.do", {});
 					} else {
 						alert("다시 시도해주세요");
+					}
+                }
+            });
+        },
+        fnAddComment: function(){
+        	var self = this;
+            var nparmap = { 
+            	boardNo : self.boardNo,
+            	comment : self.comment,
+            	userId : self.userId 
+            };
+            $.ajax({
+                url:"adminCommentInsert.dox",
+                dataType:"json",
+                type: "POST",
+                data: nparmap,
+                success: function(data) {
+                	console.log(data.result);
+                	if (data.result == "success") {
+						alert("답변이 정상적으로 입력되었습니다.");
+						$.pageChange("/customerService.do", {});
+					} else {
+						alert("예기치 못한 오류로 답변이 등록되지 않았습니다. 다시 시도해주세요");
 					}
                 }
             });
