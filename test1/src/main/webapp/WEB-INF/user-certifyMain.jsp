@@ -59,10 +59,12 @@ a {
 <script type="text/javascript">
 	var app = new Vue({
 		el : '#app',
-		data : {},
+		data : {
+		},
 		methods : {
 			// 팝업 창을 여는 로직을 여기에 작성
 			openCertificationPopup : function() {
+				var self = this;
 				// 'width=900,height=900'으로 설정된 부분 수정
 				var popup = window.open('/user-certifySms.do',
 						'Certification Popup', 'width=900,height=900');
@@ -77,6 +79,7 @@ a {
 				}, 1000); // 1초마다 확인
 			},
 			fnback : function() {
+				var self = this;
 				// 메인 페이지로 이동하는 로직을 여기에 작성
 				window.location.href = '/main.do';
 			}
@@ -84,6 +87,7 @@ a {
 		},
 		created : function() {
 			var self = this;
+		
 		}
 	});
 </script>

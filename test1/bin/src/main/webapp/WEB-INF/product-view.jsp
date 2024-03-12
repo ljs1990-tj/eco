@@ -87,6 +87,8 @@
 		border: none;
 		padding: 10px 20px;
 		cursor: pointer;
+		border-radius: 5px;
+		
 	}
 	
 	.buy-options button:hover {
@@ -97,16 +99,51 @@
 		float: right;
 		cursor: pointer;
 	}
+	
+	.navigation {
+		text-align: center; 
+		margin-top: 20px; 
+	}
+	
+	.navigation button {
+		padding: 10px 15px;
+		margin: 0 5px;
+		cursor: pointer;
+		border: 1px solid #ddd;
+		background: #fff;
+		transition: background-color 0.3s ease;
+	}
+	
+	/* 버튼 활성화 스타일 */
+	.navigation button.active {
+		background-color: #4CAF50; 
+		color: white;
+	}
+	
+	/* 버튼 호버 스타일 */
+	.navigation button:hover {
+		background-color: #4CAF50; 
+		color: white;
+	}
+	
+	.product-section {
+		padding: 20px;
+		background: #fff;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		display: flex;
+		width: 80%;
+		max-width: 1200px;
+		margin: 5px auto;
+	}
 </style>
 <body>
 	<div id="app">
 		<div class="container">
 		    <div class="left-panel">
 		        <div class="product-images">
-			        <img src="" alt="GAP 천혜향 주요 이미지">
-		            <img src="" alt="GAP 천혜향 추가 이미지1">
-		            <img src="" alt="GAP 천혜향 추가 이미지2">
-		            <img src="" alt="GAP 천혜향 추가 이미지3">
+			        <template v-for="item in fileList">
+			        	<img :src="item.filePath+item.fileName" alt="주요 이미지">
+		            </template>
 		        </div>
 		    </div>
 		    
@@ -125,19 +162,61 @@
 		            <p>배송 방식: {{info.transInfo}}</p>
 		        </div>
 		        
-		        <!-- 구매 옵션 -->
+		        <!-- 구매 관련 -->
 		        <div class="buy-options">
 		            <label for="quantity">수량</label>
 		            <select name="quantity" id="quantity">
 		                <option value="1">1</option>
 		            </select>
-		            
-		            <button>장바구니</button>
-		            <button>구매하기</button>
+			        <button>장바구니</button>
+			        <button>구매하기</button>
 		        </div>
-		        
-		    </div><!-- <div class="right-panel"> -->
+		    </div><!-- <div class="right-panel"> -->		    
 		</div><!-- <div class="container">  -->
+		
+		<div class="navigation">
+			<button 
+				:class="{'active': activeTab === 'details'}" 
+				@click="selectTab('details'); scrollToElement('#details')"
+			>
+				상품상세
+			</button>
+			<button 
+				:class="{'active': activeTab === 'reviews'}" 
+				@click="selectTab('reviews'); scrollToElement('#reviews')"
+			>
+				상품평
+			</button>
+			<button 
+				:class="{'active': activeTab === 'inquiries'}" 
+				@click="selectTab('inquiries'); scrollToElement('#inquiries')"
+			>
+				상품문의
+			</button>
+		</div>
+				
+		<!-- 상품 상세 영역 -->
+		<div id="details" class="product-section">
+		    <h3>상품 상세 정보</h3>
+			<div class="product-images">
+				<template v-for="item in fileDetailList">
+					<img :src="item.filePath+item.fileName" alt="주요 이미지">
+				</template>
+			</div>
+		</div>
+		
+		<!-- 상품평 영역 -->
+		<div id="reviews" class="product-section">
+		    <h3>상품평</h3>
+		    <!-- 상품평 내용 -->
+		</div>
+		
+		<!-- 상품문의 영역 -->
+		<div id="inquiries" class="product-section">
+		    <h3>상품문의</h3>
+		    <!-- 상품문의 내용 -->
+		</div>
+		
 	</div><!-- <div id="app"> -->
 </body>
 </html>
@@ -146,7 +225,10 @@ var app = new Vue({
     el: '#app',
     data: {
     	itemNo: "${map.itemNo}",
-    	info: {}
+    	info: {},
+    	fileList : [],
+    	fileDetailList : [],
+    	activeTab: 'details'
     }
     , methods: {
     	fnView: function() {
@@ -158,12 +240,30 @@ var app = new Vue({
                 url:"productView.dox",
                 dataType:"json",
                 type: "POST",
-                data: nparmap,
+                data: nparmap,l
                 success: function(data) {
+                	console.log(data.filelist);
+                	console.log(data.fileDetailList);
+                	
                 	self.info = data.info;
+                	self.fileList = data.filelist;
+                	self.fileDetailList = data.fileDetailList;
                 }
             });
+        },
+        
+        /* 상품정보, 상품평 등.. 선택버튼  */
+        selectTab: function(tabName) {
+			this.activeTab = tabName;
+		},
+        scrollToElement: function(selector) {
+            var element = document.querySelector(selector);
+            if(element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
         }
+        
+      
     }
     , created: function() {
     	var self = this;

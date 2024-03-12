@@ -6,8 +6,8 @@
 	<meta charset="UTF-8">
 	<script src="js/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<%-- <jsp:include page="/layout/menu.jsp"></jsp:include> --%>
-	<title>유기농 제품 페이지</title>
+	<jsp:include page="/layout/header.jsp"></jsp:include>
+	<title>친환경 제품 페이지</title>
 </head>
 <style>
   	body {
@@ -87,59 +87,69 @@
 	<div id="app">
 		<div class="container">
 			<div class="title">
-			  <h1>Shop Organic’s</h1>
+				<h1>Shop Organic’s</h1>
 			</div>
 			
 			<div class="description">
-			  <p>Revamp your style with the latest designer trends in men's clothing or achieve a perfectly curated wardrobe thanks to our line-up of timeless pieces.</p>
+				<p>Revamp your style with the latest designer trends in men's clothing or achieve a perfectly curated wardrobe thanks to our line-up of timeless pieces.</p>
 			</div>
 			
 			<ul class="nav">
-			  <li @click="fnOrganic">유기농</li>
-			  <li @click="fnVegan">비건</li>
-			  <li @click="fnGluten">글루텐프리</li>
-			  <li @click="fnLocal">로컬푸드</li>
+				<li @click="fnList('org')">유기농</li>
+				<li @click="fnList('vegan')">비건</li>
+				<li @click="fnList('gluten')">글루텐프리</li>
+				<li @click="fnList('local')">로컬푸드</li>
 			</ul>
-			
+
 			<div class="filter">
-			  <select name="items" id="items">
-			    <option >인기 순</option>
-			    <option >추천 수</option>
-			    <option >???</option>
-			  </select>
+				<select name="items" id="items">
+					<option>인기 순</option>
+					<option>추천 수</option>
+					<option>???</option>
+				</select>
 			</div>
-			
+
 			<div class="product-grid">
 				 <div class="product" v-for="item in list">
-				    <img src="" alt="">
+				 	<template  v-for="item2 in filelist" v-if="item.itemNo == item2.itemNo">
+						<img :src="item2.filePath+item2.fileName" alt="">
+				    </template>
+				 
 				    <p><a href="javascript:;" @click="fnDetailView(item.itemNo)">{{item.itemName}}</a></p>
 				    <p class="price">₩{{item.price}}</p>
 				  	<button @click="fnRemove(item.itemNo)">상품삭제</button>
 				  </div>
 			</div>
-		
 		</div>
-			
 	</div>
 </body>
+
 </html>
+
 <script type="text/javascript">
 var app = new Vue({
     el: '#app',
     data: {
-    	list : []
+    	list : [],
+    	filelist : [],
+    	code : ""
     }
     , methods: {
-    	fnList: function() {
+    	fnList: function(code) {
             var self = this;
-            var nparmap = {};
+            self.code = code;
+            var nparmap = {
+            		code: code
+            };
             $.ajax({
-                url:"productList.dox",
+                url:"cordList.dox",
                 dataType:"json",
                 type: "POST",
                 data: nparmap,
                 success: function(data) {
+                	console.log(data);
                 	self.list = data.list;
+                	self.filelist = data.filelist;
                 }
             });
         },
@@ -173,26 +183,10 @@ var app = new Vue({
 			var self = this;
 			$.pageChange("/productView.do", {itemNo: itemNo});
 		},
-        /* 오가닉 제품 페이지 이동  */
-        fnOrganic: function() {
-        	$.pageChange("/productOrganic.do", {});
-        },
-        /* 비건 제품 페이지 이동  */
-        fnVegan: function() {
-        	$.pageChange("/productVegan.do", {});
-        },
-        /* 글루텐 프리 제품 페이지 이동  */
-        fnGluten: function() {
-        	$.pageChange("/productGlutenFree.do", {});
-        },
-        /* 로컬 제품 페이지 이동  */
-        fnLocal: function() {
-        	$.pageChange("/productLocalFood.do", {});
-        }
     }
     , created: function() {
     	var self = this;
-		self.fnList();
+		self.fnList('org');
 	}
 });
 </script>

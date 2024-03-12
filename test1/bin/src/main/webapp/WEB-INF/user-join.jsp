@@ -7,12 +7,12 @@
 	<link rel="stylesheet" href="../css/team_project_style.css">
 	<script src="js/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<title>회원가입 페이지</title>
 </head>
 <style>
 </style>
 <body>
-<<<<<<< HEAD
     <div id="app">
         <fieldset class="container-join">
             <div class="join-title">회원가입</div>
@@ -26,7 +26,7 @@
                     </span>
                     <div v-if="user.userId != ''">
                         <template v-if="!idCheckFlg2">
-                            <div style="color: red;">아이디는 영어와 숫자만 입력하세요!</div>
+                            <div style="color: red;">아이디는 최소 5글자, 최대 20글자이어야 하며 하나 이상의 숫자와 영문자를 각각 포함하여야 합니다!</div>
                         </template>
                         <template v-else>
                             <div v-if="idCheckFlg" style="color: blue;">사용 가능한 아이디입니다.</div>
@@ -40,7 +40,7 @@
                         <input type="password" class="join-input" v-model="user.userPw" @keyup="fnCheck('pw1')" maxlength="16">
                     </span>
                     <div v-if="user.userPw != ''">
-                        <div v-if="!pwCheckFlg" style="color: red;">비밀번호는 최소 8글자, 최대 16글자이고 하나 이상의 숫자, 영문자 및 특수문자를 각각 포함되어야 합니다!</div>
+                        <div v-if="!pwCheckFlg" style="color: red;">비밀번호는 최소 8글자, 최대 16글자이어야 하며 하나 이상의 숫자, 영문자 및 특수문자를 각각 포함하여야 합니다!</div>
                     </div>
                 </li>
                 <li>
@@ -55,7 +55,7 @@
                 <li>
                     <div class="join-divide">이름<span class="required-star">*</span></div>
                     <span>
-                        <input type="text" class="join-input" v-model="user.name" maxlength="20">
+                        <input type="text" class="join-input" v-model="user.name" maxlength="30">
                     </span>
                 </li>
                 <li>
@@ -71,6 +71,20 @@
                         <input type="radio" name="gender" value="여성" v-model="user.gender">여
                         <input type="radio" name="gender" value="기타" v-model="user.gender">기타
                     </span>
+                </li>
+                <li>
+					<div class="join-divide">주소<span class="required-star">*</span></div>                
+					<input type="text" class="join-input zipcode-input" v-model="user.zipCode" placeholder="우편번호">
+					<input type="button" class="addr-btn" @click="execDaumPostcode" value="우편번호 찾기">
+                    <div class="margin-bottom-10px"></div>
+					<input type="text" class="join-input" v-model="user.addr" placeholder="주소">
+					<div class="join-divide margin-bottom-10px"></div>
+					<input type="text" class="join-input" v-model="addrDetail1" placeholder="상세주소" ref="addrDetail1">
+					<div style="margin-bottom: 10px;"></div>
+                    <div class="join-divide margin-bottom-10px"></div>
+					<input type="text" class="join-input" v-model="addrDetail2" placeholder="참고항목">
+					<div style="margin-bottom: 10px;"></div>
+					<div style="padding-left: 110px; font-size: 10px;">※└현재 주소는 집 주소로 기본 저장되며, 후에 마이페이지에서 수정이 가능합니다.</div>
                 </li>
                 <li>
                     <div class="join-divide">핸드폰 번호<span class="required-star">*</span></div>
@@ -107,113 +121,27 @@
                 <div class="under-line"></div>
                 <li>
                     <div class="join-divide">이용약관 동의<span class="required-star">*</span></div>
-                    <div><label for="check-all"><input type="checkbox" id="check-all">전체 동의합니다.</label></div>
+                    <div><label for="check_all"><input type="checkbox" id="check_all" v-model="allChecked" @change="checkAll">전체 동의합니다.</label></div>
                     <div class="join-divide">　</div>
                     <div style="padding-left: 125px; font-size: 10px;">선택항목에 동의하지 않더라도 회원가입은 가능합니다.</div>
-                    <div><label for="check1"><input type="checkbox" id="check1">이용약관 동의 (필수)</label></div>
-                    <div class="join-divide">　</div>
-                    <div><label for="check2"><input type="checkbox" id="check2">개인정보 수집·이용 동의 (필수)</label></div>
-                    <div class="join-divide">　</div>
-                    <div><label for="check3"><input type="checkbox" id="check3">본인은 만 14세 이상입니다. (필수)</label></div>
-                    <div class="join-divide">　</div>
-                    <div><label for="check4"><input type="checkbox" id="check4" name="eventYn" v-model="isEventYn">이벤트 인증 (선택)</label></div>
+			        <div v-for="(item, index) in agreementItems" :key="index">
+			          	<div class="join-divide" style="color: white;">·</div>
+						<label :for="'check' + (index + 1)">
+			            	<input type="checkbox" :id="'check' + (index + 1)" v-model="checkedItems" :value="item.id" @change="updateAllChecked">{{item.label}}
+						</label>
+			        </div>
+			        <div>
+			        <div class="join-divide" style="color: white;">·</div>
+			          <label for="check4">
+			            <input type="checkbox" id="check4" v-model="isEventYn">이벤트 수신 동의 (선택)
+			          </label>
+                    </div>
                 </li>
             </ul>
             <div class="text-center">
                 <button class="join-button" @click="fnJoin">회원가입</button>
             </div>
         </fieldset>
-=======
-	<div id="app">
-		<fieldset>
-			<legend>회원가입</legend>
-			<ul>
-				<li>
-					<div>아이디</div>
-					<span>
-						<input type="text" v-model="user.userId" @keyup="fnIdCheck" required maxlength="20">
-					</span>
-		        	<div v-if="user.userId != ''">
-				       	<div v-if="idCheckFlg" style="color: blue;">사용 가능한 아이디입니다.</div>
-				       	<div v-else style="color: red;">중복된 아이디입니다.</div>
-		        	</div>
-				</li>
-				<li>
-					<div>비밀번호</div>
-					<span>
-						<input type="password" v-model="user.userPw" @keyup="fnPwCheck" required maxlength="16">
-					</span>
-					<div v-if="user.userPw != ''">
-						<div v-if="!pwCheckFlg" style="color: red;">비밀번호는 최소 8글자, 최대 16글자이고 하나 이상의 숫자, 영문자 및 특수문자를 각각 포함되어야 합니다!</div>
-					</div>
-				</li>
-				<li>
-					<div>비밀번호 확인</div>
-					<span>
-						<input type="password" v-model="user.userPw2" required maxlength="16">
-					</span>
-					<div v-if="user.userPw2 != ''">
-						<div></div>
-					</div>
-				</li>
-				<li>
-					<div>이름</div>
-					<span>
-						<input type="text" v-model="user.name" required maxlength="30">
-					</span>
-				</li>
-				<li>
-					<div>닉네임</div>
-						<input type="text" v-model="user.nickName" required>
-						<input type="text" v-model="user.nickName" required maxlength="30">
-					</span>
-				</li>
-				<li>
-					<div>성별</div>
-					<span>
-			            <input type="radio" name="gender" value="남성" v-model="user.gender">남
-			            <input type="radio" name="gender" value="여성" v-model="user.gender">여
-			            <input type="radio" name="gender" value="기타" v-model="user.gender">기타
-					</span>
-				</li>
-				<li>
-					<div>핸드폰 번호</div>
-					<span>
-						<input type="text" v-model="user.phone1" required maxlength="3">-
-						<input type="text" v-model="user.phone2" required maxlength="4">-
-						<input type="text" v-model="user.phone3" required maxlength="4">
-					</span>
-				</li>
-				<li>
-					<div>이메일</div>
-					<span>
-						<input type="text" v-model="email1" placeholder="이메일 아이디 입력" required>
-						<span>@</span>
-						<input type="text" v-model="email2" placeholder="직접 입력">
-						<select v-model="email3" @change="selectEmail">
-							<option value="" selected>직접 입력</option>
-							<option value="gmail.com">gmail.com</option>
-							<option value="naver.com">naver.com</option>
-							<option value="kakao.com">kakao.com</option>
-							<option value="hanmail.net">hanmail.net</option>
-						</select>
-					</span>
-				</li>
-				<li>
-					<div>생년월일</div>
-					<span>
-						<input type="text" v-model="user.birth" placeholder="ex)19910101" required maxlength="8">
-					</span>
-				</li>
-				<li>
-					<div></div>
-				</li>
-			</ul>
-			<div>
-				<button @click="fnJoin">회원가입</button>
-			</div>
-		</fieldset>
->>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
 	</div>
 </body>
 </html>
@@ -236,8 +164,12 @@ var app = new Vue({
             phone3: "",
             email: "",
     		birth: "",
-    		eventYn: ""
-    		
+    		eventYn: "",
+        	zipCode: "",
+        	addr: "",
+        	addrDetail: "",
+        	addrName: "집",
+        	phone: "",
     	},
     	idCheckFlg: false,
     	idCheckFlg2: false,
@@ -245,7 +177,16 @@ var app = new Vue({
     	pwCheckFlg2: false,
     	birthCheckFlg: false,
     	isEventYn: false,
-    	alertMessage: ""
+    	alertMessage: "",
+		allChecked: false,
+      	checkedItems: [],
+      	agreementItems: [
+        	{ id: 1, label: '이용약관 동의 (필수)' },
+        	{ id: 2, label: '개인정보 수집·이용 동의 (필수)' },
+        	{ id: 3, label: '본인은 만 14세 이상입니다. (필수)' },
+        ],
+        addrDetail1: "",
+        addrDetail2: "",
     }
     , methods: {
     	fnJoin: function() {
@@ -270,6 +211,10 @@ var app = new Vue({
             	alert("비밀번호를 입력하세요!");
             	return;
             }
+            if(self.user.zipCode == "" || self.user.addr == "" || self.addrDetail1 == "") {
+            	alert("우편번호와 주소를 입력해 주세요!");
+            	return;
+            }
             if(self.user.phone1 == "" || self.user.phone2 == "" || self.user.phone3 == ""){
                 alert("핸드폰 번호를 입력하세요!");
                 return;
@@ -284,28 +229,38 @@ var app = new Vue({
             }
             self.user.email = self.email1 + "@" + self.email2;
             self.user.eventYn = self.isEventYn ? 'Y' : 'N';
+            self.user.addrDetail = self.addrDetail1 + " " + self.addrDetail2;
+            self.user.phone = self.user.phone1 + self.user.phone2 + self.user.phone3;
             if(self.idCheckFlg && self.idCheckFlg2 && self.pwCheckFlg && self.pwCheckFlg2 && self.birthCheckFlg) {
-	            var nparmap = self.user;
-	            $.ajax({
-	                url:"user-join.dox",
-	                dataType:"json",
-	                type: "POST",
-	                data: nparmap,
-	                success: function(data) {
-	                	console.log(data);
-	                	if(data.result == "success") {
-		                	alert("가입됐습니다!");
-		                	$.pageChange("/user-login.do",{});
-	                	} else {
-	                		alert("오류로 인한 가입 실패!");
-	                	}
-	                }
-	            });
+            	if(self.checkedItems.length === self.agreementItems.length) {
+		            var nparmap = self.user;
+		            $.ajax({
+		                url:"user-join.dox",
+		                dataType:"json",
+		                type: "POST",
+		                data: nparmap,
+		                success: function(data) {
+		                	console.log(data);
+		                	if(data.result == "success") {
+			                	alert("가입됐습니다!");
+			                	$.pageChange("/user-login.do",{});
+		                	} else {
+		                		alert("오류로 인한 가입 실패!");
+		                	}
+		                }
+		            });
+            	} else {
+            		alert("필수 이용약관에 전부 동의하시길 바랍니다!");
+            		return;
+            	}
+            } else {
+            	alert("필수로 입력해야 할 항목이 아직 남아있습니다!");
+        		return;
             }
         },
         fnIdCheck: function(){
         	var self = this;
-        	var regId = /^[a-zA-Z0-9]*$/;
+        	var regId = /^[a-z0-9_]{5,20}$/;
         	if(regId.test(self.user.userId)) {
         		self.idCheckFlg2 = true;
         	} else {
@@ -363,6 +318,10 @@ var app = new Vue({
 				var dtYear = dtArray[1];
 	            var dtMonth = dtArray[2];
 	            var dtDay = dtArray[3];
+	            
+	            var vDateObj = new Date(vDate.substr(0, 4), vDate.substr(4, 2) - 1, vDate.substr(6, 2)); // 8자리로 입력한 날짜 문자열을 날짜 객체로 전환
+	            var currentDate = new Date();
+	            var limitAge = new Date(currentDate.getFullYear() - 14, currentDate.getMonth(), currentDate.getDate());
 	
 	            if (dtMonth < 1 || dtMonth > 12) {
 	            	self.birthCheckFlg = false;
@@ -374,23 +333,77 @@ var app = new Vue({
 	            	self.birthCheckFlg = false;
 	            	self.alertMessage = "알맞지 않은 날짜를 입력하셨습니다. 다시 한번 확인해 주세요!";
 	            } else if (dtMonth == 2) {
-	                var isleap = (dtYear % 4 == 0 && (dtYear % 100 != 0 || dtYear % 400 == 0));
-	                if (dtDay > 29 || (dtDay == 29 && !isleap)) {
+	                var isLeap = (dtYear % 4 == 0 && (dtYear % 100 != 0 || dtYear % 400 == 0));
+	                if (dtDay > 29 || (dtDay == 29 && !isLeap)) {
 	                	self.birthCheckFlg = false;
 	                	self.alertMessage = "알맞지 않은 날짜를 입력하셨습니다. 다시 한번 확인해 주세요!";
 	                }
+	            } else if(vDateObj > limitAge) {
+	            	self.birthCheckFlg = false;
+                	self.alertMessage = "만 14세 미만은 가입이 불가합니다!";
 	            } else {
 	            	self.birthCheckFlg = true;
 	            	self.alertMessage = "";
 	            }
 			} else {
-				return;
+				self.birthCheckFlg = false;
+            	self.alertMessage = "생년월일 8자리를 전부 입력하세요!";
 			}
 		},
         selectEmail: function() {
         	var self = this;
 			self.email2 = self.email3;
-		}
+		},
+		checkAll: function() {
+			var self = this;
+			if(self.allChecked) {
+				self.checkedItems = self.agreementItems.map(item => item.id);
+				$("#check4").prop('checked', true);
+			} else {
+				self.checkedItems = [];
+				$("#check4").prop('checked', false);
+			}
+		},
+		updateAllChecked: function() {
+			var self = this;
+			self.allChecked = self.checkedItems.length === self.agreementItems.length;
+		},
+		execDaumPostcode() {
+		      var self = this;
+		      new daum.Postcode({
+		        oncomplete: function(data) {
+		          let addr = ''; // 주소 변수
+		          let extraAddr = ''; // 참고항목 변수
+
+		          if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+		            addr = data.roadAddress;
+		          } else { // 사용자가 지번 주소를 선택했을 경우(J)
+		            addr = data.jibunAddress;
+		          }
+
+		          if(data.userSelectedType === 'R'){
+		            if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+		              extraAddr += data.bname;
+		            }
+		            if(data.buildingName !== '' && data.apartment === 'Y'){
+		              extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+		            }
+		            if(extraAddr !== ''){
+		              extraAddr = ' (' + extraAddr + ')';
+		            }
+		            self.addrDetail2 = extraAddr;
+		          } else {
+		            self.addrDetail2 = '';
+		          }
+
+		          self.user.zipCode = data.zonecode;
+		          self.user.addr = addr;
+		          self.$nextTick(() => {
+		            self.$refs.addrDetail1.focus();
+		          });
+		        }
+		      }).open();
+		    }
     }
     , created: function() {
     	var self = this;

@@ -16,33 +16,34 @@
             <fieldset>
                 <ul>
                     <li>
-                        <span>아이디 : </span>
+                        <span>아이디: </span>
                         <input type="text" v-model="user.userId" disabled>
                     </li>
                     <li>
-                        <span>비밀번호 : </span>
-                        <input type="text" v-model="user.userPw" maxlength="16" @input="validatePassword($event, 'userPw')" required>
+                        <span>비밀번호: </span>
+                        <input type="text" v-model="user.userPw" maxlength="16" @input="validatePassword($event, 'userPw')" >
                         <div>
                             <span v-if="!checkPasswordMatch" style="color: red;">{{ passwordErrorMessage }}</span>
                         </div>
                     </li>
                     <li>
                         <span>비밀번호 확인 : </span>
-                        <input type="password" v-model="user.userPw2" maxlength="16" @input="validatePassword($event, 'userPw2')" required>
+                        <input type="password" v-model="user.userPw2" maxlength="16" @input="validatePassword2($event, 'userPw2')">
+                        <button  @click="fnPwdCheck">비밀번호 확인</button>
                         <div>
-                            <span v-if="!checkPasswordMatch" style="color: red;">{{ passwordConfirmErrorMessage }}</span>
+                            <span v-if="!checkPassword2Match" style="color: red;">{{ passwordConfirmErrorMessage }}</span>
                         </div>
                     </li>
                     <li>
-                        <span>이름 : </span>
+                        <span>이름: </span>
                         <input type="text" v-model="user.name" maxlength="30">
                     </li>
                     <li>
-                        <span>닉네임 : </span>
+                        <span>닉네임: </span>
                         <input type="text" v-model="user.nickName" maxlength="30">
                     </li>
                   	<li>
-						<span>성별 : </span>
+						<span>성별: </span>
 						<div>
 							<input type="radio" name="gender" value="남성" v-model="user.gender">남 
 							<input type="radio"name="gender" value="여성" v-model="user.gender">여
@@ -50,7 +51,7 @@
 						</div>
 					</li>
 					<li>
-						<span>핸드폰 번호 : </span>
+						<span>핸드폰 번호: </span>
 						<div>
 							 <input type="text" v-model="user.phone1"  maxlength="3" @input="allowOnlyNumbers($event, 'phone1')">-
        						<input type="text" v-model="user.phone2"  maxlength="4" @input="allowOnlyNumbers($event, 'phone2')">-
@@ -59,11 +60,10 @@
 						</div>
 					</li>
                     <li>
-                        <span>이메일 : </span>
-                        <input type="text" v-model="user.email" placeholder="이메일 직접입력">
-                    </li>
+                        <span>이메일: </span>
+                        <input type="text"  v-model="user.email" placeholder="이메일 아이디 입력">
                     <li>
-                        <span>생년월일 : </span>
+                        <span>생년월일: </span>
                         <input type="text" v-model="user.birth" placeholder="ex)19910101" @input="formatBirthDate">
                     </li>
                 </ul>
@@ -82,25 +82,34 @@
         el: '#app',
         data: {
             user: {
-                userId: "test123",
+                userId: "${userId}",
                 userPw: "",
                 userPw2: "",
                 name: "",
                 nickName: "",
-                gender: "여성",
+                gender: "",
                 phone1: "",
                 phone2: "",
                 phone3: "",
                 email: "",
-                birth: ""
+                birth: "",
+                zipCode: "",
+            	addr: "",
+            	addrDetail: "",
+            	addrName: "집",
             },
             checkPasswordMatch: true,
+            checkPassword2Match: true,
             passwordErrorMessage: "",
             passwordConfirmErrorMessage: ""
         },
         methods: {
             information: function () {
                 var self = this;
+                if(self.user.userId == ""){
+            		alert("로그인 후 입장 가능합니다.");
+            		window.location.href = "/user-login.do";
+            	}
                 var nparmap = self.user;
                 $.ajax({
                     url: "user-mypage.dox",
@@ -114,46 +123,145 @@
                     }
                 });
             },
-            allowOnlyNumbers: function (event, field) {
-                this.user[field] = event.target.value.replace(/[^0-9]/g, '');
-            },
+           
+         	 // 핸드폰 번호 입력 정규식 - 숫자만 허용
+			allowOnlyNumbers: function (event, field) {
+				var self = this;
+				self.user[field] = event.target.value.replace(/[^0-9]/g, '');
+			},
+            //생일 입력 정규식
             formatBirthDate: function () {
                 var formattedDate = moment(this.user.birth, "YYYYMMDD").format("YYYY-MM-DD");
                 this.user.birth = formattedDate;
             },
+        	//비밀번호 정규식 유효성 검사
+            validatePassword: function (event, field) {
+                var self = this;
+                var regex =  /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
+                self.validateInput(event, field, regex, "비밀번호는 최소 8글자, 최대 16글자이고 하나 이상의 숫자, 영문자 및 특수문자를 각각 포함해야 합니다!");
+            },
+            //비밀번호 확인 정규식 유효성 검사
+            validatePassword2: function (event, field) {
+                var self = this;
+                var regex =  /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
+                self.validateInput2(event, field, regex, "비밀번호는 최소 8글자, 최대 16글자이고 하나 이상의 숫자, 영문자 및 특수문자를 각각 포함해야 합니다!");
+            },
+            // 비밀번호 입력 필드 정규식 유효성 검사
             validateInput: function (event, field, validationRegex, errorMessage) {
-                this.user[field] = event.target.value.replace(/[^0-9]/g, '');
-
-                if (!validationRegex.test(this.user[field])) {
-                    this.checkPasswordMatch = false;
-                    this.passwordErrorMessage = errorMessage;
-                } else {
-                    this.checkPasswordMatch = true;
-                    this.passwordErrorMessage = "";
+                var self = this;
+                var inputValue = event.target.value;
+                console.log("validateInput 메소드 호출"); // 디버깅 문
+                if (validationRegex.test(inputValue)) {
+                    console.log("유효성 검사 성공:", inputValue); // 디버깅 문
+                    self.checkPasswordMatch = true;
+                    self.passwordErrorMessage = "";
+                } 
+                else {
+                    console.error("유효성 검사 실패:", inputValue); // 디버깅 문
+                    self.checkPasswordMatch = false;
+                    self.passwordErrorMessage = errorMessage;
                 }
             },
-            validatePassword: function (event, field) {
-                var regex = /^[a-zA-Z0-9!@#$%^&*()-_+=]+$/;
-                this.validateInput(event, field, regex, "비밀번호는 최소 8글자, 최대 16글자이고 하나 이상의 숫자, 영문자 및 특수문자를 각각 포함되어야 합니다!");
+            //비밀번호 확인 입력 필드 정규식 유효성 검사
+            validateInput2: function (event, field, validationRegex, errorMessage) {
+                var self = this;
+                var inputValue = event.target.value;
+                console.log("validateInput 메소드 호출"); // 디버깅 문
+                if (validationRegex.test(inputValue)) {
+                    console.log("유효성 검사 성공:", inputValue); // 디버깅 문
+                    self.checkPassword2Match = true;
+                    self.passwordConfirmErrorMessage = "";
+                }
+                else {
+                    console.error("유효성 검사 실패:", inputValue); // 디버깅 문
+                    self.checkPassword2Match = false;
+                    self.passwordConfirmErrorMessage = errorMessage;
+                }
             },
+            //비밀번호 확인 정규식 유효성 검사
+            validatePassword2: function (event, field) {
+                var self = this;
+                var regex =  /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
+                self.validateInput2(event, field, regex, "비밀번호는 최소 8글자, 최대 16글자이고 하나 이상의 숫자, 영문자 및 특수문자를 각각 포함해야 합니다!");
+            },
+            // 비밀번호 입력 필드 정규식 유효성 검사
+            validateInput: function (event, field, validationRegex, errorMessage) {
+                var self = this;
+                var inputValue = event.target.value;
+                    if (validationRegex.test(inputValue)) {
+                        console.log("유효성 검사 성공:", inputValue);
+                        self.checkPasswordMatch = true;
+                        self.passwordErrorMessage = "";
+                    } else {
+                        console.error("유효성 검사 실패:", inputValue);
+                        self.checkPasswordMatch = false;
+                        self.passwordErrorMessage = errorMessage;
+                    }
+            },
+            // 비밀번호 확인 입력 필드 정규식 유효성 검사
+           validateInput2: function (event, field, validationRegex, errorMessage) {
+			    var self = this;
+			    var inputValue = event.target.value;
+			    // 나머지는 유효성 검사
+			    if (validationRegex.test(inputValue)) {
+			        console.log("유효성 검사 성공:", inputValue);
+			        self.checkPassword2Match = true;
+			        self.passwordConfirmErrorMessage = "";
+			    } else {
+			        console.error("유효성 검사 실패:", inputValue);
+			        self.checkPassword2Match = false;
+			        self.passwordConfirmErrorMessage = errorMessage;
+			    }
+			},
+			//비밀번호 체크
+			fnPwdCheck: function () {
+			    var self = this;
+			    if (self.user.userPw !== self.user.userPw2) {
+			        self.checkPassword2Match = true;
+			        self.checkPasswordMatch = true;
+			        self.checkPassword = false;
+			        self.user.userPw = "";
+			        self.user.userPw2 = "";
+			        alert("비밀번호랑 비밀번호확인이 다릅니다.");
+			    } else if (self.user.userPw == "" || self.user.userPw2 == "") {
+			        self.user.userPw = "";
+			        self.user.userPw2 = "";
+			        alert("비밀번호랑 비밀번호확인을 입력해 주세요");
+			    } else if (self.user.userPw == self.user.userPw2) {
+			        alert("비밀번호가 일치합니다.");
+			      
+			    } else {
+			        self.checkPassword = true;
+			    }
+			},
+            //정보수정하기
             fnmodify: function () {
                 var self = this;
                 if ((!self.user.userPw || !self.user.userPw.trim()) && (!self.user.userPw2 || !self.user.userPw2.trim())) {
-                    alert("비밀번호와 비밀번호 확인을 모두 기입해 주세요.");
+                	self.user.userPw = "";
+		            self.user.userPw2 = "";
+                	alert("비밀번호와 비밀번호 확인을 모두 기입해 주세요.");
                     return;
                 }
                 if (self.user.userPw == "") {
-                    alert("비밀번호를 기입해 주세요.");
+                	self.user.userPw = "";
+		            self.user.userPw2 = "";
+                	alert("비밀번호를 기입해 주세요.");
                     return;
                 }
                 if (self.user.userPw2 == "") {
-                    alert("비밀번호 확인 기입해 주세요.");
+                	self.user.userPw = "";
+		            self.user.userPw2 = "";
+                	alert("비밀번호 확인 기입해 주세요.");
                     return;
                 }
                 if (self.user.userPw != self.user.userPw2) {
-                    alert("비밀번호랑 비밀번호 확인이 다릅니다.");
+                	self.user.userPw = "";
+		            self.user.userPw2 = "";
+                	alert("비밀번호랑 비밀번호 확인이 다릅니다.");
                     return;
                 }
+         
                 if (self.user.name == "") {
                     alert("이름을 입력해 주세요");
                     return;
@@ -170,11 +278,10 @@
                     alert("이메일을 입력해 주세요");
                     return;
                 }
-                if (self.user.birth) {
+                if (self.user.birth == "") {
                     alert("생년월일을 입력해 주세요");
                     return;
                 }
-
                 var nparmap = self.user;
                 $.ajax({
                     url: "user-modify.dox",
