@@ -15,16 +15,16 @@
 	<div id="app">
 		{{addrNo}}
 		<div>
-			<span>받는 분 성함 : </span> <input type="text" v-model="user.name"
-				placeholder="직접 입력">
+			<span>받는 분 성함 : </span> 
+			<input type="text" v-model="user.name" placeholder="직접 입력">
 		</div>
 		<div>
-			<span>받는 분 전화번호 : </span> <input type="text" v-model="user.phone"
-				placeholder="직접 입력" @input="validateInput">
+			<span>받는 분 전화번호 : </span> 
+			<input type="text" v-model="user.phone" placeholder="직접 입력" @input="validateInput">
 		</div>
 		<div>
-			<span>배송 요청 사항 : </span> <input type="text"
-				v-model="user.addrRequest" placeholder="직접 입력">
+			<span>배송 요청 사항 : </span> 
+			<input type="text" v-model="user.addrRequest" placeholder="직접 입력">
 		</div>
 		<div>
 			<span>배송지 위치 : </span> <input type="text" v-model="user.addrName"
@@ -36,13 +36,10 @@
 				<option value="기타" :selected="addrName2 === '기타'">기타</option>
 			</select>
 		</div>
-	</div>
 	<div>
-		<div>
-			받는 분 주소 : <span style="color: red;">*</span>
-		</div>
+		<div>받는 분 주소 : <span style="color: red;">*</span></div>
 		<input type="text" v-model="user.zipCode" placeholder="우편번호">
-		<input type="button" @click="execDaumPostcode()" value="우편번호 찾기">
+		<input type="button" @click="execDaumPostcode1()" value="우편번호 찾기">
 		<div class="margin-bottom-10px"></div>
 		<input type="text" v-model="user.addr" placeholder="주소">
 		<div></div>
@@ -71,7 +68,7 @@
 				name : "",
 				phone : "",
 				addrRequest : "",
-				addrName : ""
+				addrName : "",
 			},
 			addrName2 : "",
 			addrDetail1 : "",
@@ -95,8 +92,14 @@
 				self.user.addrName = self.addrName2;
 			},
 			/* 주소 api */
-			execDaumPostcode : function() {
+			execDaumPostcode1 : function() {
 				var self = this;
+				 if(self.user.userId == ""){
+		          		alert("로그인 후 입장 가능합니다.");
+		          		window.opener.location.href = "/user-login.do";
+		          		window.close();
+		          	}
+				self.addrDetail1 = "";//주소 상세등록하기 초기화
 				new daum.Postcode({
 				    oncomplete: function(data) {
 				          let addr = ''; // 주소 변수
@@ -149,24 +152,49 @@
 					success : function(data) {
 						console.log(data);
 						console.log(self.addrNo);
+						/* 주소DB정보 호출하기 */
 						self.user.name = data.info.name;
 						self.user.phone = data.info.phone;
 						self.user.addrName = data.info.addrName;
 						self.user.addrRequest = data.info.addrRequest;
-						var atIdx = data.user.email.indexOf('@');
-                        self.email1 = data.user.email.substring(0, atIdx);
-                        self.email2 = data.user.email.substring(atIdx + 1);
-						//
+						var atIdx = data.info.addrDetail.indexOf(' (');
+                        self.addrDetail1 = data.info.addrDetail.substring(0, atIdx-1);
+                        self.addrDetail2 = data.info.addrDetail.substring(atIdx + 1);
+                        self.user.addr = data.info.addr;
                         self.user.zipCode = data.info.zipCode;
-						self.user.addr = data.info.addr;
-						self.addrDetail1 = data.info.addrDetail1;
-						self.addrDetail2 = data.info.addrDetail2;
+						//콘솔 창 확인하기
+						console.log("Received data:", data);
+   		 				console.log("UserId:", self.user.userId);
+    					console.log("Info:", data.info.zipCode);
+                        console.log("zipCode:",  self.user.zipCode);
+	
 					}
 				});
 			},
 			/* 주소록 수정하기 */
 			fnUserAddUpdate: function() {
-			   var self = this;	
+			   var self = this;
+			   if(self.user.userId == ""){
+	          		alert("로그인 후 입장 가능합니다.");
+	          		window.opener.location.href = "/user-login.do";
+	          		window.close();
+	          	}
+			   if(self.user.name == ""){
+			   		alert("받는분 성함을 입력해 주세요");
+	            	return;
+			   	}
+			   	if(self.user.phone === ""){
+			    	alert("받는 분 핸드폰 번호를 입력해 주세요");
+			    	return;
+			    }
+			    if (self.user.phone.length !== 11) {
+			        alert("핸드폰번호 11자리여야 합니다.");
+			        return;
+			    }
+			    if(self.user.addrName === ""){
+			    	alert("배송지 위치를 입력해 주세요");
+			    	return;
+			    }
 	 			 if(self.user.zipCode == "" & self.user.addr == "" & self.addrDetail1 == "") {
 	            	alert("우편번호 찾기를 주세요!");
 	            	return;
@@ -183,22 +211,13 @@
 			    	alert("상세주소를 입력해 주세요");
 			    	return;
 			    }
-			    if(self.user.phone === ""){
-			    	alert("핸드폰 번호를 입력해 주세요");
-			    	return;
-			    }
-			    if(self.user.addrName === ""){
-			    	alert("배송지 위치를 입력해 주세요");
-			    	return;
-			    }
-			    if (self.user.phone.length !== 11) {
-			        alert("핸드폰번호 11자리여야 합니다.");
-			        return;
-			    }
+			    if (!confirm("주소록을 수정하겠습니까?")) {
+					return;
+				}
 			   self.user.addrDetail = self.addrDetail1 + " " + self.addrDetail2;
 			   var nparmap = self.user;
 			   $.ajax({
-			    url:"user-addr-add.dox",
+			    url:"user-addr-update.dox",
 			    dataType:"json",
 			    type: "POST",
 			    data: nparmap,
@@ -206,27 +225,29 @@
 			    	console.log(self.user);
 			    	//성공시 부모창 새로고침후 팝업창 닫기
 			    	if (data.result == "success") {
-						alert("추가 되었습니다.");
+						alert("수정 되었습니다.");
 					  	window.opener.location.reload();
 						window.close();
 						
 					} else {
 						alert("다시 시도해주세요");
+						location.reload(true);
 						return;
 					}
 			    }
 			   });
 		   },
 		   //취소버튼 클릭시 팝업창 닫음
-	        fnclose : function(){
+	        fnclose : function() {
 	        	var self = this;
 	        	 window.close();
 	        }
 		},
 		created : function() {
 			var self = this;
-			  if(self.user.userId == ""){
+			 if(self.user.userId == ""){
 	          		alert("로그인 후 입장 가능합니다.");
+	          		window.opener.location.href = "/user-login.do";
 	          		window.close();
 	          	}
 			self.fnUserAddr();

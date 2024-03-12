@@ -133,5 +133,14 @@ public class CertifyController {
 		System.out.println(resultMap);
 		return new Gson().toJson(resultMap);
 	}
+	// 유저 주소록 수정하기
+		@RequestMapping(value = "/user-addr-update.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String useraddrupdate(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap<String, Object>();
+			resultMap = userService.updateAddr(map);
+			System.out.println(resultMap);
+			return new Gson().toJson(resultMap);
+		}
 
 }

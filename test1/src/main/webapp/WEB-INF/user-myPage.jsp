@@ -238,7 +238,8 @@ ul, li {
 			},
 			addrList : [],
 			isPopupOpen : false,
-			radio : ""
+			radio : "",
+			cnt : ""
 		},
 		methods : {
 			/* 등급혜택 창 열기 */
@@ -254,10 +255,18 @@ ul, li {
 			/* 주소 목록 삭제하기 */
 			deleteSelectedAddresses : function() {
 				var self = this;
-				  if(self.user.userId == ""){
-		          		alert("로그인 후 입장 가능합니다.");
-		          		window.location.href = "/user-login.do";
-		          	}
+				var addrNo = self.radio;
+				if (self.user.userId == "") {
+					alert("로그인 후 입장 가능합니다.");
+					window.location.href = "/user-login.do";
+				}
+				if (addrNo == "") {
+					alert("삭제할 정보를 선택해 주세요");
+					return;
+				}
+				if (!confirm("주소록을 삭제하겠습니까?")) {
+					return;
+				}
 				$.ajax({
 					url : "delete-addresses.dox",
 					dataType : "json",
@@ -267,8 +276,8 @@ ul, li {
 					},
 					success : function(data) {
 						//성공시 부모창 새로고침후 팝업창 닫기
-				    	if (data.result == "success") {
-				    		location.reload(true);
+						if (data.result == "success") {
+							location.reload(true);
 						} else {
 							alert("다시 시도해주세요");
 							return;
@@ -279,33 +288,46 @@ ul, li {
 			/* 주소목록 추가하기 */
 			addDefaultAddress : function() {
 				var self = this;
-				 if(self.user.userId == ""){
-		          		alert("로그인 후 입장 가능합니다.");
-		          		window.location.href = "/user-login.do";
-		          	}
+				if (self.addrList.length >= 3) {
+					alert("주소록은 최대 3개까지만 추가할 수 있습니다.");
+					return;
+				}
+				if (self.user.userId == "") {
+					alert("로그인 후 입장 가능합니다.");
+					window.location.href = "/user-login.do";
+				}
+				if (!confirm("주소록을 추가하겠습니까?")) {
+					return;
+				}
 				var popup = window.open('/user-myPage-addrAdd.do',
 						'Certification Popup', 'width=600,height=600');
 
 			},
 			// 주소록값 수정하기
 			updateSelectedAddresses : function() {
-			    var self = this;
+				var self = this;
 				var addrNo = self.radio;
-				if(addrNo == ""){
+				if (self.user.userId == "") {
+					alert("로그인 후 입장 가능합니다.");
+					window.location.href = "/user-login.do";
+				}
+				if (addrNo == "") {
 					alert("수정할 정보를 선택해 주세요");
 					return;
+				}if (!confirm("주소록을 수정하겠습니까?")) {
+					return;
 				}
-			    if(self.user.userId == "") {
-			        alert("로그인 후 입장 가능합니다.");
-			        window.location.href = "/user-login.do";
-			    }
-			    console.log(addrNo);
-			    var popup = window.open('/user-myPage-addrUpdate.do?addrNo=' + addrNo,
-			            'addrUpdate Popup', 'width=900,height=900');
+				console.log(addrNo);
+				var popup = window.open('/user-myPage-addrUpdate.do?addrNo='
+						+ addrNo, 'addrUpdate Popup', 'width=900,height=900');
 			},
 			/* 개인정보 가져오기 */
 			information : function() {
 				var self = this;
+				if (self.user.userId == "") {
+					alert("로그인 후 입장 가능합니다.");
+					window.location.href = "/user-login.do";
+				}
 				var nparmap = self.user;
 				$.ajax({
 					url : "user-mypage.dox",
@@ -321,10 +343,13 @@ ul, li {
 			/* 주소록 가져오기 */
 			getAddress : function() {
 				var self = this;
+				if (self.user.userId == "") {
+					alert("로그인 후 입장 가능합니다.");
+					window.location.href = "/user-login.do";
+				}
 				var nparmap = {
-						userId : self.user.userId
+					userId : self.user.userId
 				};
-
 				$.ajax({
 					url : "user-addr.dox",
 					dataType : "json",
@@ -340,7 +365,6 @@ ul, li {
 			fnUsermodify : function() {
 				var self = this;
 				// 세션 값이 없을 경우 로그인 페이지로 이동
-			
 				if (!self.user.userId) {
 					alert("로그인 후 입장 가능합니다.");
 					window.location.href = "/user-login.do";
@@ -353,10 +377,10 @@ ul, li {
 		},
 		created : function() {
 			var self = this;
-			  if(self.user.userId == ""){
-	          		alert("로그인 후 입장 가능합니다.");
-	          		window.location.href = "/user-login.do";
-	          	}
+			if (self.user.userId == "") {
+				alert("로그인 후 입장 가능합니다.");
+				window.location.href = "/user-login.do";
+			}
 			self.information();
 			self.getAddress();
 		}

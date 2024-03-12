@@ -45,11 +45,11 @@ var app = new Vue({
     	//비밀번호 확인시 실행문
     	fnList: function() {
             var self = this;
-        	if (!self.userId) {
-				alert("로그인 후 입장 가능합니다.");
-				window.close();
-				return;
-			}
+            if(self.user.userId == ""){
+          		alert("로그인 후 입장 가능합니다.");
+          		window.opener.location.href = "/user-login.do";
+          		window.close();
+          	}
         	if(self.userPw == ""){
         		alert("비밀번호를 입력해 주세요.");
         		return;
@@ -70,6 +70,7 @@ var app = new Vue({
 			             window.close();
                 	}else{
                 		alert("비밀번호가 틀립니다.");
+                		location.reload(true);
                 		return;
                 	}
                 }

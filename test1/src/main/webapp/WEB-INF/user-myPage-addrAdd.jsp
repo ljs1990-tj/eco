@@ -97,6 +97,11 @@
 			/* 주소 api */
 			execDaumPostcode : function() {
 				var self = this;
+				 if(self.user.userId == ""){
+		          		alert("로그인 후 입장 가능합니다.");
+		          		window.opener.location.href = "/user-login.do";
+		          		window.close();
+		          	}
 				new daum.Postcode({
 				    oncomplete: function(data) {
 				          let addr = ''; // 주소 변수
@@ -143,35 +148,42 @@
 		          		alert("로그인 후 입장 가능합니다.");
 		          		window.close();
 		          		window.opener.location.href = "/user-login.do";
-		          	}	
-	 			 if(self.user.zipCode == "" & self.user.addr == "" & self.addrDetail1 == "") {
-	            	alert("우편번호 찾기를 주세요!");
-	            	return;
-			    }
-	 			if(self.user.zipCode == "" ){
-	 			  	alert("우편번호 입력해 주세요");
-	            	return;
-	 			}
-	 			if(self.user.addr == "" ){
-	 			  	alert("주소를 입력해 주세요");
-	            	return;
-	 			}
-			    if(self.addrDetail1 == ""){
-			    	alert("상세주소를 입력해 주세요");
-			    	return;
-			    }
-			    if(self.user.phone === ""){
-			    	alert("핸드폰 번호를 입력해 주세요");
-			    	return;
-			    }
-			    if(self.user.addrName === ""){
-			    	alert("배송지 위치를 입력해 주세요");
-			    	return;
-			    }
-			    if (self.user.phone.length !== 11) {
-			        alert("핸드폰번호 11자리여야 합니다.");
-			        return;
-			    }
+		          	}
+					if(self.user.name == ""){
+				   		alert("받는분 성함을 입력해 주세요");
+		            	return;
+				   	}
+				   	if(self.user.phone === ""){
+				    	alert("받는 분 핸드폰 번호를 입력해 주세요");
+				    	return;
+				    }
+				    if (self.user.phone.length !== 11) {
+				        alert("핸드폰번호 11자리여야 합니다.");
+				        return;
+				    }
+				    if(self.user.addrName === ""){
+				    	alert("배송지 위치를 입력해 주세요");
+				    	return;
+				    }
+		 			 if(self.user.zipCode == "" & self.user.addr == "" & self.addrDetail1 == "") {
+		            	alert("우편번호 찾기를 주세요!");
+		            	return;
+				    }
+		 			if(self.user.zipCode == "" ){
+		 			  	alert("우편번호 입력해 주세요");
+		            	return;
+		 			}
+		 			if(self.user.addr == "" ){
+		 			  	alert("주소를 입력해 주세요");
+		            	return;
+		 			}
+				    if(self.addrDetail1 == ""){
+				    	alert("상세주소를 입력해 주세요");
+				    	return;
+				    }
+			    if (!confirm("주소록을 추가하겠습니까?")) {
+					return;
+				}
 			   self.user.addrDetail = self.addrDetail1 + " " + self.addrDetail2;
 			   var nparmap = self.user;
 			   $.ajax({
@@ -189,6 +201,7 @@
 						
 					} else {
 						alert("다시 시도해주세요");
+						location.reload(true);
 						return;
 					}
 			    }

@@ -194,6 +194,10 @@
             //정보수정하기
             fnModify: function () {
                 var self = this;
+                if(self.user.userId == ""){
+            		alert("로그인 후 입장 가능합니다.");
+            		window.location.href = "/user-login.do";
+            	}
                 if ((!self.user.userPw || !self.user.userPw.trim()) && (!self.user.userPw2 || !self.user.userPw2.trim())) {
                     alert("비밀번호와 비밀번호 확인을 모두 기입해 주세요.");
                     return;
@@ -231,6 +235,9 @@
                     return;
                 }
                 self.user.email = self.email1 + "@" + self.email2;
+                if (!confirm("정보를 수정하겠습니까?")) {
+					return;
+				}
                 var nparmap = self.user;
                 $.ajax({
                     url: "user-modify.dox",
@@ -238,13 +245,15 @@
                     type: "POST",
                     data: nparmap,
                     success: function (data) {
-                        console.log(self.user);
-                        alert("사용자 정보가 수정되었습니다.");
-                        location.href = "main.do";
-                    },
-                    error: function (error) {
-                        alert("사용자 정보 수정에 실패했습니다. 다시 시도하세요.");
-                    }
+                    	//성공시 부모창 새로고침후 팝업창 닫기
+						if (data.result == "success") {
+							window.location.href = "/user-myPageView.do";
+						} else {
+							alert("다시 시도해주세요");
+							location.reload(true);
+							return;
+						}
+                    	
                 });
             },
             selectEmail: function() {
@@ -253,7 +262,11 @@
     		},
         },
         created: function () {
-            var self = this;       
+            var self = this;
+            if(self.user.userId == ""){
+        		alert("로그인 후 입장 가능합니다.");
+        		window.location.href = "/user-login.do";
+        	}
             self.information();
         }
     });

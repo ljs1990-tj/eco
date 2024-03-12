@@ -18,11 +18,15 @@ public interface UserMapper {
 
 	void insertUserAddr(HashMap<String, Object> map); // 유저 회원가입
 
-	List<Addr> selectAddr(HashMap<String, Object> map); // 유저 주소
+	List<Addr> selectAddr(HashMap<String, Object> map); // 유저 주소록 가져오기
 
 	void deleteAddr(HashMap<String, Object> map); // 유저 주소 삭제
 	
-	void insertMyPageAddrAdd(HashMap<String, Object> map); //마이페이지 주소 추가
+	void insertMyPageAddrAdd(HashMap<String, Object> map); //유저 마이페이지 주소 추가
 	
 	Addr selectAddrAddNo(HashMap<String, Object> map);	//유저 마이페이지 주소록 가져오기
+	
+	void updateAddr(HashMap<String, Object> map);	//유저 마이페이지 주소록 수정하기
+	
+
 }
