@@ -16,7 +16,7 @@
 			<li>아이디: {{user.userId}}</li>
 			<li>성별: {{user.gender}}</li>
 			<li>폰번호: {{user.phone1}} - {{user.phone2}} - {{user.phone3}}</li>
-			<li v-if="item.kind==1" v-for="item in list">공지사항 : {{item.title}}</li>
+			<li v-if="item.kind==1" v-for="item in list"> 작성한 글 : {{item.title}}</li>
 			
 		</ul>
 		{{userId}}
