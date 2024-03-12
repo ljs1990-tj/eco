@@ -113,7 +113,7 @@ var app = new Vue({
             		
             };
             $.ajax({
-                url:"productAdd.dox",
+                url:"addProduct.dox",
                 dataType:"json",
                 type: "POST",
                 data: nparmap,
@@ -130,7 +130,7 @@ var app = new Vue({
                         formContents.append("file2",$("#file2")[0].files[0]);
                         formContents.append("itemNo", data.itemNo);
                         self.uploadContents(formContents);
-                        location.href="AdminProductList.do";
+                        location.href="productOrganic.do";
                 		
                 	}else{
                 		alert("등록실패");

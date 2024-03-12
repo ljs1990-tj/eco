@@ -173,13 +173,17 @@
 			      	
 			      	<div class="product-info" @click="fnDetailView(item.itemNo)">
 			        	<div class="product-name">{{item.itemName}}</div>
-			        	<div class="product-price">₩{{item.price}}</div>
+			        	<div class="product-price">
+			        		<del>₩{{item.price}}</del>
+			        		<br>할인가₩{{(item.price)*((100-item.sRate)/100)}}
+			        		<br> 할인율{{item.sRate}}%
+			        	</div>
 			      	</div>
 			      	
 			      	<div class="admin-btn">
 			      		<template v-if="userType == 'A' ">
 				      		<button @click="fnRemove(item.itemNo)">상품삭제</button>
-				      		<button @click="">상품수정</button>			      		
+				      		<button @click="fnEdit(item.itemNo)">상품수정</button>			      		
 			      		</template>
 			      	</div>	      	
 			    </div>
@@ -248,8 +252,12 @@ var app = new Vue({
 		},
 		/* 상품 추가 페이지 */
 		fnAdd: function(){
-			$.pageChange("/productAdd.do", {});
-		}
+			$.pageChange("/productAddFarmer.do", {});
+		},
+		/* 상품 수정 페이지  */
+		fnEdit : function(itemNo){
+        	$.pageChange("/ProductUpdate.do", {itemNo : itemNo});
+        },
     }
     , created: function() {
     	var self = this;

@@ -17,4 +17,5 @@ public class Product {
 	private int cnt;
 	private String code;
 	private String kind;
+	private int cellCnt;
 }
