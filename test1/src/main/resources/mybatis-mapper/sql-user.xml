@@ -9,6 +9,7 @@
 		FROM ECO_USER
 		WHERE USERID = #{userId}
 	</select>
+	
 	<insert id="insertUser" parameterType="hashmap">
 		INSERT INTO ECO_USER
 		VALUES
@@ -19,27 +20,35 @@
 		'U', NOW(), NOW(), NOW(), DATE_ADD(NOW(), INTERVAL
 		3 MONTH))
 	</insert>
+	
+	<update id="updateLoginCnt" parameterType="hashmap">
+		UPDATE ECO_USER
+		SET
+			LOGINCNT = LOGINCNT + 1
+		WHERE USERID = #{userId}
+	</update>
+	
+	<update id="updateLoginCnt2" parameterType="hashmap">
+		UPDATE ECO_USER
+		SET
+			LOGINCNT = 0
+		WHERE USERID = #{userId}
+	</update>
+	
 	<!-- 마이페이지 수정 -->
 	<update id="updateUser" parameterType="hashmap">
 		UPDATE ECO_USER
 		SET
-		USERPW =
-		#{userPw}, NAME = #{name}, NICKNAME = #{nickName}, GENDER =
-		#{gender},
-		PHONE1 = #{phone1}, PHONE2 = #{phone2}, PHONE3 = #{phone3},
-		EMAIL =
-		#{email}, BIRTH = #{birth}
+			USERPW = #{userPw}, NAME = #{name}, NICKNAME = #{nickName}, GENDER = #{gender},
+			PHONE1 = #{phone1}, PHONE2 = #{phone2}, PHONE3 = #{phone3}, EMAIL = #{email}, BIRTH = #{birth}
 		WHERE USERID = #{userId}
 	</update>
 	<!-- 회원가입으로 주소등록 -->
 	<insert id="insertUserAddr" parameterType="hashmap">
 		INSERT INTO ECO_ADDR
-		(USERID, ADDR, ADDRDETAIL, ZIPCODE, NAME, PHONE, ADDRREQUEST,
-		ADDRNAME)
+			(USERID, ADDR, ADDRDETAIL, ZIPCODE, NAME, PHONE, ADDRREQUEST, ADDRNAME)
 		VALUES
-		(#{userId}, #{addr}, #{addrDetail}, #{zipCode},
-		#{name}, #{phone}, NULL,
-		#{addrName})
+			(#{userId}, #{addr}, #{addrDetail}, #{zipCode}, #{name}, #{phone}, NULL, #{addrName})
 	</insert>
 	<!-- 유저 주소록 호출 -->
 	<select id="selectAddr" parameterType="hashmap"
@@ -55,9 +64,8 @@
 	</delete>
 	<!-- 마이페이지 주소록 추가 -->
 	<insert id="insertMyPageAddrAdd" parameterType="hashmap">
-		INSERT INTO
-		ECO_ADDR VALUES(NULL, #{userId}, #{addr}, #{addrDetail}, #{zipCode}, #{name},
-		#{phone}, #{addrRequest}, #{addrName})
+		INSERT INTO ECO_ADDR
+			VALUES(NULL, #{userId}, #{addr}, #{addrDetail}, #{zipCode}, #{name}, #{phone}, #{addrRequest}, #{addrName})
 	</insert>
 	<!-- 유저정보수정 가져오기 -->
 	<select id="selectAddrAddNo" parameterType="hashmap"
