@@ -25,6 +25,7 @@ th, td {
 	text-align: center;
 	font-size: 14px;
 	font-family: Arial, sans-serif;
+	cursor: default;
 }
 
 th {
@@ -112,7 +113,8 @@ ul:hover {
 		<div id="pagination">
 			<a href="#" @click="fnPre">＜</a>
 			<template v-for="n in pageCount">
-				<a href="#" @click="fnPageList(n)"> <span
+				<a href="#" @click="fnPageList(n)"> 
+					<span
 					:class="[selectPage == n ? 'page-num' : '']">{{n}}</span>
 				</a>
 			</template>
@@ -185,14 +187,18 @@ ul:hover {
             fnView: function(boardNo, kind) {
                 var self = this;
                 if (self.userId != "") {
-                    if (kind == 2) {
+/*                     if (kind == 2) {
                     	$.pageChange("/boardRecipe.do", {});
                     } else {
                         $.pageChange("/boardView.do", {
                             boardNo: boardNo,
                             kind: kind
                         });
-                    }
+                    } */
+                    $.pageChange("/boardView.do", {
+                        boardNo: boardNo,
+                        kind: kind
+                    	});
                 } else {
                     alert("로그인 후 이용");
                     $.pageChange("/user-login.do", {});

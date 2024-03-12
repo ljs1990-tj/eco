@@ -1,13 +1,16 @@
 package com.example.test1.dao;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.test1.mapper.BoardMapper;
 import com.example.test1.mapper.UserMapper;
+import com.example.test1.model.Board;
 import com.example.test1.model.User;
 
 @Service
@@ -15,6 +18,9 @@ public class UserServiceimpl implements UserService {
 
 	@Autowired
 	UserMapper userMapper;
+	
+	@Autowired
+	BoardMapper boardMapper;
 
 	@Autowired
 	HttpSession session;
@@ -57,6 +63,8 @@ public class UserServiceimpl implements UserService {
 			User user = userMapper.selectUser(map);
 			resultMap.put("user", user);
 			resultMap.put("result", "success");
+			List<Board> list = boardMapper.selectUserWriteList(map); 
+			resultMap.put("list", list);
 		} catch (Exception e) {
 			// TODO: handle exception
 			resultMap.put("result", "fail");

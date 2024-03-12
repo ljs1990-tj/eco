@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.example.test1.mapper.BoardMapper;
 import com.example.test1.model.Board;
 
-import com.example.test1.model.Product;
 import com.example.test1.model.BoardFile;
 import com.example.test1.model.Comment;
 
@@ -146,7 +145,55 @@ public class BoardServiceimpl implements BoardService{
 	}
 
 
+	@Override
+	public HashMap<String, Object> addBoardFile(HashMap<String, Object> map) {
 
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+
+		try {
+			boardMapper.insertBoardFile(map);
+			resultMap.put("result", "success");
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> addBoardContentsFile(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+
+		try {
+			boardMapper.insertBoardContentsFile(map);
+			resultMap.put("result", "success");
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+
+	}
+
+	@Override
+	public HashMap<String, Object> removefile(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			boardMapper.fileDelete(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+		}
+		
+		return resultMap;
+	}
 	
 	
 	

@@ -60,7 +60,7 @@
 		VALUES(null, #{itemNo}, #{filePath}, #{fileName}, #{fileorgName}, #{fileSize}, #{filEtc}, #{kind})
 	</insert>
 
-	<!-- 상품 리스트에 이미지 불러오기  -->
+<!-- 	
 	<select id="selectBoardFileInfo" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
 		SELECT P.*,
 			FILEPATH || FILENAME AS PATH
@@ -68,7 +68,7 @@
 		WHERE KIND = 1
 	</select>
 	
-	<!-- 상품 상세보기에서 이미지 불러오기  -->
+	상품 상세보기에서 이미지 불러오기 
 	<select id="selectBoardContentsFileInfo" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
 		SELECT P.*,
 			FILEPATH || FILENAME AS PATH
@@ -77,13 +77,64 @@
 		AND ITEMNO = #{itemNo}
 	</select>
 	
-	<!-- 상품 상세보기 화면에 상품 상세 정보에 보여줄 이미지 불러오기  -->
+	상품 상세보기 화면에 상품 상세 정보에 보여줄 이미지 불러오기 
 	<select id="selectBoardDetailFileInfo" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
 		SELECT P.*,
 			FILEPATH || FILENAME AS PATH
 		FROM ECO_PRODUCT_IMAGE P
 		WHERE KIND = 3
 		AND ITEMNO = #{itemNo}
+	</select> -->
+	
+	<update id="updateboardMainFile" parameterType="hashmap">
+		UPDATE ECO_BOARD_IMAGE
+		SET FILENAME = #{fileName},
+			FILEORNAME = #{fileOrgName},
+			FILESIZE = #{fileSize},
+			FILEETC = #{fileEtc}
+		WHERE FILENO = #{fileNo}
+	</update>
+	
+	<select id="selectBoardFileList" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
+		SELECT B.*,
+			FILEPATH || FILENAME AS PATH
+		FROM ECO_BOARD_IMAGE B
+		WHERE KIND = #{kind}
+	</select>
+	
+	
+	<select id="selectBoardContentsFileInfo" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
+		SELECT B.*,
+			FILEPATH || FILENAME AS PATH
+		FROM ECO_BOARD_IMAGE B
+		WHERE BOARDNO = #{boardNo}
+	</select>
+	
+	<insert id="insertBoardFile" parameterType="hashmap">
+		INSERT INTO ECO_BOARD_IMAGE
+		VALUES(NULL, #{boardNo}, #{path}, #{fileName}, #{orgName}, #{fileSize}, #{etc}, #{kind})
+	</insert>
+	
+	<insert id="insertBoardContentsFile" parameterType="hashmap">
+		INSERT INTO ECO_BOARD_IMAGE
+		VALUES(NULL, #{boardNo}, #{path}, #{fileName}, #{orgName}, #{fileSize}, #{etc}, #{kind})
+	</insert>
+	
+	<delete id="fileDelete" parameterType="hashmap">
+		DELETE FROM ECO_BOARD_IMAGE
+		WHERE FILENO = #{fileNo}
+	</delete>
+	
+	<select id="selectUser" parameterType="hashmap" resultType="com.example.test1.model.User">
+		SELECT *
+		FROM ECO_USER
+		WHERE USERID = #{userId}
+	</select>
+	
+	<select id="selectUserWriteList" parameterType="hashmap" resultType="com.example.test1.model.Board">
+		SELECT *
+		FROM ECO_BOARD
+		WHERE USERID = #{userId}
 	</select>
 	
 </mapper>

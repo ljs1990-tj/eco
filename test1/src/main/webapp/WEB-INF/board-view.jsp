@@ -68,6 +68,7 @@ button:hover {
 				<th>내용</th> 
 				<td v-html="info.contents">{{info.contents}}</td>
 			</tr>
+			
 		</table>
 	<div v-if="info.userId == userId || userType == 'A'">
 			<button @click="fnDelete">삭제</button>

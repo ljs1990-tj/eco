@@ -64,14 +64,27 @@ button:hover {
 	
 		<tr>
 			<th>게시판 선택</th>
-			<td><select v-model="kind">
-					<option value="1">공지사항</option>
-					<option value="2">레시피게시판</option>
-					<option value="3">문의게시판</option>
-			</select></td>
+			<td>
+				<select v-model="kind">
+					<option value="1">공지사항</option><!-- 어드민만 나오게 -->
+					<option value="2">레시피게시판</option><!-- 글쓰기 누르면 사진뜨게 -->
+				</select>
+			</td>
 		</tr>
 		<div>
 			제목 : <input type="text" v-model="title">
+		</div>
+		<tr>
+			<td width="30%">메인 이미지 : </td>
+			<td width="70%">
+			<input type="file" id="file1" name="file1" accept=".jpg,.png,.gif"></td>
+		</tr>
+		<div>
+		<tr>
+			<td width="30%">설명에 들어갈 이미지 : </td>
+			<td width="70%">
+			<input type="file" id="file2" name="file2" accept=".jpg,.png,.gif"></td>
+		</tr>
 		</div>
 		<!-- <tr>
 			<th>파일 선택 :</th>
@@ -122,15 +135,19 @@ button:hover {
 						if (data.result == "success") {
 							alert("작성되었습니다");
 							
-							//게시글 작성하되 pk값 리턴 받기 data.boardNo = pk
-							//console.log(data.boardNo);
-							
-/* 							var form = new FormData();
-   	        				form.append( "file1",  $("#file1")[0].files[0] );
-   	     					form.append( "boardNo",  data.boardNo); // 임시 pk
-       						self.upload(form);   */
-       						
-							$.pageChange("/boardList.do", {});
+	                		var formMain = new FormData();
+	                		
+	                        formMain.append( "file1",  $("#file1")[0].files[0]);
+	                        formMain.append("itemNo", data.boardNo);
+	                        self.uploadMain(formMain);
+	                        
+	                        var formContents = new FormData();
+	                        formContents.append("file2",$("#file2")[0].files[0]);
+	                        formContents.append("itemNo", data.boardNo);
+	                        self.uploadContents(formContents);
+	                        
+	                        
+	                        // $.pageChange("/boardList.do", {});
 							//location.href = "/boardList.do"
 							
 						} else {
@@ -138,22 +155,35 @@ button:hover {
 						}
 					}
 				});
-			}/* ,
-			upload : function(form) {
-				var self = this;
-				console.log(form);
-				$.ajax({
-					url : "/fileUpload.dox" //get 방식으로 담겨서 넘김 ?file1=file&idx=12324
-					,
-					type : "POST",
-					processData : false,
-					contentType : false,
-					data : form,
-					success : function(response) {
-
-					}
-				});
-			} */
+				
+			},
+			uploadMain : function(form){
+		    	var self = this;
+		         $.ajax({
+		             url : "/boardFileUploadMain.dox"
+		           , type : "POST"
+		           , processData : false
+		           , contentType : false
+		           , data : form
+		           , success:function(response) { 
+		        	   
+		           }	           
+		       });
+			},
+			
+			uploadContents : function(form){
+		    	var self = this;
+		         $.ajax({
+		             url : "/boardFileUploadContents.dox"
+		           , type : "POST"
+		           , processData : false
+		           , contentType : false
+		           , data : form
+		           , success:function(response) { 
+		        	   
+		           }	           
+		       });
+			}
 		},
 		mounted: function () {
 	        // Quill 에디터 초기화

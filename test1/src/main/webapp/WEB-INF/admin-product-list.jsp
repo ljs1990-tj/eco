@@ -127,7 +127,7 @@
 				 	<template id="item2.fileNo" @click="fnNext(item2.fileNo)">
 				    	<img :src="item2.filePath+item2.fileName" alt="">
 				    </template>
-				    </template>
+				   </template>
 				    <p><a href="javascript:;" @click="fnDetailView(item.itemNo)">{{item.itemName}}</a></p>
 				    <p class="price"><del>₩{{item.price}}</del><br>할인가₩{{(item.price)*((100-item.sRate)/100)}}<br> 할인율{{item.sRate}}%</p>
 				  	<button @click="fnRemove(item.itemNo)">상품삭제</button>

@@ -24,20 +24,20 @@ public interface BoardMapper {
 	void updateHit(HashMap<String, Object> map); //조회수 증가
 
 	void boardEdit(HashMap<String, Object> map); //게시글 수정
-
-	void insertBoardFile(HashMap<String, Object> map); //첨부파일추가
-	
-	List<BoardFile> selectBoardFileInfo(HashMap<String, Object> map); // 제품 이미지 리스트
-
-	List<BoardFile> selectBoardContentsFileInfo(HashMap<String, Object> map); // 제품 상세보기 이미지
-
-	List<BoardFile> selectBoardDetailFileInfo(HashMap<String, Object> map); // 제품 상세보기에 있는 상세 정보에서 보여줄 이미지
-	
-	
-
 	
 	//고객 문의 리스트
 	List<Board> selectCustomerInquiryList(HashMap<String, Object> map);
+	
+	
+	void insertBoardFile(HashMap<String,Object> map);
+	
+	void insertBoardContentsFile (HashMap<String,Object> map);
+	List<BoardFile> selectBoardFileList(HashMap<String, Object> map);
+	
+	List<BoardFile> selectBoardContentsFileInfo(HashMap<String, Object> map);
+	void fileDelete(HashMap<String, Object> map);
+	void updateBoardMainFile(HashMap<String, Object >map );
+	List<Board> selectUserWriteList(HashMap<String, Object> map);
 
 }
 
