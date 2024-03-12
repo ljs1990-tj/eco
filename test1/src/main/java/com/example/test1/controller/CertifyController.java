@@ -24,7 +24,7 @@ public class CertifyController {
 	@Autowired
 	HttpSession session;
 
-	// 유저 정보 
+	// 유저 정보
 	@RequestMapping("/user-myPage.do")
 	public String userMyPage(Model model) throws Exception {
 
@@ -65,14 +65,14 @@ public class CertifyController {
 
 		return "/user-myPage-addrAdd";
 	}
-	
+
 	// 유저 주소록 수정하기
 	@RequestMapping("/user-myPage-addrUpdate.do")
-	   public String usermyPageaddrUpdate(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
-	         throws Exception {
-	      request.setAttribute("map", map);
-	      return "/user-myPage-addrUpdate"; 
-	   }
+	public String usermyPageaddrUpdate(HttpServletRequest request, Model model,
+			@RequestParam HashMap<String, Object> map) throws Exception {
+		request.setAttribute("map", map);
+		return "/user-myPage-addrUpdate";
+	}
 
 	// 유저정보 가져오기
 	@RequestMapping(value = "/user-mypage.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -132,14 +132,15 @@ public class CertifyController {
 		System.out.println(resultMap);
 		return new Gson().toJson(resultMap);
 	}
+
 	// 유저 주소록 수정하기
-		@RequestMapping(value = "/user-addr-update.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-		@ResponseBody
-		public String useraddrupdate(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
-			HashMap<String, Object> resultMap = new HashMap<String, Object>();
-			resultMap = userService.updateAddr(map);
-			System.out.println(resultMap);
-			return new Gson().toJson(resultMap);
-		}
+	@RequestMapping(value = "/user-addr-update.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String useraddrupdate(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = userService.updateAddr(map);
+		System.out.println(resultMap);
+		return new Gson().toJson(resultMap);
+	}
 
 }
