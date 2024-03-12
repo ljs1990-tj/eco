@@ -132,7 +132,14 @@
                             <li><a href="./shop-grid.jsp">1:1 매칭</a></li>
                             
                             <li><a href="#">식단관리</a></li>
-                            <li><a href="#">커뮤니티</a></li>
+                            <li><a href="#">커뮤니티</a>
+                            	<ul class="header__menu__dropdown">
+                                  <li><a href = "/boardList.do">공지사항</a></li>
+                                  <li><a href="#">레시피게시판</a></li>
+                                  <li><a href="#">문의게시판</a></li>
+                              </ul>
+                            </li>
+                            	
                         </ul>
                     </nav>
                 </div>

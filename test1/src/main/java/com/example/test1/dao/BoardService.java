@@ -17,8 +17,11 @@ public interface BoardService {
 	
 	HashMap<String, Object> editBoard(HashMap<String, Object> map); //게시글 수정
 	
-	HashMap<String, Object> inBoardImage(HashMap<String, Object> map); //첨부파일 삽입
+	HashMap<String, Object> inBoardFile(HashMap<String, Object> map); //첨부파일 삽입
 	
+	HashMap<String, Object> addBoardFile(HashMap<String,Object> map);//상품 썸네일 이미지 추가
+	HashMap<String, Object> addBoardContentsFile(HashMap<String,Object> map);//상품 컨텐츠 이미지 추가
+	HashMap<String, Object> removefile(HashMap<String, Object> map);//파일 삭제
 	
 	
 	HashMap<String, Object> searchCustomerInquiryList(HashMap<String, Object> map); //고객 문의 리스트

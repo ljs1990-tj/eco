@@ -10,6 +10,7 @@ import com.example.test1.model.User;
 
 @Mapper
 public interface UserMapper {
+	
 	User selectUser(HashMap<String, Object> map); // 유저 찾기
 
 	void insertUser(HashMap<String, Object> map); // 유저 회원가입
