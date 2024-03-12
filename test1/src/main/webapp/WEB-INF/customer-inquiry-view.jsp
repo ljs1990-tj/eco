@@ -118,7 +118,7 @@
                     <tr>
                         <th style="width: 20%;">제목</th>
                         <td style="width: 80%;" style="width: 100%; box-sizing: border-box;" >
-                            <input type="text" v-model="info.title" readonly>
+                            <input type="text" v-model="info.title" >
                         </td>
                     </tr>
                     <tr>
@@ -132,11 +132,14 @@
                 </table>
             </div>
             <div class="textarea-container">
-                <textarea v-model="contents" readonly>{{info.contents}}</textarea>
+            	<p v-html="info.contents" v-show="!isFlg"></p>
+                <textarea v-model="contents" v-show="isFlg">{{info.contents}}</textarea>
                 <div class="button-container">
-                	<template v-if="userType != 'A' ">
-	                    <button @click="fnEdit">수정하기</button>
-	                    <button @click="fnRemove">삭제하기</button>                	
+                	<template v-if="userType != 'A'">
+                		<button v-show="!isFlg" @click="isFlg = true">수정하기</button>
+	                    <button v-show="isFlg" @click="fnEdit">수정완료</button>
+	                    <button v-show="isFlg" @click="isFlg = false">수정취소</button>
+	                    <button v-show="!isFlg" @click="fnRemove">삭제하기</button>                	
                 	</template>
                 </div>
             </div>
@@ -149,7 +152,7 @@
 			
 			<template v-if="userType == 'A' ">
 	            <div class="textarea-container">
-	                <textarea placeholder="답변을 남겨주세요" v-model="comment.comment"></textarea>
+	                <textarea placeholder="답변을 남겨주세요" v-model="commentText"></textarea>
 	                <div class="button-container">
 	                    <button @click="fnAddComment">답변 남기기</button>
 	                </div>
@@ -170,6 +173,8 @@ var app = new Vue({
     	userId : "${map.userId}",
     	userType : "${map.userType}",
     	contents : "",
+    	commentText : "",
+    	isFlg: false
     	
     }
     , methods: {
@@ -221,6 +226,7 @@ var app = new Vue({
         },
         fnEdit: function() {
             var self = this;
+            self.isFlg = false;
             var nparmap = {
             	boardNo : self.boardNo,
             	title: self.info.title, 
@@ -235,7 +241,8 @@ var app = new Vue({
                 	console.log(data.result);
                 	if (data.result == "success") {
 						alert("수정되었습니다.");
-						$.pageChange("/customerService.do", {});
+						self.fnView();
+						/* $.pageChange("/customerService.do", {}); */
 					} else {
 						alert("다시 시도해주세요");
 					}
@@ -246,7 +253,7 @@ var app = new Vue({
         	var self = this;
             var nparmap = { 
             	boardNo : self.boardNo,
-            	comment : self.comment,
+            	comment : self.commentText,
             	userId : self.userId 
             };
             $.ajax({

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.example.test1.model.Board;
 import com.example.test1.model.BoardFile;
+import com.example.test1.model.Comment;
 
 @Mapper
 public interface BoardMapper {
