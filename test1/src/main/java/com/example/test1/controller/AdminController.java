@@ -195,29 +195,38 @@ public class AdminController {
         String url = null;
         String path="c:\\img";
         try {
- 
+        	Calendar cal = Calendar.getInstance();
+        	int year = cal.get(Calendar.YEAR);
+            int month = cal.get(Calendar.MONTH) + 1;
+            int date = cal.get(Calendar.DATE);
+            
+            String Today = Integer.toString(year) + Integer.toString(month) + Integer.toString(date);
+            
+           
+           
+            
             //String uploadpath = request.getServletContext().getRealPath(path);
             String uploadpath = path;
             String originFilename = multi.getOriginalFilename();
             String extName = originFilename.substring(originFilename.lastIndexOf("."),originFilename.length());
             long size = multi.getSize();
             String saveFileName = genSaveFileName(extName);
-            
             System.out.println("uploadpath : " + uploadpath);
             System.out.println("originFilename : " + originFilename);
             System.out.println("extensionName : " + extName);
             System.out.println("size : " + size);
             System.out.println("saveFileName : " + saveFileName);
             String path2 = System.getProperty("user.dir");
-            System.out.println("Working Directory = " + path2 + "\\src\\webapp\\img");
+            System.out.println("Working Directory = " + path2 + "\\src\\webapp\\img\\adminProduct\\"+Today+"\\");
             if(!multi.isEmpty())
             {
-                File file = new File(path2 + "\\src\\main\\webapp\\img", saveFileName);
+                File file = new File(path2 + "\\src\\main\\webapp\\img\\adminProduct\\"+Today+"\\", saveFileName);
+                boolean flg = file.mkdirs(); // 디렉토리 없으면 false 있으면 생성 후 true 리턴
                 multi.transferTo(file);
                 
                 HashMap<String, Object> map = new HashMap<String, Object>();
                 map.put("fileName", saveFileName);
-                map.put("path", "..\\img\\");
+                map.put("path", "..\\img\\adminProduct\\"+Today+"\\");
                 map.put("itemNo", itemNo);
                 map.put("fileSize", size);
                 map.put("etc", extName);
@@ -241,6 +250,11 @@ public class AdminController {
 	
 	
 	
+	private int toString(int year) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 	//상품 업데이트 쿼리문
 	@RequestMapping(value = "/AdminProductUpdate.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody

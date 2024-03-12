@@ -7,7 +7,7 @@
 	<script src="js/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	<%-- <jsp:include page="/layout/menu.jsp"></jsp:include> --%>
-	<title>로컬푸드 제품 페이지</title>
+	<title>유기농 제품 페이지</title>
 </head>
 <style>
   	body {
@@ -82,12 +82,18 @@
     	float: right;
     	margin: 20px;
   	}
+  	
+  	#8{
+  	display: none;
+  	
+  	}
 </style>
 <body>
+
 	<div id="app">
 		<div class="container">
 			<div class="title">
-			  <h1>Shop LocalFood’s</h1>
+			  <h1>Shop Organic’s</h1>
 			</div>
 			
 			<div class="description">
@@ -95,11 +101,16 @@
 			</div>
 			
 			<ul class="nav">
-			  <li @click="fnOrganic">유기농</li>
-			  <li @click="fnVegan">비건</li>
-			  <li @click="fnGluten">글루텐프리</li>
-			  <li @click="fnLocal">로컬푸드</li>
+			  <li @click="fnList('org')">유기농</li>
+			  <li @click="fnList('vegan')">비건</li>
+			  <li @click="fnList('gluten')">글루텐프리</li>
+			  <li @click="fnList('local')">로컬푸드</li>
 			</ul>
+			<div>
+			<input type="text" v-model="keyword"> <button @click="fnList(code)">검색</button>
+			<button @click="fnMoveAddPage">글쓰기</button>
+			</div>
+			
 			
 			<div class="filter">
 			  <select name="items" id="items">
@@ -109,15 +120,22 @@
 			  </select>
 			</div>
 			
-			<div class="product-grid">
-				 <div class="product" v-for="item in list">
-				    <img src="" alt="">
-				    <p>{{item.itemName}}</p>
-				    <p class="price">₩{{item.price}}</p>
+			<div class="product-grid" >
+				 <div class="product" v-for="item in productlist">
+				 <template  v-for="item2 in filelist" v-if="item.itemNo == item2.itemNo">
+				 
+				 	<template id="item2.fileNo" @click="fnNext(item2.fileNo)">
+				    <img :src="item2.filePath+item2.fileName" alt="">
+				    </template>
+				    </template>
+				    <p><a href="javascript:;" @click="fnDetailView(item.itemNo)">{{item.itemName}}</a></p>
+				    <p class="price"><del>₩{{item.price}}</del><br>할인가₩{{(item.price)*((100-item.sRate)/100)}}<br> 할인율{{item.sRate}}%</p>
 				  	<button @click="fnRemove(item.itemNo)">상품삭제</button>
+				  	<button @click="fnEdit(item.itemNo)">상품 수정</button>
 				  </div>
 			</div>
-		
+			<button @click="fnMoveAdminPage()">관리자 페이지로 돌아가기</button>
+			
 		</div>
 			
 	</div>
@@ -127,19 +145,32 @@
 var app = new Vue({
     el: '#app',
     data: {
-    	list : []
+    	productlist : [],
+    	keyword : "",
+    	code : "",
+    	filelist :[]
+    	
     }
     , methods: {
-    	fnList: function() {
+    	fnList: function(code) {
             var self = this;
-            var nparmap = {};
+            self.code = code;
+            var nparmap = {
+            		keyword : self.keyword,
+            		code : code,
+            		kind : "1"
+            		
+            };
             $.ajax({
-                url:"productList.dox",
+                url:"AdminProductList.dox",
                 dataType:"json",
                 type: "POST",
                 data: nparmap,
                 success: function(data) {
-                	self.list = data.list;
+                	console.log(data);
+                	self.productlist = data.list;
+                	self.filelist = data.filelist;
+                	
                 }
             });
         },
@@ -158,7 +189,7 @@ var app = new Vue({
 	                success: function(data) {
 	                	if(data.result == "success") {
 	                		alert("삭제되었습니다!");
-	                		self.fnList();
+	                		self.fnList(self.code);
 	                	} else {
 	                		alert("삭제 실패 오류 발생!");
 	                	}
@@ -168,26 +199,24 @@ var app = new Vue({
             	return;
             }
         },
-        /* 오가닉 제품 페이지 이동  */
-        fnOrganic: function() {
-        	$.pageChange("/productOrganic.do", {});
+        fnEdit : function(itemNo){
+        	$.pageChange("/AdminProductUpdate.do", {itemNo : itemNo});
         },
-        /* 비건 제품 페이지 이동  */
-        fnVegan: function() {
-        	$.pageChange("/productVegan.do", {});
+        fnMoveAdminPage : function(){
+        	location.href="/admin-main.do"
         },
-        /* 글루텐 프리 제품 페이지 이동  */
-        fnGluten: function() {
-        	$.pageChange("/productGlutenFree.do", {});
+        fnMoveAddPage : function(){
+        	var self = this;
+        	$.pageChange("/productAdd.do", {code : self.code});
         },
-        /* 로컬 제품 페이지 이동  */
-        fnLocal: function() {
-        	$.pageChange("/productLocalFood.do", {});
+        fnDetailView : function(itemNo){
+        	var self = this
+        	$.pageChange("/AdminProductView.do",{itemNo : itemNo});
         }
     }
     , created: function() {
     	var self = this;
-		self.fnList();
+		self.fnList('org');
 	}
 });
 </script>

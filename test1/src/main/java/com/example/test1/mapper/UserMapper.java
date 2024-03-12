@@ -21,5 +21,8 @@ public interface UserMapper {
 	List<Addr> selectAddr(HashMap<String, Object> map); // 유저 주소
 
 	void deleteAddr(HashMap<String, Object> map); // 유저 주소 삭제
-
+	
+	void insertMyPageAddrAdd(HashMap<String, Object> map); //마이페이지 주소 추가
+	
+	Addr selectAddrAddNo(HashMap<String, Object> map);	//유저 마이페이지 주소록 가져오기
 }

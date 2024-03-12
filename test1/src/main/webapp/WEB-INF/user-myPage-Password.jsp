@@ -83,6 +83,12 @@ var app = new Vue({
     }
     , created: function() {
     	var self = this;
+    	  if(self.user.userId == ""){
+      		alert("로그인 후 입장 가능합니다.");
+      		window.opener.location.href = "/user-myPageView.do";	// 메인 페이지 URL로 변경
+      		window.close();
+      		
+      	}
 
 	}
 });
