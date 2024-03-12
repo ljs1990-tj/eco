@@ -1,137 +1,202 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<script src="js/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<jsp:include page="/layout/header.jsp"></jsp:include>
-	<title>친환경 제품 페이지</title>
+	<title>상품 페이지</title>
 </head>
 <style>
-  	body {
-	    margin: 0;
-	    font-family: 'Arial', sans-serif;
-	    background-color: #f8f8f8;
-	}
-	.container {
-		width: 80%; 
-		max-width: 1200px; 
-		margin: 0 auto; 
-		background-color: white; 
-		padding: 20px; 
-		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
-	}	
-	  
-	.title {
-	    background-color: #4CAF50;
-	    color: white;
-	    padding: 10px 20px;
-	    text-align: center;
-	}
-  	.title h1 {
-    	margin: 0;
-  	}
-  	.description {
-	   	 margin: 10px 20px;
-	   	 text-align: center;
-	     color: #666;
-  	}
-    .nav {
-	    display: flex;
-	    justify-content: center;
-	    padding: 0;
-	    background: #e2e2e2;
+    .container {
+        margin: 0 auto; 
+        padding: 20px; 
+        max-width: 1200px; 
+        border-style: none;
+        background-color: #ffffff;
     }
-  	.nav li {
-   		list-style: none;
-    	padding: 10px 20px;
-    	cursor: pointer;
-  	}
-  	.nav li:hover {
-    	background: #d4d4d4;
-  	}
- 	.product-grid {
-		display: flex;
-		flex-wrap: wrap;
-		padding: 20px;
-		justify-content: flex-start;
-	}
 
-	.product {
-		background: #fff;
-	    margin: 10px;
-	    width: calc(25% - 22px); /* 4개의 상품이 한 줄에 들어가도록 계산 (20px은 마진, 2px은 보더 고려) */
-	    box-sizing: border-box; /* 패딩과 보더가 너비에 포함되도록 설정 */
-	    text-align: center;
-	}
-	.product img {
-    	max-width: 100%;
-    	height: auto;
-  	}
-  	.product p {
-    	margin: 10px 0 0;
-    	color: #333;
-  	}
-  	.price {
-    	color: #2a8f2a;
-    	font-weight: bold;
-  	}
-  	.filter {
-    	float: right;
-    	margin: 20px;
-  	}
+    .banner {
+        width: 100%; 
+        margin-bottom: 20px; 
+    }
+    .banner img{
+        width: 100%;
+        height: 300px;
+
+    }
+
+    .product-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start; /* flex-start로 변경하여 좌측 정렬 */
+        gap: 10px;
+    }
+
+    .product-item {
+        width: calc(25% - 10px); /* 4개의 상품이 한 줄에 표시되도록 설정 */
+        display: flex; /* flexbox를 사용 */
+        flex-direction: column; /* 세로 방향으로 항목 정렬 */
+        margin-bottom: 20px;
+        background-color: #fff;
+        border-style: none;
+        cursor: pointer;
+        overflow: hidden;
+    }
+
+    .product-item:hover {
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+    }
+
+    .product-item img {
+        width: 100%; 
+        height: auto; 
+        object-fit: cover; 
+        aspect-ratio: 1 / 1; /* 이미지 비율을 1:1로 설정 */
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .product-item:hover img {
+        transform: scale(1.05); 
+    }
+
+    .product-item button {
+        display: block;
+        width: 100%; 
+        padding: 10px 0; 
+        margin: 15px 0; 
+        background-color: #5cb85c;
+        color: white; 
+        border-style: none;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .product-item button:hover {
+        background-color: #3e993e;
+    }
+
+    .product-info {
+        padding: 10px;
+        text-align: center;
+        margin-top: auto; /* 마진 상단 자동 조정으로 항상 하단에 위치 */
+    }
+
+    .product-name {
+        margin: 10px 0;
+        font-weight: bold;
+    }
+
+    .product-price {
+        color: #E44D26;
+        font-weight: bold;
+    }
+    
+    .admin-btn{
+    	width: 100px;
+    }
+    
+    .controls {
+        display: flex;
+        justify-content: space-between; /* 좌우 정렬 */
+        align-items: center;
+        padding: 10px 0;
+    }
+
+    .buttons-container {
+        display: flex;
+        margin-bottom: 30px;
+    }
+
+    .buttons-container button {
+        margin-right: 10px; /* 버튼 사이 간격 */
+        color: #5cb85c;
+        border: 1px solid #5cb85c;
+        background-color: white;
+        border-radius: 3px;
+        width: 100px;
+        height: 30px;
+        cursor: pointer;
+    }
+
+    .dropdown-container {
+        margin-left: auto; /* 왼쪽 마진 자동으로 주어 오른쪽에 붙임 */
+    }
+
+    .dropdown-container select {
+        padding: 5px;
+        cursor: pointer;
+    }
+    
+
 </style>
 <body>
 	<div id="app">
+		{{userId}}
+	    {{userType}}
 		<div class="container">
-			<div class="title">
-				<h1>Shop Organic’s</h1>
-			</div>
-			
-			<div class="description">
-				<p>Revamp your style with the latest designer trends in men's clothing or achieve a perfectly curated wardrobe thanks to our line-up of timeless pieces.</p>
-			</div>
-			
-			<ul class="nav">
-				<li @click="fnList('org')">유기농</li>
-				<li @click="fnList('vegan')">비건</li>
-				<li @click="fnList('gluten')">글루텐프리</li>
-				<li @click="fnList('local')">로컬푸드</li>
-			</ul>
+            <div class="banner">
+              <!-- 배너 이미지 영역 -->
+              <img src="/img/vegetable.jpg" alt="상단 배너 이미지">
+            </div>
 
-			<div class="filter">
-				<select name="items" id="items">
-					<option>인기 순</option>
-					<option>추천 수</option>
-					<option>???</option>
-				</select>
-			</div>
+            <div class="buttons-container">
+                <button type="button" @click="fnList('org')">유기농</button>
+                <button type="button" @click="fnList('vegan')">비건</button>
+                <button type="button" @click="fnList('gluten')">글루텐프리</button>
+                <button type="button" @click="fnList('local')">로컬푸드</button>
 
-			<div class="product-grid">
-				 <div class="product" v-for="item in list">
-				 	<template  v-for="item2 in filelist" v-if="item.itemNo == item2.itemNo">
-						<img :src="item2.filePath+item2.fileName" alt="">
+                <div class="dropdown-container">
+                    <!-- 드롭박스를 오른쪽에 배치 -->
+                    <template v-if="userType == 'A' ">
+                    	<button @click="fnAdd">상품추가</button>
+                    </template>
+                    <select>
+                      <option value="option1">옵션 1</option>
+                      <option value="option2">옵션 2</option>
+                      <option value="option3">옵션 3</option>
+                      <option value="option4">옵션 4</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="product-list">
+		   		<div class="product-item" v-for="item in list" :key="item.id">
+			    	<template  v-for="item2 in filelist" v-if="item.itemNo == item2.itemNo">
+						<img :src="item2.filePath+item2.fileName" alt="" @click="fnDetailView(item.itemNo)">
 				    </template>
-				 
-				    <p><a href="javascript:;" @click="fnDetailView(item.itemNo)">{{item.itemName}}</a></p>
-				    <p class="price">₩{{item.price}}</p>
-				  	<button @click="fnRemove(item.itemNo)">상품삭제</button>
-				  </div>
-			</div>
+			    	
+			      	<button type="button" href="javascript:;" @click="">장바구니에 담기</button>
+			      	
+			      	<div class="product-info" @click="fnDetailView(item.itemNo)">
+			        	<div class="product-name">{{item.itemName}}</div>
+			        	<div class="product-price">₩{{item.price}}</div>
+			      	</div>
+			      	
+			      	<div class="admin-btn">
+			      		<template v-if="userType == 'A' ">
+				      		<button @click="fnRemove(item.itemNo)">상품삭제</button>
+				      		<button @click="">상품수정</button>			      		
+			      		</template>
+			      	</div>	      	
+			    </div>
+			</div> 
+			
 		</div>
 	</div>
 </body>
-
 </html>
-
 <script type="text/javascript">
 var app = new Vue({
     el: '#app',
     data: {
     	list : [],
     	filelist : [],
+    	userId : "${userId}",
+		userType : "${userType}",
     	code : ""
     }
     , methods: {
@@ -147,13 +212,11 @@ var app = new Vue({
                 type: "POST",
                 data: nparmap,
                 success: function(data) {
-                	console.log(data);
                 	self.list = data.list;
                 	self.filelist = data.filelist;
                 }
             });
         },
-        /* 제품 삭제 실행 */
         fnRemove: function(itemNo) {
             var self = this;
             if(confirm("정말 삭제할까요?")) {
@@ -168,7 +231,7 @@ var app = new Vue({
 	                success: function(data) {
 	                	if(data.result == "success") {
 	                		alert("삭제되었습니다!");
-	                		self.fnList();
+	                		self.fnList('org');
 	                	} else {
 	                		alert("삭제 실패 오류 발생!");
 	                	}
@@ -183,10 +246,14 @@ var app = new Vue({
 			var self = this;
 			$.pageChange("/productView.do", {itemNo: itemNo});
 		},
+		/* 상품 추가 페이지 */
+		fnAdd: function(){
+			$.pageChange("/productAdd.do", {});
+		}
     }
     , created: function() {
     	var self = this;
-		self.fnList('org');
+    	self.fnList('org');
 	}
 });
 </script>

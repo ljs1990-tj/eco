@@ -28,31 +28,7 @@ public class ProductController {
 		request.setAttribute("map", map);
 		return "/product-organic";
 	}
-
-	// 비건 제품 페이지
-	@RequestMapping("/productVegan.do")
-	public String productVegan(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
-			throws Exception {
-		request.setAttribute("map", map);
-		return "/product-vegan";
-	}
-
-	// 글루텐프리 제품 페이지
-	@RequestMapping("/productGlutenFree.do")
-	public String productGlutenFree(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
-			throws Exception {
-		request.setAttribute("map", map);
-		return "/product-glutenfree";
-	}
-
-	// 로컬푸드 제품 페이지
-	@RequestMapping("/productLocalFood.do")
-	public String productLocalFood(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
-			throws Exception {
-		request.setAttribute("map", map);
-		return "/product-localfood";
-	}
-
+	
 	// 상품 상세 페이지
 	@RequestMapping("/productView.do")
 	public String productView(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
@@ -60,7 +36,7 @@ public class ProductController {
 		request.setAttribute("map", map);
 		return "/product-view";
 	}
-
+	
 	// 제품 리스트
 	@RequestMapping(value = "/productList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
