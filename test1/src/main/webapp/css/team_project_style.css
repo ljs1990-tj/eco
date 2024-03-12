@@ -25,11 +25,54 @@ ul, li {
 	width: 660px;
 }
 
+.con-login {
+	border: none;
+	background-color: white;
+	border-radius: 5px;
+	margin: 200px auto;
+	width: 300px;
+}
+
+.find-align {
+	text-align: right;
+	padding-right: 15px;
+	line-height: 0px;
+}
+
+.login-text {
+	text-decoration: none;
+	font-size: 11px;
+	color: black;
+	letter-spacing: -1px;
+}
+
+.login-text:hover {
+	color: #999;
+}
+
+.login-title {
+	text-align: center;
+	font-size: 15px;
+	font-weight: bold;
+	margin: 25px;
+}
+
+.join-text {
+	text-decoration: none;
+	color: #aaa;
+}
+
+.join-text:hover {
+	color: #777;
+}
+
 .join-title {
 	text-align: center;
 	font-size: 20px;
 	font-weight: bold;
 }
+
+
 
 .join-divide {
 	width: 105px;
@@ -39,10 +82,22 @@ ul, li {
 .join-input {
 	width: 200px;
 	height: 20px;
-	width: 200px;
-	height: 20px;
 	border: 2px solid #ddd;
 	border-radius: 5px;
+}
+
+.login-input {
+	width: 255px;
+	height: 40px;
+	border: 2px solid #ddd;
+	border-radius: 5px;
+	margin-left: 10px;
+}
+
+.login-input::placeholder {
+	font-size: 12px;
+	padding-left: 10px;
+	color: #999;
 }
 
 .zipcode-input {
@@ -107,6 +162,26 @@ ul, li {
 .margin-bottom-10px {
 	margin-bottom: 10px;
 }
+
+.login-btn {
+	width: 255px;
+	height: 40px;
+	margin-left: 10px;
+	background-color: #2c9d59;
+	color: white;
+	font-weight: bold;
+	cursor: pointer;
+	border: 1px solid #2c9d59;
+	margin-top: 10px;
+}
+
+.login-btn-alter {
+	background-color: white;
+	color: #2c9d59;
+	margin-bottom: 10px;
+}
+
+/* --------------------------------------------------------------- */
 
 .title {
 	background-color: #4CAF50;

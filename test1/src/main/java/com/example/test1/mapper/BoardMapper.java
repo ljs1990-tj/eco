@@ -6,8 +6,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.example.test1.model.Board;
-import com.example.test1.model.Comment;
-import com.example.test1.model.ProductFile;
 import com.example.test1.model.BoardFile;
 
 @Mapper
@@ -25,9 +23,6 @@ public interface BoardMapper {
 
 	void boardEdit(HashMap<String, Object> map); //게시글 수정
 	
-	//고객 문의 리스트
-	List<Board> selectCustomerInquiryList(HashMap<String, Object> map);
-	
 	
 	void insertBoardFile(HashMap<String,Object> map);
 	
@@ -39,6 +34,16 @@ public interface BoardMapper {
 	void updateBoardMainFile(HashMap<String, Object >map );
 	List<Board> selectUserWriteList(HashMap<String, Object> map);
 
+	
+	List<Board> selectCustomerInquiryList(HashMap<String, Object> map); //고객 문의 리스트
+	
+	void insertCustomerInquiry (HashMap<String, Object> map); //고객 문의 작성
+	
+	Board selectInquiryInfo(HashMap<String, Object> map);//등록한 문의 보기
+	
+	void deleteInquiry(HashMap<String, Object> map); // 등록한 문의 삭제
+	
+	void updateInquiry(HashMap<String, Object> map); // 등록한 문의 수정
 }
 
 

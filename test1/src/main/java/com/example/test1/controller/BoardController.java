@@ -119,7 +119,6 @@ public class BoardController {
 	}
 	
 
-
 	@RequestMapping("/boardRecipe.do")//레시피 게시판 보기
 	public String boardRecipe(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		// request의 HttpServletRequest
@@ -138,11 +137,20 @@ public class BoardController {
 	}
 	
 	
+	//고객 센터 서비스
 	@RequestMapping("/customerService.do")
 	public String productOrganic(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
 			throws Exception {
 		request.setAttribute("map", map);
 		return "/customer-service";
+	}
+	
+	//등록한 문의 확인 페이지
+	@RequestMapping("/customerInquiryView.do")
+	public String customerInquiryView(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
+			throws Exception {
+		request.setAttribute("map", map);
+		return "/customer-inquiry-view";
 	}
 	
 	
@@ -301,6 +309,42 @@ public class BoardController {
 	public String boardUser(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = userService.getUser(map);
+		return new Gson().toJson(resultMap);
+	}
+	
+	//고객 문의 등록
+	@RequestMapping(value = "/customerInquiry.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String customerInquiry(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = boardService.addCustomerInquiry(map);
+		return new Gson().toJson(resultMap);
+	}
+	
+	//등록한 문의 확인
+	@RequestMapping(value = "/InquiryView.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String InquiryView(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = boardService.searchInquiryInfo(map);
+		return new Gson().toJson(resultMap);
+	}
+	
+	//등록한 문의 삭제
+	@RequestMapping(value = "/InquiryRemove.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String InquiryRemove(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = boardService.removeInquiry(map);
+		return new Gson().toJson(resultMap);
+	}
+	
+	//등록한 문의 수정
+	@RequestMapping(value = "/InquiryEdit.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String InquiryEdit(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = boardService.editInquiry(map);
 		return new Gson().toJson(resultMap);
 	}
 	

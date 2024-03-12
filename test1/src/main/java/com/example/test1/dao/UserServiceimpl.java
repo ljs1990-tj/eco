@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.example.test1.mapper.BoardMapper;
 import com.example.test1.mapper.UserMapper;
 import com.example.test1.model.Board;
+import com.example.test1.model.Addr;
 import com.example.test1.model.User;
 
 @Service
@@ -25,6 +26,7 @@ public class UserServiceimpl implements UserService {
 	@Autowired
 	HttpSession session;
 
+	// 유저 주소록 추가
 	@Override
 	public HashMap<String, Object> addUser(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
@@ -41,6 +43,7 @@ public class UserServiceimpl implements UserService {
 		return resultMap;
 	}
 
+	// 유저 아이디 중복체크
 	@Override
 	public HashMap<String, Object> checkUser(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
@@ -57,7 +60,6 @@ public class UserServiceimpl implements UserService {
 	// 유저 정보 가져오기
 	@Override
 	public HashMap<String, Object> getUser(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			User user = userMapper.selectUser(map);
@@ -66,7 +68,6 @@ public class UserServiceimpl implements UserService {
 			List<Board> list = boardMapper.selectUserWriteList(map); 
 			resultMap.put("list", list);
 		} catch (Exception e) {
-			// TODO: handle exception
 			resultMap.put("result", "fail");
 			System.out.println(e.getMessage());
 		}
@@ -89,6 +90,37 @@ public class UserServiceimpl implements UserService {
 		return resultMap;
 	}
 
+	// 유저 주소록 가져오기
+	@Override
+	public HashMap<String, Object> getAddr(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			List<Addr> addr = userMapper.selectAddr(map);
+			resultMap.put("addr", addr);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
+		return resultMap;
+	}
+
+	// 유저 주소 삭제
+	@Override
+	public HashMap<String, Object> AddrDelete(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			userMapper.deleteAddr(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
+		return resultMap;
+	}
+
+	// 유저 로그인
 	@Override
 	public HashMap<String, Object> searchUser(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
@@ -110,4 +142,32 @@ public class UserServiceimpl implements UserService {
 
 		return resultMap;
 	}
+	//마이페이지 주소 추가
+		@Override
+		public HashMap<String, Object> addAddr(HashMap<String, Object> map) {
+			// TODO Auto-generated method stub
+			HashMap<String, Object> resultMap = new HashMap<String, Object>();
+			try {
+				userMapper.insertMyPageAddrAdd(map);
+				resultMap.put("result", "success");
+			} catch (Exception e) {
+				resultMap.put("result", "fail");
+				System.out.println(e.getMessage());
+			}
+			return resultMap;
+		}
+		//마이페이지 주소록 가져오기
+		@Override
+		public HashMap<String, Object> selectAddr(HashMap<String, Object> map) {
+			// TODO Auto-generated method stub
+			HashMap<String, Object> resultMap = new HashMap<String, Object>();
+			try {
+				resultMap.put("info",userMapper.selectAddrAddNo(map));
+				resultMap.put("result", "success");
+			} catch (Exception e) {
+				resultMap.put("result", "fail");
+				System.out.println(e.getMessage());
+			}
+			return resultMap;
+		}
 }
