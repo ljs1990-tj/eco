@@ -50,7 +50,7 @@
 			<input type="text" v-model="addrDetail1" ref="addrDetail1" placeholder="상세주소"> 
 			<input type="text" v-model="addrDetail2" placeholder="참고항목">
 			<div style="margin-bottom: 10px;"></div>
-			<div style="padding-left: 110px; font-size: 10px;">※ 현재 주소는 집
+			<div style="padding-left: 10px; font-size: 10px;">※ 현재 주소는 집
 				주소로 기본 저장되며, 후에 마이페이지에서 수정이 가능합니다.</div>
 		</div>
 		<div>

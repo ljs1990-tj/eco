@@ -6,7 +6,8 @@
 <meta charset="UTF-8">
 <script src="js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script
+	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <title>마이 페이지</title>
 
 </head>
@@ -122,7 +123,7 @@ ul, li {
 		<header> </header>
 		<section>
 			<!-- 첫번째 -->
-			<div style=" width: 1300px; overflow: hidden;">
+			<div style="width: 1300px; overflow: hidden;">
 				<div style="overflow: hidden; width: 600px; float: left;">
 					<div style="width: 500px; border: 1px solid black;">
 						<div class="section-box1">
@@ -157,7 +158,7 @@ ul, li {
 						<div class="section-box2">
 							<div
 								style="width: 400px; height: 230px; border: 1px solid black; overflow-y: scroll;">
-								<div v-for="address in addrList" >
+								<div v-for="address in addrList">
 									<fieldset>
 										<legend>주소 정보</legend>
 										<ul>
@@ -213,6 +214,7 @@ ul, li {
 				<button @click="closePopup">닫기</button>
 			</div>
 		</div>
+		<footer></footer>
 	</div>
 </body>
 </html>
@@ -314,7 +316,8 @@ ul, li {
 				if (addrNo == "") {
 					alert("수정할 정보를 선택해 주세요");
 					return;
-				}if (!confirm("주소록을 수정하겠습니까?")) {
+				}
+				if (!confirm("주소록을 수정하겠습니까?")) {
 					return;
 				}
 				console.log(addrNo);

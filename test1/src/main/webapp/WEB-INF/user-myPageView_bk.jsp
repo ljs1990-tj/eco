@@ -4,11 +4,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../css/team_project_style.css">
     <script src="js/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <title>마이 페이지 - 수정</title>
 </head>
 <style>

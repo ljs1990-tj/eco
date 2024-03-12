@@ -24,7 +24,6 @@ public class CertifyController {
 	@Autowired
 	HttpSession session;
 
-
 	// 유저 정보 
 	@RequestMapping("/user-myPage.do")
 	public String userMyPage(Model model) throws Exception {
