@@ -19,4 +19,5 @@ public class Board {
 	private String nickName;
 	
 	private String userType; //user sql꺼
+	private String comment; // commnet sql꺼
 }
