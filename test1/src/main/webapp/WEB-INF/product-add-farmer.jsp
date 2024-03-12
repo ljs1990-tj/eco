@@ -9,12 +9,72 @@
 	<title>상품 등록</title>
 </head>
 <style>
+  /*   body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        margin: 0;
+        padding: 20px;
+    } */
+
+    #app {
+        max-width: 800px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+    }
+
+    div {
+        margin-bottom: 10px;
+    }
+
+    input[type=text],
+    select,
+    .vue-editor {
+        width: 100%;
+        padding: 8px;
+        margin: 4px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type=file] {
+        padding: 8px;
+        margin: 4px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    button {
+        width: 100%;
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.3/vue.min.js"></script>
 	<script src="https://unpkg.com/vue2-editor@2.3.11/dist/index.js"></script>
 <body>
 	<div id="app">
 		<div>
+			<h2>상품 등록</h2>
 			상품 카테고리 : 
 			<select v-model="code">
 				<option value="gluten">글루텐프리</option>
@@ -113,7 +173,7 @@ var app = new Vue({
             		
             };
             $.ajax({
-                url:"addProduct.dox",
+                url:"productAdd.dox",
                 dataType:"json",
                 type: "POST",
                 data: nparmap,

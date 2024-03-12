@@ -39,6 +39,7 @@
 	</insert>
 	
 	
+	
 	<!--문의 게시판 불러오기  -->
 	<select id="selectCustomerInquiryList" parameterType="hashmap" resultType="com.example.test1.model.Board">
 		SELECT * FROM
@@ -71,5 +72,13 @@
 			SET CONTENTS = #{contents}, TITLE = #{title}, UDATETIME = NOW()
 		WHERE BOARDNO = #{boardNo}
 	</update>
+	
+	<!-- 관리자 답변 내용 확인  -->
+	<select id="selectAdminComment" parameterType="hashmap" resultType="com.example.test1.model.Board">
+		SELECT * 
+		FROM ECO_BOARD B
+		INNER JOIN ECO_COMMENT C ON B.BOARDNO = C.BOARDNO
+		WHERE B.BOARDNO = #{boardNo} AND B.KIND = 3;
+	</select>
 	
 </mapper>

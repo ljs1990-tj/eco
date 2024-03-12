@@ -93,6 +93,18 @@
     .button-container button:hover {
         background-color: #20792c;
     }
+    
+    .adminAnswer textarea{
+    	width: 100%; 
+        height: 50px; 
+        padding: 10px; 
+        box-sizing: border-box; 
+        border: 1px solid #ccc; 
+        border-radius: 4px; 
+        resize: none;
+        font-size: 16px;
+        color: #474747;
+    }
 </style>
 <body>
 	<div id="app">
@@ -106,7 +118,7 @@
                     <tr>
                         <th style="width: 20%;">제목</th>
                         <td style="width: 80%;" style="width: 100%; box-sizing: border-box;" >
-                            <input type="text" v-model="info.title">
+                            <input type="text" v-model="info.title" readonly>
                         </td>
                     </tr>
                     <tr>
@@ -120,11 +132,19 @@
                 </table>
             </div>
             <div class="textarea-container">
-                <textarea v-model="contents">{{info.contents}}</textarea>
+                <textarea v-model="contents" readonly>{{info.contents}}</textarea>
                 <div class="button-container">
-                    <button @click="fnEdit">수정하기</button>
-                    <button @click="fnRemove">삭제하기</button>
+                	<template v-if="userType != 'A' ">
+	                    <button @click="fnEdit">수정하기</button>
+	                    <button @click="fnRemove">삭제하기</button>                	
+                	</template>
                 </div>
+            </div>
+            
+            <!--관리자 답변-->
+            <div class="adminAnswer">
+            	<h4>관리자 답변</h4> 
+            	<textarea v-if="comment" readonly>{{comment.comment}}</textarea>
             </div>
 			
 			<template v-if="userType == 'A' ">
@@ -145,6 +165,7 @@ var app = new Vue({
     data: {
     	boardNo : "${map.boardNo}",
     	info : {},
+    	comment : {},
     	userId : "${userId}",
     	userType : "${userType}",
     	contents : ""
@@ -161,7 +182,11 @@ var app = new Vue({
                 type: "POST",
                 data: nparmap,
                 success: function(data) {
+                	console.log(data.info);
+                	console.log(data.comment);
+                	
                 	self.info = data.info;
+                	self.comment = data.comment;
                 	self.contents = data.info.contents;
                 }
             });

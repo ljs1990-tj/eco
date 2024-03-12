@@ -165,8 +165,11 @@ public class BoardServiceimpl implements BoardService{
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
-			Board board = boardMapper.selectInquiryInfo(map);
+			Board board = boardMapper.selectInquiryInfo(map); //등록한 문의 출력
+			Board comment = boardMapper.selectAdminComment(map); // 등록된 문의에 관리자가 남긴 코멘트
+			
 			resultMap.put("info", board);
+			resultMap.put("comment", comment);
 			resultMap.put("result","success");
 		} catch (Exception e) {
 			// TODO: handle exception

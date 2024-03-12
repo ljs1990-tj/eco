@@ -8,7 +8,7 @@
 <insert id="insertProduct" parameterType="hashmap" useGeneratedKeys="true" keyProperty="itemNo" keyColumn="itemNo">
 		INSERT INTO ECO_PRODUCT
 		VALUES
-			(null,#{name}, #{price}, #{Srate}, #{Prate}, #{contents}, #{trans}, #{sellYN}, NOW(), NOW(), #{cnt}, #{code})
+			(null,#{name}, #{price}, #{Srate}, #{Prate}, #{contents}, #{trans}, #{sellYN}, NOW(), NOW(), #{cnt}, #{code}, 0)
 	</insert>
 	
 <select id="selectProductList" parameterType="hashmap" resultType="com.example.test1.model.Product">

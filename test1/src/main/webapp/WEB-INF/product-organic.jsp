@@ -95,9 +95,11 @@
         font-weight: bold;
     }
     
-    .admin-btn{
-    	width: 100px;
-    }
+    .admin-btn {
+	    display: flex;
+	    justify-content: flex-start; /* 버튼들을 가로로 정렬 */
+	    gap: 10px; /* 버튼 사이 간격 */
+	}
     
     .controls {
         display: flex;
@@ -121,6 +123,11 @@
         height: 30px;
         cursor: pointer;
     }
+    
+    .buttons-container button:hover {
+    	color : white;
+    	 background-color: #5cb85c;
+    }
 
     .dropdown-container {
         margin-left: auto; /* 왼쪽 마진 자동으로 주어 오른쪽에 붙임 */
@@ -130,6 +137,11 @@
         padding: 5px;
         cursor: pointer;
     }
+    
+    .button-selected {
+	    background-color: #4CAF50; /* 선택된 버튼의 배경색 */
+	    color: white; /* 선택된 버튼의 글자색 */
+	}
     
 
 </style>
@@ -201,7 +213,7 @@ var app = new Vue({
     	filelist : [],
     	userId : "${userId}",
 		userType : "${userType}",
-    	code : ""
+    	code : "",
     }
     , methods: {
     	fnList: function(code) {

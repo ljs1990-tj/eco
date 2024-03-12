@@ -6,15 +6,75 @@
 	<meta charset="UTF-8">
 	<script src="js/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<title>첫번째 페이지</title>
+	<title>등록 상품 수정</title>
 </head>
 <style>
+/*     body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        margin: 0;
+        padding: 20px;
+    } */
+
+    #app {
+        max-width: 800px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+    }
+
+    div {
+        margin-bottom: 10px;
+    }
+
+    input[type=text],
+    select,
+    .vue-editor {
+        width: 100%;
+        padding: 8px;
+        margin: 4px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type=file] {
+        padding: 8px;
+        margin: 4px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    button {
+        width: 100%;
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.3/vue.min.js"></script>
 	<script src="https://unpkg.com/vue2-editor@2.3.11/dist/index.js"></script>
 <body>
 	<div id="app">
 		<div>
+			<h2>등록 상품 수정</h2>
 			상품 카테고리 : 
 			<select v-model="code">
 				<option value="gluten">글루텐프리</option>
@@ -119,7 +179,7 @@ var app = new Vue({
             		itemNo : self.itemNo
             };
             $.ajax({
-                url:"",
+                url:"AdminProductView.dox",
                 dataType:"json",
                 type: "POST",
                 data: nparmap,
@@ -172,18 +232,17 @@ var app = new Vue({
                 		itemNo : self.itemNo	
                 };
                 $.ajax({
-                    url:"",
+                    url:"AdminProductUpdate.dox",
                     dataType:"json",
                     type: "POST",
                     data: nparmap,
                     success: function(data) {
                     	if(data.result=="success"){
-                    		
                     		alert("등록완료");
                     		
                     		/* 이 부분에 이미지를 수정하는 작업을 해줄것임 */
                             
-                            location.href="";
+                            location.href="productOrganic.do";
                             
                     	}else{
                     		alert("등록실패");
