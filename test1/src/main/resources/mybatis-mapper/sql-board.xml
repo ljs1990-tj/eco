@@ -166,5 +166,4 @@
 		WHERE BOARDNO = #{boardNo}
 	</select>
 	
-	
 </mapper>

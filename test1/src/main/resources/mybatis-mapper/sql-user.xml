@@ -3,12 +3,14 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.test1.mapper.UserMapper">
+	<!-- 유저 아이디 존재 확인 -->
 	<select id="selectUser" parameterType="hashmap"
 		resultType="com.example.test1.model.User">
 		SELECT *
 		FROM ECO_USER
 		WHERE USERID = #{userId}
 	</select>
+	<!-- 유저 회원가입 -->
 	<insert id="insertUser" parameterType="hashmap">
 		INSERT INTO ECO_USER
 		VALUES
@@ -18,12 +20,14 @@
 		#{eventYn}, 0, 0, 0,
 		'U', NOW(), NOW(), NOW(), DATE_ADD(NOW(), INTERVAL 3 MONTH))
 	</insert>
+	<!-- 로그인 카운트 증가 -->
 	<update id="updateLoginCnt" parameterType="hashmap">
 		UPDATE ECO_USER
 		SET
 			LOGINCNT = LOGINCNT + 1
 		WHERE USERID = #{userId}
 	</update>
+	<!-- 로그인 카운트 초기화 -->
 	<update id="updateLoginCnt2" parameterType="hashmap">
 		UPDATE ECO_USER
 		SET
