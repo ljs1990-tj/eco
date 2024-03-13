@@ -9,6 +9,7 @@
 		INSERT INTO ECO_PRODUCT
 		VALUES
 			(null,#{name}, #{price}, #{Srate}, #{Prate}, #{contents}, #{trans}, #{sellYN}, NOW(), NOW(), #{cnt}, #{code},0)
+
 	</insert>
 	
 <select id="selectProductList" parameterType="hashmap" resultType="com.example.test1.model.Product">

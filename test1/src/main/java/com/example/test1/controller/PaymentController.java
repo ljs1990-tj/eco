@@ -17,6 +17,7 @@ import com.siot.IamportRestClient.response.Payment;
 @RestController
 public class PaymentController {
 
+
     @Value("${iamport.key}")
     private String restApiKey;
     @Value("${iamport.secret}")
@@ -33,4 +34,7 @@ public class PaymentController {
     public IamportResponse<Payment> paymentByImpUid(@PathVariable("imp_uid") String imp_uid) throws IamportResponseException, IOException {
         return iamportClient.paymentByImpUid(imp_uid);
     }
+
+    
+
 }

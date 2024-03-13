@@ -6,7 +6,7 @@
 	<meta charset="UTF-8">
 	<script src="js/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<title>첫번째 페이지</title>
+	<title>상품 등록</title>
 </head>
 <style>
 </style>
@@ -25,7 +25,6 @@
 				<option value="local">로컬푸드</option>
 				<option value="org">유기농</option>
 				<option value="vegan">비건</option>
-				
 			</select>
 			
 		</div>
@@ -94,7 +93,7 @@ var app = new Vue({
     	contents:"",
     	trans:"무료배송",
     	sellYN:"N",
-    	cnt:""
+    	cnt:"",
     	
     	
     }

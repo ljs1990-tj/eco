@@ -5,7 +5,10 @@
 <mapper namespace="com.example.test1.mapper.BoardMapper">
 	
 	<select id="selectBoardList" parameterType="hashmap" resultType="com.example.test1.model.Board">
-		SELECT * FROM ECO_BOARD WHERE KIND =#{kind}
+		 SELECT * FROM ECO_BOARD 
+		 WHERE KIND = #{kind}
+    		
+		
 	</select>
 	
 	<select id="selectBoardInfo" parameterType="hashmap" resultType="com.example.test1.model.Board">
@@ -19,7 +22,7 @@
 	
 	<insert id="writeBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="BOARDNO" keyColumn="BOARDNO">
 		INSERT INTO ECO_BOARD
-		VALUES(null, #{title}, #{contents}, #{userId}, 10, 'N', null, #{kind}, 0, NOW(), NOW(), 2500)
+		VALUES(null, #{title}, #{contents}, #{userId}, 0, 'N', null, #{kind}, 0, NOW(), NOW(), 3000)
 	</insert>
 
 
@@ -29,21 +32,103 @@
 	</delete>
 
 	<update id="boardEdit" parameterType="hashmap">
-		UPDATE ECO_BOARD SET CONTENTS = #{contents}, TITLE = #{title}, KIND = #{kind} 
+		UPDATE ECO_BOARD SET CONTENTS = #{contents}, TITLE = #{title}, KIND = #{kind}, UDATETIME = NOW()  
 		WHERE BOARDNO = #{boardNo}
 	</update>
 
+	<update id="updateHit" parameterType="hashmap">
+		UPDATE ECO_BOARD SET HITS = HITS + 1 WHERE BOARDNO = #{boardNo}
+	</update>
+
 	<insert id="insertBoardImage" parameterType="hashmap">
-		INSERT INTO ECO_BOARD_IMAGE 
-		VALUES(null, #{boardNo}, #{path}, #{fileName}, #{orgName}, #{fileSize}, #{etc})
+		INSERT INTO ECO_BOARD_IMAGE
+		VALUES(null, #{itemNo}, #{filePath}, #{fileName}, #{fileorgName}, #{fileSize}, #{filEtc}, #{kind})
 	</insert>
+
+<!-- 	
+	<select id="selectBoardFileInfo" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
+		SELECT P.*,
+			FILEPATH || FILENAME AS PATH
+		FROM ECO_PRODUCT_IMAGE P
+		WHERE KIND = 1
+	</select>
+	
+	상품 상세보기에서 이미지 불러오기 
+	<select id="selectBoardContentsFileInfo" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
+		SELECT P.*,
+			FILEPATH || FILENAME AS PATH
+		FROM ECO_PRODUCT_IMAGE P
+		WHERE KIND = 2
+		AND ITEMNO = #{itemNo}
+	</select>
+	
+	상품 상세보기 화면에 상품 상세 정보에 보여줄 이미지 불러오기 
+	<select id="selectBoardDetailFileInfo" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
+		SELECT P.*,
+			FILEPATH || FILENAME AS PATH
+		FROM ECO_PRODUCT_IMAGE P
+		WHERE KIND = 3
+		AND ITEMNO = #{itemNo}
+	</select> -->
+	
+	<update id="updateboardMainFile" parameterType="hashmap">
+		UPDATE ECO_BOARD_IMAGE
+		SET FILENAME = #{fileName},
+			FILEORNAME = #{fileOrgName},
+			FILESIZE = #{fileSize},
+			FILEETC = #{fileEtc}
+		WHERE FILENO = #{fileNo}
+	</update>
+	
+	<select id="selectBoardFileList" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
+		SELECT B.*,
+			FILEPATH || FILENAME AS PATH
+		FROM ECO_BOARD_IMAGE B
+		WHERE KIND = #{kind}
+	</select>
+	
+	
+	<select id="selectBoardContentsFileInfo" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
+		SELECT B.*,
+			FILEPATH || FILENAME AS PATH
+		FROM ECO_BOARD_IMAGE B
+		WHERE BOARDNO = #{boardNo}
+	</select>
+	
+	<insert id="insertBoardFile" parameterType="hashmap">
+		INSERT INTO ECO_BOARD_IMAGE
+		VALUES(NULL, #{boardNo}, #{path}, #{fileName}, #{orgName}, #{fileSize}, #{etc}, #{kind})
+	</insert>
+	
+	<insert id="insertBoardContentsFile" parameterType="hashmap">
+		INSERT INTO ECO_BOARD_IMAGE
+		VALUES(NULL, #{boardNo}, #{path}, #{fileName}, #{orgName}, #{fileSize}, #{etc}, #{kind})
+	</insert>
+	
+	<delete id="fileDelete" parameterType="hashmap">
+		DELETE FROM ECO_BOARD_IMAGE
+		WHERE FILENO = #{fileNo}
+	</delete>
+	
+	<select id="selectUser" parameterType="hashmap" resultType="com.example.test1.model.User">
+		SELECT *
+		FROM ECO_USER
+		WHERE USERID = #{userId}
+	</select>
+	
+	<select id="selectUserWriteList" parameterType="hashmap" resultType="com.example.test1.model.Board">
+		SELECT *
+		FROM ECO_BOARD
+		WHERE USERID = #{userId}
+	</select>
+	
 	
 	
 	<!--문의 게시판 불러오기  -->
 	<select id="selectCustomerInquiryList" parameterType="hashmap" resultType="com.example.test1.model.Board">
 		SELECT * FROM
 		ECO_BOARD B
-		INNER JOIN ECO_USER U ON B.USERID = U.USERID <!-- ECE_USER에 있는 userType 가져올려고 씀 -->
+		INNER JOIN ECO_USER U ON B.USERID = U.USERID <!-- ECO_USER에 있는 userType 가져올려고 씀 -->
 		WHERE KIND = 3	
 	</select>
 	
@@ -55,8 +140,10 @@
 	
 	<!-- 등록한 문의 내용 확인 -->
 	<select id="selectInquiryInfo" parameterType="hashmap" resultType="com.example.test1.model.Board">
-		SELECT * FROM ECO_BOARD B INNER JOIN ECO_USER U ON B.USERID = U.USERID
-		WHERE BOARDNO = #{boardNo}
+		SELECT * 
+		FROM ECO_BOARD B 
+		INNER JOIN ECO_USER U ON B.USERID = U.USERID
+		WHERE B.BOARDNO = #{boardNo}
 	</select>
 	
 	<!-- 등록한 문의 삭제 -->
@@ -71,5 +158,13 @@
 			SET CONTENTS = #{contents}, TITLE = #{title}, UDATETIME = NOW()
 		WHERE BOARDNO = #{boardNo}
 	</update>
+	
+	<!-- 관리자 답변 내용 확인  -->
+	<select id="selectAdminComment" parameterType="hashmap" resultType="com.example.test1.model.Comment">
+		SELECT * 
+		FROM ECO_COMMENT
+		WHERE BOARDNO = #{boardNo}
+	</select>
+	
 	
 </mapper>

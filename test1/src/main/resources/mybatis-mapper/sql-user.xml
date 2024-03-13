@@ -16,19 +16,26 @@
 		#{phone1}, #{phone2},
 		#{phone3}, #{email}, #{birth}, 'SILVER', 'N',
 		#{eventYn}, 0, 0, 0,
-		'U', NOW(), NOW(), NOW(), DATE_ADD(NOW(), INTERVAL
-		3 MONTH))
+		'U', NOW(), NOW(), NOW(), DATE_ADD(NOW(), INTERVAL 3 MONTH))
 	</insert>
+	<update id="updateLoginCnt" parameterType="hashmap">
+		UPDATE ECO_USER
+		SET
+			LOGINCNT = LOGINCNT + 1
+		WHERE USERID = #{userId}
+	</update>
+	<update id="updateLoginCnt2" parameterType="hashmap">
+		UPDATE ECO_USER
+		SET
+			LOGINCNT = 0
+		WHERE USERID = #{userId}
+	</update>
 	<!-- 마이페이지 수정 -->
 	<update id="updateUser" parameterType="hashmap">
 		UPDATE ECO_USER
 		SET
-		USERPW =
-		#{userPw}, NAME = #{name}, NICKNAME = #{nickName}, GENDER =
-		#{gender},
-		PHONE1 = #{phone1}, PHONE2 = #{phone2}, PHONE3 = #{phone3},
-		EMAIL =
-		#{email}, BIRTH = #{birth}
+			USERPW = #{userPw}, NAME = #{name}, NICKNAME = #{nickName}, GENDER = #{gender},
+			PHONE1 = #{phone1}, PHONE2 = #{phone2}, PHONE3 = #{phone3}, EMAIL = #{email}, BIRTH = #{birth}
 		WHERE USERID = #{userId}
 	</update>
 	<!-- 회원가입으로 주소등록 -->
@@ -36,35 +43,62 @@
 		INSERT INTO ECO_ADDR
 		(USERID, ADDR, ADDRDETAIL, ZIPCODE, NAME, PHONE, ADDRREQUEST,
 		ADDRNAME)
+		VALUES(#{userId}, #{addr}, #{addrDetail}, #{zipCode},
+		#{name}, #{phone}, NULL, #{addrName})
+			(USERID, ADDR, ADDRDETAIL, ZIPCODE, NAME, PHONE, ADDRREQUEST, ADDRNAME)
 		VALUES
-		(#{userId}, #{addr}, #{addrDetail}, #{zipCode},
-		#{name}, #{phone}, NULL,
-		#{addrName})
+			(#{userId}, #{addr}, #{addrDetail}, #{zipCode}, #{name}, #{phone}, NULL, #{addrName})
 	</insert>
-	<!-- 유저 주소록 호출 -->
+	<!-- 유저 마이페이지 수정 -->
+	<update id="updateUser" parameterType="hashmap">
+		UPDATE ECO_USER
+		SET
+		USERPW =
+		#{userPw}, NAME = #{name}, NICKNAME = #{nickName}, GENDER = #{gender}, 
+		PHONE1 = #{phone1}, PHONE2 = #{phone2}, PHONE3 = #{phone3},
+		EMAIL = #{email}, BIRTH = #{birth}
+		WHERE USERID = #{userId}
+	</update>
+
+	<!-- 유저 마이페이지 주소록 호출 및 개수제한 -->
 	<select id="selectAddr" parameterType="hashmap"
 		resultType="com.example.test1.model.Addr">
-		SELECT *
+		SELECT ECO_ADDR.*, user_counts.CNT
 		FROM ECO_ADDR
-		WHERE USERID = #{userId}
+		JOIN (
+		SELECT USERID, COUNT(*) AS CNT
+		FROM ECO_ADDR
+		GROUP BY USERID
+		) AS user_counts ON ECO_ADDR.USERID = user_counts.USERID
+		WHERE ECO_ADDR.USERID = #{userId}
 	</select>
-	<!-- 유저 주소록 삭제 -->
+	<!-- 유저 마이페이지 주소록 삭제 -->
 	<delete id="deleteAddr" parameterType="hashmap">
 		DELETE FROM ECO_ADDR
 		WHERE ADDRNO = #{addrNo}
 	</delete>
-	<!-- 마이페이지 주소록 추가 -->
+	<!-- 유저 마이페이지 주소록 추가 -->
 	<insert id="insertMyPageAddrAdd" parameterType="hashmap">
+
 		INSERT INTO
-		ECO_ADDR VALUES(NULL, #{userId}, #{addr}, #{addrDetail}, #{zipCode}, #{name},
-		#{phone}, #{addrRequest}, #{addrName})
+		ECO_ADDR VALUES(NULL, #{userId}, #{addr}, #{addrDetail}, #{zipCode},
+		#{name}, #{phone}, #{addrRequest}, #{addrName})
+		INSERT INTO ECO_ADDR
+			VALUES(NULL, #{userId}, #{addr}, #{addrDetail}, #{zipCode}, #{name}, #{phone}, #{addrRequest}, #{addrName})
 	</insert>
-	<!-- 유저정보수정 가져오기 -->
+	<!-- 유저 마이페이지 주소록 호출 -->
 	<select id="selectAddrAddNo" parameterType="hashmap"
 		resultType="com.example.test1.model.Addr">
-	SELECT *
+		SELECT *
 		FROM ECO_ADDR
-	WHERE ADDRNO = #{addrNo}
+		WHERE ADDRNO = #{addrNo}
 	</select>
-
+	<!-- 유저 마이페이지 주소록 수정 -->
+	<update id="updateAddr" parameterType="hashmap">
+		UPDATE ECO_ADDR
+		SET
+		ADDRNO = #{addrNo}, USERID = #{userId}, ADDR = #{addr}, ADDRDETAIL = #{addrDetail}, 
+		ZIPCODE = #{zipCode}, NAME = #{name}, PHONE = #{phone}, ADDRREQUEST = #{addrRequest}, 
+		ADDRNAME = #{addrName} WHERE ADDRNO = #{addrNo}
+	</update>
 </mapper>
