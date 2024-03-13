@@ -178,10 +178,10 @@
             <div class="product-list">
 		   		<div class="product-item" v-for="item in list" :key="item.id">
 			    	<template  v-for="item2 in filelist" v-if="item.itemNo == item2.itemNo">
-						<img :src="item2.filePath+item2.fileName" alt="" @click="fnDetailView(item.itemNo)">
+						<img :src="item2.filePath+item2.fileName" alt="" @click="fnDetailView(item.itemNo, userId)">
 				    </template>
 			    	
-			      	<button type="button" href="javascript:;" @click="">장바구니에 담기</button>
+			      	<button type="button" href="javascript:;" @click="fnAddCart(item.itemNo, userId)">장바구니에 담기</button>
 			      	
 			      	<div class="product-info" @click="fnDetailView(item.itemNo)">
 			        	<div class="product-name">{{item.itemName}}</div>
@@ -213,7 +213,7 @@ var app = new Vue({
     	filelist : [],
     	userId : "${userId}",
 		userType : "${userType}",
-    	code : "",
+    	code : ""
     }
     , methods: {
     	fnList: function(code) {
@@ -258,9 +258,9 @@ var app = new Vue({
             }
         },
         /* 제품 상세 페이지  */
-        fnDetailView: function(itemNo) {
+        fnDetailView: function(itemNo, userId) {
 			var self = this;
-			$.pageChange("/productView.do", {itemNo: itemNo});
+			$.pageChange("/productView.do", {itemNo: itemNo, userId: self.userId});
 		},
 		/* 상품 추가 페이지 */
 		fnAdd: function(){
@@ -270,6 +270,29 @@ var app = new Vue({
 		fnEdit : function(itemNo){
         	$.pageChange("/ProductUpdate.do", {itemNo : itemNo});
         },
+        /* 상품 장바구니 추가  */
+		fnAddCart: function(itemNo, userId) {
+            var self = this;
+            var nparmap = {
+				itemNo: itemNo,
+				userId: self.userId
+            };
+            $.ajax({
+                url:"addCart.dox",
+                dataType:"json",
+                type: "POST",
+                data: nparmap,
+                success: function(data) {
+                	console.log(itemNo);
+                	console.log(userId);
+                	if(data.result=="success"){
+                		alert("장바구니에 담았습니다.");
+                	}else{
+                		alert("예기지 못한 오류가 발생했습니다. 다시 시도해주세요");
+                	}
+                }
+            });
+        }
     }
     , created: function() {
     	var self = this;

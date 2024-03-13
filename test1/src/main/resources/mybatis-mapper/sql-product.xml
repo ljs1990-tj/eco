@@ -64,9 +64,15 @@
 	</select>
 	
 	<!-- 판매자 상품 추가  -->
-	<!-- <insert id="insertProduct" parameterType="hashmap" useGeneratedKeys="true" keyProperty="itemNo" keyColumn="itemNo">
+	<insert id="insertProduct" parameterType="hashmap" useGeneratedKeys="true" keyProperty="itemNo" keyColumn="itemNo">
 		INSERT INTO ECO_PRODUCT
 		VALUES
 			(null, #{name}, #{price}, #{Srate}, #{Prate}, #{contents}, #{trans}, #{sellYN}, NOW(), NOW(), #{cnt}, #{code}, 0)
-	</insert> -->
+	</insert>
+	
+	<!-- 상품 페이지에서 장바구니 추가  -->
+	<insert id="insertCart" parameterType="hashmap">
+      	INSERT INTO ECO_CART
+      	VALUES(NULL, #{userId},#{itemNo},NOW(),'N',1)
+    </insert>
 </mapper>
