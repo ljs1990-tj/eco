@@ -9,16 +9,72 @@
 	<title>상품 등록</title>
 </head>
 <style>
+  /*   body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        margin: 0;
+        padding: 20px;
+    } */
+
+    #app {
+        max-width: 800px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+    }
+
+    div {
+        margin-bottom: 10px;
+    }
+
+    input[type=text],
+    select,
+    .vue-editor {
+        width: 100%;
+        padding: 8px;
+        margin: 4px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type=file] {
+        padding: 8px;
+        margin: 4px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    button {
+        width: 100%;
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.3/vue.min.js"></script>
-	
-<!-- Quill CDN -->
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
-    
+	<script src="https://unpkg.com/vue2-editor@2.3.11/dist/index.js"></script>
 <body>
 	<div id="app">
 		<div>
+			<h2>상품 등록</h2>
 			상품 카테고리 : 
 			<select v-model="code">
 				<option value="gluten">글루텐프리</option>
@@ -43,17 +99,17 @@
 		</div>
 		<tr>
 			<td width="30%">메인 이미지 : </td>
-			<td width="70%"><input type="file" id="file1" name="file1" accept=".jpg,.png,.gif" multiple></td>
+			<td width="70%"><input type="file" id="file1" name="file1" accept=".jpg,.png,.gif"></td>
 		</tr>
 		<div>
 		<tr>
 			<td width="30%">설명에 들어갈 이미지 : </td>
-			<td width="70%"><input type="file" id="file2" name="file2" accept=".jpg,.png,.gif" multiple></td>
+			<td width="70%"><input type="file" id="file2" name="file2" accept=".jpg,.png,.gif"></td>
 		</tr>
 		</div>
 		<div>
 			
-			내용 :  <div id="editor" style="height: 300px;"></div>
+			내용 : <vue-editor v-model="contents"></vue-editor>
 			
 		</div>
 		
@@ -82,6 +138,8 @@
 </body>
 </html>
 <script type="text/javascript">
+Vue.use(Vue2Editor);
+const VueEditor = Vue2Editor.VueEditor;
 var app = new Vue({
     el: '#app',
     data: {
@@ -97,6 +155,7 @@ var app = new Vue({
     	
     	
     }
+	, components: {VueEditor}
     , methods: {
     	fnAdd: function() {
             var self = this;
@@ -109,8 +168,7 @@ var app = new Vue({
             		contents : self.contents,
             		trans : self.trans,
             		sellYN : self.sellYN,
-            		cnt : self.cnt,
- 
+            		cnt : self.cnt
             		
             		
             };
@@ -122,38 +180,20 @@ var app = new Vue({
                 success: function(data) {
                 	if(data.result=="success"){
                 		alert("등록완료");
+                		var formMain = new FormData();
                 		
-                		
-                		var files = $("#file1")[0].files;
-                		for(var i =0 ; i<files.length;i++){
-                			var formMain = new FormData();
-                			formMain.append( "file1",  files[i]);
-                            formMain.append("itemNo", data.itemNo);
-                            self.uploadMain(formMain);
-                		}
-                		
-                		var files2 = $("#file2")[0].files;
-                		
-                        for(var y =0 ; y<files2.length;y++){
-                        	var formContents = new FormData();
-                        	 formContents.append("file2",files2[y]);
-                        	 formContents.append("itemNo", data.itemNo);
-                             self.uploadContents(formContents);
-                        }
-                       
-                       
+                        formMain.append( "file1",  $("#file1")[0].files[0]);
+                        formMain.append("itemNo", data.itemNo);
+                        self.uploadMain(formMain);
                         
-                    /*    location.href="AdminProductList.do"; */
+                        var formContents = new FormData();
+                        formContents.append("file2",$("#file2")[0].files[0]);
+                        formContents.append("itemNo", data.itemNo);
+                        self.uploadContents(formContents);
+                        location.href="productOrganic.do";
                 		
                 	}else{
                 		alert("등록실패");
-                		var files = $("#file1")[0].files;
-                		var files2 = $("#file2")[0].files;
-                		for (var i =0;i<files2.length;i++){
-                			console.log(i+"번째 파일");
-                			console.log(files2[i]);
-                		}
-                		
                 	}
                 	
                 }
@@ -187,29 +227,8 @@ var app = new Vue({
            }	           
        });
 	}
-	  
 	
 	
-    },
-    mounted: function () {
-        // Quill 에디터 초기화
-        var quill = new Quill('#editor', {
-            theme: 'snow',
-            modules: {
-                toolbar: [
-                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-                    ['bold', 'italic', 'underline'],
-                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                    ['link', 'image'],
-                    ['clean']
-                ]
-            }
-        });
-
-        // 에디터 내용이 변경될 때마다 Vue 데이터를 업데이트
-        quill.on('text-change', function() {
-            app.contents = quill.root.innerHTML;
-        });
     }
     , created: function() {
     	var self = this;

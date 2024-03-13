@@ -15,7 +15,7 @@
         box-sizing: border-box;
     }
 </style>
-<body style="background-color: blue;">
+<body style="background-color:white;">
     <!-- 전체구역 -->
     <div id="app" style="width: 1500px; height: 625px; border: 1px solid black; overflow: hidden; margin: 0 auto;">
         <section style="display: flex;">
@@ -39,7 +39,7 @@
                     </div>
                     <div style="height: 40px; border: 1px solid black; padding: 10px; display: flex; justify-content: center; align-items: center;">
                         <div style="margin-right: auto;"><button @click="fnGradeselect()">등급혜택 자세히 보기</button></div>
-                        <div style="margin-left: auto;"><button @click="fnUsermodify()">정보수정</button></div>
+                        <div style="margin-left: auto;"><button @click="fnUsermodify()" :disabled="isPopupOpen">정보수정</button></div>
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
 						<div v-for="address in addrList">
 							<div style="border: 1px solid #ccc; padding-left: 10px; padding-right:10px; padding-bottom: 10px; padding-top: 10px; margin: 0px auto;">
 								<div>
-									<input type="radio" v-model="radio" :value="address.addrNo">
+									<input type="radio" v-model="radio" :value="address.addrNo" :disabled="isPopupOpen">
 								</div>
 								<div style="font-weight: bold;">{{ address.name }}</div>
 								<div>
@@ -67,29 +67,37 @@
 					<div
 						style="height: 45px; border: 2px solid #ccc; padding: 10px; display: flex; justify-content: space-between;">
 						<div>
-							<button @click="addDefaultAddress()">주소추가</button>
+							<button @click="addDefaultAddress()" :disabled="isPopupOpen">주소추가</button>
 						</div>
 						<div>
-							<button @click="updateSelectedAddresses()">주소수정</button>
-							<button @click="deleteSelectedAddresses">주소삭제</button>
+							<button @click="updateSelectedAddresses()" :disabled="isPopupOpen">주소수정</button>
+							<button @click="deleteSelectedAddresses" :disabled="isPopupOpen">주소삭제</button>
 						</div>
 					</div>
 				</div>
 				<div style="width: 500px; border: 1px solid black; margin: 20px;">
 					<div style="height: 100px; border: 1px solid black; padding: 10px; display: flex; justify-content: center; align-items: center;">
 						<div style="margin-right: auto;">내가 쓴 레시피</div>
-						<div style="margin-left: auto;"><button>더보기?</button></div>
+						<div style="margin-left: auto;"><button :disabled="isPopupOpen">더보기?</button></div>
 					</div>
 				</div>
 				<div style="width: 500px; border: 1px solid black; margin: 20px;">
 					<div style="height: 100px; border: 1px solid black; padding: 10px; display: flex; justify-content: center; align-items: center;">
 						<div style="margin-right: auto;">내주문 내역</div>
-						<div style="margin-left: auto;"><button>더보기?</button></div>
+						<div style="margin-left: auto;"><button :disabled="isPopupOpen">더보기?</button></div>
 					</div>
 				</div>
 			</div>
 		</section>
-    </div>
+		<!-- 등급혜택 창열기 -->
+		<div class="popup" v-if="isPopupOpen"
+			style=" position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px solid #ccc; background-color:black; padding: 20px; z-index: 9999; text-align: center; color: white;">
+			<h2>등급혜택 자세히 보기</h2>
+			<!-- 등급혜택 창 내용 추가 -->
+			<p>팝업 창에 표시할 내용을 여기에 작성하세요.</p>
+			<button @click="closePopup">닫기</button>
+		</div>
+	</div>
 </body>
 </html>
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
@@ -127,6 +135,7 @@
 			closePopup : function() {
 				var self = this;
 				self.isPopupOpen = false;
+				location.reload(true);
 			},
 			/* 주소 목록 삭제하기 */
 			deleteSelectedAddresses : function() {

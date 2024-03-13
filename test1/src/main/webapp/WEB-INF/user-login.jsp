@@ -124,7 +124,7 @@ var app = new Vue({
                 success: function(data) {
                 	if(data.result == "success") {
                 		self.resultMessage = ""; 
-                		$.pageChange("/main.do", {});
+                		$.pageChange("/header.do", {});
                 	} else {
                 		self.resultMessage = "없는 아이디 또는 비밀번호입니다!";
                 	}

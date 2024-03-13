@@ -5,6 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="../css/team_project_style.css">
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 <script src="js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <title>게시글 수정 페이지</title>
@@ -56,25 +58,17 @@ button:hover {
 
 <body>
 	<div id="app">
-		<tr>
-			<th>게시판 선택</th>
-				<td><select v-model="kind">
-					<option value="1">공지사항</option>
-					<option value="2">레시피게시판</option>
-					<option value="3">문의게시판</option>
-				</select></td>
-		</tr>
 		<div>
 			제목 : <input type="text" v-model="title">
 		</div>
 		<div>
 			내용 :
-			<textarea row="30" cols="60" v-model="contents">
-			
-			</textarea>		
+			<textarea row="30" cols="60" v-model="contents"></textarea>		
+			<div id="editor" v-model="contents" style="height: 300px; "></div>
+			<!-- v-model="contents" 이거 안먹힘 -->
 		</div>		
 		<button @click="fnWrite">수정완료</button>
-		{{kind}}
+		{{boardNo}}
 	</div>
 
 </body>
@@ -86,7 +80,6 @@ button:hover {
 			boardNo : "${map.boardNo}",
 			title : "",
 			contents : "",
-			kind : "${map.kind}"
 		},
 		methods : {
 			fnSelectBoard: function(){
@@ -110,8 +103,7 @@ button:hover {
 				var nparmap = {
 					title : self.title,
 					contents : self.contents,
-					boardNo : self.boardNo,
-					kind : self.kind
+					boardNo : self.boardNo
 				};
 				$.ajax({
 					url : "boardEdit.dox",
@@ -130,6 +122,25 @@ button:hover {
 				});
 			}
 		},
+		mounted: function () {
+	        // Quill 에디터 초기화
+	        var quill = new Quill('#editor', {
+	            theme: 'snow',
+	            modules: {
+	                toolbar: [
+	                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+	                    ['bold', 'italic', 'underline'],
+	                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+	                    ['link', 'image'],
+	                    ['clean']
+	                ]
+	            }
+	        });
+	        // 에디터 내용이 변경될 때마다 Vue 데이터를 업데이트
+	        quill.on('text-change', function() {
+	            app.contents = quill.root.innerHTML;
+	        });
+	    },
 		created : function() {
 			var self = this;
 			self.fnSelectBoard();
