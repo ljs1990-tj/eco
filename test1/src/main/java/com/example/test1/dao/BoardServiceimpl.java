@@ -9,7 +9,8 @@ import org.springframework.stereotype.Service;
 import com.example.test1.mapper.BoardMapper;
 import com.example.test1.model.Board;
 
-import com.example.test1.model.BoardFile;
+import com.example.test1.model.Product;
+import com.example.test1.model.BoardImage;
 import com.example.test1.model.Comment;
 
 @Service
@@ -33,8 +34,7 @@ public class BoardServiceimpl implements BoardService{
 		return board;
 	
 	}
-	
-	
+
 	/*
 	 * @Override public HashMap<String, Object> searchBoardInfo(HashMap<String,
 	 * Object> map) { // TODO Auto-generated method stub HashMap<String, Object>
@@ -71,7 +71,7 @@ public class BoardServiceimpl implements BoardService{
 	}
 
 	@Override
-	public HashMap<String, Object> inBoardFile(HashMap<String, Object> map) {
+	public HashMap<String, Object> inBoardImage(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -96,14 +96,12 @@ public class BoardServiceimpl implements BoardService{
 	public HashMap<String, Object> searchBoardInfo(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-
-		boardMapper.updateHit(map); // 조회수 증가
-		
+		//boardMapper.updateHit(map); // 조회수 증가
 		try {
 			Board board = boardMapper.selectBoardInfo(map);// 게시글 상세 조회
+			//System.out.println("board에 뭐있나여 "+board);
 			resultMap.put("info", board);
 			resultMap.put("result", "success");
-			
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
@@ -217,56 +215,6 @@ public class BoardServiceimpl implements BoardService{
 		return resultMap;
 	}
 
-
-	@Override
-	public HashMap<String, Object> addBoardFile(HashMap<String, Object> map) {
-
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-
-		try {
-			boardMapper.insertBoardFile(map);
-			resultMap.put("result", "success");
-
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println(e.getMessage());
-			resultMap.put("result", "fail");
-		}
-		return resultMap;
-	}
-
-	@Override
-	public HashMap<String, Object> addBoardContentsFile(HashMap<String, Object> map) {
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-
-		try {
-			boardMapper.insertBoardContentsFile(map);
-			resultMap.put("result", "success");
-
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println(e.getMessage());
-			resultMap.put("result", "fail");
-		}
-		return resultMap;
-
-	}
-
-	@Override
-	public HashMap<String, Object> removefile(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		try {
-			boardMapper.fileDelete(map);
-			resultMap.put("result", "success");
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println(e.getMessage());
-			resultMap.put("result", "fail");
-		}
-		
-		return resultMap;
-	}
 	
 	
 	
