@@ -84,7 +84,7 @@
 	<insert id="insertMyPageAddrAdd" parameterType="hashmap">
 		INSERT INTO
 		ECO_ADDR VALUES(NULL, #{userId}, #{addr}, #{addrDetail}, #{zipCode},
-		#{name}, #{phone}, #{addrRequest}, #{addrName})
+		#{name}, #{phone}, #{addrRequest}, #{addrName}, 'N')
 	</insert>
 	
 	<!-- 유저 마이페이지 주소록 호출 -->
@@ -101,6 +101,6 @@
 		SET
 		ADDRNO = #{addrNo}, USERID = #{userId}, ADDR = #{addr}, ADDRDETAIL = #{addrDetail}, 
 		ZIPCODE = #{zipCode}, NAME = #{name}, PHONE = #{phone}, ADDRREQUEST = #{addrRequest}, 
-		ADDRNAME = #{addrName} WHERE ADDRNO = #{addrNo}
+		ADDRNAME = #{addrName} ISDEFAULT = #{isDefault} WHERE ADDRNO = #{addrNo}
 	</update>
 </mapper>

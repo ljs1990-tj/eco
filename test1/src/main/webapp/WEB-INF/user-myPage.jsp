@@ -17,8 +17,8 @@
 </style>
 <body style="background-color:white;">
     <!-- 전체구역 -->
-    <div id="app" style="width: 1500px; height: 625px; border: 1px solid black; overflow: hidden; margin: 0 auto;">
-        <section style="display: flex;">
+    <div id="app" >
+        <section style="display: flex;width: 1500px; height: 625px; border: 1px solid black; overflow: hidden; margin: 0 auto;">
             <!-- 왼쪽 구역 -->
             <div style="overflow: hidden; width: 600px; float: left; border: 1px solid black;">
                 <div style="width: 500px; border: 1px solid red; margin: 20px; ">
@@ -38,13 +38,13 @@
                         <div style="margin-left: auto;">포인트 : <span>{{user.point}}</span></div>
                     </div>
                     <div style="height: 40px; border: 1px solid black; padding: 10px; display: flex; justify-content: center; align-items: center;">
-                        <div style="margin-right: auto;"><button @click="fnGradeselect()">등급혜택 자세히 보기</button></div>
+                        <div style="margin-right: auto;"><button @click="fnopenPopup()">등급혜택 자세히 보기</button></div>
                         <div style="margin-left: auto;"><button @click="fnUsermodify()" :disabled="isPopupOpen">정보수정</button></div>
                     </div>
                 </div>
             </div>
             <!-- 오른쪽 구역 -->
-			<div style="width: 900px; float: left;">
+			<div style="width: 900px; overflow: hidden; float: left;">
 				<div style="width: 800px; border: 1px solid blue; margin: 20px;">
 					<div style="height: 200px; border: 1px solid red; overflow-y: scroll; padding: 10px;">
 						<div v-for="address in addrList">
@@ -53,6 +53,7 @@
 									<input type="radio" v-model="radio" :value="address.addrNo" :disabled="isPopupOpen">
 								</div>
 								<div style="font-weight: bold;">{{ address.name }}</div>
+								<div v-if="addrDefault">기본배송지</div>
 								<div>
 									<span>우편번호: </span> {{ address.zipCode }}
 								</div>
@@ -70,6 +71,7 @@
 							<button @click="addDefaultAddress()" :disabled="isPopupOpen">주소추가</button>
 						</div>
 						<div>
+							<button @click="fndefault()" :disabled="isPopupOpen">기본 배송지</button>
 							<button @click="updateSelectedAddresses()" :disabled="isPopupOpen">주소수정</button>
 							<button @click="deleteSelectedAddresses" :disabled="isPopupOpen">주소삭제</button>
 						</div>
@@ -90,12 +92,12 @@
 			</div>
 		</section>
 		<!-- 등급혜택 창열기 -->
-		<div class="popup" v-if="isPopupOpen"
+		<div v-if="isPopupOpen"
 			style=" position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px solid #ccc; background-color:black; padding: 20px; z-index: 9999; text-align: center; color: white;">
 			<h2>등급혜택 자세히 보기</h2>
 			<!-- 등급혜택 창 내용 추가 -->
 			<p>팝업 창에 표시할 내용을 여기에 작성하세요.</p>
-			<button @click="closePopup">닫기</button>
+			<button @click="fnclosePopup()">닫기</button>
 		</div>
 	</div>
 </body>
@@ -120,27 +122,46 @@
 				userGrade : "",
 				point : ""
 			},
-			addrList : [],
 			isPopupOpen : false,
+			addrDefault : false,
+			addrList : [],
 			radio : "",
 			cnt : ""
+			
 		},
 		methods : {
 			/* 등급혜택 창 열기 */
-			fnGradeselect : function() {
+			fnopenPopup : function() {
 				var self = this;
 				self.isPopupOpen = true;
 			},
 			/* 등급혜택 창 닫기 */
-			closePopup : function() {
+			fnclosePopup : function() {
 				var self = this;
 				self.isPopupOpen = false;
 				location.reload(true);
 			},
+			/* 기본배송지 설정  */
+			fndefault : function() {
+				var self = this;
+				var nparmap = {
+					addrNo = self.radio,
+					
+				},
+				$.ajax({
+					url : "user-mypage.dox",
+					dataType : "json",
+					type : "POST",
+					data : nparmap,
+					success : function(data) {
+						console.log(data);
+						self.user = data.user;
+					}
+				});
+			},
 			/* 주소 목록 삭제하기 */
 			deleteSelectedAddresses : function() {
 				var self = this;
-				var addrNo = self.radio;
 				if (self.user.userId == "") {
 					alert("로그인 후 입장 가능합니다.");
 					window.location.href = "/user-login.do";
@@ -191,7 +212,6 @@
 			// 주소록값 수정하기
 			updateSelectedAddresses : function() {
 				var self = this;
-				var addrNo = self.radio;
 				if (self.user.userId == "") {
 					alert("로그인 후 입장 가능합니다.");
 					window.location.href = "/user-login.do";
@@ -244,6 +264,11 @@
 					success : function(data) {
 						console.log(data);
 						self.addrList = data.addr;
+						if(data.addr.isDefault == 'Y'){
+							self.addrDefault = true;
+						}else{
+							self.addrDefault = false;
+						}
 					}
 				});
 			},
@@ -266,6 +291,7 @@
 			if (self.user.userId == "") {
 				alert("로그인 후 입장 가능합니다.");
 				window.location.href = "/user-login.do";
+				return;
 			}
 			self.information();
 			self.getAddress();
