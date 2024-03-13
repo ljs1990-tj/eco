@@ -9,15 +9,25 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.test1.mapper.AdminMapper;
 import com.example.test1.mapper.CartMapper;
+import com.example.test1.mapper.UserMapper;
 import com.example.test1.model.Cart;
 import com.example.test1.model.Product;
+import com.example.test1.model.ProductFile;
+import com.example.test1.model.User;
 
 @Service
 public class CartServiceImpl implements CartService{
 	
 	@Autowired
 	CartMapper cartMapper;
+	
+	@Autowired
+	AdminMapper adminMapper;
+	
+	@Autowired
+	UserMapper userMapper;
 	
 	@Autowired
 	HttpSession session;
@@ -27,9 +37,11 @@ public class CartServiceImpl implements CartService{
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
+			System.out.println(map);
 			List<Cart> list = cartMapper.selectCartList(map);
-			
+			User user = userMapper.selectUser(map);
 			resultMap.put("list", list);
+			resultMap.put("user", user);
 			resultMap.put("reslut","success");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -63,6 +75,21 @@ public class CartServiceImpl implements CartService{
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
+		}
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> editSelectCnt(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			cartMapper.updateSelectCnt(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
 		}
 		return resultMap;
 	}

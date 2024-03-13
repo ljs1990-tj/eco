@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="../css/team_project_style.css">
+
   <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 <script src="js/jquery.js"></script>
@@ -66,8 +67,9 @@ button:hover {
 			<th>게시판 선택</th>
 			<td>
 				<select v-model="kind">
-					<option value="1">공지사항</option><!-- 어드민만 나오게 -->
+					<option value="1" v-if="userType == 'A'">공지사항</option><!-- 어드민만 나오게 -->
 					<option value="2">레시피게시판</option><!-- 글쓰기 누르면 사진뜨게 -->
+					<option value="3">문의게시판</option>
 				</select>
 			</td>
 		</tr>
@@ -83,7 +85,7 @@ button:hover {
 		<tr>
 			<td width="30%">설명에 들어갈 이미지 : </td>
 			<td width="70%">
-			<input type="file" id="file2" name="file2" accept=".jpg,.png,.gif"></td>
+			<input type="file" id="file2" name="file2" accept=".jpg,.png,.gif" multiple></td>
 		</tr>
 		</div>
 		<!-- <tr>
@@ -96,6 +98,7 @@ button:hover {
 			 <div id="editor" v-model="contents" style="height: 300px; "></div>
 		</div>
 		<button @click="fnWrite">작성완료</button>
+	<!-- 	<button @click="fnList">목록으로 가기</button> -->
 		<!-- {{userId}} -->
 	</div>
 	
@@ -109,7 +112,8 @@ button:hover {
 			userId : "${userId}",//변수선언
 			kind : "${map.kind}",//컨트롤러에서 가져온 map꺼내서 위에서 사용
 			title : "${title}",
-			contents : "${contents}"
+			contents : "${contents}",
+			userType : "${userType}"
 		}
 		
 		,
@@ -117,7 +121,7 @@ button:hover {
 			fnWrite : function() {
 				var self = this;
 	            if(self.title == "") {
-	            	alert("빈칸입니다");
+	            	alert("제목이 빈칸입니다");
 	            	return;
 	            }
 				var nparmap = {
@@ -135,19 +139,25 @@ button:hover {
 						if (data.result == "success") {
 							alert("작성되었습니다");
 							
-	                		var formMain = new FormData();
+	                		var files = $("#file1")[0].files;
+                			var formMain = new FormData();
+                			formMain.append( "file1",  files[0]);
+                            formMain.append("boardNo", data.boardNo);
+                            self.uploadMain(formMain);
 	                		
-	                        formMain.append( "file1",  $("#file1")[0].files[0]);
-	                        formMain.append("itemNo", data.boardNo);
-	                        self.uploadMain(formMain);
+	                		var files2 = $("#file2")[0].files;
+	                        for(var y =0 ; y<files2.length;y++){
+	                        	var formContents = new FormData();
+	                        	 formContents.append("file2",files2[y]);
+	                        	 formContents.append("boardNo", data.boardNo);
+	                             self.uploadContents(formContents);
+	                        }
 	                        
-	                        var formContents = new FormData();
-	                        formContents.append("file2",$("#file2")[0].files[0]);
-	                        formContents.append("itemNo", data.boardNo);
-	                        self.uploadContents(formContents);
 	                        
+	                        setTimeout(() => {
+	                        	$.pageChange("/boardList.do", {});
+	                        }, 1000);
 	                        
-	                        // $.pageChange("/boardList.do", {});
 							//location.href = "/boardList.do"
 							
 						} else {

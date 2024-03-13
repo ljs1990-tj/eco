@@ -14,8 +14,7 @@
 	<div id="app">
 		<div>아이디 입력:
 			<input type="text" v-model="inputId" :disabled="checkIdFlg" @keyup.enter="fnSearchId">
-			<button @click="fnSearchId" :disabled="checkIdFlg">확인</button>
-			<div style="color: red;">{{alertMessage}}</div>
+			<button @click="fnSearchId">확인</button>
 		</div>
 		<div v-if="checkIdFlg">
 			<input type="text" v-model="inputNumber" :disabled="inputFlg" @input="validateInput" @keydown.enter="fnSms" placeholder="폰번호 입력">
@@ -46,7 +45,6 @@ var app = new Vue({
     	checkIdFlg: false,
     	checkArthFlg: false,
     	inputId: "",
-		alertMessage: "",
     	phoneNum: "",
    		phoneAuthFlg : false,
 		inputFlg : false,
@@ -76,10 +74,6 @@ var app = new Vue({
 		},
         fnSearchId: function() {
             var self = this;
-            if(self.inputId == "") {
-            	self.alertMessage = "아이디를 입력하세요!";
-            	return;
-            }
 	        var nparmap = {userId : self.inputId};
 	        $.ajax({
 	            url:"check.dox",
@@ -88,12 +82,10 @@ var app = new Vue({
 	            data: nparmap,
 	            success: function(data) {
 	            	if(data.result == "success") {
-	            		self.alertMessage = "없는 아이디입니다!";
-	            		//alert("없는 아이디입니다!");
+	            		alert("없는 아이디입니다!");
 	            		self.checkIdFlg = false;
 	            	} else {
 	            		alert("있는 아이디입니다!");
-	            		self.alertMessage = "";
 	            		self.checkIdFlg = true;
 	            		console.log(data);
 	            		//self.phoneNum = data.phone;
@@ -177,7 +169,7 @@ var app = new Vue({
 		    }
 		    if (self.number == self.inputNumber1) {
 		        alert("인증되었습니다.");
-		       	
+		       
 		        if (window.opener && !window.opener.closed) {
 		            try {
 		                await new Promise(resolve => setTimeout(resolve, 500)); // 예시: 500ms 동안 대기

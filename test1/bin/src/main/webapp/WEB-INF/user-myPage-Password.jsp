@@ -13,8 +13,8 @@
 <body>
 	<div id="app">
 		<div>
-			<span>비밀번호 입력 :</span> <input type="password" v-model="userPw"
-				@keydown.enter="fnList()" @input="validateInput">
+			<span>비밀번호 입력 :</span> 
+			<input type="password" v-model="userPw" @keydown.enter="fnList()" @input="validateInput">
 			<button @click="fnList()">확인</button>
 			<button @click="fnclose()">취소</button>
 		</div>
@@ -32,24 +32,15 @@ var app = new Vue({
     	//비밀번호 입력 정규식 사용
     	validateInput: function() {
     	    var regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()-_+=]).{8,16}$/;
-    	    if (!regex.test(this.userPw)) {
-    	        // 비밀번호가 유효하지 않을 때의 처리
-    	        // 예: 에러 메시지 표시 또는 다른 동작 수행
-    	        console.log("비밀번호가 유효하지 않습니다.");
-    	    } else {
-    	        // 비밀번호가 유효할 때의 처리
-    	        // 예: 에러 메시지 초기화 또는 다른 동작 수행
-    	        console.log("비밀번호가 유효합니다.");
-    	    }
     	},
     	//비밀번호 확인시 실행문
     	fnList: function() {
             var self = this;
-        	if (!self.userId) {
-				alert("로그인 후 입장 가능합니다.");
-				window.close();
-				return;
-			}
+            if(self.userId == ""){
+          		alert("로그인 후 입장 가능합니다.");
+          		window.opener.location.href = "/user-login.do";
+          		window.close();
+          	}
         	if(self.userPw == ""){
         		alert("비밀번호를 입력해 주세요.");
         		return;
@@ -70,6 +61,7 @@ var app = new Vue({
 			             window.close();
                 	}else{
                 		alert("비밀번호가 틀립니다.");
+                		location.reload(true);
                 		return;
                 	}
                 }
