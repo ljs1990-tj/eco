@@ -66,7 +66,14 @@ button:hover {
 			</tr>
 			<tr>
 				<th>내용</th> 
-				<td v-html="info.contents">{{info.contents}}</td>
+				<td>
+					<template v-if="kind == '2'">
+						<img alt="adasdasda" src="../img/recipe1.jpg" width="150px">
+					</template>
+					<span v-html="info.contents">
+						{{info.contents}}
+					</span>
+				</td>
 			</tr>
 		</table>
 	<!-- <div v-if="info.userId == sessionId || sessionStatus == 'A'">

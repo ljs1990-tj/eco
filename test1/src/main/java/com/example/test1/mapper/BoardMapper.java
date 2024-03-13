@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.example.test1.model.Board;
 import com.example.test1.model.Comment;
-import com.example.test1.model.BoardImage;
 
 @Mapper
 public interface BoardMapper {
@@ -25,8 +24,6 @@ public interface BoardMapper {
 	void updateHit(HashMap<String, Object> map); //조회수 증가
 
 	void boardEdit(HashMap<String, Object> map); //게시글 수정
-
-	
 	
 	List<Board> selectCustomerInquiryList(HashMap<String, Object> map); //고객 문의 리스트
 	
@@ -37,6 +34,6 @@ public interface BoardMapper {
 	void deleteInquiry(HashMap<String, Object> map); // 등록한 문의 삭제
 	
 	void updateInquiry(HashMap<String, Object> map); // 등록한 문의 수정
+	
+	Comment selectAdminComment(HashMap<String, Object> map); // 문의글에 관리자가 남긴 코멘트 출력 
 }
-
-

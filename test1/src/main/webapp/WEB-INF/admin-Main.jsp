@@ -10,6 +10,9 @@
 
 </head>
 <style>
+button{
+	background-color: red; 
+}
 </style>
 <body>
 	<%@ include file="../layout/header.jsp"%>
@@ -34,7 +37,7 @@
 			<button>배송관리</button>
 		</div>
 		<div>
-			<button>고객관리</button>
+			<button @click="fnUserList">고객관리</button>
 		</div>
 		<div>
 			<button>판매자관리</button>
@@ -58,6 +61,9 @@
 			},
 			fnChart : function(){
 				location.href="AdminProductChart.do"
+			},
+			fnUserList : function(){
+				location.href="AdminUserList.do"
 			}
 
 		},

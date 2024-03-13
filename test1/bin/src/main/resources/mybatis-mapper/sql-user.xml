@@ -41,17 +41,30 @@
 		#{name}, #{phone}, NULL,
 		#{addrName})
 	</insert>
-	<!-- 유저 주소록 호풀 -->
+	<!-- 유저 주소록 호출 -->
 	<select id="selectAddr" parameterType="hashmap"
 		resultType="com.example.test1.model.Addr">
 		SELECT *
 		FROM ECO_ADDR
 		WHERE USERID = #{userId}
 	</select>
-	<!-- 유저 주소록 다중 삭제 -->
+	<!-- 유저 주소록 삭제 -->
 	<delete id="deleteAddr" parameterType="hashmap">
-	    DELETE FROM ECO_ADDR
-	    WHERE ADDRNO = #{addrNo}
+		DELETE FROM ECO_ADDR
+		WHERE ADDRNO = #{addrNo}
 	</delete>
+	<!-- 마이페이지 주소록 추가 -->
+	<insert id="insertMyPageAddrAdd" parameterType="hashmap">
+		INSERT INTO
+		ECO_ADDR VALUES(NULL, #{userId}, #{addr}, #{addrDetail}, #{zipCode}, #{name},
+		#{phone}, #{addrRequest}, #{addrName})
+	</insert>
+	<!-- 유저정보수정 가져오기 -->
+	<select id="selectAddrAddNo" parameterType="hashmap"
+		resultType="com.example.test1.model.Addr">
+	SELECT *
+		FROM ECO_ADDR
+	WHERE ADDRNO = #{addrNo}
+	</select>
 
 </mapper>

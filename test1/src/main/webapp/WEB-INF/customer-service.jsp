@@ -331,7 +331,8 @@
 				});
 			},
 			fnView : function(boardNo) {
-				$.pageChange("customerInquiryView.do", { boardNo : boardNo });
+				var self = this;
+				$.pageChange("customerInquiryView.do", { boardNo : boardNo , userId : self.userId , userType : self.userType });
 			},
 			/* 선택한 메뉴에 따른 항목 업데이트 함수 */
 			updateContent : function(menu) {

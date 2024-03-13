@@ -14,23 +14,49 @@
 </style>
 <body>
 	<div id="app">
-
-		<div class="join-divide">
-			주소<span class="required-star">*</span>
+		<div>
+			<div>
+				<span>받는 분 성함 : </span> <input type="text" v-model="user.name"
+					placeholder="직접 입력">
+			</div>
+			<div>
+				<span>받는 분 전화번호 : </span> <input type="text" v-model="user.phone"
+					placeholder="직접 입력" @input="validateInput">
+			</div>
+			<div>
+				<span>배송 요청 사항 : </span> <input type="text" v-model="user.addrRequest"
+					placeholder="직접 입력">
+			</div>
+			<div>
+				<span>배송지 위치 : </span> <input type="text" v-model="user.addrName"
+					placeholder="직접 입력"> <select v-model="addrName2"
+					@change="selectAddrName">
+					<option value="" :selected="!addrName2">::직접입력::</option>
+					<option value="집" :selected="addrName2 === '집'">집</option>
+					<option value="회사" :selected="addrName2 === '회사'">회사</option>
+					<option value="기타" :selected="addrName2 === '기타'">기타</option>
+				</select>
+			</div>
 		</div>
-		<input type="text" v-model="user.zipCode" placeholder="우편번호">
-		<input type="button" @click="execDaumPostcode()" value="우편번호 찾기">
-		<div class="margin-bottom-10px"></div>
-		<input type="text" class="join-input" v-model="user.addr"
-			placeholder="주소">
-		<div class="join-divide margin-bottom-10px"></div>
-		<input type="text" v-model="addrDetail1" placeholder="상세주소">
-		<div style="margin-bottom: 10px;"></div>
-		<div class="join-divide margin-bottom-10px"></div>
-		<input type="text" v-model="addrDetail2" placeholder="참고항목">
-		<div style="margin-bottom: 10px;"></div>
-		<div style="padding-left: 110px; font-size: 10px;">※└현재 주소는 집
-			주소로 기본 저장되며, 후에 마이페이지에서 수정이 가능합니다.</div>
+		<div>
+			<div>
+				받는 분 주소 : <span style="color: red;">*</span>
+			</div>
+			<input type="text" v-model="user.zipCode" placeholder="우편번호">
+			<input type="button" @click="execDaumPostcode()" value="우편번호 찾기">
+			<div class="margin-bottom-10px"></div>
+			<input type="text" v-model="user.addr" placeholder="주소">
+			<div></div>
+			<input type="text" v-model="addrDetail1" ref="addrDetail1" placeholder="상세주소"> 
+			<input type="text" v-model="addrDetail2" placeholder="참고항목">
+			<div style="margin-bottom: 10px;"></div>
+			<div style="padding-left: 110px; font-size: 10px;">※ 현재 주소는 집
+				주소로 기본 저장되며, 후에 마이페이지에서 수정이 가능합니다.</div>
+		</div>
+		<div>
+			<button @click="fnUserAddrAdd()">추가하기</button>
+			<button @click="fnclose()">취소하기</button>
+		</div>
 	</div>
 </body>
 </html>
@@ -41,22 +67,38 @@
 			user:{
 				userId : "${userId}",
 				zipCode : "",
-				add : "",
+				addr : "",
 				addrDetail :"",
 				name : "",
 				phone : "",
-				addrRequest : null,
+				addrRequest : "",
 				addrName : ""
 			},
+			addrName2 : "",
 			addrDetail1 : "",
-			addrDetail2 : ""
+			addrDetail2 : "",
 		},
 		methods : {
-			/* 주소록 기입 */
+			//핸드폰 번호 입력 정규식
+			validateInput : function(){
+				var self = this;
+				// 정규식을 사용하여 숫자만 허용
+				self.user.phone = self.user.phone.replace(/\D/g, '');
+				//숫자6자리만 사용 가능
+				if(self.user.phone.length > 11){
+					self.user.phone =  self.user.phone.slice(0, 11);
+				}
+			},
+			/* 배송지 별칭 */
+			selectAddrName : function(){
+				var self = this;
+				self.user.addrName = self.addrName2;
+			},
+			/* 주소 api */
 			execDaumPostcode : function() {
-				      var self = this;
-				      new daum.Postcode({
-				        oncomplete: function(data) {
+				var self = this;
+				new daum.Postcode({
+				    oncomplete: function(data) {
 				          let addr = ''; // 주소 변수
 				          let extraAddr = ''; // 참고항목 변수
 
@@ -83,29 +125,88 @@
 
 				          self.user.zipCode = data.zonecode;
 				          self.user.addr = addr;
+				       	// 주소 API 콜백 함수 내부에서 상세주소 필드로 커서 이동
 				          self.$nextTick(() => {
-				            self.$refs.addrDetail1.focus();
+				              const addrDetailField = self.$refs.addrDetail1;
+				              if (addrDetailField) {
+				                  addrDetailField.focus();
+				              }
 				          });
 				        }
 				      }).open();
 				    },
-			/* 주소록 추가히기 */			
-			fnGetList : function() {
-				var self = this;
-				var nparmap = {};
-				$.ajax({
-					url : "test.dox",
-					dataType : "json",
-					type : "POST",
-					data : nparmap,
-					success : function() {
+
+			/* 주소록 추가하기 */
+			fnUserAddrAdd: function() {
+			   var self = this;
+				  if(self.user.userId == ""){
+		          		alert("로그인 후 입장 가능합니다.");
+		          		window.close();
+		          		window.opener.location.href = "/user-login.do";
+		          	}	
+	 			 if(self.user.zipCode == "" & self.user.addr == "" & self.addrDetail1 == "") {
+	            	alert("우편번호 찾기를 주세요!");
+	            	return;
+			    }
+	 			if(self.user.zipCode == "" ){
+	 			  	alert("우편번호 입력해 주세요");
+	            	return;
+	 			}
+	 			if(self.user.addr == "" ){
+	 			  	alert("주소를 입력해 주세요");
+	            	return;
+	 			}
+			    if(self.addrDetail1 == ""){
+			    	alert("상세주소를 입력해 주세요");
+			    	return;
+			    }
+			    if(self.user.phone === ""){
+			    	alert("핸드폰 번호를 입력해 주세요");
+			    	return;
+			    }
+			    if(self.user.addrName === ""){
+			    	alert("배송지 위치를 입력해 주세요");
+			    	return;
+			    }
+			    if (self.user.phone.length !== 11) {
+			        alert("핸드폰번호 11자리여야 합니다.");
+			        return;
+			    }
+			   self.user.addrDetail = self.addrDetail1 + " " + self.addrDetail2;
+			   var nparmap = self.user;
+			   $.ajax({
+			    url:"user-addr-add.dox",
+			    dataType:"json",
+			    type: "POST",
+			    data: nparmap,
+			    success: function(data) {
+			    	console.log(self.user);
+			    	//성공시 부모창 새로고침후 팝업창 닫기
+			    	if (data.result == "success") {
+						alert("추가 되었습니다.");
+					  	window.opener.location.reload();
+						window.close();
+						
+					} else {
+						alert("다시 시도해주세요");
+						return;
 					}
-				});
-			}
+			    }
+			   });
+		   },
+		   //취소버튼 클릭시 팝업창 닫음
+	        fnclose : function(){
+	        	var self = this;
+	        	 window.close();
+	        }
 		},
 		created : function() {
 			var self = this;
-			//self.fnGetList();
+			  if(self.user.userId == ""){
+	          		alert("로그인 후 입장 가능합니다.");
+	          		window.opener.location.href = "/user-login.do";
+	          		window.close();
+	          	}
 		}
 	});
 </script>
