@@ -1,20 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%@ include file="../layout/header.jsp"%>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<script src="js/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<%-- <jsp:include page="/layout/menu.jsp"></jsp:include> --%>
+	
 	<title>유기농 제품 페이지</title>
 </head>
 <style>
-  	body {
-	    margin: 0;
-	    font-family: 'Arial', sans-serif;
-	    background-color: #f8f8f8;
-	}
 	.container {
 		width: 80%; 
 		max-width: 1200px; 
@@ -83,13 +79,10 @@
     	margin: 20px;
   	}
   	
-  	#8{
-  	display: none;
-  	
-  	}
+  
 </style>
 <body>
-<%@ include file="../layout/header.jsp"%>
+
 	<div id="app">
 		<div class="container">
 			<div class="title">

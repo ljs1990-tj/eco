@@ -157,7 +157,7 @@
 	        },
 	        fnMoveCart : function(){
 	        	var self = this;
-	        	$.pageChange("/cart/list.do",{userId : self.sessionId});
+	        	$.pageChange("cartList.do",{userId : self.sessionId});
 	        }
 	    }
 	    , created: function() {

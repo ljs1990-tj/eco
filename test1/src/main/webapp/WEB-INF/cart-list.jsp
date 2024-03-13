@@ -82,7 +82,7 @@
                                         </div>
                                     </td>
                                     <td class="shoping__cart__total">
-                                    <p style="background-color: red; border-radius: 5px; color:white; width: 80px; height: 20px; padding: 0px; font-size: 15px; display: inline-block;">{{item.sRate}}%할인</p>
+                                    <p style="background-color: red; border-radius: 5px; color:white; width: 80px; height: 20px; padding: 0px; font-size: 15px; display: inline-block; margin-bottom: 0;">{{item.sRate}}%할인</p>
                                        <del>₩{{item.price*item.selectcnt}}</del>  ₩{{item.price*(100-item.sRate)/100*item.selectcnt}}
                                         
                                     </td>
@@ -203,7 +203,7 @@ var app = new Vue({
         	$.pageChange("/main.do", {});
         	},
         fnKakaoPay: function() {
-    	    $.pageChange("/KakaoPay.do", {});
+    	    location.href="KakaoPay.do";
     		},
     		totalPrice : function(){
     			var self = this
