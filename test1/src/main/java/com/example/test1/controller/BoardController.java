@@ -198,7 +198,7 @@ public class BoardController {
     }
 	
 	@RequestMapping("/boardFileUploadMain.dox")
-    public String result(@RequestParam("file1") MultipartFile multi, @RequestParam("itemNo") int itemNo, HttpServletRequest request,HttpServletResponse response, Model model)
+    public String result(@RequestParam("file1") MultipartFile multi, @RequestParam("boardNo") int boardNo, HttpServletRequest request,HttpServletResponse response, Model model)
     {
         String url = null;
         String path="c:\\img";
@@ -226,7 +226,7 @@ public class BoardController {
                 HashMap<String, Object> map = new HashMap<String, Object>();
                 map.put("fileName", saveFileName);
                 map.put("path", "..\\img\\");
-                map.put("itemNo", itemNo);
+                map.put("boardNo", boardNo);
                 map.put("fileSize", size);
                 map.put("etc", extName);
                 map.put("orgName",originFilename);
@@ -249,7 +249,7 @@ public class BoardController {
 	
 	
 	@RequestMapping("/boardFileUploadContents.dox")
-    public String result2(@RequestParam("file2") MultipartFile multi, @RequestParam("itemNo") int itemNo, HttpServletRequest request,HttpServletResponse response, Model model)
+    public String result2(@RequestParam("file2") MultipartFile multi, @RequestParam("boardNo") int boardNo, HttpServletRequest request,HttpServletResponse response, Model model)
     {
         String url = null;
         String path="c:\\img";
@@ -277,7 +277,7 @@ public class BoardController {
                 HashMap<String, Object> map = new HashMap<String, Object>();
                 map.put("fileName", saveFileName);
                 map.put("path", "..\\img\\");
-                map.put("itemNo", itemNo);
+                map.put("boardNo", boardNo);
                 map.put("fileSize", size);
                 map.put("etc", extName);
                 map.put("orgName",originFilename);
@@ -305,11 +305,21 @@ public class BoardController {
 		return "/board-user";
 	}
 	
+	// 레시피 게시판 유저 정보
 	@RequestMapping(value = "/boardUser.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String boardUser(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = userService.getUser(map);
+		return new Gson().toJson(resultMap);
+	}
+	
+	// 레시피 게시판 첨부 파일 정보
+	@RequestMapping(value = "/boardFile.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String boardFile(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = boardService.searchBoardFileList(map); 
 		return new Gson().toJson(resultMap);
 	}
 	

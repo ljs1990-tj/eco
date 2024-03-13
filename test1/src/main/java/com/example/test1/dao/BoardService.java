@@ -21,7 +21,7 @@ public interface BoardService {
 	
 	HashMap<String, Object> addBoardFile(HashMap<String,Object> map);//상품 썸네일 이미지 추가
 	HashMap<String, Object> addBoardContentsFile(HashMap<String,Object> map);//상품 컨텐츠 이미지 추가
-	HashMap<String, Object> removefile(HashMap<String, Object> map);//파일 삭제
+	HashMap<String, Object> searchBoardFileList(HashMap<String, Object> map);//파일 출력
 	
 	
 	HashMap<String, Object> searchCustomerInquiryList(HashMap<String, Object> map); //고객 문의 리스트

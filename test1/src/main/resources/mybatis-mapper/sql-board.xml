@@ -42,7 +42,7 @@
 
 	<insert id="insertBoardImage" parameterType="hashmap">
 		INSERT INTO ECO_BOARD_IMAGE
-		VALUES(null, #{itemNo}, #{filePath}, #{fileName}, #{fileorgName}, #{fileSize}, #{filEtc}, #{kind})
+		VALUES(null, #{boardNo}, #{filePath}, #{fileName}, #{fileorgName}, #{fileSize}, #{filEtc}, #{kind})
 	</insert>
 
 <!-- 	
@@ -73,18 +73,18 @@
 	
 	<update id="updateboardMainFile" parameterType="hashmap">
 		UPDATE ECO_BOARD_IMAGE
-		SET FILENAME = #{fileName},
-			FILEORNAME = #{fileOrgName},
+		SET BOARDNO = #{boardNo},
+			FILENAME = #{fileName},
+			FILEORGNAME = #{fileOrgName},
 			FILESIZE = #{fileSize},
 			FILEETC = #{fileEtc}
 		WHERE FILENO = #{fileNo}
 	</update>
 	
 	<select id="selectBoardFileList" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
-		SELECT B.*,
-			FILEPATH || FILENAME AS PATH
+		SELECT B.*, CONCAT(FILEPATH, FILENAME) AS PATH
 		FROM ECO_BOARD_IMAGE B
-		WHERE KIND = #{kind}
+
 	</select>
 	
 	
@@ -97,17 +97,17 @@
 	
 	<insert id="insertBoardFile" parameterType="hashmap">
 		INSERT INTO ECO_BOARD_IMAGE
-		VALUES(NULL, #{boardNo}, #{path}, #{fileName}, #{orgName}, #{fileSize}, #{etc}, #{kind})
+		VALUES(NULL, #{boardNo}, #{path}, #{fileName}, #{orgName}, #{fileSize}, #{etc}, 1)
 	</insert>
 	
 	<insert id="insertBoardContentsFile" parameterType="hashmap">
 		INSERT INTO ECO_BOARD_IMAGE
-		VALUES(NULL, #{boardNo}, #{path}, #{fileName}, #{orgName}, #{fileSize}, #{etc}, #{kind})
+		VALUES(NULL, #{boardNo}, #{path}, #{fileName}, #{orgName}, #{fileSize}, #{etc}, 2)
 	</insert>
 	
 	<delete id="fileDelete" parameterType="hashmap">
 		DELETE FROM ECO_BOARD_IMAGE
-		WHERE FILENO = #{fileNo}
+		WHERE BOARDNO = #{boardNo}
 	</delete>
 	
 	<select id="selectUser" parameterType="hashmap" resultType="com.example.test1.model.User">

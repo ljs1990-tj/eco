@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.test1.mapper.BoardMapper;
 import com.example.test1.model.Board;
-
 import com.example.test1.model.BoardFile;
 import com.example.test1.model.Comment;
 
@@ -83,6 +82,7 @@ public class BoardServiceimpl implements BoardService{
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			boardMapper.deleteBoard(map);
+			boardMapper.fileDelete(map);
 			resultMap.put("result", "success");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -253,12 +253,13 @@ public class BoardServiceimpl implements BoardService{
 	}
 
 	@Override
-	public HashMap<String, Object> removefile(HashMap<String, Object> map) {
+	public HashMap<String, Object> searchBoardFileList(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
-			boardMapper.fileDelete(map);
+			List<BoardFile> boardFile = boardMapper.selectBoardFileList(map);
 			resultMap.put("result", "success");
+			resultMap.put("boardFile", boardFile);
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());

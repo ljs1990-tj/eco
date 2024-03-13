@@ -101,8 +101,13 @@ ul:hover {
 					<a href="javascript:;" @click="fnView(item.boardNo, kind)" v-html="item.title"></a>
 				</td>
 				<td v-if="kind == '2'">
-					<img alt="adasdasda" src="../img/recipe1.jpg" width="150px">				
+					<template  v-for="item2 in fileList" v-if="item.boardNo == item2.boardNo">
+						<template v-if="item2.kind == 1">
+				    		<img :src="item2.path" alt="" width="100px">
+						</template>
+				  	</template>
 				</td>
+				
 				<td>
 					<a href="javascript:;" @click="fnUser(item.userId)">{{item.userId}}</a>
 				</td>
@@ -123,8 +128,6 @@ ul:hover {
 		</div>
 		<div v-if="userId != '' && userId != undefined">
 			<button @click="fnWrite" v-if="userType == 'A' || kind != 1">글쓰기</button>
-			<!-- <button @click="fnWrite" v-if="kind != 1">글쓰기</button> -->
-			<!-- <button @click="fnDelete">삭제</button>  -->
 			{{userId}}
 		</div>
 	</div>
@@ -141,6 +144,7 @@ ul:hover {
             pageCount: 1,
             selectPage: 1,
             itemsPerPage: 10,
+            fileList : []
         },
         computed: {
             displayedList() {
@@ -175,6 +179,22 @@ ul:hover {
                     }
                     
                 });
+            },
+            fnFileList: function() {
+            	var self = this;
+            	var nparmap = {
+            			kind: self.kind
+                    };
+                    $.ajax({
+                        url: "boardFile.dox",
+                        dataType: "json",
+                        type: "POST",
+                        data: nparmap,
+                        success: function(data) {
+                        	console.log(data);
+                        	self.fileList= data.boardFile;
+                        }
+                    });
             },
             fnWrite: function() {
                 var self = this;
@@ -231,6 +251,7 @@ ul:hover {
         },
         created: function() {
             this.fnGetList(this.kind);
+            this.fnFileList();
         }
     });
 </script>
