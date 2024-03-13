@@ -56,25 +56,15 @@ button:hover {
 
 <body>
 	<div id="app">
-		<tr>
-			<th>게시판 선택</th>
-				<td><select v-model="kind">
-					<option value="1">공지사항</option>
-					<option value="2">레시피게시판</option>
-					<option value="3">문의게시판</option>
-				</select></td>
-		</tr>
 		<div>
 			제목 : <input type="text" v-model="title">
 		</div>
 		<div>
 			내용 :
-			<textarea row="30" cols="60" v-model="contents">
-			
-			</textarea>		
+			<textarea row="30" cols="60" v-model="contents"></textarea>		
 		</div>		
 		<button @click="fnWrite">수정완료</button>
-		{{kind}}
+		{{boardNo}}
 	</div>
 
 </body>
@@ -86,7 +76,6 @@ button:hover {
 			boardNo : "${map.boardNo}",
 			title : "",
 			contents : "",
-			kind : "${map.kind}"
 		},
 		methods : {
 			fnSelectBoard: function(){
@@ -110,8 +99,7 @@ button:hover {
 				var nparmap = {
 					title : self.title,
 					contents : self.contents,
-					boardNo : self.boardNo,
-					kind : self.kind
+					boardNo : self.boardNo
 				};
 				$.ajax({
 					url : "boardEdit.dox",
