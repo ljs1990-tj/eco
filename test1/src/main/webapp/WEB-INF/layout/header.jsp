@@ -51,7 +51,7 @@
 	                    <div class="col-lg-6 col-md-6">
 	                        <div class="header__top__left">
 	                            <ul>
-	                                <li><i class="fa fa-envelope"></i> thejoeun@naver.com</li>
+	                                <li><i class="fa fa-envelope"></i> {{email}}<!-- thejoeun@naver.com --></li>
 	                                <li>1만 원부터 무료 배송</li>
 	                            </ul>
 	                        </div>
@@ -59,10 +59,10 @@
 	                    <div class="col-lg-6 col-md-6">
 	                        <div class="header__top__right">
 	                            <div class="header__top__right__social">
-	                                <a href="javascript:;"><i class="fa fa-facebook"></i></a>
-	                                <a href="javascript:;"><i class="fa fa-twitter"></i></a>
-	                                <a href="javascript:;"><i class="fa fa-linkedin"></i></a>
-	                                <a href="javascript:;"><i class="fa fa-pinterest-p"></i></a>
+	                                <a href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a>
+	                                <a href="https://twitter.com/"><i class="fa fa-twitter"></i></a>
+	                                <a href="https://www.linkedin.com/"><i class="fa fa-linkedin"></i></a>
+	                                <a href="https://www.pinterest.co.kr/"><i class="fa fa-pinterest-p"></i></a>
 	                            </div>
 	                          
 	                            <div class="header__top__right__auth">
@@ -78,7 +78,7 @@
 	            <div class="row">
 	                <div class="col-lg-3">
 	                    <div class="header__logo">
-	                        <a href="./main.jsp"><img src="img/logo.png" alt="logo"></a>
+	                        <a href="javascript:;" @click="fnUserPage"><img src="img/logo.png" alt="logo"> MyPage</a>
 	                    </div>
 	                </div>
 	                <div class="col-lg-6">
@@ -103,7 +103,7 @@
 	                <div class="col-lg-3">
 	                    <div class="header__cart">
 	                        <ul>
-	                            <li><a href="javascript:;"><i class="fa fa-heart"></i> <span>0</span></a></li>
+	                            <li><a href="javascript:;" @click="fnFavorite"><i class="fa fa-heart"></i> <span>0</span></a></li>
 	                            <li><a href="javascript:;" @click="fnMoveCart"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
 	                        </ul>
 	                        <div class="header__cart__price"></div>
@@ -124,28 +124,42 @@
 	var app = new Vue({
 	    el: '#appHeader',
 	    data: {
-	    	sessionId: "${userId}",
+	    	userId: "${userId}",
+	    	email: "",
 	    	loginFlg: false
 	    }
 	    , methods: {
 	    	fnList: function() {
 	            var self = this;
-	            var nparmap = {userId: self.sessionId};
+	            var nparmap = {userId: self.userId};
 	            $.ajax({
-	                url:"test.dox",
+	                url:"check.dox",
 	                dataType:"json",
 	                type: "POST",
 	                data: nparmap,
 	                success: function(data) {
+	                	
 	                }
 	            });
 	        },
 	        fnLogin: function() {
 	        	var self = this;
-	        	if(self.sessionId == "") {
-	        		$.pageChange("/user-login.do", {});
+	        	if(self.userId == "") {
+	        		self.logFlg = false;
 	        	} else {
 	        		self.loginFlg = true;
+	        		var nparmap = {userId: self.userId};
+	        		$.ajax({
+		                url:"check.dox",
+		                dataType:"json",
+		                type: "POST",
+		                data: nparmap,
+		                success: function(data) {
+		                	if(data.result == 'fail') {
+		                		self.email = data.user.email;
+		                	}
+		                }
+		            });
 	        	}
 	        },
 	        fnLogout: function() {
@@ -157,10 +171,32 @@
 	        		return;
 	        	}
 	        },
+	        fnFavorite: function() {
+	        	var self = this;
+	        	if(self.userId != "") {
+	        		//
+	        	} else {
+					alert("로그인 후 입장 가능합니다.");
+	        	}
+	        	
+	        },
 	        fnMoveCart: function() {
 	        	var self = this;
-	        	$.pageChange("/cart/list.do", {userId: self.sessionId});
-	        }
+	        	if(self.userId != "") {
+		        	$.pageChange("/cart/list.do", {userId: self.userId});
+	        	} else {
+					alert("로그인 후 입장 가능합니다.");
+	        	}
+	        },
+			/* 마이페이지 이동 */
+			fnUserPage : function() {
+				var self = this;
+				if(self.userId != ""){
+					$.pageChange("/user-myPage.do", {userId : self.userId});
+				} else {
+					alert("로그인 후 입장 가능합니다.");
+				}
+			}
 	    }
 	    , created: function() {
 	    	var self = this;

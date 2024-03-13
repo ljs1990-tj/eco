@@ -177,7 +177,6 @@ var app = new Vue({
     	pwCheckFlg2: false,
     	birthCheckFlg: false,
     	isEventYn: false,
-    	alertMessage: "",
 		allChecked: false,
       	checkedItems: [],
       	agreementItems: [
@@ -187,6 +186,7 @@ var app = new Vue({
         ],
         addrDetail1: "",
         addrDetail2: "",
+    	alertMessage: "",
     }
     , methods: {
     	fnJoin: function() {
