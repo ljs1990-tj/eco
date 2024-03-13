@@ -18,6 +18,7 @@
         border-bottom: 1px solid #fafafa; 
     }
     .product-image {
+    	position: relative;
         flex-basis: 50%;
         display: flex;
         justify-content: center;
@@ -43,10 +44,24 @@
     }
    
     .product-image img {
-        width: 450px;
-        height: 550px; /* 이미지 영역의 높이를 고정합니다 */
-        border-radius: 8px; /* 이미지 모서리를 둥글게 처리 */
+        position: absolute;
+	    top: 0;
+	    left: 0;
+	    width: 100%; /* 필요에 따라 조정 */
+	    height: auto; /* 필요에 따라 조정, 혹은 고정값 유지 */
+	    /* 컨테이너를 채우지 않는 이미지들도 중앙에 위치하도록 함 */
+	    max-width: 450px; /* 예시 최대 너비 */
+	    max-height: 550px; /* 예시 최대 높이 */
+	    margin: auto;
+	    display: block;
+	    /* 기본적으로 모든 이미지를 숨김 */
+	    display: none;
     }
+    
+    /* 선택적: 기본적으로 첫 번째 이미지만 표시 */
+	.product-image img:first-child {
+	    display: block;
+	}
 
    	.product-info h1, .product-info p {
         margin: 0 0 10px; /* 제목과 단락 사이의 마진 설정 */
@@ -243,9 +258,9 @@
 <body>
     <div id="app">
         <div class="product-detail-top-container">
-            <div class="product-image">
-            	<template v-for="item in fileList">
-			    	<img :src="item.filePath+item.fileName" alt="">
+            <div class="product-image" @click="nextImage">
+            	<template v-for="(item, index) in fileList" v-if="index === imageIndex">
+			    	<img :src="item.filePath+item.fileName" alt="이미지!" :key="index">
 		        </template>
             </div>
 
@@ -388,7 +403,8 @@ var app = new Vue({
     	info: {},
     	fileList : [],
     	fileDetailList : [],
-    	activeTab: 'details'
+    	activeTab: 'details',
+    	imageIndex: 0 //이미지 인덱스 저장
     }
     , methods: {
     	fnView: function() {
@@ -415,7 +431,17 @@ var app = new Vue({
 	        if(element) {
 	            element.scrollIntoView({ behavior: 'smooth' });
 	        }
-	    }
+	    },
+	    /* 상품 상세보기 이미지 정렬(한 곳에 뭉치도록) */
+	    showNextImage: function() {
+	        const currentIndex = this.fileList.findIndex(item => item.filePath + item.fileName === this.currentImage);
+	        const nextIndex = (currentIndex + 1) % this.fileList.length;
+	        this.currentImage = this.fileList[nextIndex].filePath + this.fileList[nextIndex].fileName;
+	    },
+	    /* 상품 이미지 다음 이미지 보여지도록 하는 함수 */
+	    nextImage: function() {
+	        this.imageIndex = (this.imageIndex + 1) % this.fileList.length;
+	    }  
         
     }
     , created: function() {
