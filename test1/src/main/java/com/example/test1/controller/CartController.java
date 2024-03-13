@@ -25,6 +25,7 @@ public class CartController {
 		@RequestMapping("/cart/list.do") 
 	    public String cartList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
 			request.setAttribute("map", map);
+			System.out.println(map);
 	        return "/cart-list";
 	    }
 
