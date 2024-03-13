@@ -89,6 +89,7 @@ ul:hover {
 			<tr>
 				<th>번호</th>
 				<th>제목</th>
+				<th v-if="kind == '2'">이미지</th>
 				<th>사용자</th>
 				<th>조회수</th>
 				<th>작성일</th>
@@ -97,10 +98,10 @@ ul:hover {
 			<tr v-for="(item, index) in displayedList">
 				<td>{{ item.boardNo }}</td>
 				<td>
-                    <!-- <div v-if="kind === 2">
-						 <img :src="require('../img/20242505516325.jpg')" alt="Board Image" style="width: 50px; height: 50px;">
-					</div> -->
 					<a href="javascript:;" @click="fnView(item.boardNo, kind)" v-html="item.title"></a>
+				</td>
+				<td v-if="kind == '2'">
+					<img alt="adasdasda" src="../img/recipe1.jpg" width="150px">				
 				</td>
 				<td>
 					<a href="javascript:;" @click="fnUser(item.userId)">{{item.userId}}</a>

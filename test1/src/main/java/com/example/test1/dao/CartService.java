@@ -4,7 +4,9 @@ import java.util.HashMap;
 
 public interface CartService {
 	HashMap<String, Object> searchCartList(HashMap<String, Object> map); // 카트 리스트
-
+	HashMap<String, Object> addCartItem(HashMap<String, Object> map);
+	HashMap<String, Object> removeCartItem(HashMap<String, Object> map);
+    
 
 }
 
