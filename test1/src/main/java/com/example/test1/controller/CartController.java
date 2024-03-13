@@ -22,7 +22,7 @@ public class CartController {
 	CartService cartService;
 	
 	//cart 페이지
-		@RequestMapping("/cart/list.do") 
+		@RequestMapping("/cartList.do") 
 	    public String cartList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
 			request.setAttribute("map", map);
 			System.out.println(map);

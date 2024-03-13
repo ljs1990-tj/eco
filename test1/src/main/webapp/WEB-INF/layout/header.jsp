@@ -85,7 +85,7 @@
 	                    <nav class="header__menu">
 	                        <ul>
 	                        	<li class="active"><a href="/main.do">Home</a></li>
-	                            <li>카테고리
+	                            <li><a>카테고리</a>
 	                              <ul class="header__menu__dropdown">
 	                                  <li><a href="javascript:;">유기농</a></li>
 	                                  <li><a href="javascript:;">비건</a></li>
@@ -94,7 +94,6 @@
 	                              </ul>
 	                          	</li>
 	                            <li><a href="javascript:;">1:1 매칭</a></li>
-	                            
 	                            <li><a href="javascript:;">식단관리</a></li>
 	                            <li><a href="/boardList.do">커뮤니티</a></li>
 	                        </ul>
@@ -183,7 +182,7 @@
 	        fnMoveCart: function() {
 	        	var self = this;
 	        	if(self.userId != "") {
-		        	$.pageChange("/cart/list.do", {userId: self.userId});
+		        	$.pageChange("/cartList.do", {userId: self.userId});
 	        	} else {
 					alert("로그인 후 입장 가능합니다.");
 	        	}
