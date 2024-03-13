@@ -64,9 +64,9 @@
 	</select>
 	
 	<!-- 판매자 상품 추가  -->
-	<insert id="insertProduct" parameterType="hashmap" useGeneratedKeys="true" keyProperty="itemNo" keyColumn="itemNo">
+	<!-- <insert id="insertProduct" parameterType="hashmap" useGeneratedKeys="true" keyProperty="itemNo" keyColumn="itemNo">
 		INSERT INTO ECO_PRODUCT
 		VALUES
 			(null, #{name}, #{price}, #{Srate}, #{Prate}, #{contents}, #{trans}, #{sellYN}, NOW(), NOW(), #{cnt}, #{code}, 0)
-	</insert>
+	</insert> -->
 </mapper>
