@@ -46,6 +46,7 @@
 		VALUES
 			(#{userId}, #{addr}, #{addrDetail}, #{zipCode}, #{name}, #{phone}, NULL, #{addrName})
 	</insert>
+
 	<!-- 유저 마이페이지 수정 -->
 	<update id="updateUser" parameterType="hashmap">
 		UPDATE ECO_USER
@@ -54,6 +55,7 @@
 			PHONE1 = #{phone1}, PHONE2 = #{phone2}, PHONE3 = #{phone3}, EMAIL = #{email}, BIRTH = #{birth}
 		WHERE USERID = #{userId}
 	</update>
+
 
 	<!-- 유저 마이페이지 주소록 호출 및 개수제한 -->
 	<select id="selectAddr" parameterType="hashmap"
