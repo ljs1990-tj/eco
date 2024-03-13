@@ -24,7 +24,6 @@
     <link rel="stylesheet" href="../css/owl-carousel-min.css" type="text/css">
     <link rel="stylesheet" href="../css/slicknav-min.css" type="text/css">
     <link rel="stylesheet" href="../css/style2.css" type="text/css">
-	<%-- <jsp:include page="/layout/header.jsp"></jsp:include> --%>
 </head>
 <body>
 <div id="app">
@@ -66,23 +65,26 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr v-for="(item, index) in list">
                                     <td class="shoping__cart__item">
-                                        <img src="../img/cart/cart-1.jpg" alt="">
-                                        <h5>{{ product.itemName }}</h5>
+                                        <img :src="item.filePath + item.fileName" alt="">
+                                        <a href="#">{{item.itemName}}</a>
+                                        <h5></h5>
                                     </td>
                                     <td class="shoping__cart__price">
-                                        ₩{{ product.price }}
+                                        ₩{{item.price}}
                                     </td>
                                     <td class="shoping__cart__quantity">
                                         <div class="quantity">
                                             <div class="pro-qty">
-                                                <input type="text" value="1">
+                                                <input type="text" v-model="list[index].selectcnt" @keyup="ChangSelectCnt(item.cartNo, list[index].selectcnt)">
                                             </div>
                                         </div>
                                     </td>
                                     <td class="shoping__cart__total">
-                                        ₩{{ payment.sumPrice }}
+                                    <p style="background-color: red; border-radius: 5px; color:white; width: 80px; height: 20px; padding: 0px; font-size: 15px; display: inline-block;">{{item.sRate}}%할인</p>
+                                       <del>₩{{item.price*item.selectcnt}}</del>  ₩{{item.price*(100-item.sRate)/100*item.selectcnt}}
+                                        
                                     </td>
                                     <td class="shoping__cart__item__close">
                                         <span class="icon_close"></span>
@@ -98,8 +100,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="shoping__cart__btns">
-                        <a href="javascript:;" @click="fnProductList" class="primary-btn cart-btn">쇼핑계속하기</a>
-                        <a href="javascript:;" @click="fnRefresh" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
+                        <a href="productList.do"  class="primary-btn cart-btn">쇼핑계속하기</a>
+                        <a href="/cart/list.do"  class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
                            장바구니 새로고침</a>
                     </div>
                 </div>
@@ -108,8 +110,7 @@
                         <h5>주문자 정보</h5>
                         <ul>
                             <li>이름<span>{{user.name}}</span></li>
-                            <li>핸드폰 번호 : <span>{{user.phone1}} - {{user.phone2}} -
-							{{user.phone3}}</span></li>
+                            <li>핸드폰 번호 : <span>{{user.phone1}}-{{user.phone2}}-{{user.phone3}}</span></li>
                             <li>이메일 : <span>{{user.email}}</span></li>
                         </ul>
                     </div>
@@ -118,11 +119,12 @@
                     <div class="shoping__checkout">
                         <h5>총 금액</h5>
                         <ul>
-                            <li>금액 <span>₩{{product.price}}</span></li>
-                            <li>할인 <span>₩{{product.sRate}}</span></li>
-                            <li>총 금액 <span>₩{{payment.sumPrice}}</span></li>
+                            <li>금액 <span>₩{{noRatePrice}}</span></li>
+                            <li>할인 <span>₩ -{{ratePrice}}</span></li>
+                            <li>총 금액 <span >₩{{totalPay}}</span></li>
                         </ul>
                         <a href="javascript:;" @click="fnKakaoPay" class="primary-btn">계속해서 진행하기</a>
+                        
                     </div>
                 </div>
             </div>
@@ -149,59 +151,37 @@
 var app = new Vue({
     el: '#app',
     data: {
+    	userId : "${map.userId}",
     	user: {},
-        cartItems: [],
-        product : {}
-    },
-    computed: {
-        payment: function() {
-            let sumPrice = 0;
-            let discount = 0;
-            this.cartItems.forEach(item => {
-                sumPrice += item.price * item.quantity;
-                discount += item.price * item.sRate * item.quantity;
-            });
-            let finalPrice = sumPrice - discount;
-            return {
-                sumPrice: sumPrice,
-                discount: discount,
-                finalPrice: finalPrice
-            };
-        }
+        list : [],
+        totalPay : 0,
+        ratePrice : 0,
+        noRatePrice : 0,
+        selectcnt : ""
     },
     methods: {
         fnCartList: function() {
             var self = this;
+            var nparmap = {
+            		userId : self.userId,
+            		kind : 1,
+            		
+            };
             $.ajax({
-                url: "/cart/list.dox",
-                dataType: "json",
+                url:"/cart/list.dox",
+                dataType:"json",
                 type: "POST",
-                data: {},
+                data: nparmap,
                 success: function(data) {
-                    self.cartItems = data; 
-                },
-                error: function(error) {
-                    console.log("Error fetching cart list:", error);
+                	console.log(data);
+                	self.list = data.list;
+                	self.user = data.user;
+                	self.totalPrice();
+                	
                 }
             });
-        	},
-        	addCartItem: function(itemName) {
-                var self = this;
-                $.ajax({
-                    url: "/cart/add.dox",
-                    type: "POST",
-                    contentType: "application/json",
-                    data: JSON.stringify({ itemName: itemName, quantity: quantity }), //1
-                    success: function(response) {
-                        alert(response);
-                       
-                    },
-                    error: function(error) {
-                        console.log("Error adding item:", error);
-                    }
-                });
-            },
-            removeCartItem: function(itemName) {
+        },
+            removeCartItem: function(cartNo) {
                 var self = this;
                 $.ajax({
                     url: "/cart/remove.dox",
@@ -224,11 +204,53 @@ var app = new Vue({
         	},
         fnKakaoPay: function() {
     	    $.pageChange("/KakaoPay.do", {});
-    		}
+    		},
+    		totalPrice : function(){
+    			var self = this
+    			var noRatePay = 0;
+    			for(var i = 0 ; i <self.list.length ; i++){
+    				noRatePay += self.list[i].price * self.list[i].selectcnt;
+    			}
+    			self.noRatePrice = noRatePay;
+    			var pay = 0;
+    			for(var i = 0 ; i <self.list.length ; i++){
+    			 pay += self.list[i].price * self.list[i].selectcnt * (100-self.list[i].sRate)/100;
+    			}
+    			self.totalPay = pay;
+    			var rate = 0;
+    			for(var i = 0 ; i <self.list.length ; i++){
+    				rate += self.list[i].price*self.list[i].selectcnt*(self.list[i].sRate/100);
+    			}
+    			self.ratePrice = rate;
+    		},
+    		ChangSelectCnt: function(cartNo, num) {
+                var self = this;
+               console.log(cartNo, num);
+                var nparmap = {
+                		cartNo : cartNo,
+                		selectCnt : num
+                };
+                 $.ajax({
+                    url: "/cart/ChangSelectCnt.dox",
+                    type: "POST",
+                    data:  nparmap,
+                    success: function(data) {
+                    	
+                    	self.fnCartList(); 
+                    },
+                    error: function(error) {
+                        console.log("Error removing item:", error);
+                    }
+                }); 
+            },
+            
+    		
 	   	
 	    },
     created: function() {
         this.fnCartList(); 
+        
+        
     }
 });
 </script>

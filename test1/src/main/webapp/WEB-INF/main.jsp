@@ -6,6 +6,7 @@
 <%@ include file="../layout/header.jsp" %>
 
     <!-- Hero Section Begin -->
+    <div id ="app">
     <section class="hero" id="HeaderAllTab">
         <div class="container">
             <div class="row">
@@ -461,6 +462,7 @@
                 </div>
             </div>
         </div>
+       
     </section>
     <!-- Latest Product Section End -->
 
@@ -525,11 +527,12 @@
             <h5><a href="#">더보기</a></h6>
             
         </div>
+        
     </section>
     <!-- Blog Section End -->
 
 <!-- Footer Section Begin -->
-   <%@ include file="../layout/footer.jsp" %>
+   
 
     <!-- Js Plugins -->
     <script src="js/jquery-3.3.1.min.js"></script>
@@ -552,6 +555,7 @@
 	</div>
 </body>
 </html>
+
 <script type="text/javascript">
 	var app = new Vue({
 		el : '#app',
@@ -590,7 +594,8 @@
 		},
 		created : function() {
 			var self = this;
-			self.fnList();
+			
 		}
 	});
 </script>
+<%@ include file="../layout/footer.jsp" %>

@@ -10,5 +10,12 @@ public class Cart {
     private String userId;
     private String itemNo;
     private Date cDatetime;
-    private String isPay;
-}
+    private String isFavorite;
+    private int selectcnt;
+    private String filePath;
+	private String fileName;
+	private int price;
+	private float sRate;
+	private String itemName;
+	
+    }

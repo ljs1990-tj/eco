@@ -36,7 +36,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 
-<body id="HeaderAllTab">
+<body>
 	
     <!-- Page Preloder -->
     <div id="preloder">
@@ -104,7 +104,7 @@
                     <div class="header__cart">
                         <ul>
                             <li><a href="#"><i class="fa fa-heart"></i> <span>0</span></a></li>
-                            <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
+                            <li><a href="#" @click="fnMoveCart"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
                         </ul>
                         <div class="header__cart__price"></div>
                     </div>
@@ -115,9 +115,9 @@
             </div>
         </div>
     </header>
-    </div>
-    <!-- Header Section End -->
     
+    <!-- Header Section End -->
+    </div>
 </body>
 <script type="text/javascript">
 	var app = new Vue({
@@ -154,11 +154,15 @@
 	        	} else {
 	        		return;
 	        	}
+	        },
+	        fnMoveCart : function(){
+	        	var self = this;
+	        	$.pageChange("/cart/list.do",{userId : self.sessionId});
 	        }
 	    }
 	    , created: function() {
 	    	var self = this;
-	    	self.fnIsLogin();
+	    	
 		}
 	});
 </script>
