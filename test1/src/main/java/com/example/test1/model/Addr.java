@@ -10,6 +10,15 @@ public class Addr {
 	private String phone;
 	private String addrRequest;
 	private String addrName;
+	private int cnt;
+
+	public int getCnt() {
+		return cnt;
+	}
+
+	public void setCnt(int cnt) {
+		this.cnt = cnt;
+	}
 
 	public int getAddrNo() {
 		return addrNo;
