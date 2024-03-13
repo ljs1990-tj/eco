@@ -25,5 +25,7 @@ public interface ProductMapper {
 	List<ProductFile> selectProductDetailFileInfo(HashMap<String, Object> map); // 제품 상세보기에 있는 상세 정보에서 보여줄 이미지
 
 	void insertProduct(HashMap<String, Object> map); // 제품 추가
+	
+	// void insertProduct(HashMap<String, Object> map); // 제품 추가
 
 }
