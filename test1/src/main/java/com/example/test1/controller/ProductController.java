@@ -22,11 +22,11 @@ public class ProductController {
 	ProductService productService;
 	
 	// 유기농 제품 페이지
-	@RequestMapping("/productOrganic.do")
+	@RequestMapping("/productList.do")
 	public String productOrganic(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
 			throws Exception {
 		request.setAttribute("map", map);
-		return "/product-organic";
+		return "/product-list";
 	}
 	
 	// 상품 상세 페이지
