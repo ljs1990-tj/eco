@@ -9,4 +9,5 @@ public interface CartService {
 
 	HashMap<String, Object> removeCartItem(HashMap<String, Object> map);
 
+	HashMap<String, Object> editSelectCnt(HashMap<String, Object> map);
 }
