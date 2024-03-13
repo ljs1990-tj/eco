@@ -21,12 +21,11 @@ public interface UserMapper {
 	List<Addr> selectAddr(HashMap<String, Object> map); // 유저 주소록 가져오기
 
 	void deleteAddr(HashMap<String, Object> map); // 유저 주소 삭제
-	
-	void insertMyPageAddrAdd(HashMap<String, Object> map); //유저 마이페이지 주소 추가
-	
-	Addr selectAddrAddNo(HashMap<String, Object> map);	//유저 마이페이지 주소록 가져오기
-	
-	void updateAddr(HashMap<String, Object> map);	//유저 마이페이지 주소록 수정하기
-	
+
+	void insertMyPageAddrAdd(HashMap<String, Object> map); // 유저 마이페이지 주소 추가
+
+	Addr selectAddrAddNo(HashMap<String, Object> map); // 유저 마이페이지 주소록 가져오기
+
+	void updateAddr(HashMap<String, Object> map); // 유저 마이페이지 주소록 수정하기
 
 }

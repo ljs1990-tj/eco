@@ -16,5 +16,4 @@ public interface CartMapper {
 
 	void removeCart(HashMap<String, Object> map);
 
-	
 }
