@@ -6,216 +6,92 @@
 <meta charset="UTF-8">
 <script src="js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script
-	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <title>마이 페이지</title>
 
 </head>
 <style>
-body {
-	background-color: rgb(229, 229, 229);
-}
-
-ul, li {
-	list-style: none;
-	margin-top: 10px;
-	font-size: 13px;
-}
-
-.section-box1 {
-	position: relative;
-	width: 400px;
-	height: 250px;
-	background-color: #f0f0f0;
-	border: 2px solid #ccc;
-	border-radius: 10px;
-	padding: 20px;
-	margin: 20px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.section-box2 {
-	position: relative;
-	top: 20px; /* 원하는 위치로 조절 (상단 여백) */
-	right: 0px; /* 원하는 위치로 조절 (우측 여백) */
-	width: 400px;
-	height: 250px;
-	background-color: #f0f0f0;
-	border: 2px solid #ccc;
-	border-radius: 10px;
-	padding: 20px;
-	margin: 20px;
-	/* overflow-y: auto; /* 수직 스크롤 활성화 */ */
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.section-box3 {
-	position: relative;
-	top: 20px; /* 원하는 위치로 조절 (상단 여백) */
-	right: 0px; /* 원하는 위치로 조절 (우측 여백) */
-	width: 400px;
-	height: 250px;
-	background-color: #f0f0f0;
-	border: 2px solid #ccc;
-	border-radius: 10px;
-	padding: 20px;
-	margin: 20px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.section-box4 {
-	position: relative;
-	top: 20px; /* 원하는 위치로 조절 (상단 여백) */
-	right: 0px; /* 원하는 위치로 조절 (우측 여백) */
-	width: 400px;
-	height: 250px;
-	background-color: #f0f0f0;
-	border: 2px solid #ccc;
-	border-radius: 10px;
-	padding: 20px;
-	margin: 20px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.button-container {
-	position: relative;
-	height: 40px;
-	border: 2px solid #ccc;
-	text-align: center;
-	/* bottom: 15px;
-	right: -20px; */
-}
-
-/* .button-container button {
-	width: 140px;
-	height: 40px;
-	cursor: pointer;
-	border: none;
-	border-radius: 3px;
-	color: white;
-	background-color: rgb(137, 200, 57);
-}
-
-.button-container button:hover {
-	background-color: rgb(107, 170, 27);
-} */
-/* 팝업창 */
-.popup {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.5);
-}
-
-.popup-content {
-	background: white;
-	padding: 20px;
-	border-radius: 8px;
-}
+    *{
+        box-sizing: border-box;
+    }
 </style>
-<body>
-	<div id="app">
-		<header> </header>
-		<section>
-			<!-- 첫번째 -->
-			<div style="width: 1300px; overflow: hidden;">
-				<div style="overflow: hidden; width: 600px; float: left;">
-					<div style="width: 500px; border: 1px solid black;">
-						<div class="section-box1">
-							<fieldset>
-								<legend>개인 정보</legend>
-								<ul>
-									<li><span>아이디 : </span>{{user.userId}}</li>
-									<li><span>이름 : </span>{{user.name}}</li>
-									<li><span>닉네임 : </span>{{user.nickName}}</li>
-									<li><span>성별 : </span>{{user.gender}}</li>
-									<li><span>핸드폰 번호 : </span>{{user.phone1}} -
-										{{user.phone2}} - {{user.phone3}}</li>
-									<li><span>이메일 : </span>{{user.email}}</li>
-									<li><span>생년월일 : </span>{{user.birth}}</li>
-								</ul>
-							</fieldset>
-							<div>
-								<span>내등급 : </span><span>{{user.userGrade}}</span> <span>포인트
-									: </span><span>{{user.point}}</span>
+<body style="background-color: white;">
+    <!-- 전체구역 -->
+    <div id="app" style="width: 1500px; height: 750px; border: 1px solid black; overflow: hidden; margin: 0 auto;">
+        <header style="background-color: #333; color: white; text-align: center; padding: 20px;">Header</header>
+        <section style="display: flex;">
+            <!-- 왼쪽 구역 -->
+            <div style="overflow: hidden; width: 600px; float: left; border: 1px solid black;">
+                <div style="width: 500px; border: 1px solid red; margin: 20px; ">
+                    <div style="height: 500px; border: 1px solid blue; overflow-y: scroll; padding: 10px;">
+                        <ul style="list-style: none; padding-left: 0;">
+                            <li><span>아이디 : </span>{{user.userId}}</li>
+                            <li><span>이름 : </span>{{user.name}}</li>
+                            <li><span>닉네임 : </span>{{user.nickName}}</li>
+                            <li><span>성별 : </span>{{user.gender}}</li>
+                            <li><span>핸드폰 번호 : </span>{{user.phone1}} -{{user.phone2}} - {{user.phone3}}</li>
+                            <li><span>이메일 : </span>{{user.email}}</li>
+                            <li><span>생년월일 : </span>{{user.birth}}</li>
+                        </ul>
+                    </div>
+                    <div style="height: 40px; border: 1px solid black; padding: 10px; display: flex; justify-content: center; align-items: center;">
+                        <div style="margin-right: auto;">내등급 : <span>{{user.userGrade}}</span></div> 
+                        <div style="margin-left: auto;">포인트 : <span>{{user.point}}</span></div>
+                    </div>
+                    <div style="height: 40px; border: 1px solid black; padding: 10px; display: flex; justify-content: center; align-items: center;">
+                        <div style="margin-right: auto;"><button @click="fnGradeselect()">등급혜택 자세히 보기</button></div>
+                        <div style="margin-left: auto;"><button @click="fnUsermodify()">정보수정</button></div>
+                    </div>
+                </div>
+            </div>
+            <!-- 오른쪽 구역 -->
+			<div style="width: 900px; float: left;">
+				<div style="width: 800px; border: 1px solid blue; margin: 20px;">
+					<div style="height: 200px; border: 1px solid red; overflow-y: scroll; padding: 10px;">
+						<div v-for="address in addrList">
+							<div style="border: 1px solid #ccc; padding-left: 10px; padding-right:10px; padding-bottom: 10px; padding-top: 10px; margin: 0px auto;">
+								<div>
+									<input type="radio" v-model="radio" :value="address.addrNo">
+								</div>
+								<div style="font-weight: bold;">{{ address.name }}</div>
+								<div>
+									<span>우편번호: </span> {{ address.zipCode }}
+								</div>
+								<div>
+									<span>주소: </span>{{ address.addr }},{{ address.addrDetail }}
+								</div>
+								<div>{{ address.phone }}</div>
+								<div>{{ address.addrRequest}}</div>
 							</div>
-						</div>
-						<div class="button-container">
-							<!-- 등급혜택 자세히 보기 버튼 -->
-							<button @click="fnGradeselect()">등급혜택 자세히 보기</button>
-							<button @click="fnUsermodify()">정보수정</button>
 						</div>
 					</div>
-				</div>
-				<div style="width: 600px; float: left;">
-					<!-- 두번째 -->
-					<div style="width: 500px; border: 1px solid black;">
-						<div class="section-box2">
-							<div
-								style="width: 400px; height: 230px; border: 1px solid black; overflow-y: scroll;">
-								<div v-for="address in addrList">
-									<fieldset>
-										<legend>주소 정보</legend>
-										<ul>
-											<input type="radio" v-model="radio" :value="address.addrNo">
-											<span>주소:</span>{{address.addr }}
-											</li>
-											<li><span>주소 번호:</span> {{ address.addrNo }}</li>
-											<li><span>상세 주소:</span> {{ address.addrDetail }}</li>
-											<li><span>우편번호:</span> {{ address.zipCode }}</li>
-											<li><span>수령인 이름:</span> {{ address.name }}</li>
-											<li><span>전화번호:</span> {{ address.phone }}</li>
-											<li><span>주소 이름:</span> {{ address.addrName }}</li>
-										</ul>
-									</fieldset>
-								</div>
-							</div>
-						</div>
-						<div class="button-container" style="padding-top: 20px">
-							<!-- 기본주소추가 버튼 클릭 이벤트 -->
+					<div
+						style="height: 45px; border: 2px solid #ccc; padding: 10px; display: flex; justify-content: space-between;">
+						<div>
 							<button @click="addDefaultAddress()">주소추가</button>
-							<!-- 기본주소수정 버튼 클릭 이벤트 -->
+						</div>
+						<div>
 							<button @click="updateSelectedAddresses()">주소수정</button>
-							<!-- 기본주소삭제 버튼 클릭 이벤트 -->
 							<button @click="deleteSelectedAddresses">주소삭제</button>
 						</div>
 					</div>
-					<!-- 세번째 -->
-					<div class="section-box3" style="">
-						<span>내가 쓴 레시피</span>
-						<button>더보기?</button>
+				</div>
+				<div style="width: 500px; border: 1px solid black; margin: 20px;">
+					<div style="height: 100px; border: 1px solid black; padding: 10px; display: flex; justify-content: center; align-items: center;">
+						<div style="margin-right: auto;">내가 쓴 레시피</div>
+						<div style="margin-left: auto;"><button>더보기?</button></div>
 					</div>
-					<!-- 네번째 -->
-					<div class="section-box4" style="">
-						<span>내주문 내여</span>
-						<button>더보기?</button>
+				</div>
+				<div style="width: 500px; border: 1px solid black; margin: 20px;">
+					<div style="height: 100px; border: 1px solid black; padding: 10px; display: flex; justify-content: center; align-items: center;">
+						<div style="margin-right: auto;">내주문 내역</div>
+						<div style="margin-left: auto;"><button>더보기?</button></div>
 					</div>
 				</div>
 			</div>
 		</section>
-		<footer> </footer>
-
-		<!-- 팝업 창 -->
-		<div v-if="isPopupOpen" class="popup">
-			<div class="popup-content">
-				<p style="color: black;">등급혜택 내역</p>
-				<!-- 여기에 등급혜택 내용을 추가하세요 -->
-				<ul>
-					<li>등급혜택 1</li>
-					<li>등급혜택 2</li>
-					<li>등급혜택 3</li>
-					<!-- 등급혜택 내용을 필요에 맞게 추가 -->
-				</ul>
-				<button @click="closePopup">닫기</button>
-			</div>
-		</div>
-		<footer></footer>
-	</div>
+        <footer style="background-color: #333; color: white; text-align: center; padding: 20px;">Footer</footer>
+    </div>
 </body>
 </html>
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
