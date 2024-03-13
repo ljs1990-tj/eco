@@ -21,7 +21,8 @@
     	flex-basis: 50%;
         display: flex;
         justify-content: center;
-        align-items: center; 
+        align-items: center;
+        flex-direction: column; /* 세로 정렬 */ 
     }
 
     .product-info {
@@ -43,9 +44,9 @@
     }
    
     .product-image img {
-        width: 450px;
-        height: 550px; /* 이미지 영역의 높이를 고정합니다 */
-        border-radius: 8px; /* 이미지 모서리를 둥글게 처리 */
+        width: 300px;
+        height: 350px; 
+        border-radius: 5px;
     }
     
     
@@ -245,14 +246,40 @@
         color: white;
         background-color: #6fc76f;
     }
+    
+    /* 상품 상세정보 썸네일 이미지  */
+    .thumbnail-images {
+        display: flex;
+        justify-content: center;
+        gap: 5px; /* 이미지 사이의 간격 */
+        margin-top: 5px; /* 큰 이미지와의 간격 */
+    }
+
+    .thumbnail-images img {
+        width: 70px; 
+        height: auto; 
+        cursor: pointer; 
+        border: 2px solid transparent; 
+    }
+
+    .thumbnail-images img:hover {
+        border-color: #ddd; /* 호버 시 테두리 색상 변경 */
+    }
+    
 </style>
 <body>
     <div id="app">
         <div class="product-detail-top-container">
             <div class="product-image" >
-            	<template v-for="item in fileList">
+            	<!-- <template v-for="item in fileList">
 			    	<img :src="item.filePath+item.fileName" alt="이미지!">
-		        </template>
+		        </template> -->
+		        
+		        <img v-if="fileList.length > 0" :src="fileList[ImageIndex].filePath + fileList[ImageIndex].fileName" alt="이미지!" @click="">
+		        
+		         <div class="thumbnail-images">
+			        <img v-for="(item, index) in fileList" :src="item.filePath+item.fileName" :alt="'이미지 ' + index" @click="selectImg(index)">
+			    </div>	
             </div>
 
             <div class="product-info">
@@ -328,7 +355,7 @@
             <div class="product-inquiries">
                 <h3>상품 문의</h3>
                 <p>상품에 대한 문의를 남기는 공간입니다. 배송관련, 주문(취소/교환/환불) 관련 문의 및 요청사항은 1:1 문의에 남겨주세요.</p>
-                <button>문의하기</button>
+                <button>1:1 문의하기</button>
                 <table>
                     <thead>
                         <tr>
@@ -395,7 +422,8 @@ var app = new Vue({
     	info: {},
     	fileList : [],
     	fileDetailList : [],
-    	activeTab: 'details'
+    	activeTab: 'details',
+    	ImageIndex: 0 // 이미지 선택 인덱스
     	
     }
     , methods: {
@@ -449,6 +477,26 @@ var app = new Vue({
 	        if(element) {
 	            element.scrollIntoView({ behavior: 'smooth' });
 	        }
+	    },
+	    
+	    /* 상품 정보 리스트 이미지  */
+	    /* nextImage: function() {
+	        if(this.ImageIndex < this.fileList.length - 1) {
+	            this.ImageIndex++;
+	        } else {
+	            this.ImageIndex = 0; 
+	        }
+	    },
+	    prevImage: function() {
+	        if(this.ImageIndex > 0) {
+	            this.ImageIndex--;
+	        } else {
+	            this.ImageIndex = this.fileList.length - 1; 
+	        }
+	    }, */
+	    /* 썸네일 이미지 선택 */
+	    selectImg: function(index) {
+	        this.ImageIndex = index;
 	    }
         
     }
