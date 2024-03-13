@@ -53,6 +53,7 @@ public class UserServiceimpl implements UserService {
 			resultMap.put("result", "success");
 		} else {
 			resultMap.put("result", "fail");
+			resultMap.put("user", user);
 		}
 		return resultMap;
 	}

@@ -502,7 +502,7 @@
 	                                <li><i class="fa fa-calendar-o"></i> 2024년 1월 2일</li>
 	                                <li><i class="fa fa-comment-o"></i> 5</li>
 	                            </ul>
-	                            <h5><a href="javascript:;">30분 안에 아침 만들기 도전</a></h5>
+	                            <h5><a href="javascript:;">30분안에 아침 만들기 도전</a></h5>
 	                            <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
 	                        </div>
 	                    </div>
@@ -541,8 +541,7 @@
 	    <script src="js/mixitup.min.js"></script>
 	    <script src="js/owl.carousel.min.js"></script>
 	    <script src="js/main.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-			
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>	
 			<!-- 팝업 창 -->
 	<!-- 		<div v-if="isPopupOpen" class="popup">
 				<div class="popup-content">
@@ -578,16 +577,6 @@
 			closePopup : function() {
 				this.isPopupOpen = false;
 			},
-			/* 마이페이지 이동 */
-			fnUserPage : function(userId) {
-				var self = this;
-				if(self.userId != ""){
-					$.pageChange("/user-myPage.do", {"userId" : userId});
-				}else{
-					alert("로그인 후 입장 가능합니다.");
-					$.pageChange("/user-login.do",{});
-				}
-			}
 		},
 		created : function() {
 			var self = this;
