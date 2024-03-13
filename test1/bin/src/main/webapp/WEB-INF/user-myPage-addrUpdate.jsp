@@ -6,57 +6,56 @@
 <meta charset="UTF-8">
 <script src="js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script
-	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<title>주소록 추가</title>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<title>주소정보 수정하기</title>
 </head>
 <style>
 </style>
 <body>
 	<div id="app">
+		{{addrNo}}
 		<div>
-			<div>
-				<span>받는 분 성함 : </span> <input type="text" v-model="user.name"
-					placeholder="직접 입력">
-			</div>
-			<div>
-				<span>받는 분 전화번호 : </span> <input type="text" v-model="user.phone"
-					placeholder="직접 입력" @input="validateInput">
-			</div>
-			<div>
-				<span>배송 요청 사항 : </span> <input type="text" v-model="user.addrRequest"
-					placeholder="직접 입력">
-			</div>
-			<div>
-				<span>배송지 위치 : </span> <input type="text" v-model="user.addrName"
-					placeholder="직접 입력"> <select v-model="addrName2"
-					@change="selectAddrName">
-					<option value="" :selected="!addrName2">::직접입력::</option>
-					<option value="집" :selected="addrName2 === '집'">집</option>
-					<option value="회사" :selected="addrName2 === '회사'">회사</option>
-					<option value="기타" :selected="addrName2 === '기타'">기타</option>
-				</select>
-			</div>
+			<span>받는 분 성함 : </span> <input type="text" v-model="user.name"
+				placeholder="직접 입력">
 		</div>
 		<div>
-			<div>
-				받는 분 주소 : <span style="color: red;">*</span>
-			</div>
-			<input type="text" v-model="user.zipCode" placeholder="우편번호">
-			<input type="button" @click="execDaumPostcode()" value="우편번호 찾기">
-			<div class="margin-bottom-10px"></div>
-			<input type="text" v-model="user.addr" placeholder="주소">
-			<div></div>
-			<input type="text" v-model="addrDetail1" ref="addrDetail1" placeholder="상세주소"> 
-			<input type="text" v-model="addrDetail2" placeholder="참고항목">
-			<div style="margin-bottom: 10px;"></div>
-			<div style="padding-left: 110px; font-size: 10px;">※ 현재 주소는 집
-				주소로 기본 저장되며, 후에 마이페이지에서 수정이 가능합니다.</div>
+			<span>받는 분 전화번호 : </span> <input type="text" v-model="user.phone"
+				placeholder="직접 입력" @input="validateInput">
 		</div>
 		<div>
-			<button @click="fnUserAddrAdd()">추가하기</button>
-			<button @click="fnclose()">취소하기</button>
+			<span>배송 요청 사항 : </span> <input type="text"
+				v-model="user.addrRequest" placeholder="직접 입력">
 		</div>
+		<div>
+			<span>배송지 위치 : </span> <input type="text" v-model="user.addrName"
+				placeholder="직접 입력"> <select v-model="addrName2"
+				@change="selectAddrName">
+				<option value="" :selected="!addrName2">::직접입력::</option>
+				<option value="집" :selected="addrName2 === '집'">집</option>
+				<option value="회사" :selected="addrName2 === '회사'">회사</option>
+				<option value="기타" :selected="addrName2 === '기타'">기타</option>
+			</select>
+		</div>
+	</div>
+	<div>
+		<div>
+			받는 분 주소 : <span style="color: red;">*</span>
+		</div>
+		<input type="text" v-model="user.zipCode" placeholder="우편번호">
+		<input type="button" @click="execDaumPostcode()" value="우편번호 찾기">
+		<div class="margin-bottom-10px"></div>
+		<input type="text" v-model="user.addr" placeholder="주소">
+		<div></div>
+		<input type="text" v-model="addrDetail1" ref="addrDetail1"	placeholder="상세주소"> 
+		<input type="text" v-model="addrDetail2" placeholder="참고항목">
+		<div style="margin-bottom: 10px;"></div>
+		<div style="padding-left: 110px; font-size: 10px;">※ 현재 주소는 집
+			주소로 기본 저장되며, 후에 마이페이지에서 수정이 가능합니다.</div>
+	</div>
+	<div>
+		<button @click="fnUserAddUpdate()">수정하기</button>
+		<button @click="fnclose()">취소하기</button>
+	</div>
 	</div>
 </body>
 </html>
@@ -77,6 +76,7 @@
 			addrName2 : "",
 			addrDetail1 : "",
 			addrDetail2 : "",
+			addrNo : ${map.addrNo},
 		},
 		methods : {
 			//핸드폰 번호 입력 정규식
@@ -135,15 +135,38 @@
 				        }
 				      }).open();
 				    },
-
-			/* 주소록 추가하기 */
-			fnUserAddrAdd: function() {
-			   var self = this;
-				  if(self.user.userId == ""){
-		          		alert("로그인 후 입장 가능합니다.");
-		          		window.close();
-		          		window.opener.location.href = "/user-login.do";
-		          	}	
+			/* 해당유저 정보 가져오기 */			
+			fnUserAddr : function() {
+				var self = this;
+				var nparmap = {
+						addrNo : self.addrNo
+				};
+				$.ajax({
+					url : "user-addr-mypage.dox",
+					dataType : "json",
+					type : "POST",
+					data : nparmap,
+					success : function(data) {
+						console.log(data);
+						console.log(self.addrNo);
+						self.user.name = data.info.name;
+						self.user.phone = data.info.phone;
+						self.user.addrName = data.info.addrName;
+						self.user.addrRequest = data.info.addrRequest;
+						var atIdx = data.user.email.indexOf('@');
+                        self.email1 = data.user.email.substring(0, atIdx);
+                        self.email2 = data.user.email.substring(atIdx + 1);
+						//
+                        self.user.zipCode = data.info.zipCode;
+						self.user.addr = data.info.addr;
+						self.addrDetail1 = data.info.addrDetail1;
+						self.addrDetail2 = data.info.addrDetail2;
+					}
+				});
+			},
+			/* 주소록 수정하기 */
+			fnUserAddUpdate: function() {
+			   var self = this;	
 	 			 if(self.user.zipCode == "" & self.user.addr == "" & self.addrDetail1 == "") {
 	            	alert("우편번호 찾기를 주세요!");
 	            	return;
@@ -204,9 +227,9 @@
 			var self = this;
 			  if(self.user.userId == ""){
 	          		alert("로그인 후 입장 가능합니다.");
-	          		window.opener.location.href = "/user-login.do";
 	          		window.close();
 	          	}
+			self.fnUserAddr();
 		}
 	});
 </script>

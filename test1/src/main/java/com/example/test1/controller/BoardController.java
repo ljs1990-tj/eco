@@ -150,6 +150,7 @@ public class BoardController {
 	public String customerInquiryView(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
 			throws Exception {
 		request.setAttribute("map", map);
+		System.out.println(map);
 		return "/customer-inquiry-view";
 	}
 	

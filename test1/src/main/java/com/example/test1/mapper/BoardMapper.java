@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.example.test1.model.Board;
 import com.example.test1.model.BoardFile;
+import com.example.test1.model.Comment;
 
 @Mapper
 public interface BoardMapper {
@@ -44,6 +45,8 @@ public interface BoardMapper {
 	void deleteInquiry(HashMap<String, Object> map); // 등록한 문의 삭제
 	
 	void updateInquiry(HashMap<String, Object> map); // 등록한 문의 수정
+	
+	Comment selectAdminComment(HashMap<String, Object> map); // 문의글에 관리자가 남긴 코멘트 출력 
 }
 
 
