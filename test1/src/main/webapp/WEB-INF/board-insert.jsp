@@ -67,8 +67,9 @@ button:hover {
 			<th>게시판 선택</th>
 			<td>
 				<select v-model="kind">
-					<option value="1">공지사항</option><!-- 어드민만 나오게 -->
+					<option value="1" v-if="userType == 'A'">공지사항</option><!-- 어드민만 나오게 -->
 					<option value="2">레시피게시판</option><!-- 글쓰기 누르면 사진뜨게 -->
+					<option value="3">문의게시판</option>
 				</select>
 			</td>
 		</tr>
@@ -110,7 +111,8 @@ button:hover {
 			userId : "${userId}",//변수선언
 			kind : "${map.kind}",//컨트롤러에서 가져온 map꺼내서 위에서 사용
 			title : "${title}",
-			contents : "${contents}"
+			contents : "${contents}",
+			userType : "${userType}"
 		}
 		
 		,

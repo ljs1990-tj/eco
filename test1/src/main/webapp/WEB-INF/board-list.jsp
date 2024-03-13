@@ -122,7 +122,8 @@ ul:hover {
 			<a href="#" @click="fnNext">＞</a>
 		</div>
 		<div v-if="userId != '' && userId != undefined">
-			<button @click="fnWrite">글쓰기</button>
+			<button @click="fnWrite" v-if="userType == 'A' || kind != 1">글쓰기</button>
+			<!-- <button @click="fnWrite" v-if="kind != 1">글쓰기</button> -->
 			<!-- <button @click="fnDelete">삭제</button>  -->
 			{{userId}}
 		</div>
@@ -134,11 +135,12 @@ ul:hover {
         data: {
             list: [],
             userId: "${userId}",
+            userType : "${userType}",
             kind: 1,
             boardList: ${boardList},
             pageCount: 1,
             selectPage: 1,
-            itemsPerPage: 10 
+            itemsPerPage: 10,
         },
         computed: {
             displayedList() {
