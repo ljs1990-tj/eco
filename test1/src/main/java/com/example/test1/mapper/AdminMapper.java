@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.example.test1.model.Product;
 import com.example.test1.model.ProductFile;
+import com.example.test1.model.User;
 
 @Mapper
 public interface AdminMapper {
@@ -31,6 +32,11 @@ public interface AdminMapper {
 	List<Product> selectProductChart(HashMap<String, Object> map);
 
 
+	List<User> selectUserList(HashMap<String, Object> map);
 	
+	User selectAdminUserInfo(HashMap<String, Object> map);
+	void updateUserType(HashMap<String, Object> map);
+	void updateUserLoginCntZero(HashMap<String, Object> map);
 
+	int selectUserListCnt(HashMap<String, Object> map);
 }
