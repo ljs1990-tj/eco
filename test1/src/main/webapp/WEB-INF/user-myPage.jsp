@@ -15,10 +15,9 @@
         box-sizing: border-box;
     }
 </style>
-<body style="background-color: white;">
+<body style="background-color: blue;">
     <!-- 전체구역 -->
-    <div id="app" style="width: 1500px; height: 750px; border: 1px solid black; overflow: hidden; margin: 0 auto;">
-        <header style="background-color: #333; color: white; text-align: center; padding: 20px;">Header</header>
+    <div id="app" style="width: 1500px; height: 625px; border: 1px solid black; overflow: hidden; margin: 0 auto;">
         <section style="display: flex;">
             <!-- 왼쪽 구역 -->
             <div style="overflow: hidden; width: 600px; float: left; border: 1px solid black;">
@@ -90,7 +89,6 @@
 				</div>
 			</div>
 		</section>
-        <footer style="background-color: #333; color: white; text-align: center; padding: 20px;">Footer</footer>
     </div>
 </body>
 </html>
