@@ -24,18 +24,14 @@
     <link rel="stylesheet" href="css/owl-carousel-min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav-min.css" type="text/css">
     <link rel="stylesheet" href="css/style2.css" type="text/css">
+    
+   
+	<%-- <jsp:include page="/layout/header.jsp"></jsp:include> --%>
 </head>
 <style>
 </style>
 <body>
-	
-	
-	<body>
-    <!-- Page Preloder -->
-    <div id="preloder">
-        <div class="loader"></div>
-    </div>
-
+	<div id="app">
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
         <div class="container">
@@ -44,7 +40,7 @@
                     <div class="breadcrumb__text">
                         <h2>주문/결제</h2>
                         <div class="breadcrumb__option">
-                            <a href="main.jsp">Home</a>
+                            <a href="javascript:;" @click="fnHome">Home</a>
                             <span>결제하기</span>
                         </div>
                     </div>
@@ -61,14 +57,14 @@
                 <h4>배송정보</h4>
                 <div class="checkout__input__checkbox">
                     <label for="addr">
-                        배송지1 선택
+                        <span>주소1: <span>{{user.addrNo}}</span></span>
                         <input type="checkbox" id="addr">
                         <span class="checkmark"></span>
                     </label>
                 </div>
                 <div class="checkout__input__checkbox">
                     <label for="diff-addr">
-                        배송지2 선택
+                        <span>주소2: <span>{{user.addrNo}}</span></span>
                         <input type="checkbox" id="diff-addr">
                         <span class="checkmark"></span>
                     </label>
@@ -81,13 +77,14 @@
                                 <h4>주문정보</h4>
                                 <div class="checkout__order__products">전체 상품 <span>금액</span></div>
                                 <ul>
-                                    <li>상품이름 <span>₩75.99</span></li>
-                                    <li>상품이름 <span>₩151.99</span></li>
-                                    <li>상품이름 <span>₩53.99</span></li>
-                                </ul>
-                                <div class="checkout__order__subtotal">금액 <span>₩750.99</span></div>
-                                <div class="checkout__order__total">할인 <span>₩750.99</span></div>
-                                <div class="checkout__order__total">총 금액 <span>₩750.99</span></div>
+								    <li v-for="product in products" :key="product.itemName">
+								        {{ product.itemName }} <span>₩{{ product.price }}</span>
+								    </li>
+								</ul>
+
+                                <div class="checkout__order__subtotal">금액 <span>₩{{product.price}}</span></div>
+                                <div class="checkout__order__subtotal">적립률 <span>₩{{product.pRate}}</span></div>
+                                <div class="checkout__order__total">총 금액 <span>₩{{product.price}}-₩{{product.sRate}}</span></div>
                                 
                                 <button onclick="requestPay()" class="site-btn">
                                 <img src="../img/logo/kakaoPay.png" alt="카카오페이">
@@ -98,12 +95,11 @@
                                 <button onclick="requestPay()" class="site-btn">가상계좌 결제</button>
                         </div>
                     </div>
-                </form>
             </div>
         </div>
     </section>
     <!-- Checkout Section End -->
-	
+	</div>
 	
 
 	<!-- Js Plugins -->
@@ -123,6 +119,55 @@
 <script src="https://nsp.pay.naver.com/sdk/js/naverpay.min.js"></script>
 
     <script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            user: {
+            	userId: "${userId}",
+                cartItems: [],
+                product: {}
+            },
+            products: []
+        },
+            computed: {
+                payment: function() {
+                    let sumPrice = 0;
+                    let discount = 0;
+                    this.cartItems.forEach(item => {
+                        sumPrice += item.price * item.quantity;
+                        discount += item.price * item.sRate * item.quantity;
+                    });
+                    let finalPrice = sumPrice - discount;
+                    return {
+                        sumPrice: sumPrice,
+                        discount: discount,
+                        finalPrice: finalPrice
+                    };
+                }
+            },
+            methods: {
+                fnCheckOut: function() {
+                    var self = this;
+                    $.ajax({
+                        url: "kakaoPay.dox",
+                        dataType: "json",
+                        type: "POST",
+                        data: {},
+                        success: function(data) {
+                            self.cartItems = data; 
+                        },
+                        error: function(error) {
+                            console.log("Error fetching cart list:", error);
+                        }
+                    });
+                	}
+            },
+           created: function() {
+        this.fnCartList(); 
+    }
+});
+   
+   
         var IMP = window.IMP;
         IMP.init("imp71268227");
 

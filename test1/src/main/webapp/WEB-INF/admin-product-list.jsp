@@ -1,20 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%@ include file="../layout/header.jsp"%>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<script src="js/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<%-- <jsp:include page="/layout/menu.jsp"></jsp:include> --%>
+	
 	<title>유기농 제품 페이지</title>
 </head>
 <style>
-  	body {
-	    margin: 0;
-	    font-family: 'Arial', sans-serif;
-	    background-color: #f8f8f8;
-	}
 	.container {
 		width: 80%; 
 		max-width: 1200px; 
@@ -83,13 +79,10 @@
     	margin: 20px;
   	}
   	
-  	#8{
-  	display: none;
-  	
-  	}
+  
 </style>
 <body>
-<%@ include file="../layout/header.jsp"%>
+
 	<div id="app">
 		<div class="container">
 			<div class="title">
@@ -123,11 +116,11 @@
 			<div class="product-grid" >
 				 <div class="product" v-for="item in productlist">
 				 <template  v-for="item2 in filelist" v-if="item.itemNo == item2.itemNo">
-				 
 				 	<template id="item2.fileNo" @click="fnNext(item2.fileNo)">
-				    	<img :src="item2.filePath+item2.fileName" alt="">
+				    <img :src="item2.filePath+item2.fileName" alt="">
 				    </template>
-				   </template>
+				  </template>
+				    </template>
 				    <p><a href="javascript:;" @click="fnDetailView(item.itemNo)">{{item.itemName}}</a></p>
 				    <p class="price" v-if="item.sRate!=0"><del>₩{{item.price}}</del><br>할인가₩{{(item.price)*((100-item.sRate)/100)}}<br> 할인율{{item.sRate}}%</p>
 				  	<p class="price" v-if="item.sRate == 0">₩{{item.price}}</p>

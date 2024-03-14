@@ -93,6 +93,18 @@
     .button-container button:hover {
         background-color: #20792c;
     }
+    
+    .adminAnswer textarea{
+    	width: 100%; 
+        height: 50px; 
+        padding: 10px; 
+        box-sizing: border-box; 
+        border: 1px solid #ccc; 
+        border-radius: 4px; 
+        resize: none;
+        font-size: 16px;
+        color: #474747;
+    }
 </style>
 <body>
 	<div id="app">
@@ -106,7 +118,7 @@
                     <tr>
                         <th style="width: 20%;">제목</th>
                         <td style="width: 80%;" style="width: 100%; box-sizing: border-box;" >
-                            <input type="text" v-model="info.title">
+                            <input type="text" v-model="info.title" >
                         </td>
                     </tr>
                     <tr>
@@ -120,22 +132,34 @@
                 </table>
             </div>
             <div class="textarea-container">
-                <textarea v-model="contents">{{info.contents}}</textarea>
+            	<p v-html="info.contents" v-show="!isFlg"></p>
+                <textarea v-model="contents" v-show="isFlg">{{info.contents}}</textarea>
                 <div class="button-container">
-                    <button @click="fnEdit">수정하기</button>
-                    <button @click="fnRemove">삭제하기</button>
+                	<template v-if="userType != 'A'">
+                		<button v-show="!isFlg" @click="isFlg = true">수정하기</button>
+	                    <button v-show="isFlg" @click="fnEdit">수정완료</button>
+	                    <button v-show="isFlg" @click="isFlg = false">수정취소</button>
+	                    <button v-show="!isFlg" @click="fnRemove">삭제하기</button>                	
+                	</template>
                 </div>
+            </div>
+            
+            <!--관리자 답변-->
+            <div class="adminAnswer">
+            	<h4>관리자 답변</h4> 
+            	<textarea v-if="comment" readonly>{{comment.comment}}</textarea>
             </div>
 			
 			<template v-if="userType == 'A' ">
 	            <div class="textarea-container">
-	                <textarea placeholder="답변을 남겨주세요"></textarea>
+	                <textarea placeholder="답변을 남겨주세요" v-model="commentText"></textarea>
 	                <div class="button-container">
-	                    <button>답변 남기기</button>
+	                    <button @click="fnAddComment">답변 남기기</button>
 	                </div>
 	            </div>			
 			</template>
         </div>
+        
 	</div>
 </body>
 </html>
@@ -145,9 +169,13 @@ var app = new Vue({
     data: {
     	boardNo : "${map.boardNo}",
     	info : {},
-    	userId : "${userId}",
-    	userType : "${userType}",
-    	contents : ""
+    	comment : {},
+    	userId : "${map.userId}",
+    	userType : "${map.userType}",
+    	contents : "",
+    	commentText : "",
+    	isFlg: false
+    	
     }
     , methods: {
     	fnView: function() {
@@ -161,8 +189,15 @@ var app = new Vue({
                 type: "POST",
                 data: nparmap,
                 success: function(data) {
+                	/* console.log(data.info);
+                	console.log(data.comment);
+                	 */
+                	console.log(data);
                 	self.info = data.info;
-                	self.contents = data.info.contents;
+                	if(data.comment != null){
+                		self.comment = data.comment;	
+                	}
+                	
                 }
             });
         },
@@ -191,6 +226,7 @@ var app = new Vue({
         },
         fnEdit: function() {
             var self = this;
+            self.isFlg = false;
             var nparmap = {
             	boardNo : self.boardNo,
             	title: self.info.title, 
@@ -205,9 +241,33 @@ var app = new Vue({
                 	console.log(data.result);
                 	if (data.result == "success") {
 						alert("수정되었습니다.");
-						$.pageChange("/customerService.do", {});
+						self.fnView();
+						/* $.pageChange("/customerService.do", {}); */
 					} else {
 						alert("다시 시도해주세요");
+					}
+                }
+            });
+        },
+        fnAddComment: function(){
+        	var self = this;
+            var nparmap = { 
+            	boardNo : self.boardNo,
+            	comment : self.commentText,
+            	userId : self.userId 
+            };
+            $.ajax({
+                url:"adminCommentInsert.dox",
+                dataType:"json",
+                type: "POST",
+                data: nparmap,
+                success: function(data) {
+                	console.log(data.result);
+                	if (data.result == "success") {
+						alert("답변이 정상적으로 입력되었습니다.");
+						$.pageChange("/customerService.do", {});
+					} else {
+						alert("예기치 못한 오류로 답변이 등록되지 않았습니다. 다시 시도해주세요");
 					}
                 }
             });

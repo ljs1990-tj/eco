@@ -89,6 +89,7 @@ ul:hover {
 			<tr>
 				<th>번호</th>
 				<th>제목</th>
+				<th v-if="kind == '2'">이미지</th>
 				<th>사용자</th>
 				<th>조회수</th>
 				<th>작성일</th>
@@ -97,11 +98,16 @@ ul:hover {
 			<tr v-for="(item, index) in displayedList">
 				<td>{{ item.boardNo }}</td>
 				<td>
-                    <!-- <div v-if="kind === 2">
-						 <img :src="require('../img/20242505516325.jpg')" alt="Board Image" style="width: 50px; height: 50px;">
-					</div> -->
 					<a href="javascript:;" @click="fnView(item.boardNo, kind)" v-html="item.title"></a>
 				</td>
+				<td v-if="kind == '2'">
+					<template  v-for="item2 in fileList" v-if="item.boardNo == item2.boardNo">
+						<template v-if="item2.kind == 1">
+				    		<img :src="item2.path" alt="" width="100px">
+						</template>
+				  	</template>
+				</td>
+				
 				<td>
 					<a href="javascript:;" @click="fnUser(item.userId)">{{item.userId}}</a>
 				</td>
@@ -121,8 +127,7 @@ ul:hover {
 			<a href="#" @click="fnNext">＞</a>
 		</div>
 		<div v-if="userId != '' && userId != undefined">
-			<button @click="fnWrite">글쓰기</button>
-			<!-- <button @click="fnDelete">삭제</button>  -->
+			<button @click="fnWrite" v-if="userType == 'A' || kind != 1">글쓰기</button>
 			{{userId}}
 		</div>
 	</div>
@@ -133,11 +138,13 @@ ul:hover {
         data: {
             list: [],
             userId: "${userId}",
+            userType : "${userType}",
             kind: 1,
             boardList: ${boardList},
             pageCount: 1,
             selectPage: 1,
-            itemsPerPage: 10 
+            itemsPerPage: 10,
+            fileList : []
         },
         computed: {
             displayedList() {
@@ -172,6 +179,22 @@ ul:hover {
                     }
                     
                 });
+            },
+            fnFileList: function() {
+            	var self = this;
+            	var nparmap = {
+            			kind: self.kind
+                    };
+                    $.ajax({
+                        url: "boardFile.dox",
+                        dataType: "json",
+                        type: "POST",
+                        data: nparmap,
+                        success: function(data) {
+                        	console.log(data);
+                        	self.fileList= data.boardFile;
+                        }
+                    });
             },
             fnWrite: function() {
                 var self = this;
@@ -228,6 +251,7 @@ ul:hover {
         },
         created: function() {
             this.fnGetList(this.kind);
+            this.fnFileList();
         }
     });
 </script>

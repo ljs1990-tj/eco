@@ -143,7 +143,7 @@ var app = new Vue({
                        
                        
                         
-                       location.href="AdminProductList.do";
+                    /*    location.href="AdminProductList.do"; */
                 		
                 	}else{
                 		alert("등록실패");

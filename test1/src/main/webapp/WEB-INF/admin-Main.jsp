@@ -10,9 +10,7 @@
 
 </head>
 <style>
-button{
-	background-color: red; 
-}
+
 </style>
 <body>
 	<%@ include file="../layout/header.jsp"%>

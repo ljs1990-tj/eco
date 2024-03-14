@@ -16,17 +16,24 @@ import com.example.test1.dao.CartService;
 import com.google.gson.Gson;
 
 @Controller
-public class CartController { 
-	
+public class CartController {
+
 	@Autowired
 	CartService cartService;
 	
 	//cart 페이지
-		@RequestMapping("/cartList.do") 
+		@RequestMapping("cartList.do") 
 	    public String cartList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
 			request.setAttribute("map", map);
 			System.out.println(map);
 	        return "/cart-list";
+	    }
+		
+		@RequestMapping("KakaoPaycart.do") 
+	    public String kakaoPay(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+			request.setAttribute("map", map);
+			
+	        return "/KakaoPay";
 	    }
 
 		
@@ -55,6 +62,14 @@ public class CartController {
 			resultMap = cartService.searchCartList(map);
 			return new Gson().toJson(resultMap);
 		}
+		
+		
+		@RequestMapping(value = "/cart/ChangSelectCnt.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String ChangSelectCnt(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap<String, Object>();
+			resultMap = cartService.editSelectCnt(map);
+			return new Gson().toJson(resultMap);
+		}
 	
 }
-
