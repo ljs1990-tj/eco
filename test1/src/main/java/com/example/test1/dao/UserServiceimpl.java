@@ -154,8 +154,7 @@ public class UserServiceimpl implements UserService {
 					} else {
 						userMapper.updateLoginCnt(map); // 로그인 실패 시 카운트 증가
 						resultMap.put("result", "fail");
-						resultMap.put("message",
-								"비밀번호를 " + (user.getLoginCnt() + 1) + " 회 틀렸습니다! 5회 실패 시 로그인이 불가합니다!");
+						resultMap.put("message", "비밀번호를 " + (user.getLoginCnt() + 1) + " 회 틀렸습니다! 5회 실패 시 로그인이 불가합니다!");
 					}
 				} else {
 					resultMap.put("result", "fail");
@@ -165,64 +164,95 @@ public class UserServiceimpl implements UserService {
 		}
 		return resultMap;
 	}
-	
-	//유저 마이페이지 주소록 추가
-		@Override
-		public HashMap<String, Object> addAddr(HashMap<String, Object> map) {
-			// TODO Auto-generated method stub
-			HashMap<String, Object> resultMap = new HashMap<String, Object>();
-			try {
-				userMapper.insertMyPageAddrAdd(map);
-				resultMap.put("result", "success");
-			} catch (Exception e) {
-				resultMap.put("result", "fail");
-				System.out.println(e.getMessage());
-			}
-			return resultMap;
-		}
 
-		//유저 마이페이지 주소록 호출
-		@Override
-		public HashMap<String, Object> selectAddr(HashMap<String, Object> map) {
-			// TODO Auto-generated method stub
-			HashMap<String, Object> resultMap = new HashMap<String, Object>();
-			try {
-				resultMap.put("info",userMapper.selectAddrAddNo(map));
-				resultMap.put("result", "success");
-			} catch (Exception e) {
-				resultMap.put("result", "fail");
-				System.out.println(e.getMessage());
-			}
-			return resultMap;
+	// 유저 마이페이지 주소록 추가
+	@Override
+	public HashMap<String, Object> addAddr(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			userMapper.insertMyPageAddrAdd(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
 		}
-		//유저 마이페이지 주소록 수정
-		@Override
-		public HashMap<String, Object> updateAddr(HashMap<String, Object> map) {
-			// TODO Auto-generated method stub
-			HashMap<String, Object> resultMap = new HashMap<String, Object>();
-			try {
-				userMapper.updateAddr(map);
-				resultMap.put("result", "success");
-			} catch (Exception e) {
-				resultMap.put("result", "fail");
-				System.out.println(e.getMessage());
-			}
-			return resultMap;
-		}
+		return resultMap;
+	}
 
-		// 유저 비밀번호 수정
-		@Override
-		public HashMap<String, Object> modifyUserPw(HashMap<String, Object> map) {
-			// TODO Auto-generated method stub
-			HashMap<String, Object> resultMap = new HashMap<String, Object>();
-			try {
-				userMapper.updateUserPw(map);
-				resultMap.put("result", "success");
-			} catch (Exception e) {
-				resultMap.put("result", "fail");
-				System.out.println(e.getMessage());
-			}
-			return resultMap;
+	// 유저 마이페이지 주소록 호출
+	@Override
+	public HashMap<String, Object> selectAddr(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			resultMap.put("info", userMapper.selectAddrAddNo(map));
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
 		}
-		 
+		return resultMap;
+	}
+
+	// 유저 마이페이지 주소록 수정
+	@Override
+	public HashMap<String, Object> updateAddr(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			userMapper.updateAddr(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
+		return resultMap;
+	}
+
+	// 유저 마이페이지 주소록 기본배송지 N초기화 및 선택한 번호 기본 배송지
+	@Override
+	public HashMap<String, Object> resetDefaultAddress(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			userMapper.updateDefaultAddressToN(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
+		return resultMap;
+	}
+
+	// 유저 마이페이지 주소록 배송지 기본으로 설정
+	@Override
+	public HashMap<String, Object> setAddressToDefault(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			userMapper.updateAddressToDefault(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
+		return resultMap;
+	}
+
+	// 유저 비밀번호 수정
+	@Override
+	public HashMap<String, Object> modifyUserPw(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			userMapper.updateUserPw(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
+		return resultMap;
+	}
+
 }

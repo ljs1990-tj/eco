@@ -8,6 +8,8 @@
 <script src="js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <title>목록 페이지</title>
+<<<<<<< HEAD
+=======
 <style>
 button {
 	margin-top: 10px;
@@ -26,6 +28,7 @@ button:hover {
 	background-color: #45a049;
 }
 </style>
+>>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
 </head>
 <body>
 	<div id="app">
@@ -34,9 +37,15 @@ button:hover {
 			<li>아이디: {{user.userId}}</li>
 			<li>성별: {{user.gender}}</li>
 			<li>폰번호: {{user.phone1}} - {{user.phone2}} - {{user.phone3}}</li>
+<<<<<<< HEAD
+			<li v-if="item.kind==1" v-for="item in list">작성한 글 :
+				{{item.title}}</li>
+
+=======
 			<li v-for="item in list">작성한 글 내역 : {{item.title}}</li>
 			<li v-if="item.kind==1" v-for="item in list">작성한 글 :
 				{{item.title}}</li>
+>>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
 		</ul>
 		<button @click="fnGetList">목록가기</button>
 	</div>
@@ -51,6 +60,8 @@ button:hover {
 			list : []
 		},
 		methods : {
+<<<<<<< HEAD
+=======
 			fnList : function(){
 				var self = this;
 				var nparmap = {
@@ -72,6 +83,7 @@ button:hover {
 				var self = this;
 				$.pageChange("/boardList.do", {});
 				}
+>>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
 			fnList : function() {
 				var self = this;
 				var nparmap = {

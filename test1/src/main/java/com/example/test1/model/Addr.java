@@ -11,6 +11,20 @@ public class Addr {
 	private String addrRequest;
 	private String addrName;
 	private int cnt;
+	private String isDefault;
+
+
+	public String getisDefault() {
+		return isDefault;
+	}
+
+	public void setisDefault(String isDefault) {
+		this.isDefault = isDefault;
+	}
+
+	public int getAddrNo() {
+		return addrNo;
+	}
 
 	public int getCnt() {
 		return cnt;
@@ -18,10 +32,6 @@ public class Addr {
 
 	public void setCnt(int cnt) {
 		this.cnt = cnt;
-	}
-
-	public int getAddrNo() {
-		return addrNo;
 	}
 
 	public void setAddrNo(int addrNo) {

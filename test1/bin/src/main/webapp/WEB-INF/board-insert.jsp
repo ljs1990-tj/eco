@@ -64,6 +64,8 @@ button:hover {
 	<div id="app">
 		<tr>
 			<th>게시판 선택</th>
+<<<<<<< HEAD
+=======
 			<td>
 				<select v-model="kind">
 					<option value="1" v-if="userType == 'A'">공지사항</option><!-- 어드민만 나오게 -->
@@ -71,6 +73,7 @@ button:hover {
 					<option value="3">문의게시판</option>
 				</select>
 			</td>
+>>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
 			<td><select v-model="kind">
 					<option value="1">공지사항</option>
 					<option value="2">레시피게시판</option>
@@ -80,6 +83,8 @@ button:hover {
 		<div>
 			제목 : <input type="text" v-model="title">
 		</div>
+<<<<<<< HEAD
+=======
 		<tr>
 			<td width="30%">메인 이미지 : </td>
 			<td width="70%">
@@ -92,6 +97,7 @@ button:hover {
 			<input type="file" id="file2" name="file2" accept=".jpg,.png,.gif" multiple></td>
 		</tr>
 		</div>
+>>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
 		<!-- <tr>
 			<th>파일 선택 :</th>
 			<td><input type="file" id="file1" name="file1" accept=".jpg, .png, .gif"></td>
@@ -145,6 +151,9 @@ const VueEditor = Vue2Editor.VueEditor;
 					success : function(data) {
 						if (data.result == "success") {
 							alert("작성되었습니다");
+<<<<<<< HEAD
+							
+=======
 	                		var files = $("#file1")[0].files;
                 			var formMain = new FormData();
                 			formMain.append( "file1",  files[0]);
@@ -162,6 +171,7 @@ const VueEditor = Vue2Editor.VueEditor;
 	                        	$.pageChange("/boardList.do", {});
 	                        }, 1000);
 	                        
+>>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
 							//게시글 작성하되 pk값 리턴 받기 data.boardNo = pk
 							//console.log(data.boardNo);
 							

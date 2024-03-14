@@ -22,7 +22,14 @@ public class User {
 	private String uDateTime;
 	private String StartDate;
 	private String EndDate;
+	private String deleteDate; //회원탈퇴하기
 	
+	public String getDeleteDate() {
+		return deleteDate;
+	}
+	public void setDeleteDate(String deleteDate) {
+		this.deleteDate = deleteDate;
+	}
 	public String getUserId() {
 		return userId;
 	}

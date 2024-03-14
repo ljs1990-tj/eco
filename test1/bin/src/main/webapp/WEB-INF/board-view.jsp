@@ -68,11 +68,15 @@ button:hover {
 				<th>내용</th> 
 				<td>
 					<template v-if="kind == '2'">
+<<<<<<< HEAD
+						<img alt="adasdasda" src="../img/recipe1.jpg" width="150px">
+=======
 						<template  v-for="item in fileList" v-if="boardNo == item.boardNo">
 							<template v-if="item.kind == 2">
 					    		<img :src="item.path" alt="" width="150px">
 							</template>
 						</template>
+>>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
 					</template>
 					<span v-html="info.contents">
 						{{info.contents}}
@@ -80,10 +84,13 @@ button:hover {
 				</td>
 			</tr>
 		</table>
+<<<<<<< HEAD
+=======
 		<div v-if="info.userId == userId || userType == 'A'">
 			<button @click="fnDelete">삭제</button>
 			<button @click="fnEdit">수정</button>
 		</div> 
+>>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
 	<!-- <div v-if="info.userId == sessionId || sessionStatus == 'A'">
 			<button @click="fnRemove">삭제</button>
 		</div> -->
@@ -101,10 +108,13 @@ var app = new Vue({
     data: {
     	boardNo : "${map.boardNo}",
     	info : {},
+<<<<<<< HEAD
+=======
     	userId : "${userId}",
     	kind: "${map.kind}",
     	userType : "${userType}",
     	fileList : []
+>>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
     	userId : "${userId}"
     	
     }   
@@ -152,6 +162,8 @@ var app = new Vue({
 			},
 			fnEdit : function(){
 				var self = this;
+<<<<<<< HEAD
+=======
 				$.pageChange("/boardEdit.do", { boardNo : self.boardNo, kind : self.kind });
 			},
             fnFileList: function() {
@@ -170,6 +182,7 @@ var app = new Vue({
                         }
                     });
             },
+>>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
 				$.pageChange("/boardEdit.do", { boardNo : self.boardNo });
 			}
 

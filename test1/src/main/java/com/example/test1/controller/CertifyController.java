@@ -143,4 +143,24 @@ public class CertifyController {
 		return new Gson().toJson(resultMap);
 	}
 
+	// 유저 마이페이지 주소록 기본배송지 값 N초기화
+	@RequestMapping(value = "/user-addr-default-reset.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String useraddrdefaultreset(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = userService.resetDefaultAddress(map);
+		System.out.println(resultMap);
+		return new Gson().toJson(resultMap);
+	}
+
+	// 유저 마이페이지 주소록 기본배송지 설정
+	@RequestMapping(value = "/user-addr-default.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String useraddrdefault(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = userService.setAddressToDefault(map);
+		System.out.println(resultMap);
+		return new Gson().toJson(resultMap);
+	}
+
 }

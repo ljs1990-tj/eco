@@ -34,6 +34,10 @@
 	</update>
 
 	<insert id="insertBoardImage" parameterType="hashmap">
+<<<<<<< HEAD
+		INSERT INTO ECO_BOARD_IMAGE 
+		VALUES(null, #{boardNo}, #{path}, #{fileName}, #{orgName}, #{fileSize}, #{etc})
+=======
 		INSERT INTO ECO_BOARD_IMAGE
 		VALUES(null, #{boardNo}, #{filePath}, #{fileName}, #{fileorgName}, #{fileSize}, #{filEtc}, #{kind})
 	</insert>
@@ -91,8 +95,11 @@
 	<insert id="insertBoardFile" parameterType="hashmap">
 		INSERT INTO ECO_BOARD_IMAGE
 		VALUES(NULL, #{boardNo}, #{path}, #{fileName}, #{orgName}, #{fileSize}, #{etc}, 1)
+>>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
 	</insert>
 	
+<<<<<<< HEAD
+=======
 	<insert id="insertBoardContentsFile" parameterType="hashmap">
 		INSERT INTO ECO_BOARD_IMAGE
 		VALUES(NULL, #{boardNo}, #{path}, #{fileName}, #{orgName}, #{fileSize}, #{etc}, 2)
@@ -114,6 +121,7 @@
 		FROM ECO_BOARD
 		WHERE USERID = #{userId}
 	</select>
+>>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
 	
 	<!--문의 게시판 불러오기  -->
 	<select id="selectCustomerInquiryList" parameterType="hashmap" resultType="com.example.test1.model.Board">

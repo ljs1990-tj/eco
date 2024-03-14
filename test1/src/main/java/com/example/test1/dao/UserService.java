@@ -26,6 +26,7 @@ public interface UserService {
 
 	HashMap<String, Object> updateAddr(HashMap<String, Object> map); // 유저 마이페이지 주소록 수정하기
 	
+	HashMap<String, Object> resetDefaultAddress(HashMap<String, Object> map);//유저 마이페이지 주소록 기본배송지 N초기화
 	
-	
+	HashMap<String, Object> setAddressToDefault(HashMap<String, Object> map);//유저 마이페이지 주소록 기본배송지 설정
 }

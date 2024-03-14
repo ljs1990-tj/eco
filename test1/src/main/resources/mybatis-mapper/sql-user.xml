@@ -96,7 +96,7 @@
 	<insert id="insertMyPageAddrAdd" parameterType="hashmap">
 		INSERT INTO
 		ECO_ADDR VALUES(NULL, #{userId}, #{addr}, #{addrDetail}, #{zipCode},
-		#{name}, #{phone}, #{addrRequest}, #{addrName})
+		#{name}, #{phone}, #{addrRequest}, #{addrName}, 'N')
 	</insert>
 	
 	<!-- 유저 마이페이지 주소록 호출 -->
@@ -106,13 +106,32 @@
 		FROM ECO_ADDR
 		WHERE ADDRNO = #{addrNo}
 	</select>
-	
+
 	<!-- 유저 마이페이지 주소록 수정 -->
 	<update id="updateAddr" parameterType="hashmap">
 		UPDATE ECO_ADDR
 		SET
 		ADDRNO = #{addrNo}, USERID = #{userId}, ADDR = #{addr}, ADDRDETAIL = #{addrDetail}, 
 		ZIPCODE = #{zipCode}, NAME = #{name}, PHONE = #{phone}, ADDRREQUEST = #{addrRequest}, 
-		ADDRNAME = #{addrName} WHERE ADDRNO = #{addrNo}
+		ADDRNAME = #{addrName}, ISDEFAULT = #{isDefault} WHERE ADDRNO = #{addrNo}
 	</update>
+	
+	<!-- 유저 마이페이지 주소록 배송지 N초기화 -->
+	<update id="updateDefaultAddressToN" parameterType="hashmap">
+	    UPDATE ECO_ADDR
+	    SET ISDEFAULT = 'N'
+	    WHERE USERID = #{userId} AND ISDEFAULT = 'Y'
+	</update>
+	<!-- 유저 마이페이지 주소록 배송지 기본배송지 설정 -->
+	<update id="updateAddressToDefault" parameterType="hashmap">
+	    UPDATE ECO_ADDR
+	    SET ISDEFAULT = 'Y'
+	    WHERE ADDRNO = #{addrNo}
+	</update>
+	<!-- 회원을 삭제하고 DELETE_DATE 열에 현재 날짜와 삭제 예정 기간을 추가하는 쿼리 -->
+	<delete id="deleteUser" parameterType="hashmap">
+		DELETE FROM ECO_USER_DELETE WHERE USERID = #{userId}
+		UPDATE ECO_USER_DELETE SET DELETE_DATE = DATE_ADD(NOW(), INTERVAL 1 MONTH)
+		WHERE USERID = #{userId}
+	</delete>
 </mapper>
