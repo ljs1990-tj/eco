@@ -255,4 +255,18 @@ public class UserServiceimpl implements UserService {
 		return resultMap;
 	}
 
+	// 회원가입 탈퇴
+	@Override
+	public HashMap<String, Object> deleteUser(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			userMapper.deleteUser(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
+		return resultMap;
+	}
 }

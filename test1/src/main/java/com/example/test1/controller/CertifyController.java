@@ -163,4 +163,14 @@ public class CertifyController {
 		return new Gson().toJson(resultMap);
 	}
 
+	// 유저 정보 삭제하여 기간설정
+	@RequestMapping(value = "/user-delete.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String userdelete(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = userService.deleteUser(map);
+		System.out.println(resultMap);
+		return new Gson().toJson(resultMap);
+	}
+
 }
