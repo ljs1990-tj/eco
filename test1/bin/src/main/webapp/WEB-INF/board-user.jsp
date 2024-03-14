@@ -35,6 +35,8 @@ button:hover {
 			<li>성별: {{user.gender}}</li>
 			<li>폰번호: {{user.phone1}} - {{user.phone2}} - {{user.phone3}}</li>
 			<li v-for="item in list">작성한 글 내역 : {{item.title}}</li>
+			<li v-if="item.kind==1" v-for="item in list">작성한 글 :
+				{{item.title}}</li>
 		</ul>
 		<button @click="fnGetList">목록가기</button>
 	</div>
@@ -70,7 +72,23 @@ button:hover {
 				var self = this;
 				$.pageChange("/boardList.do", {});
 				}
-			
+			fnList : function() {
+				var self = this;
+				var nparmap = {
+					userId : self.userId
+				};
+				$.ajax({
+					url : "boardUser.dox",
+					dataType : "json",
+					type : "POST",
+					data : nparmap,
+					success : function(data) {
+						console.log(data);
+						self.user = data.user;
+						self.list = data.list;
+					}
+				});
+			}
 		},
 		created : function() {
 			var self = this;

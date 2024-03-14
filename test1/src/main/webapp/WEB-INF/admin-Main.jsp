@@ -13,7 +13,7 @@
 
 </style>
 <body>
-	<%@ include file="../layout/header.jsp"%>
+	<%@ include file="layout/header.jsp"%>
 	<div id="app">
 
 		<div>

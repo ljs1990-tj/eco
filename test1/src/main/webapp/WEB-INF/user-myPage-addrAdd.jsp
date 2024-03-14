@@ -4,58 +4,61 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script src="js/jquery.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script
-	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<link rel="stylesheet" href="css/user-myPage.css" type="text/css">
+	<script src="js/jquery.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <title>주소록 추가</title>
 </head>
 <style>
+
 </style>
-<body>
+<body class="background">
 	<div id="app">
-		<div>
+		<div class="containerAddr">
 			<div>
-				<span>받는 분 성함 : </span> <input type="text" v-model="user.name"
-					placeholder="직접 입력">
+				<div>
+					<span>받는 분 성함 : </span> <input type="text" v-model="user.name"
+						placeholder="직접 입력">
+				</div>
+				<div>
+					<span>받는 분 전화번호 : </span> <input type="text" v-model="user.phone"
+						placeholder="직접 입력" @input="validateInput">
+				</div>
+				<div>
+					<span>배송 요청 사항 : </span> <input type="text" v-model="user.addrRequest"
+						placeholder="직접 입력">
+				</div>
+				<div>
+					<span>배송지 위치 : </span> <input type="text" v-model="user.addrName"
+						placeholder="직접 입력"> <select v-model="addrName2"
+						@change="selectAddrName">
+						<option value="" :selected="!addrName2">::직접입력::</option>
+						<option value="집" :selected="addrName2 === '집'">집</option>
+						<option value="회사" :selected="addrName2 === '회사'">회사</option>
+						<option value="기타" :selected="addrName2 === '기타'">기타</option>
+					</select>
+				</div>
 			</div>
 			<div>
-				<span>받는 분 전화번호 : </span> <input type="text" v-model="user.phone"
-					placeholder="직접 입력" @input="validateInput">
+				<div>
+					받는 분 주소 : <span style="color: red;">*</span>
+				</div>
+				<input type="text" v-model="user.zipCode" placeholder="우편번호">
+				<input type="button" @click="execDaumPostcode()" value="우편번호 찾기">
+				<div class="margin-bottom-10px"></div>
+				<input type="text" v-model="user.addr" placeholder="주소">
+				<div></div>
+				<input type="text" v-model="addrDetail1" ref="addrDetail1" placeholder="상세주소"> 
+				<input type="text" v-model="addrDetail2" placeholder="참고항목">
+				<div style="margin-bottom: 10px;"></div>
+				<div style="padding-left: 10px; font-size: 10px;">※ 현재 주소는 집
+					주소로 기본 저장되며, 후에 마이페이지에서 수정이 가능합니다.</div>
 			</div>
 			<div>
-				<span>배송 요청 사항 : </span> <input type="text" v-model="user.addrRequest"
-					placeholder="직접 입력">
+				<button @click="fnUserAddrAdd()">추가하기</button>
+				<button @click="fnclose()">취소하기</button>
 			</div>
-			<div>
-				<span>배송지 위치 : </span> <input type="text" v-model="user.addrName"
-					placeholder="직접 입력"> <select v-model="addrName2"
-					@change="selectAddrName">
-					<option value="" :selected="!addrName2">::직접입력::</option>
-					<option value="집" :selected="addrName2 === '집'">집</option>
-					<option value="회사" :selected="addrName2 === '회사'">회사</option>
-					<option value="기타" :selected="addrName2 === '기타'">기타</option>
-				</select>
-			</div>
-		</div>
-		<div>
-			<div>
-				받는 분 주소 : <span style="color: red;">*</span>
-			</div>
-			<input type="text" v-model="user.zipCode" placeholder="우편번호">
-			<input type="button" @click="execDaumPostcode()" value="우편번호 찾기">
-			<div class="margin-bottom-10px"></div>
-			<input type="text" v-model="user.addr" placeholder="주소">
-			<div></div>
-			<input type="text" v-model="addrDetail1" ref="addrDetail1" placeholder="상세주소"> 
-			<input type="text" v-model="addrDetail2" placeholder="참고항목">
-			<div style="margin-bottom: 10px;"></div>
-			<div style="padding-left: 10px; font-size: 10px;">※ 현재 주소는 집
-				주소로 기본 저장되며, 후에 마이페이지에서 수정이 가능합니다.</div>
-		</div>
-		<div>
-			<button @click="fnUserAddrAdd()">추가하기</button>
-			<button @click="fnclose()">취소하기</button>
 		</div>
 	</div>
 </body>

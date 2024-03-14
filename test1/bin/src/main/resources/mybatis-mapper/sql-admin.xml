@@ -131,9 +131,6 @@
         	AND NAME LIKE CONCAT('%', #{keyword}, '%')
         </if>
 	</select>
-	
-	
-	
 	<select id="selectAdminUserInfo" parameterType="hashmap" resultType="com.example.test1.model.User">
 		SELECT *
 		FROM ECO_USER
@@ -152,8 +149,4 @@
 			UDATETIME = NOW()
 		WHERE USERID = #{userId}
 	</update>
-	
-	
-	
-	
 </mapper>
