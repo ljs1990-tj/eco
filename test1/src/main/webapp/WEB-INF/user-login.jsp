@@ -69,15 +69,13 @@
 	<div id="app">
 		<fieldset class="con-login">
 			<div class="login-title" style="margin: 10px;">로그인</div>
-			<div style="margin: 10px;">
+			<div style="margin: 10px;" class="inputBox">
 				<input type="text" class="login-input" v-model="userId" placeholder="아이디를 입력해 주세요" maxlength="20">
 			</div>
 			<div style="margin: 10px;">
 				<input type="password" class="login-input" v-model="userPw" @keyup.enter="fnLogin" placeholder="비밀번호를 입력해 주세요" maxlength="16">
 			</div>
 			<div class="find-align" style="margin: 10px;">
-				<a class="login-text" href="/user-join.do">아이디 찾기</a>
-				<span class="login-text">|</span>
 				<a class="login-text" href="/find-password.do" @click.prevent="fnOpenPopup('password')">비밀번호 찾기</a>
 			</div>
 			<div style="margin: 10px;">
@@ -123,10 +121,12 @@ var app = new Vue({
                 data: nparmap,
                 success: function(data) {
                 	if(data.result == "success") {
-                		self.resultMessage = ""; 
-                		$.pageChange("/main.do", {});
-                	} else {
-                		self.resultMessage = "없는 아이디 또는 비밀번호입니다!";
+                		self.resultMessage = "";
+                		alert(data.message);
+                		$.pageChange("/header.do", {});
+                	} else if(data.result == "fail") {
+                		//self.resultMessage = "없는 아이디 또는 비밀번호입니다!";
+                		self.resultMessage = data.message;
                 	}
                 }
             });
@@ -136,13 +136,31 @@ var app = new Vue({
         },
         fnOpenPopup: function(kind) {
         	if(kind == 'password') {
-        		 window.open('/find-password.do', '_blank', 'width=600,height=400');
+          		// 비밀번호 찾기 팝업을 창의 상단 중앙에 위치시키기 위해 창의 크기와 화면 크기를 이용하여 위치 조정
+	       		var leftPosition = (window.screen.width / 2) - (600 / 2);
+	       		var topPosition = (window.screen.height / 2) - (400 / 2);
+	       		window.open('/find-password.do', '_blank', 'width=600,height=400, left=' + leftPosition + ',top=' + topPosition);
         	}
         }
     }
     , created: function() {
     	var self = this;
 	}
+});
+
+$(document).ready(function() {
+    var $loginBox = $('.outBox');
+    var $loginInputBox = $('#sampleId');
+
+    $loginInputBox.on('keyup', function() {
+        if ($(this).val() !== '') {
+            // 입력 값이 비어 있지 않은 경우
+            $loginBox.addClass('existence');
+        } else {
+            // 입력 값이 비어 있는 경우
+            $loginBox.removeClass('existence');
+        }
+    });
 });
 </script>
 </html>
