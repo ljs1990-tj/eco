@@ -52,8 +52,11 @@
                             <div>
                                 <input type="radio" v-model="radio" :value="address.addrNo" :disabled="isPopupOpen">
                             </div>
-                            <div style="font-weight: bold;">{{ address.name }}</div>
-                            <!-- 기본 배송지인 경우에만 아래 내용을 표시 -->
+								<div style="font-weight: bold; display: flex; justify-content: space-between;">
+									<span>{{ address.name }}</span> 
+									<span>{{ address.addrName }}</span>
+								</div>
+								<!-- 기본 배송지인 경우에만 아래 내용을 표시 -->
                             <div v-if="address.isDefault === 'Y'">기본 배송지</div>
                             <div>
                                 <span>우편번호: </span> {{ address.zipCode }}

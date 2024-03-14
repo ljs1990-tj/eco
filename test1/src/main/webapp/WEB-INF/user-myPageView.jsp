@@ -6,6 +6,8 @@
     <meta charset="UTF-8">
     <script src="js/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <title>마이 페이지</title>
 </head>
 <style>
@@ -78,14 +80,13 @@
                 </ul>
                 <div>
                     <button @click="fnmodify()">수정하기</button>
+                    <button @click="fnUserDelete()">탈퇴하기</button>
                 </div>
             </fieldset>
         </div>
     </div>
 </body>
 </html>
-<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
-<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript">
     var app = new Vue({
         el: '#app',
@@ -288,6 +289,26 @@
     						alert("사용자 정보 수정에 실패했습니다. 다시 시도하세요.");
     						return;
     					}
+                    }
+                });
+            },
+            //회원탈퇴하기
+            fnUserDelete : function() {
+                var self = this;     
+                var nparmap = {
+                		userId: self.userId,
+                };
+                $.ajax({
+                    url:"user-login.dox",
+                    dataType:"json",
+                    type: "POST",
+                    data: nparmap,
+                    success: function(data) {
+                    	if(data.result == "success") {
+                    		self.resultMessage = ""; 
+                    	} else {
+                    		self.resultMessage = "없는 아이디 또는 비밀번호입니다!";
+                    	}
                     }
                 });
             }
