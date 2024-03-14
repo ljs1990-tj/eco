@@ -89,7 +89,8 @@
                     <div class="footer__copyright">
                         <div class="footer__copyright__text">
                         	<p>Copyright &copy;
-                        		<script>document.write(new Date().getFullYear());</script> 
+                        		<!-- <script>document.write(new Date().getFullYear());</script> -->
+                        		<%= new java.util.Date().toLocaleString().substring(0, 4) %> 
                         		All rights reserved | <i class="fa fa-heart" aria-hidden="true"></i> by 
                         		<a href="naver.com" target="_blank">A조 마켓</a>
                         	</p>
