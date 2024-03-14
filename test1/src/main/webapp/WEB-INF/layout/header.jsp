@@ -66,7 +66,7 @@
 	                            </div>
 	                          
 	                            <div class="header__top__right__auth">
-	                                <a v-if="!loginFlg" href="javascript:;" @click="fnLogin"><i class="fa fa-user"></i> 로그인</a>
+	                                <a v-if="!loginFlg" href="/user-login.do" @click="fnLogin"><i class="fa fa-user"></i> 로그인</a>
 	                                <a v-else href="javascript:;" @click="fnLogout"><i class="fa fa-user"></i> 로그아웃</a>
 	                            </div>
 	                        </div>
@@ -129,19 +129,6 @@
 	    	loginFlg: false
 	    }
 	    , methods: {
-	    	fnList: function() {
-	            var self = this;
-	            var nparmap = {userId: self.userId};
-	            $.ajax({
-	                url:"check.dox",
-	                dataType:"json",
-	                type: "POST",
-	                data: nparmap,
-	                success: function(data) {
-	                	
-	                }
-	            });
-	        },
 	        fnLogin: function() {
 	        	var self = this;
 	        	if(self.userId == "") {
