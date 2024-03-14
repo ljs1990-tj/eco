@@ -75,8 +75,8 @@
 	                        	<li class="active"><a href="/main.do">Home</a></li>
 	                            <li><a href="javascript:;">카테고리</a>
 									<ul class="header__menu__dropdown">
-										<li><a href="javascript:;">유기농</a></li>
-										<li><a href="javascript:;">비건</a></li>
+										<li><a href="javascript:;" >유기농</a></li>
+										<li><a href="javascript:;" @click="fnEnterProduct()">비건</a></li>
 										<li><a href="javascript:;">글루텐-프리</a></li>
 										<li><a href="javascript:;">로컬푸드</a></li>
 									</ul>
@@ -188,7 +188,11 @@
 				} else {
 					alert("로그인 후 입장 가능합니다.");
 				}
-			}
+			},
+			fnEnterProduct: function() {
+				var self = this;
+				$.pageChange("/cartList.do", {userId: self.userId});
+			},
 	    }
 	    , created: function() {
 	    	var self = this;
