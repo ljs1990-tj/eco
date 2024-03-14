@@ -23,18 +23,6 @@
     <link rel="stylesheet" href="css/slicknav-min.css" type="text/css">
     <link rel="stylesheet" href="css/style2.css" type="text/css">
     
-    <!-- Js Plugins -->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.nice-select.min.js"></script>
-    <script src="js/jquery-ui.min.js"></script>
-    <script src="js/jquery.slicknav.js"></script>
-    <script src="js/mixitup.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/jquery.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    
 </head>
 
 <body id="HeaderAllTab">
@@ -85,18 +73,23 @@
 	                    <nav class="header__menu">
 	                        <ul>
 	                        	<li class="active"><a href="/main.do">Home</a></li>
-	                            <li>카테고리
-	                              <ul class="header__menu__dropdown">
-	                                  <li><a href="javascript:;">유기농</a></li>
-	                                  <li><a href="javascript:;">비건</a></li>
-	                                  <li><a href="javascript:;">글루텐-프리</a></li>
-	                                  <li><a href="javascript:;">로컬푸드</a></li>
-	                              </ul>
+	                            <li><a href="javascript:;">카테고리</a>
+									<ul class="header__menu__dropdown">
+										<li><a href="javascript:;">유기농</a></li>
+										<li><a href="javascript:;">비건</a></li>
+										<li><a href="javascript:;">글루텐-프리</a></li>
+										<li><a href="javascript:;">로컬푸드</a></li>
+									</ul>
 	                          	</li>
 	                            <li><a href="javascript:;">1:1 매칭</a></li>
 	                            
 	                            <li><a href="javascript:;">식단관리</a></li>
-	                            <li><a href="/boardList.do">커뮤니티</a></li>
+	                            <li><a href="javascript:;">커뮤니티</a>
+	                            	<ul class="header__menu__dropdown">
+										<li><a href="/boardList.do">공지사항</a></li>
+										<li><a href="/boardList.do">레시피</a></li>
+	                              </ul>
+	                            </li>
 	                        </ul>
 	                    </nav>
 	                </div>
@@ -117,6 +110,18 @@
 	    </header>
     </div>
     <!-- Header Section End -->
+    
+    <!-- Js Plugins -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/jquery.slicknav.js"></script>
+    <script src="js/mixitup.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     
 </body>
 </html>
@@ -170,7 +175,7 @@
 	        fnMoveCart: function() {
 	        	var self = this;
 	        	if(self.userId != "") {
-		        	$.pageChange("cartList.do", {userId: self.userId});
+		        	$.pageChange("/cartList.do", {userId: self.userId});
 	        	} else {
 					alert("로그인 후 입장 가능합니다.");
 	        	}

@@ -28,25 +28,25 @@ public class UserController {
 
 		return "/main";
 	}
-
+	// 헤더만 있는 임시 메인
 	@RequestMapping("/header.do")
 	public String header(Model model) throws Exception {
 
 		return "/layout/header";
 	}
-
+	// 가입 페이지
 	@RequestMapping("/user-join.do")
 	public String userJoin(Model model) throws Exception {
 
 		return "/user-join";
 	}
-
+	// 로그인 페이지
 	@RequestMapping("/user-login.do")
 	public String userLogin(Model model) throws Exception {
 		session.invalidate();
 		return "/user-login";
 	}
-	
+	// 비밀번호 찾기 페이지
 	@RequestMapping("/find-password.do") 
     public String findPassword(Model model) throws Exception{
 		
@@ -78,6 +78,13 @@ public class UserController {
 		return new Gson().toJson(resultMap);
 	}
 
+	@RequestMapping(value = "/changePw.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String changeUserPw(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = userService.modifyUserPw(map);
+		return new Gson().toJson(resultMap);
+	}
 	
 
 }

@@ -85,7 +85,7 @@
 			<div style="margin: 10px;">
 				<!-- <div style="margin-top: 0px;"><a href="javascript:;" @click="fnKakao" style="margin-left: 10px;"><img alt="kakao_login" src="../img/kakao/kakao_login_medium_wide.png" width="255px;"></a></div> -->
 			</div>
-			<div style="color: red; margin-left: 20px;">{{resultMessage}}</div>
+			<div style="color: red; font-weight: bold; margin-left: 20px;">{{resultMessage}}</div>
 		</fieldset>
 	</div>
 	<!-- footer -->

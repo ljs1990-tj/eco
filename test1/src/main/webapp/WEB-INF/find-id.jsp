@@ -6,22 +6,17 @@
 	<meta charset="UTF-8">
 	<script src="js/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<title>비밀번호 찾기</title>
+	<title>아이디 찾기</title>
 </head>
 <style>
 </style>
 <body>
 	<div id="app">
-		<div>아이디 입력:
-			<input type="text" v-model="inputId" :disabled="checkIdFlg" @keyup.enter="fnSearchId" maxlength="20" autofocus>
-			<button @click="fnSearchId" :disabled="checkIdFlg">확인</button>
-		</div>
-		<div v-if="checkIdFlg">
+		<div>가입한 아이디에 쓰인 폰 번호를 입력해 주세요.</div>
+		<div>
 			<input type="text" v-model="inputNumber" :disabled="inputFlg" @input="validateInput" @keydown.enter="fnSms" placeholder="폰번호 입력">
 			<button v-if="!phoneAuthFlg" @click="fnSms">인증번호 받기</button>
 			<button v-if="phoneAuthFlg" @click="fnRePhone">핸드폰번호 다시 입력하기</button>
-			<!-- <input type="text" v-model="inputNumber" :disabled="checkArthFlg" placeholder="폰번호 입력"> -->
-			<!-- <button @click="fnSms">전송</button> -->
 		</div>
 		<div v-if="phoneAuthFlg">
 			<h3>인증번호</h3>
@@ -34,23 +29,7 @@
 			<button @click="fnClose()">닫기</button>
 			<button @click="fnAuth()">확인</button>
 		</div>
-		<div v-if="completeFlg">
-			<div>
-				<span>비밀번호: </span><input type="password" v-model="userPw" @keyup="fnCheck('pw1')" maxlength="16">
-			</div>
-			<div v-if="userPw != ''">
-				<div v-if="!pwCheckFlg" style="color: red;">비밀번호는 최소 8글자, 최대 16글자이어야 하며 하나 이상의 숫자, 영문자 및 특수문자를 각각 포함하여야 합니다!</div>
-			</div>
-			<div>----------</div>
-			<div>
-				<span>비밀번호 확인: </span><input type="password" v-model="userPw2" @keyup="fnCheck('pw2')" maxlength="16">
-			</div>
-               <div v-if="userPw2 != ''">
-                   <div v-if="!pwCheckFlg2" style="color: red;">비밀번호와 똑같이 입력하세요!</div>
-               </div>
-               <button @click="fnFixPw">비밀번호 수정</button>
-		</div>		
-		<button v-if="!phoneAuthFlg" @click="fnClose()">창 닫기</button>
+		<button v-if="!phoneAuthFlg" @click="fnClose()">닫기</button>
 	</div>
 </body>
 </html>
@@ -58,17 +37,10 @@
 var app = new Vue({
     el: '#app',
     data: {
-    	checkIdFlg: false,
-    	//checkArthFlg: false,
-    	completeFlg: false,
     	inputId: "",
     	phoneNum: "",
    		phoneAuthFlg : false,
 		inputFlg : false,
-    	pwCheckFlg: false,
-    	pwCheckFlg2: false,
-    	userPw: "",
-    	userPw2: "",
 		inputNumber : "",	// 핸드폰 번호 입력
 		inputNumber1 : "",	// 인증번호 입력
 		timer : "",			// 인증시간 표시
@@ -92,59 +64,6 @@ var app = new Vue({
 			if(this.inputNumber1.length > 6){
 				this.inputNumber1 =  this.inputNumber1.slice(0, 6);
 			}
-		},
-        fnSearchId: function() {
-            var self = this;
-	        var nparmap = {userId : self.inputId};
-	        $.ajax({
-	            url:"check.dox",
-	            dataType:"json",
-	            type: "POST", 
-	            data: nparmap,
-	            success: function(data) {
-	            	if(data.result == "success") {
-	            		alert("없는 아이디입니다!");
-	            		self.checkIdFlg = false;
-	            	} else {
-	            		alert("있는 아이디입니다!");
-	            		self.checkIdFlg = true;
-	            		console.log(data);
-	            		//self.phoneNum = data.phone;
-	            	}
-	            }
-	        });
-		},
-        fnCheck: function(flg) {
-			var self = this;
-			var regPwd = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
-           	if(flg == 'pw1') {
-	            if(regPwd.test(self.user.userPw)) {
-					self.pwCheckFlg = true;
-	            } else {
-	            	self.pwCheckFlg = false;
-	            }
-           	} else if(flg == 'pw2') {
-	            if(self.user.userPw != self.user.userPw2) {
-					self.pwCheckFlg2 = false;
-	            } else {
-	            	self.pwCheckFlg2 = true;
-	            }
-           	}
-		},
-		fnFixPw: function() {
-			var self = this;
-	        var nparmap = {userId: self.inputId, userPw : self.userPw};
-	        $.ajax({
-	            url:"changePw.dox",
-	            dataType:"json",
-	            type: "POST", 
-	            data: nparmap,
-	            success: function(data) {
-	            	alert("비밀번호 변경 성공!");
-	            	window.close();
-	            }
-	        });
-			
 		},
 		//문자 인증받기 
 		fnSms : function() {
@@ -222,19 +141,18 @@ var app = new Vue({
 		    }
 		    if (self.number == self.inputNumber1) {
 		        alert("인증되었습니다.");
-		        self.completeFlg = true;
-		        self.phoneAuthFlg = false;
-		        /* if (window.opener && !window.opener.closed) {
+		       
+		        if (window.opener && !window.opener.closed) {
 		            try {
 		                await new Promise(resolve => setTimeout(resolve, 500)); // 예시: 500ms 동안 대기
-		                window.opener.location.href = "/user-login.do";	// 메인 페이지 URL로 변경
+		                window.opener.location.href = "/user-join.do";	// 메인 페이지 URL로 변경
 		                window.close();
 		            } catch (error) {                
 		                console.error("부모 창을 열 수 없습니다:", error);
 		            }
 		        } else {
 		            alert("부모 창이 닫혀있거나 유효하지 않습니다.");
-		        } */
+		        }
 		    } else {
 		        alert("인증번호 다시 확인 부탁드립니다.");
 		    }

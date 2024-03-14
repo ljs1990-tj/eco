@@ -26,8 +26,6 @@ public interface ProductMapper {
 
 	void insertProduct(HashMap<String, Object> map); // 제품 추가
 	
-	void insertProduct(HashMap<String, Object> map); // 제품 추가
-	
 	void insertCart(HashMap<String, Object> map); //제품 장바구니 추가
 	
 	List<Product> selectReview(HashMap<String, Object> map); // 상품 상세정보 리뷰불러오기
