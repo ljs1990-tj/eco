@@ -85,6 +85,7 @@
 	                    <nav class="header__menu">
 	                        <ul>
 	                        	<li class="active"><a href="/main.do">Home</a></li>
+<<<<<<< HEAD
 	                            <li>카테고리
 	                              <ul class="header__menu__dropdown">
 	                                  <li><a href="javascript:;">유기농</a></li>
@@ -184,6 +185,106 @@
 	        	var self = this;
 	        	if(self.userId != "") {
 		        	$.pageChange("/cart/list.do", {userId: self.userId});
+=======
+	                            <li><a>카테고리</a>
+	                              <ul class="header__menu__dropdown">
+	                                  <li><a href="javascript:;">유기농</a></li>
+	                                  <li><a href="javascript:;">비건</a></li>
+	                                  <li><a href="javascript:;">글루텐-프리</a></li>
+	                                  <li><a href="javascript:;">로컬푸드</a></li>
+	                              </ul>
+	                          	</li>
+	                            <li><a href="javascript:;">1:1 매칭</a></li>
+	                            <li><a href="javascript:;">식단관리</a></li>
+	                            <li><a href="/boardList.do">커뮤니티</a></li>
+	                        </ul>
+	                    </nav>
+	                </div>
+	                <div class="col-lg-3">
+	                    <div class="header__cart">
+	                        <ul>
+	                            <li><a href="javascript:;" @click="fnFavorite"><i class="fa fa-heart"></i> <span>0</span></a></li>
+	                            <li><a href="javascript:;" @click="fnMoveCart"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
+	                        </ul>
+	                        <div class="header__cart__price"></div>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="item__open">
+	                <i class="fa fa-bars"></i>
+	            </div>
+	        </div>
+	    </header>
+    </div>
+    <!-- Header Section End -->
+    
+</body>
+</html>
+<script type="text/javascript">
+	var app = new Vue({
+	    el: '#appHeader',
+	    data: {
+	    	userId: "${userId}",
+	    	email: "",
+	    	loginFlg: false
+	    }
+	    , methods: {
+	    	fnList: function() {
+	            var self = this;
+	            var nparmap = {userId: self.userId};
+	            $.ajax({
+	                url:"check.dox",
+	                dataType:"json",
+	                type: "POST",
+	                data: nparmap,
+	                success: function(data) {
+	                	
+	                }
+	            });
+	        },
+	        fnLogin: function() {
+	        	var self = this;
+	        	if(self.userId == "") {
+	        		self.logFlg = false;
+	        	} else {
+	        		self.loginFlg = true;
+	        		var nparmap = {userId: self.userId};
+	        		$.ajax({
+		                url:"check.dox",
+		                dataType:"json",
+		                type: "POST",
+		                data: nparmap,
+		                success: function(data) {
+		                	if(data.result == 'fail') {
+		                		self.email = data.user.email;
+		                	}
+		                }
+		            });
+	        	}
+	        },
+	        fnLogout: function() {
+	        	var self = this;
+	        	if(confirm("정말로 로그아웃하나요?")) {
+	        		self.logFlg = false;
+	        		location.href = "/user-login.do";
+	        	} else {
+	        		return;
+	        	}
+	        },
+	        fnFavorite: function() {
+	        	var self = this;
+	        	if(self.userId != "") {
+	        		//
+	        	} else {
+					alert("로그인 후 입장 가능합니다.");
+	        	}
+	        	
+	        },
+	        fnMoveCart: function() {
+	        	var self = this;
+	        	if(self.userId != "") {
+		        	$.pageChange("/cartList.do", {userId: self.userId});
+>>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
 	        	} else {
 					alert("로그인 후 입장 가능합니다.");
 	        	}

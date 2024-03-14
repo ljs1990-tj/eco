@@ -58,19 +58,25 @@ button:hover {
 
 <body>
 	<div id="app">
+		<tr>
+			<th>게시판 선택</th>
+				<td><select v-model="kind">
+					<option value="1">공지사항</option>
+					<option value="2">레시피게시판</option>
+					<option value="3">문의게시판</option>
+				</select></td>
+		</tr>
 		<div>
 			제목 : <input type="text" v-model="title">
 		</div>
 		<div>
 			내용 :
-			<textarea row="30" cols="60" v-model="contents"></textarea>		
 			<div id="editor" v-model="contents" style="height: 300px; "></div>
 			<!-- v-model="contents" 이거 안먹힘 -->
 		</div>		
 		<button @click="fnWrite">수정완료</button>
-		{{boardNo}}
+		{{kind}}
 	</div>
-
 </body>
 </html>
 <script type="text/javascript">
@@ -80,6 +86,7 @@ button:hover {
 			boardNo : "${map.boardNo}",
 			title : "",
 			contents : "",
+			kind : "${map.kind}"
 		},
 		methods : {
 			fnSelectBoard: function(){
@@ -103,7 +110,8 @@ button:hover {
 				var nparmap = {
 					title : self.title,
 					contents : self.contents,
-					boardNo : self.boardNo
+					boardNo : self.boardNo,
+					kind : self.kind
 				};
 				$.ajax({
 					url : "boardEdit.dox",
@@ -136,6 +144,7 @@ button:hover {
 	                ]
 	            }
 	        });
+
 	        // 에디터 내용이 변경될 때마다 Vue 데이터를 업데이트
 	        quill.on('text-change', function() {
 	            app.contents = quill.root.innerHTML;

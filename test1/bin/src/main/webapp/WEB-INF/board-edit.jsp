@@ -70,7 +70,6 @@ button:hover {
 		<button @click="fnWrite">수정완료</button>
 		{{boardNo}}
 	</div>
-
 </body>
 </html>
 <script type="text/javascript">

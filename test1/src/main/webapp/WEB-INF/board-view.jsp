@@ -68,21 +68,27 @@ button:hover {
 				<th>내용</th> 
 				<td>
 					<template v-if="kind == '2'">
-						<img alt="adasdasda" src="../img/recipe1.jpg" width="150px">
+						<template  v-for="item in fileList">
+							<template v-if="item.kind == 2">
+					    		<img :src="item.path" alt="" width="150px">
+							</template>
+						</template>
 					</template>
 					<span v-html="info.contents">
 						{{info.contents}}
 					</span>
 				</td>
 			</tr>
+			
 		</table>
-	<!-- <div v-if="info.userId == sessionId || sessionStatus == 'A'">
-			<button @click="fnRemove">삭제</button>
-		</div> -->
-		<div>
-			<button @click="fnEdit">수정</button>
+		<div v-if="info.userId == userId || userType == 'A'">
 			<button @click="fnDelete">삭제</button>
+			<button @click="fnEdit">수정</button>
+		</div> 
+		<div>
+			<!-- <button @click="fnDelete">삭제</button> -->
 			<button @click="fnList">목록으로 가기</button>
+			
 		</div>
 	</div>
 </body>
@@ -93,8 +99,10 @@ var app = new Vue({
     data: {
     	boardNo : "${map.boardNo}",
     	info : {},
-    	userId : "${userId}"
-    	
+    	userId : "${userId}",
+    	kind: "${map.kind}",
+    	userType : "${userType}",
+    	fileList : []
     }   
     , methods: {
     	fnView : function(){
@@ -107,12 +115,14 @@ var app = new Vue({
                 data : nparmap,
                 success : function(data) { 
                 	self.info = data.info;
+                	// 3. self.fileList에 data에 있는 fileList를 넣기
+                	self.fileList = data.fileList;
 	                }
 	            }); 
     	    },
 			fnDelete : function(){
 				var self = this;
-				if (!confirm("삭제할거냐")) {
+				if (!confirm("삭제하실")) {
 					return;
 				}
 				var nparmap = {
@@ -136,17 +146,34 @@ var app = new Vue({
 				});
 			},
 			fnList : function(){
-				location.href = "/boardList.do";
+				var self = this;
+				$.pageChange("/boardList.do", { kind : self.kind });
 			},
 			fnEdit : function(){
 				var self = this;
-				$.pageChange("/boardEdit.do", { boardNo : self.boardNo });
+				$.pageChange("/boardEdit.do", { boardNo : self.boardNo, kind : self.kind });
 			}
-
+           /*  fnFileList: function() {
+            	var self = this;
+            	var nparmap = {
+            			kind: self.kind
+                    };
+                    $.ajax({
+                        url: "boardFile.dox",
+                        dataType: "json",
+                        type: "POST",
+                        data: nparmap,
+                        success: function(data) {
+                        	console.log(data);
+                        	self.fileList= data.boardFile;
+                        }
+                    });
+            }, */
         },
 		created : function() {
 			var self = this;
 			self.fnView();
+		//	self.fnFileList();
 		}
 	});	
 </script>

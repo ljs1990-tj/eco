@@ -116,10 +116,13 @@
 			<div class="product-grid" >
 				 <div class="product" v-for="item in productlist">
 				 <template  v-for="item2 in filelist" v-if="item.itemNo == item2.itemNo">
-				 
 				 	<template id="item2.fileNo" @click="fnNext(item2.fileNo)">
 				    <img :src="item2.filePath+item2.fileName" alt="">
 				    </template>
+<<<<<<< HEAD
+=======
+				  </template>
+>>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
 				    </template>
 				    <p><a href="javascript:;" @click="fnDetailView(item.itemNo)">{{item.itemName}}</a></p>
 				    <p class="price" v-if="item.sRate!=0"><del>₩{{item.price}}</del><br>할인가₩{{(item.price)*((100-item.sRate)/100)}}<br> 할인율{{item.sRate}}%</p>

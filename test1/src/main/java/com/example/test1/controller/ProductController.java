@@ -21,12 +21,12 @@ public class ProductController {
 	@Autowired
 	ProductService productService;
 	
-	// 유기농 제품 페이지
-	@RequestMapping("/productOrganic.do")
+	// 상품 페이지
+	@RequestMapping("/productList.do")
 	public String productOrganic(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
 			throws Exception {
 		request.setAttribute("map", map);
-		return "/product-organic";
+		return "/product-list";
 	}
 	
 	// 상품 상세 페이지
@@ -42,6 +42,14 @@ public class ProductController {
 			throws Exception {
 		request.setAttribute("map", map);
 		return "/product-add-farmer";
+	}
+	
+	// 상품 문의 페이지
+	@RequestMapping("/productQuestion.do")
+	public String productQuestion(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
+			throws Exception {
+		request.setAttribute("map", map);
+		return "/product-qa";
 	}
 	
 	// 제품 리스트
@@ -94,6 +102,15 @@ public class ProductController {
 	public String addProduct(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = productService.addProduct(map);
+		return new Gson().toJson(resultMap);
+	}
+	
+	//장바구니 추가
+	@RequestMapping(value = "/addCart.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String addCart(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = productService.addCart(map);
 		return new Gson().toJson(resultMap);
 	}
 }

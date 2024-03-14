@@ -8,13 +8,14 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/user-myPage.css">
     <title>마이 페이지</title>
 </head>
 <style>
 </style>
-<body>
+<body class="myPagebackground">
     <div id="app">
-        <div>
+        <div class="myPageViewContainer">
             <fieldset>
                 <ul>
                     <li>
@@ -54,25 +55,26 @@
 					</li>
 					<li>
 						<span>핸드폰 번호: </span>
-						<div>
+						<div class="inline-input">
 							 <input type="text" v-model="user.phone1"  maxlength="3" @input="allowOnlyNumbers($event, 'phone1')">-
        						<input type="text" v-model="user.phone2"  maxlength="4" @input="allowOnlyNumbers($event, 'phone2')">-
         					<input type="text" v-model="user.phone3"  maxlength="4" @input="allowOnlyNumbers($event, 'phone3')">    
-  
 						</div>
 					</li>
                     <li>
                         <span>이메일: </span>
-                        <input type="text" class="join-input email-input" v-model="email1" placeholder="이메일 아이디 입력">
-                        <span>@</span>
-                        <input type="text" class="join-input email-input" v-model="email2" placeholder="직접 입력">
-                        <select v-model="email3" @change="selectEmail">
-                            <option value="">직접 입력</option>
-                            <option value="gmail.com">gmail.com</option>
-                            <option value="naver.com">naver.com</option>
-                            <option value="kakao.com">kakao.com</option>
-                            <option value="hanmail.net">hanmail.net</option>
-                        </select>
+                        <div class="inline-input email-group">
+                            <input type="text" class="join-input email-input" v-model="email1" placeholder="이메일 아이디 입력">
+                            <span>@</span>
+                            <input type="text" class="join-input email-input" v-model="email2" placeholder="직접 입력">
+                            <select v-model="email3" @change="selectEmail">
+                                <option value="">직접 입력</option>
+                                <option value="gmail.com">gmail.com</option>
+                                <option value="naver.com">naver.com</option>
+                                <option value="kakao.com">kakao.com</option>
+                                <option value="hanmail.net">hanmail.net</option>
+                            </select>
+                        </div>
                     <li>
                         <span>생년월일: </span>
                         <input type="text" v-model="user.birth" placeholder="ex)19910101" @input="formatBirthDate">

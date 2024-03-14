@@ -18,4 +18,25 @@ public class Product {
 	private String code;
 	private String kind;
 	private int cellCnt;
+	
+	//ECO_ADMIN_REVIEW
+	private int reviewNo;
+	private String userId;
+	private String rContents;
+	private double score;
+	private String deleteYn;
+	private String deleteDate;
+	
+	private String name;
+	private String hideName;
+	private String uDateTimeNew; //UDATETIEM YYYY/MM/DD로 불러올려고 씀
+	
+	//ECO_ADMIN_QA
+	private int boardNo;
+	private String title;
+	private String qaContents;
+	private String secretYn;
+	private String qaUdate;
+	
+	
 }
