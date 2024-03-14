@@ -65,7 +65,7 @@
 </style>
 <body>
 	<!-- header -->
-	<%@ include file="layout/header.jsp"%>
+	<%@ include file="header.jsp"%>
 	<div id="app">
 		<fieldset class="con-login">
 			<div class="login-title" style="margin: 10px;">로그인</div>
@@ -89,7 +89,7 @@
 		</fieldset>
 	</div>
 	<!-- footer -->
-	<%@ include file="layout/footer.jsp"%>
+	<%@ include file="footer.jsp"%>
 </body>
 <script type="text/javascript">
 var app = new Vue({

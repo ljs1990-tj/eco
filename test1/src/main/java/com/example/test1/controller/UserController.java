@@ -32,7 +32,7 @@ public class UserController {
 	@RequestMapping("/header.do")
 	public String header(Model model) throws Exception {
 
-		return "/layout/header";
+		return "/header";
 	}
 
 	@RequestMapping("/user-join.do")
