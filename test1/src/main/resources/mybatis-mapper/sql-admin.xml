@@ -30,24 +30,7 @@
 		ECO_PRODUCT
 		WHERE ITEM_NO = #{itemNo}
 	</select>
-	
-	<update id="updateProduct" parameterType="hashmap">
-		UPDATE ECO_PRODUCT
-		SET
-			ITEM_NAME = #{name},
-			PRICE = #{price},
-			S_RATE = #{Srate},
-			P_RATE = #{Prate},
-			CONTENTS = #{contents},
-			TRANS_INFO =#{trans},
-			SELLYN = #{sellYN},
-			UDATETIME = NOW(),
-			CNT = #{cnt},
-			CODE = #{code}
-		WHERE ITEM_NO = #{itemNo}
-	</update>
 
-	
 	<select id="selectProductFileList" parameterType="hashmap" resultType="com.example.test1.model.ProductFile">
 		SELECT P.*,
 			FILEPATH || FILENAME AS PATH
@@ -131,9 +114,6 @@
         	AND NAME LIKE CONCAT('%', #{keyword}, '%')
         </if>
 	</select>
-	
-	
-	
 	<select id="selectAdminUserInfo" parameterType="hashmap" resultType="com.example.test1.model.User">
 		SELECT *
 		FROM ECO_USER
@@ -152,8 +132,4 @@
 			UDATETIME = NOW()
 		WHERE USERID = #{userId}
 	</update>
-	
-	
-	
-	
 </mapper>

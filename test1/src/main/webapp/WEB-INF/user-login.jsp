@@ -65,7 +65,7 @@
 </style>
 <body>
 	<!-- header -->
-	<%@ include file="layout/header.jsp"%>
+	<%@ include file="header.jsp"%>
 	<div id="app">
 		<fieldset class="con-login">
 			<div class="login-title" style="margin: 10px;">로그인</div>
@@ -89,7 +89,7 @@
 		</fieldset>
 	</div>
 	<!-- footer -->
-	<%@ include file="layout/footer.jsp"%>
+	<%@ include file="footer.jsp"%>
 </body>
 <script type="text/javascript">
 var app = new Vue({
@@ -123,7 +123,7 @@ var app = new Vue({
                 	if(data.result == "success") {
                 		self.resultMessage = "";
                 		alert(data.message);
-                		$.pageChange("/main.do", {});
+                		$.pageChange("/header.do", {});
                 	} else if(data.result == "fail") {
                 		//self.resultMessage = "없는 아이디 또는 비밀번호입니다!";
                 		self.resultMessage = data.message;

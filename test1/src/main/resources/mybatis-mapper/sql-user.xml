@@ -3,14 +3,18 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.test1.mapper.UserMapper">
+
 	<!-- 유저 아이디 존재 확인 -->
+
 	<select id="selectUser" parameterType="hashmap"
 		resultType="com.example.test1.model.User">
 		SELECT *
 		FROM ECO_USER
 		WHERE USERID = #{userId}
 	</select>
+
 	<!-- 유저 회원가입 -->
+
 	<insert id="insertUser" parameterType="hashmap">
 		INSERT INTO ECO_USER
 		VALUES
@@ -20,31 +24,30 @@
 		#{eventYn}, 0, 0, 0,
 		'U', NOW(), NOW(), NOW(), DATE_ADD(NOW(), INTERVAL 3 MONTH))
 	</insert>
+
 	<!-- 로그인 카운트 증가 -->
+
 	<update id="updateLoginCnt" parameterType="hashmap">
 		UPDATE ECO_USER
 		SET
 			LOGINCNT = LOGINCNT + 1
 		WHERE USERID = #{userId}
 	</update>
+
 	<!-- 로그인 카운트 초기화 -->
+
 	<update id="updateLoginCnt2" parameterType="hashmap">
 		UPDATE ECO_USER
 		SET
 			LOGINCNT = 0
 		WHERE USERID = #{userId}
 	</update>
-
+	
 	<!-- 회원가입으로 주소등록 -->
 	<insert id="insertUserAddr" parameterType="hashmap">
 		INSERT INTO ECO_ADDR
-		(USERID, ADDR, ADDRDETAIL, ZIPCODE, NAME, PHONE, ADDRREQUEST,
-		ADDRNAME)
-		VALUES(#{userId}, #{addr}, #{addrDetail}, #{zipCode},
-		#{name}, #{phone}, NULL, #{addrName})
-			(USERID, ADDR, ADDRDETAIL, ZIPCODE, NAME, PHONE, ADDRREQUEST, ADDRNAME)
-		VALUES
-			(#{userId}, #{addr}, #{addrDetail}, #{zipCode}, #{name}, #{phone}, NULL, #{addrName})
+		(USERID, ADDR, ADDRDETAIL, ZIPCODE, NAME, PHONE, ADDRREQUEST, ADDRNAME)
+		VALUES(#{userId}, #{addr}, #{addrDetail}, #{zipCode}, #{name}, #{phone}, NULL, #{addrName})
 	</insert>
 
 	<!-- 유저 마이페이지 수정 -->
@@ -55,7 +58,6 @@
 			PHONE1 = #{phone1}, PHONE2 = #{phone2}, PHONE3 = #{phone3}, EMAIL = #{email}, BIRTH = #{birth}
 		WHERE USERID = #{userId}
 	</update>
-
 
 	<!-- 유저 마이페이지 주소록 호출 및 개수제한 -->
 	<select id="selectAddr" parameterType="hashmap"
@@ -69,20 +71,20 @@
 		) AS user_counts ON ECO_ADDR.USERID = user_counts.USERID
 		WHERE ECO_ADDR.USERID = #{userId}
 	</select>
+	
 	<!-- 유저 마이페이지 주소록 삭제 -->
 	<delete id="deleteAddr" parameterType="hashmap">
 		DELETE FROM ECO_ADDR
 		WHERE ADDRNO = #{addrNo}
 	</delete>
+	
 	<!-- 유저 마이페이지 주소록 추가 -->
 	<insert id="insertMyPageAddrAdd" parameterType="hashmap">
-
 		INSERT INTO
 		ECO_ADDR VALUES(NULL, #{userId}, #{addr}, #{addrDetail}, #{zipCode},
 		#{name}, #{phone}, #{addrRequest}, #{addrName})
-		INSERT INTO ECO_ADDR
-			VALUES(NULL, #{userId}, #{addr}, #{addrDetail}, #{zipCode}, #{name}, #{phone}, #{addrRequest}, #{addrName})
 	</insert>
+	
 	<!-- 유저 마이페이지 주소록 호출 -->
 	<select id="selectAddrAddNo" parameterType="hashmap"
 		resultType="com.example.test1.model.Addr">
@@ -90,6 +92,7 @@
 		FROM ECO_ADDR
 		WHERE ADDRNO = #{addrNo}
 	</select>
+	
 	<!-- 유저 마이페이지 주소록 수정 -->
 	<update id="updateAddr" parameterType="hashmap">
 		UPDATE ECO_ADDR

@@ -59,8 +59,7 @@ a {
 <script type="text/javascript">
 	var app = new Vue({
 		el : '#app',
-		data : {
-		},
+		data : {},
 		methods : {
 			// 팝업 창을 여는 로직을 여기에 작성
 			openCertificationPopup : function() {
@@ -87,7 +86,7 @@ a {
 		},
 		created : function() {
 			var self = this;
-		
+
 		}
 	});
 </script>

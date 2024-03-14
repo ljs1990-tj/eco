@@ -16,8 +16,8 @@ import com.example.test1.dao.CartService;
 import com.google.gson.Gson;
 
 @Controller
-public class CartController { 
-	
+public class CartController {
+
 	@Autowired
 	CartService cartService;
 	
@@ -73,4 +73,3 @@ public class CartController {
 		}
 	
 }
-

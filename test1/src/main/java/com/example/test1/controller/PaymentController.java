@@ -17,24 +17,22 @@ import com.siot.IamportRestClient.response.Payment;
 @RestController
 public class PaymentController {
 
+	@Value("${iamport.key}")
+	private String restApiKey;
+	@Value("${iamport.secret}")
+	private String restApiSecret;
 
-    @Value("${iamport.key}")
-    private String restApiKey;
-    @Value("${iamport.secret}")
-    private String restApiSecret;
+	private IamportClient iamportClient;
 
-    private IamportClient iamportClient;
+	@PostConstruct
+	public void init() {
+		this.iamportClient = new IamportClient(restApiKey, restApiSecret);
+	}
 
-    @PostConstruct
-    public void init() {
-        this.iamportClient = new IamportClient(restApiKey, restApiSecret);
-    }
-
-    @PostMapping("/verifyIamport/{imp_uid}")
-    public IamportResponse<Payment> paymentByImpUid(@PathVariable("imp_uid") String imp_uid) throws IamportResponseException, IOException {
-        return iamportClient.paymentByImpUid(imp_uid);
-    }
-
-    
+	@PostMapping("/verifyIamport/{imp_uid}")
+	public IamportResponse<Payment> paymentByImpUid(@PathVariable("imp_uid") String imp_uid)
+			throws IamportResponseException, IOException {
+		return iamportClient.paymentByImpUid(imp_uid);
+	}
 
 }

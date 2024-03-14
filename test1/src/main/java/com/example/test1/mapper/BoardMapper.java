@@ -49,4 +49,3 @@ public interface BoardMapper {
 	Comment selectAdminComment(HashMap<String, Object> map); // 문의글에 관리자가 남긴 코멘트 출력 
 }
 
-

@@ -62,15 +62,20 @@ button:hover {
 
 <body>
 	<div id="app">
-	
 		<tr>
 			<th>게시판 선택</th>
 			<td>
 				<select v-model="kind">
-					<option value="1">공지사항</option><!-- 어드민만 나오게 -->
+					<option value="1" v-if="userType == 'A'">공지사항</option><!-- 어드민만 나오게 -->
 					<option value="2">레시피게시판</option><!-- 글쓰기 누르면 사진뜨게 -->
+					<option value="3">문의게시판</option>
 				</select>
 			</td>
+			<td><select v-model="kind">
+					<option value="1">공지사항</option>
+					<option value="2">레시피게시판</option>
+					<option value="3">문의게시판</option>
+			</select></td>
 		</tr>
 		<div>
 			제목 : <input type="text" v-model="title">
@@ -84,7 +89,7 @@ button:hover {
 		<tr>
 			<td width="30%">설명에 들어갈 이미지 : </td>
 			<td width="70%">
-			<input type="file" id="file2" name="file2" accept=".jpg,.png,.gif"></td>
+			<input type="file" id="file2" name="file2" accept=".jpg,.png,.gif" multiple></td>
 		</tr>
 		</div>
 		<!-- <tr>
@@ -94,15 +99,18 @@ button:hover {
 		<div>
 			내용 :
 			<!-- <textarea row="30" cols="60" v-model="contents"></textarea> 대신 vue-editor 코드 작성 가능-->
-			 <div id="editor" v-model="contents" style="height: 300px; "></div>
+			<vue-editor v-model="contents"></vue-editor>
 		</div>
 		<button @click="fnWrite">작성완료</button>
+	<!-- 	<button @click="fnList">목록으로 가기</button> -->
 		<!-- {{userId}} -->
 	</div>
 	
 </body>
 </html>
 <script type="text/javascript">
+Vue.use(Vue2Editor);
+const VueEditor = Vue2Editor.VueEditor;
 	var app = new Vue({
 		el : '#app',
 		data : {
@@ -110,15 +118,17 @@ button:hover {
 			userId : "${userId}",//변수선언
 			kind : "${map.kind}",//컨트롤러에서 가져온 map꺼내서 위에서 사용
 			title : "${title}",
-			contents : "${contents}"
+			contents : "${contents}",
+			userType : "${userType}"
 		}
-		
+		,
+		components: {VueEditor}
 		,
 		methods : {
 			fnWrite : function() {
 				var self = this;
 	            if(self.title == "") {
-	            	alert("빈칸입니다");
+	            	alert("제목이 빈칸입니다");
 	            	return;
 	            }
 				var nparmap = {
@@ -135,20 +145,32 @@ button:hover {
 					success : function(data) {
 						if (data.result == "success") {
 							alert("작성되었습니다");
-							
-	                		var formMain = new FormData();
+	                		var files = $("#file1")[0].files;
+                			var formMain = new FormData();
+                			formMain.append( "file1",  files[0]);
+                            formMain.append("boardNo", data.boardNo);
+                            self.uploadMain(formMain);
 	                		
-	                        formMain.append( "file1",  $("#file1")[0].files[0]);
-	                        formMain.append("itemNo", data.boardNo);
-	                        self.uploadMain(formMain);
+	                		var files2 = $("#file2")[0].files;
+	                        for(var y =0 ; y<files2.length;y++){
+	                        	var formContents = new FormData();
+	                        	 formContents.append("file2",files2[y]);
+	                        	 formContents.append("boardNo", data.boardNo);
+	                             self.uploadContents(formContents);
+	                        }
+	                        setTimeout(() => {
+	                        	$.pageChange("/boardList.do", {});
+	                        }, 1000);
 	                        
-	                        var formContents = new FormData();
-	                        formContents.append("file2",$("#file2")[0].files[0]);
-	                        formContents.append("itemNo", data.boardNo);
-	                        self.uploadContents(formContents);
-	                        
-	                        
-	                        // $.pageChange("/boardList.do", {});
+							//게시글 작성하되 pk값 리턴 받기 data.boardNo = pk
+							//console.log(data.boardNo);
+							
+/* 							var form = new FormData();
+   	        				form.append( "file1",  $("#file1")[0].files[0] );
+   	     					form.append( "boardNo",  data.boardNo); // 임시 pk
+       						self.upload(form);   */
+       						
+							$.pageChange("/boardList.do", {});
 							//location.href = "/boardList.do"
 							
 						} else {
@@ -156,56 +178,23 @@ button:hover {
 						}
 					}
 				});
-				
-			},
-			uploadMain : function(form){
-		    	var self = this;
-		         $.ajax({
-		             url : "/boardFileUploadMain.dox"
-		           , type : "POST"
-		           , processData : false
-		           , contentType : false
-		           , data : form
-		           , success:function(response) { 
-		        	   
-		           }	           
-		       });
-			},
-			
-			uploadContents : function(form){
-		    	var self = this;
-		         $.ajax({
-		             url : "/boardFileUploadContents.dox"
-		           , type : "POST"
-		           , processData : false
-		           , contentType : false
-		           , data : form
-		           , success:function(response) { 
-		        	   
-		           }	           
-		       });
-			}
-		},
-		mounted: function () {
-	        // Quill 에디터 초기화
-	        var quill = new Quill('#editor', {
-	            theme: 'snow',
-	            modules: {
-	                toolbar: [
-	                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-	                    ['bold', 'italic', 'underline'],
-	                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-	                    ['link', 'image'],
-	                    ['clean']
-	                ]
-	            }
-	        });
+			}/* ,
+			upload : function(form) {
+				var self = this;
+				console.log(form);
+				$.ajax({
+					url : "/fileUpload.dox" //get 방식으로 담겨서 넘김 ?file1=file&idx=12324
+					,
+					type : "POST",
+					processData : false,
+					contentType : false,
+					data : form,
+					success : function(response) {
 
-	        // 에디터 내용이 변경될 때마다 Vue 데이터를 업데이트
-	        quill.on('text-change', function() {
-	            app.contents = quill.root.innerHTML;
-	        });
-	    },
+					}
+				});
+			} */
+		},
 		created : function() {
 			var self = this;
 		}
