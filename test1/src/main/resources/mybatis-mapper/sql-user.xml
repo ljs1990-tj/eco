@@ -116,4 +116,10 @@
 	    SET ISDEFAULT = 'Y'
 	    WHERE ADDRNO = #{addrNo}
 	</update>
+	<!-- 회원을 삭제하고 DELETE_DATE 열에 현재 날짜와 삭제 예정 기간을 추가하는 쿼리 -->
+	<delete id="deleteUser" parameterType="hashmap">
+		DELETE FROM ECO_USER_DELETE WHERE USERID = #{userId}
+		UPDATE ECO_USER_DELETE SET DELETE_DATE = DATE_ADD(NOW(), INTERVAL 1 MONTH)
+		WHERE USERID = #{userId}
+	</delete>
 </mapper>
