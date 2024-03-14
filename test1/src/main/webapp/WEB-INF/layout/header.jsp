@@ -183,7 +183,7 @@
 	        fnMoveCart: function() {
 	        	var self = this;
 	        	if(self.userId != "") {
-		        	$.pageChange("/cart/list.do", {userId: self.userId});
+		        	$.pageChange("cartList.do", {userId: self.userId});
 	        	} else {
 					alert("로그인 후 입장 가능합니다.");
 	        	}
