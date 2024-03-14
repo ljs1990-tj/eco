@@ -19,7 +19,7 @@
 	
 	<insert id="writeBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="BOARDNO" keyColumn="BOARDNO">
 		INSERT INTO ECO_BOARD
-		VALUES(null, #{title}, #{contents}, #{userId}, 10, 'N', null, #{kind}, 0, NOW(), NOW(), 2500)
+		VALUES(null, #{title}, #{contents}, #{userId}, 0, 'N', null, #{kind}, 0, NOW(), NOW(), 2500)
 	</insert>
 
 
@@ -27,15 +27,19 @@
 		DELETE FROM ECO_BOARD 
 		WHERE BOARDNO = #{boardNo}
 	</delete>
-
+	
 	<update id="boardEdit" parameterType="hashmap">
-		UPDATE ECO_BOARD SET CONTENTS = #{contents}, TITLE = #{title}, KIND = #{kind} 
+		UPDATE ECO_BOARD SET CONTENTS = #{contents}, TITLE = #{title}, KIND = #{kind}, UDATETIME = NOW()  
 		WHERE BOARDNO = #{boardNo}
+	</update>
+
+	<update id="updateHit" parameterType="hashmap">
+		UPDATE ECO_BOARD SET HITS = HITS + 1 WHERE BOARDNO = #{boardNo}
 	</update>
 
 	<insert id="insertBoardImage" parameterType="hashmap">
 		INSERT INTO ECO_BOARD_IMAGE
-		VALUES(null, #{boardNo}, #{filePath}, #{fileName}, #{fileorgName}, #{fileSize}, #{filEtc}, #{kind})
+		VALUES(null, #{boardNo}, #{filePath}, #{fileName}, #{fileorgName}, #{fileSize}, #{fileEtc}, #{kind})
 	</insert>
 
 <!-- 	
@@ -68,7 +72,7 @@
 		UPDATE ECO_BOARD_IMAGE
 		SET BOARDNO = #{boardNo},
 			FILENAME = #{fileName},
-			FILEORGNAME = #{fileOrgName},
+			FILEORGNAME = #{orgName},
 			FILESIZE = #{fileSize},
 			FILEETC = #{fileEtc}
 		WHERE FILENO = #{fileNo}
@@ -156,5 +160,7 @@
 		FROM ECO_COMMENT
 		WHERE BOARDNO = #{boardNo}
 	</select>
+	
+
 	
 </mapper>
