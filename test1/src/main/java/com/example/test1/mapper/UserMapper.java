@@ -27,5 +27,8 @@ public interface UserMapper {
 	Addr selectAddrAddNo(HashMap<String, Object> map); // 유저 마이페이지 주소록 가져오기
 
 	void updateAddr(HashMap<String, Object> map); // 유저 마이페이지 주소록 수정하기
-
+	
+	void updateDefaultAddressToN(HashMap<String, Object> map);//유저 마이페이지 주소록 배송지 N초기화 
+	
+	void updateAddressToDefault(HashMap<String, Object> map);//유저 마이페이지 주소록 배송지 기본으로 설정
 }

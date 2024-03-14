@@ -179,5 +179,33 @@ public class UserServiceimpl implements UserService {
 			}
 			return resultMap;
 		}
+		//유저 마이페이지 주소록 기본배송지 N초기화 및 선택한 번호 기본 배송지
+		@Override
+		public HashMap<String, Object> resetDefaultAddress(HashMap<String, Object> map) {
+			// TODO Auto-generated method stub
+			HashMap<String, Object> resultMap = new HashMap<String, Object>();
+			try {
+				userMapper.updateDefaultAddressToN(map);
+				resultMap.put("result", "success");
+			} catch (Exception e) {
+				resultMap.put("result", "fail");
+				System.out.println(e.getMessage());
+			}
+			return resultMap;
+		}
+		//유저 마이페이지 주소록 배송지 기본으로 설정
+		@Override
+		public HashMap<String, Object> setAddressToDefault(HashMap<String, Object> map) {
+			// TODO Auto-generated method stub
+			HashMap<String, Object> resultMap = new HashMap<String, Object>();
+			try {
+				userMapper.updateAddressToDefault(map);
+				resultMap.put("result", "success");
+			} catch (Exception e) {
+				resultMap.put("result", "fail");
+				System.out.println(e.getMessage());
+			}
+			return resultMap;
+		}
 		 
 }

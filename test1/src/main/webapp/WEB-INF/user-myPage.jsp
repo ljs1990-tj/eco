@@ -7,6 +7,7 @@
 <script src="js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
 <title>마이 페이지</title>
 <style>
     * {
@@ -27,7 +28,7 @@
                         <li><span>이름 : </span>{{user.name}}</li>
                         <li><span>닉네임 : </span>{{user.nickName}}</li>
                         <li><span>성별 : </span>{{user.gender}}</li>
-                        <li><span>핸드폰 번호 : </span>{{user.phone1}} -{{user.phone2}} - {{user.phone3}}</li>
+                        <li><span>핸드폰 번호 : </span>{{user.phone1}} - {{user.phone2}} - {{user.phone3}}</li>
                         <li><span>이메일 : </span>{{user.email}}</li>
                         <li><span>생년월일 : </span>{{user.birth}}</li>
                     </ul>
@@ -52,7 +53,8 @@
                                 <input type="radio" v-model="radio" :value="address.addrNo" :disabled="isPopupOpen">
                             </div>
                             <div style="font-weight: bold;">{{ address.name }}</div>
-                            <div v-if="addrDefault">기본배송지</div>
+                            <!-- 기본 배송지인 경우에만 아래 내용을 표시 -->
+                            <div v-if="address.isDefault === 'Y'">기본 배송지</div>
                             <div>
                                 <span>우편번호: </span> {{ address.zipCode }}
                             </div>
@@ -98,204 +100,224 @@
         <button @click="fnclosePopup()">닫기</button>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
-<script type="text/javascript">
-    function createVueInstance() {
-        return new Vue({
-            el: '#app',
-            data: {
-                user: {
-                    userId: "${userId}",
-                    userPw: "",
-                    userPw2: "",
-                    name: "",
-                    nickName: "",
-                    gender: "",
-                    phone1: "",
-                    phone2: "",
-                    phone3: "",
-                    email: "",
-                    birth: "",
-                    userGrade: "",
-                    point: ""
-                },
-                isPopupOpen: false,
-                addrDefault: false,
-                addrList: [],
-                radio: "",
-                cnt: "",
-                isDefault: "N"
-            },
-            methods: {
-                /* 등급혜택 창 열기 */
-                fnopenPopup: function() {
-                    this.isPopupOpen = true;
-                },
-                /* 등급혜택 창 닫기 */
-                fnclosePopup: function() {
-                    this.isPopupOpen = false;
-                    location.reload(true);
-                },
-                /* 기본배송지 설정  */
-                fndefault: function() {
-                    var self = this;
-                    self.isDefault = 'Y';
-                    var nparmap = {
-                        addrNo: self.radio,
-                        isDefault: self.isDefault
-                    };
-                    console.log(nparmap);
-                    $.ajax({
-                        url: "user-mypage.dox",
-                        dataType: "json",
-                        type: "POST",
-                        data: nparmap,
-                        success: function(data) {
-                            console.log(data);
-                            self.isDefault = 'Y'; // AJAX 요청 성공 후에 값 업데이트
-                        }
-                    });
-                },
-                /* 주소 목록 삭제하기 */
-                deleteSelectedAddresses: function() {
-                    var self = this;
-                    if (self.user.userId == "") {
-                        alert("로그인 후 입장 가능합니다.");
-                        window.location.href = "/user-login.do";
-                    }
-                    if (self.radio == "") { // 변수명 수정: addrNo -> self.radio
-                        alert("삭제할 정보를 선택해 주세요");
-                        return;
-                    }
-                    if (!confirm("주소록을 삭제하겠습니까?")) {
-                        return;
-                    }
-                    $.ajax({
-                        url: "delete-addresses.dox",
-                        dataType: "json",
-                        type: "POST",
-                        data: {
-                            addrNo: self.radio
-                        },
-                        success: function(data) {
-                            // 성공시 부모창 새로고침후 팝업창 닫기
-                            if (data.result == "success") {
-                                location.reload(true);
-                            } else {
-                                alert("다시 시도해주세요");
-                                return;
-                            }
-                        }
-                    });
-                },
-                /* 주소목록 추가하기 */
-                addDefaultAddress: function() {
-                    var self = this;
-                    if (self.addrList.length >= 3) {
-                        alert("주소록은 최대 3개까지만 추가할 수 있습니다.");
-                        return;
-                    }
-                    if (self.user.userId == "") {
-                        alert("로그인 후 입장 가능합니다.");
-                        window.location.href = "/user-login.do";
-                    }
-                    if (!confirm("주소록을 추가하겠습니까?")) {
-                        return;
-                    }
-                    var popup = window.open('/user-myPage-addrAdd.do',
-                        'Certification Popup', 'width=600,height=600');
-
-                },
-                // 주소록값 수정하기
-                updateSelectedAddresses: function() {
-                    var self = this;
-                    if (self.user.userId == "") {
-                        alert("로그인 후 입장 가능합니다.");
-                        window.location.href = "/user-login.do";
-                    }
-                    if (self.radio == "") { // 변수명 수정: addrNo -> self.radio
-                        alert("수정할 정보를 선택해 주세요");
-                        return;
-                    }
-                    if (!confirm("주소록을 수정하겠습니까?")) {
-                        return;
-                    }
-                    console.log(self.radio);
-                    var popup = window.open('/user-myPage-addrUpdate.do?addrNo='
-                        + self.radio, 'addrUpdate Popup', 'width=900,height=900');
-                },
-                /* 개인정보 가져오기 */
-                information: function() {
-                    var self = this;
-                    if (self.user.userId == "") {
-                        alert("로그인 후 입장 가능합니다.");
-                        window.location.href = "/user-login.do";
-                    }
-                    var nparmap = self.user;
-                    $.ajax({
-                        url: "user-mypage.dox",
-                        dataType: "json",
-                        type: "POST",
-                        data: nparmap,
-                        success: function(data) {
-                            console.log(data);
-                            self.user = data.user;
-                        }
-                    });
-                },
-                /* 주소록 가져오기 */
-                getAddress: function() {
-                    var self = this;
-                    if (self.user.userId == "") {
-                        alert("로그인 후 입장 가능합니다.");
-                        window.location.href = "/user-login.do";
-                    }
-                    var nparmap = {
-                        userId: self.user.userId
-                    };
-                    $.ajax({
-                        url: "user-addr.dox",
-                        dataType: "json",
-                        type: "POST",
-                        data: nparmap,
-                        success: function(data) {
-                            console.log(data);
-                            self.addrList = data.addr;
-                            if (data.addr.isDefault == 'Y') {
-                                self.addrDefault = true;
-                            } else {
-                                self.addrDefault = false;
-                            }
-                        }
-                    });
-                },
-                /* 개인정보 수정 페이지 이동 */
-                fnUsermodify: function() {
-                    var self = this;
-                    // 세션 값이 없을 경우 로그인 페이지로 이동
-                    if (!self.user.userId) {
-                        alert("로그인 후 입장 가능합니다.");
-                        window.location.href = "/user-login.do";
-                        return;
-                    }
-                    //패스워드 확인하는 팝업창
-                    var popup = window.open('user-myPage-Password.do',
-                        'Password Popup', 'width=500,height=500');
-                }
-            },
-            created: function() {
-                if (this.user.userId == "") {
-                    alert("로그인 후 입장 가능합니다.");
-                    window.location.href = "/user-login.do";
-                    return;
-                }
-                this.information();
-                this.getAddress();
-            }
-        });
-    }
-
-    createVueInstance();
-</script>
 </body>
 </html>
+<script type="text/javascript">
+	var app = new Vue({
+		el : '#app',
+		data : {
+			user : {
+				userId : "${userId}",
+				userPw : "",
+				userPw2 : "",
+				name : "",
+				nickName : "",
+				gender : "",
+				phone1 : "",
+				phone2 : "",
+				phone3 : "",
+				email : "",
+				birth : "",
+				userGrade : "",
+				point : ""
+			},
+			isPopupOpen : false,
+			addrDefault : false,
+			addrList : [],
+			radio : "",
+			cnt : ""
+		},
+		methods : {
+			/* 등급혜택 창 열기 */
+			fnopenPopup : function() {
+				this.isPopupOpen = true;
+			},
+			/* 등급혜택 창 닫기 */
+			fnclosePopup : function() {
+				this.isPopupOpen = false;
+				location.reload(true);
+			},
+			/* 주소목록 추가하기 */
+			addDefaultAddress : function() {
+				var self = this;
+				if (self.user.userId == "") {
+					alert("로그인 후 입장 가능합니다.");
+					window.location.href = "/user-login.do";
+				}
+				if (self.addrList.length >= 3) {
+					alert("주소록은 최대 3개까지만 추가할 수 있습니다.");
+					return;
+				}
+				if (!confirm("주소록을 추가하겠습니까?")) {
+					return;
+				}
+				var popup = window.open('/user-myPage-addrAdd.do',
+						'Certification Popup', 'width=600,height=600');
+
+			},
+			/* 주소 목록 삭제하기 */
+			deleteSelectedAddresses : function() {
+				var self = this;
+				if (self.user.userId == "") {
+					alert("로그인 후 입장 가능합니다.");
+					window.location.href = "/user-login.do";
+				}
+				if (self.radio == "") { // 변수명 수정: addrNo -> self.radio
+					alert("삭제할 정보를 선택해 주세요");
+					return;
+				}
+				if (!confirm("주소록을 삭제하겠습니까?")) {
+					return;
+				}
+				$.ajax({
+					url : "delete-addresses.dox",
+					dataType : "json",
+					type : "POST",
+					data : {
+						addrNo : self.radio
+					},
+					success : function(data) {
+						// 성공시 부모창 새로고침후 팝업창 닫기
+						if (data.result == "success") {
+							location.reload(true);
+						} else {
+							alert("다시 시도해주세요");
+							return;
+						}
+					}
+				});
+			},
+	
+			// 주소록값 수정하기
+			updateSelectedAddresses : function() {
+				var self = this;
+				if (self.user.userId == "") {
+					alert("로그인 후 입장 가능합니다.");
+					window.location.href = "/user-login.do";
+				}
+				if (self.radio == "") {
+					alert("수정할 정보를 선택해 주세요");
+					return;
+				}
+				if (!confirm("주소록을 수정하겠습니까?")) {
+					return;
+				}
+				console.log(self.radio);
+				var popup = window.open('/user-myPage-addrUpdate.do?addrNo='
+						+ self.radio, 'addrUpdate Popup',
+						'width=900,height=900');
+			},
+			/* 기본배송지 설정 */
+			fndefault: function() {
+			    var self = this;
+			    if (self.user.userId == "") {
+			        alert("로그인 후 입장 가능합니다.");
+			        window.location.href = "/user-login.do";
+			        return;
+			    }
+			    if (self.radio == "") {
+			        alert("설정할 배송지를 선택해주세요.");
+			        return;
+			    }
+			    if (!confirm("기본배송지로 선택하겠습니까?")) {
+			        return;
+			    }
+			    var nparmap = {
+			        userId: self.user.userId
+			    };
+			    // 첫 번째 AJAX 호출: 기본배송지를 'N'으로 초기화
+			    $.ajax({
+			        url: "user-addr-default-reset.dox",
+			        dataType: "json",
+			        type: "POST",
+			        data: nparmap,
+			        success: function(data) {
+			            if (data.result == "success") {
+			                // 두 번째 AJAX 호출: 선택한 주소를 기본배송지로 설정
+			                $.ajax({
+			                    url: "user-addr-default.dox",
+			                    dataType: "json",
+			                    type: "POST",
+			                    data: { addrNo: self.radio },
+			                    success: function(data) {
+			                        if (data.result == "success") {
+			                            alert("기본배송지가 설정되었습니다.");
+			                            location.reload(true);
+			                        } else {
+			                            alert("다시 시도해주세요");
+			                        }
+			                    },
+			                    error: function(xhr, status, error) {
+			                        console.error("두 번째 AJAX 호출 실패: " + error);
+			                        alert("다시 시도해주세요");
+			                    }
+			                });
+			            } else {
+			                alert("다시 시도해주세요");
+			            }
+			        },
+			        error: function(xhr, status, error) {
+			            console.error("첫 번째 AJAX 호출 실패: " + error);
+			            alert("다시 시도해주세요");
+			        }
+			    });
+			},
+			// 사용자 정보 가져오기
+			getUserInfo: function() {
+		        var self = this;
+		        if (self.user.userId == "") {
+		            alert("로그인 후 입장 가능합니다.");
+		            window.location.href = "/user-login.do";
+		        }
+		        var nparmap = self.user;
+		        $.ajax({
+		            url: "user-mypage.dox",
+		            dataType: "json",
+		            type: "POST",
+		            data: nparmap,
+		            success: function(data) {
+		                // 서버로부터 받아온 사용자 정보를 Vue.js 데이터에 할당
+		                self.user = data.user;
+		            }
+		        });
+		    },
+		    // 주소록 가져오기
+		    getAddress: function() {
+		        var self = this;
+		        if (self.user.userId == "") {
+		            alert("로그인 후 입장 가능합니다.");
+		            window.location.href = "/user-login.do";
+		        }
+		        var nparmap = {
+		            userId: self.user.userId
+		        };
+		        $.ajax({
+		            url: "user-addr.dox",
+		            dataType: "json",
+		            type: "POST",
+		            data: nparmap,
+		            success: function(data) {
+		                // 서버로부터 받아온 주소록을 Vue.js 데이터에 할당
+		                self.addrList = data.addr;
+		                // 기본 배송지가 선택된 주소를 맨 위로 이동시키는 코드
+		                var defaultAddressIndex = self.addrList.findIndex(address => address.isDefault === 'Y');
+		                if (defaultAddressIndex !== -1) {
+		                    var defaultAddress = self.addrList.splice(defaultAddressIndex, 1)[0];
+		                    self.addrList.unshift(defaultAddress);
+		                }
+		            }
+		        });
+		    }
+		},
+		created : function() {
+			if (this.user.userId == "") {
+				alert("로그인 후 입장 가능합니다.");
+				window.location.href = "/user-login.do";
+				return;
+			}
+			 this.getUserInfo();
+			 this.getAddress();
+			
+		}
+	});
+</script>

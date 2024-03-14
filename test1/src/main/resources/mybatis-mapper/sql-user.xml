@@ -94,13 +94,26 @@
 		FROM ECO_ADDR
 		WHERE ADDRNO = #{addrNo}
 	</select>
-	
+
 	<!-- 유저 마이페이지 주소록 수정 -->
 	<update id="updateAddr" parameterType="hashmap">
 		UPDATE ECO_ADDR
 		SET
 		ADDRNO = #{addrNo}, USERID = #{userId}, ADDR = #{addr}, ADDRDETAIL = #{addrDetail}, 
 		ZIPCODE = #{zipCode}, NAME = #{name}, PHONE = #{phone}, ADDRREQUEST = #{addrRequest}, 
-		ADDRNAME = #{addrName} ISDEFAULT = #{isDefault} WHERE ADDRNO = #{addrNo}
+		ADDRNAME = #{addrName}, ISDEFAULT = #{isDefault} WHERE ADDRNO = #{addrNo}
+	</update>
+	
+	<!-- 유저 마이페이지 주소록 배송지 N초기화 -->
+	<update id="updateDefaultAddressToN" parameterType="hashmap">
+	    UPDATE ECO_ADDR
+	    SET ISDEFAULT = 'N'
+	    WHERE USERID = #{userId} AND ISDEFAULT = 'Y'
+	</update>
+	<!-- 유저 마이페이지 주소록 배송지 기본배송지 설정 -->
+	<update id="updateAddressToDefault" parameterType="hashmap">
+	    UPDATE ECO_ADDR
+	    SET ISDEFAULT = 'Y'
+	    WHERE ADDRNO = #{addrNo}
 	</update>
 </mapper>
