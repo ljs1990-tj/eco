@@ -14,7 +14,6 @@
 	</select>
 
 	<!-- 유저 회원가입 -->
-
 	<insert id="insertUser" parameterType="hashmap">
 		INSERT INTO ECO_USER
 		VALUES
