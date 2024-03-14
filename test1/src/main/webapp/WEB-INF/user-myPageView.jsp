@@ -128,6 +128,7 @@
                     type: "POST",
                     data: nparmap,
                     success: function (data) {
+                    	console.log(data);
                         self.user = data.user;
                         self.user.userPw = '';
                         self.user.userPw2 = '';
@@ -137,6 +138,10 @@
                     }
                 });
             },
+            selectEmail : function(){
+            	var self = this;
+            	self.email2 = self.email3;
+            }
          	 // 핸드폰 번호 입력 정규식 - 숫자만 허용
 			allowOnlyNumbers: function (event, field) {
 				var self = this;
@@ -256,10 +261,7 @@
                     alert("별명을 입력해 주세요");
                     return;
                 }
-                if (self.user.phone1 || self.user.phone2 || self.user.phone3 == "") {
-                    alert("핸드폰 번호를 입력해 주세요");
-                    return;
-                }
+         
                 if (self.user.email == "") {
                     alert("이메일을 입력해 주세요");
                     return;
