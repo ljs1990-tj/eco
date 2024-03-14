@@ -114,6 +114,7 @@ var app = new Vue({
                 type : "POST", 
                 data : nparmap,
                 success : function(data) { 
+                	console.log(data);
                 	self.info = data.info;
                 	// 3. self.fileList에 data에 있는 fileList를 넣기
                 	self.fileList = data.fileList;
