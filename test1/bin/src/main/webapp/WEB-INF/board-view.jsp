@@ -66,11 +66,22 @@ button:hover {
 			</tr>
 			<tr>
 				<th>내용</th> 
-				<td v-html="info.contents">{{info.contents}}</td>
+				<td>
+					<template v-if="kind == '2'">
+						<template  v-for="item in fileList" v-if="boardNo == item.boardNo">
+							<template v-if="item.kind == 2">
+					    		<img :src="item.path" alt="" width="150px">
+							</template>
+						</template>
+					</template>
+					<span v-html="info.contents">
+						{{info.contents}}
+					</span>
+				</td>
 			</tr>
 			
 		</table>
-	<div v-if="info.userId == userId || userType == 'A'">
+		<div v-if="info.userId == userId || userType == 'A'">
 			<button @click="fnDelete">삭제</button>
 			<button @click="fnEdit">수정</button>
 		</div> 
@@ -90,7 +101,8 @@ var app = new Vue({
     	info : {},
     	userId : "${userId}",
     	kind: "${map.kind}",
-    	userType : "${userType}"
+    	userType : "${userType}",
+    	fileList : []
     }   
     , methods: {
     	fnView : function(){
@@ -108,7 +120,7 @@ var app = new Vue({
     	    },
 			fnDelete : function(){
 				var self = this;
-				if (!confirm("삭제할거냐")) {
+				if (!confirm("삭제하실")) {
 					return;
 				}
 				var nparmap = {
@@ -138,12 +150,28 @@ var app = new Vue({
 			fnEdit : function(){
 				var self = this;
 				$.pageChange("/boardEdit.do", { boardNo : self.boardNo, kind : self.kind });
-			}
-
+			},
+            fnFileList: function() {
+            	var self = this;
+            	var nparmap = {
+            			kind: self.kind
+                    };
+                    $.ajax({
+                        url: "boardFile.dox",
+                        dataType: "json",
+                        type: "POST",
+                        data: nparmap,
+                        success: function(data) {
+                        	console.log(data);
+                        	self.fileList= data.boardFile;
+                        }
+                    });
+            },
         },
 		created : function() {
 			var self = this;
 			self.fnView();
+			self.fnFileList();
 		}
 	});	
 </script>

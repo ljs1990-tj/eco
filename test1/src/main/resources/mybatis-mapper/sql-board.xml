@@ -34,11 +34,86 @@
 	</update>
 
 	<insert id="insertBoardImage" parameterType="hashmap">
-		INSERT INTO ECO_BOARD_IMAGE 
-		VALUES(null, #{boardNo}, #{path}, #{fileName}, #{orgName}, #{fileSize}, #{etc})
+		INSERT INTO ECO_BOARD_IMAGE
+		VALUES(null, #{boardNo}, #{filePath}, #{fileName}, #{fileorgName}, #{fileSize}, #{filEtc}, #{kind})
+	</insert>
+
+<!-- 	
+	<select id="selectBoardFileInfo" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
+		SELECT P.*,
+			FILEPATH || FILENAME AS PATH
+		FROM ECO_PRODUCT_IMAGE P
+		WHERE KIND = 1
+	</select>
+	
+	상품 상세보기에서 이미지 불러오기 
+	<select id="selectBoardContentsFileInfo" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
+		SELECT P.*,
+			FILEPATH || FILENAME AS PATH
+		FROM ECO_PRODUCT_IMAGE P
+		WHERE KIND = 2
+		AND ITEMNO = #{itemNo}
+	</select>
+	
+	상품 상세보기 화면에 상품 상세 정보에 보여줄 이미지 불러오기 
+	<select id="selectBoardDetailFileInfo" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
+		SELECT P.*,
+			FILEPATH || FILENAME AS PATH
+		FROM ECO_PRODUCT_IMAGE P
+		WHERE KIND = 3
+		AND ITEMNO = #{itemNo}
+	</select> -->
+	
+	<update id="updateboardMainFile" parameterType="hashmap">
+		UPDATE ECO_BOARD_IMAGE
+		SET BOARDNO = #{boardNo},
+			FILENAME = #{fileName},
+			FILEORGNAME = #{fileOrgName},
+			FILESIZE = #{fileSize},
+			FILEETC = #{fileEtc}
+		WHERE FILENO = #{fileNo}
+	</update>
+	
+	<select id="selectBoardFileList" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
+		SELECT B.*, CONCAT(FILEPATH, FILENAME) AS PATH
+		FROM ECO_BOARD_IMAGE B
+
+	</select>
+	
+	
+	<select id="selectBoardContentsFileInfo" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
+		SELECT B.*,
+			FILEPATH || FILENAME AS PATH
+		FROM ECO_BOARD_IMAGE B
+		WHERE BOARDNO = #{boardNo}
+	</select>
+	
+	<insert id="insertBoardFile" parameterType="hashmap">
+		INSERT INTO ECO_BOARD_IMAGE
+		VALUES(NULL, #{boardNo}, #{path}, #{fileName}, #{orgName}, #{fileSize}, #{etc}, 1)
 	</insert>
 	
+	<insert id="insertBoardContentsFile" parameterType="hashmap">
+		INSERT INTO ECO_BOARD_IMAGE
+		VALUES(NULL, #{boardNo}, #{path}, #{fileName}, #{orgName}, #{fileSize}, #{etc}, 2)
+	</insert>
 	
+	<delete id="fileDelete" parameterType="hashmap">
+		DELETE FROM ECO_BOARD_IMAGE
+		WHERE BOARDNO = #{boardNo}
+	</delete>
+	
+	<select id="selectUser" parameterType="hashmap" resultType="com.example.test1.model.User">
+		SELECT *
+		FROM ECO_USER
+		WHERE USERID = #{userId}
+	</select>
+	
+	<select id="selectUserWriteList" parameterType="hashmap" resultType="com.example.test1.model.Board">
+		SELECT *
+		FROM ECO_BOARD
+		WHERE USERID = #{userId}
+	</select>
 	
 	<!--문의 게시판 불러오기  -->
 	<select id="selectCustomerInquiryList" parameterType="hashmap" resultType="com.example.test1.model.Board">

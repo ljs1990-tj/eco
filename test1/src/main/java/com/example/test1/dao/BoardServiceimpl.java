@@ -8,9 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.test1.mapper.BoardMapper;
 import com.example.test1.model.Board;
-
-import com.example.test1.model.Product;
-import com.example.test1.model.BoardImage;
+import com.example.test1.model.BoardFile;
 import com.example.test1.model.Comment;
 
 @Service
@@ -71,18 +69,12 @@ public class BoardServiceimpl implements BoardService{
 	}
 
 	@Override
-	public HashMap<String, Object> inBoardImage(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
 	public HashMap<String, Object> removeBoard(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			boardMapper.deleteBoard(map);
+			boardMapper.fileDelete(map);
 			resultMap.put("result", "success");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -215,8 +207,56 @@ public class BoardServiceimpl implements BoardService{
 		return resultMap;
 	}
 
-	
-	
-	
+
+	@Override
+	public HashMap<String, Object> addBoardFile(HashMap<String, Object> map) {
+
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+
+		try {
+			boardMapper.insertBoardFile(map);
+			resultMap.put("result", "success");
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> addBoardContentsFile(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+
+		try {
+			boardMapper.insertBoardContentsFile(map);
+			resultMap.put("result", "success");
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+
+	}
+
+	@Override
+	public HashMap<String, Object> searchBoardFileList(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			List<BoardFile> boardFile = boardMapper.selectBoardFileList(map);
+			resultMap.put("result", "success");
+			resultMap.put("boardFile", boardFile);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+		}
+		
+		return resultMap;
+	}
 	
 }
