@@ -137,7 +137,6 @@
                     }
                 });
             },
-           
          	 // 핸드폰 번호 입력 정규식 - 숫자만 허용
 			allowOnlyNumbers: function (event, field) {
 				var self = this;

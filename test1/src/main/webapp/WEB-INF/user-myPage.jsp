@@ -140,6 +140,19 @@
 				this.isPopupOpen = false;
 				location.reload(true);
 			},
+			 /* 개인정보 수정 페이지 이동 */
+            fnUsermodify: function() {
+                var self = this;
+                // 세션 값이 없을 경우 로그인 페이지로 이동
+                if (!self.user.userId) {
+                    alert("로그인 후 입장 가능합니다.");
+                    window.location.href = "/user-login.do";
+                    return;
+                }
+                //패스워드 확인하는 팝업창
+                var popup = window.open('user-myPage-Password.do',
+                    'Password Popup', 'width=500,height=500');
+            },
 			/* 주소목록 추가하기 */
 			addDefaultAddress : function() {
 				var self = this;
