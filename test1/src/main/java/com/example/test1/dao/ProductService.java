@@ -14,5 +14,7 @@ public interface ProductService {
 	HashMap<String, Object> addProduct(HashMap<String, Object> map); // 제품 추가
 	
 	HashMap<String, Object> addCart(HashMap<String, Object> map); // 제품 장바구니 추가
+	
+	HashMap<String, Object> addQa(HashMap<String, Object> map); // 문의 등록
 
 }

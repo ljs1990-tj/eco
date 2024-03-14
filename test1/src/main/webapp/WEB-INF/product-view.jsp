@@ -211,6 +211,11 @@
         text-align: left;
         margin-bottom: 20px;
     }
+    
+    .product-inquiries td img {
+	    float: left; 
+	    margin-right: 10px; 
+	}
 
     .product-inquiries table {
         width: 100%;
@@ -264,6 +269,11 @@
 
     .thumbnail-images img:hover {
         border-color: #ddd; /* 호버 시 테두리 색상 변경 */
+    }
+    
+    /* 질문 제목에 마우스 오버 시 호버 효과 */
+    .qaClick:hover {
+    	cursor: pointer;
     }
     
 </style>
@@ -340,15 +350,20 @@
         
             <!-- 리뷰 영역 -->
             <div class="product-reviews">
-                <h3>리뷰</h3>
-                <div class="review-item" v-for="item in review">
-                    <div class="review-content">
-                        <!-- 작성자가 남긴 리뷰 -->
-                        <p class="author-name">{{item.hideName}} {{item.score}}</p>
-                        <p>{{item.rContents}}</p>
-                        <P>{{item.uDateTime}}</P>
-                    </div>
-                </div>
+                <h3>상품 후기</h3>
+                <template v-if="review.length > 0">
+	                <div class="review-item" v-for="item in review">
+	                    <div class="review-content">
+	                        <!-- 작성자가 남긴 리뷰 -->
+	                        <p class="author-name">{{item.hideName}} 평점 : {{item.score}}</p>
+	                        <p>{{item.rContents}}</p>
+	                        <P>{{item.uDateTimeNew}}</P>
+	                    </div>
+	                </div>
+                </template>
+                <template v-else>
+                	 <p>등록된 후기가 없습니다.</p>
+                </template>
             </div>
             
         
@@ -356,7 +371,7 @@
             <div class="product-inquiries">
                 <h3>상품 문의</h3>
                 <p>상품에 대한 문의를 남기는 공간입니다. 배송관련, 주문(취소/교환/환불) 관련 문의 및 요청사항은 1:1 문의에 남겨주세요.</p>
-                <button @click="fnCustomer">1:1 문의하기</button>
+                <button @click="fnCustomer(userId, itemNo)">문의하기</button>
                 <table>
                     <thead>
                         <tr>
@@ -367,15 +382,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td style="width: 70%;">배송은 언제 되나요?</td>
-                            <td style="width: 10%;">홍길동</td>
-                            <td style="width: 10%;">2023-03-10</td>
-                            <td style="width: 10%;">답변 대기</td>
+                        <tr v-for="(item, index) in qa">
+                            <td @click="toggleContents(index)" style="width: 70%;" class="qaClick">{{item.title}}</td>
+                            <td style="width: 10%;">{{item.userId}}</td>
+                            <td style="width: 10%;">{{item.qaUdate}}</td>
+                            <td style="width: 10%;">답변 대기</td>                        
                         </tr>
+                        <tr v-for="(item, index) in qa" v-if="qaOnOff === index">
+					        <td colspan="3" class="qa-contents">
+					        	<img src="img/question.png" style="width: 30px">
+					        	{{item.qaContents}}
+					        </td>
+					    </tr>
                     </tbody>
                 </table>
-               
             </div>
 
             <!-- 배송 내용 영역 -->
@@ -423,9 +443,11 @@ var app = new Vue({
     	info: {},
     	fileList : [],
     	fileDetailList : [],
-    	review : [], //상품 리뷰
+    	review: [], //상품 리뷰
+    	qa: [], // 상품 문의
     	activeTab: 'details',
-    	ImageIndex: 0 // 이미지 선택 인덱스
+    	ImageIndex: 0, // 이미지 선택 인덱스,
+    	qaOnOff: null
     	
     }
     , methods: {
@@ -443,11 +465,13 @@ var app = new Vue({
                 	console.log(self.itemNo);
                 	console.log(self.userId);
                 	console.log(data.review);
+                	console.log(data.qa);
                 	
                 	self.info = data.info;
                 	self.fileList = data.filelist;
                 	self.fileDetailList = data.fileDetailList;
                 	self.review = data.review;
+                	self.qa = data.qa;
                 }
             });
         },
@@ -474,8 +498,16 @@ var app = new Vue({
                 }
             });
         },
-        fnCustomer: function(){
-        	location.href="customerService.do";
+        fnCustomer: function(userId, itemNo){
+        	console.log(userId);
+        	console.log(itemNo);
+
+        	 // 팝업 창으로 열 페이지의 URL
+            var url = "/productQuestion.do?userId=" + userId + "&itemNo=" + itemNo;
+            // 팝업 창 옵션 설정
+            var windowOptions = "width=900, height=700";
+            // 팝업 창 열기
+            window.open(url, "ProductQuestion", windowOptions);
         },
         
         /* 상품정보, 상품평 등.. 선택버튼  */
@@ -501,9 +533,19 @@ var app = new Vue({
 	            this.ImageIndex = this.fileList.length - 1; 
 	        }
 	    }, */
+	    
 	    /* 썸네일 이미지 선택 */
 	    selectImg: function(index) {
 	        this.ImageIndex = index;
+	    },
+	    
+	    /* 문의 토글 기능 */
+	    toggleContents: function(index) {
+	        if(this.qaOnOff === index) {
+	            this.qaOnOff = null;
+	        } else {
+	            this.qaOnOff = index;
+	        }
 	    }
         
     }

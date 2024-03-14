@@ -86,12 +86,30 @@
 		    ) AS HIDE_NAME, 
 		    P.*, 
 		    R.*, 
-		    U.*
+		    U.*,
+		    DATE_FORMAT(R.UDATETIME, '%Y.%m.%d') AS UDATETIMENEW
 		FROM 
 		    ECO_PRODUCT P
 		INNER JOIN 
 		    ECO_ADMIN_REVIEW R ON P.ITEM_NO = R.ITEM_NO
 		INNER JOIN 
-		    ECO_USER U ON R.USERID = U.USERID;
+		    ECO_USER U ON R.USERID = U.USERID
+		WHERE P.ITEM_NO = #{itemNo}
     </select>
+    
+    <!--상품 문의 불러오기  -->
+    <select id="selectQa" parameterType="hashmap" resultType="com.example.test1.model.Product">
+	    SELECT 
+	    	E.ITEM_NO, TITLE, QA_CONTENTS, A.USERID, 
+	    	DATE_FORMAT(A.UDATETIME, '%Y-%m-%d') AS QA_UDATE 
+		FROM ECO_PRODUCT E
+		INNER JOIN ECO_ADMIN_QA A ON E.ITEM_NO = A.ITEM_NO
+		WHERE E.ITEM_NO = #{itemNo}
+    </select>
+    
+    <!-- 상품 문의 등록  -->
+    <insert id="insertQa" parameterType="hashmap">
+    	INSERT INTO ECO_ADMIN_QA
+		VALUES (NULL, #{title}, #{qaContents}, #{userId}, 'N', NULL, NOW(), NOW(), NULL, #{boardNo});
+    </insert>
 </mapper>

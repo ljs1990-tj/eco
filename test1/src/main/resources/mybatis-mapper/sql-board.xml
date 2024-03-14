@@ -121,10 +121,17 @@
 	
 	<!--문의 게시판 불러오기  -->
 	<select id="selectCustomerInquiryList" parameterType="hashmap" resultType="com.example.test1.model.Board">
-		SELECT * FROM
-		ECO_BOARD B
-		INNER JOIN ECO_USER U ON B.USERID = U.USERID <!-- ECO_USER에 있는 userType 가져올려고 씀 -->
-		WHERE KIND = 3	
+		SELECT 
+		    B.*, 
+		    U.*, 
+		    C.*, 
+		    DATE_FORMAT(U.UDATETIME, '%Y.%m.%d') AS UDATE
+		FROM
+		    ECO_BOARD B
+		    INNER JOIN ECO_USER U ON B.USERID = U.USERID 
+		    LEFT JOIN ECO_COMMENT C ON B.BOARDNO = C.BOARDNO
+		WHERE
+		    KIND = 3	
 	</select>
 	
 	<!-- 문의 등록  -->
@@ -135,9 +142,14 @@
 	
 	<!-- 등록한 문의 내용 확인 -->
 	<select id="selectInquiryInfo" parameterType="hashmap" resultType="com.example.test1.model.Board">
-		SELECT * 
+		SELECT
+			B.*, 
+		    U.*, 
+		    C.*, 
+		    DATE_FORMAT(U.UDATETIME, '%Y.%m.%d') AS UDATE 
 		FROM ECO_BOARD B 
 		INNER JOIN ECO_USER U ON B.USERID = U.USERID
+		LEFT JOIN ECO_COMMENT C ON B.BOARDNO = C.BOARDNO
 		WHERE B.BOARDNO = #{boardNo}
 	</select>
 	
