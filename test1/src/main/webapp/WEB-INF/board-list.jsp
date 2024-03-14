@@ -250,6 +250,8 @@ ul:hover {
 			fnUser : function(userId) {
 				$.pageChange("/boardUser.do", {//user 상세보기
 					userId : userId
+				}
+			},
 	var app = new Vue({ 
 		el: '#app',
 		data: {
@@ -317,10 +319,3 @@ ul:hover {
     });
 </script>
 </html>
-		},
-		created: function() {
-			this.fnGetList(1);
-			
-		}
-	});
-</script>

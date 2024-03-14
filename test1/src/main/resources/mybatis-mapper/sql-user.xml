@@ -46,30 +46,8 @@
 	<!-- 회원가입으로 주소등록 -->
 	<insert id="insertUserAddr" parameterType="hashmap">
 		INSERT INTO ECO_ADDR
-		(USERID, ADDR, ADDRDETAIL, ZIPCODE, NAME, PHONE, ADDRREQUEST,
-		ADDRNAME)
-		VALUES(#{userId}, #{addr}, #{addrDetail}, #{zipCode},
-		#{name}, #{phone}, NULL, #{addrName})
-			(USERID, ADDR, ADDRDETAIL, ZIPCODE, NAME, PHONE, ADDRREQUEST, ADDRNAME)
-		VALUES
-			(#{userId}, #{addr}, #{addrDetail}, #{zipCode}, #{name}, #{phone}, NULL, #{addrName})
-	</insert>
-	<!-- 유저 마이페이지 수정 -->
-	<update id="updateUser" parameterType="hashmap">
-		UPDATE ECO_USER
-		SET
-		USERPW =
-		#{userPw}, NAME = #{name}, NICKNAME = #{nickName}, GENDER = #{gender}, 
-		PHONE1 = #{phone1}, PHONE2 = #{phone2}, PHONE3 = #{phone3},
-		EMAIL = #{email}, BIRTH = #{birth}
-		WHERE USERID = #{userId}
-	</update>
-	<insert id="insertUserAddr" parameterType="hashmap">
-		INSERT INTO ECO_ADDR
-		(USERID, ADDR, ADDRDETAIL, ZIPCODE, NAME, PHONE, ADDRREQUEST,
-		ADDRNAME)
-		VALUES(#{userId}, #{addr}, #{addrDetail}, #{zipCode},
-		#{name}, #{phone}, NULL, #{addrName})
+		(USERID, ADDR, ADDRDETAIL, ZIPCODE, NAME, PHONE, ADDRREQUEST, ADDRNAME)
+		VALUES(#{userId}, #{addr}, #{addrDetail}, #{zipCode}, #{name}, #{phone}, NULL, #{addrName})
 	</insert>
 
 	<!-- 유저 마이페이지 수정 -->
