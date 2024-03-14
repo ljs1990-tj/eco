@@ -75,4 +75,23 @@
       	INSERT INTO ECO_CART
       	VALUES(NULL, #{userId},#{itemNo},NOW(),'N',1)
     </insert>
+    
+    <!-- 상품 상세 페이지 리뷰 불러오기  -->
+    <select id="selectReview" parameterType="hashmap" resultType="com.example.test1.model.Product">
+    	SELECT 
+		    CONCAT(
+		        LEFT(U.NAME, 1), 
+		        '*', 
+		        RIGHT(U.NAME, 1)
+		    ) AS HIDE_NAME, 
+		    P.*, 
+		    R.*, 
+		    U.*
+		FROM 
+		    ECO_PRODUCT P
+		INNER JOIN 
+		    ECO_ADMIN_REVIEW R ON P.ITEM_NO = R.ITEM_NO
+		INNER JOIN 
+		    ECO_USER U ON R.USERID = U.USERID;
+    </select>
 </mapper>

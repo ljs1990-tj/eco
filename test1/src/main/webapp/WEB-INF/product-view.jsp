@@ -277,7 +277,7 @@
 		        
 		        <img v-if="fileList.length > 0" :src="fileList[ImageIndex].filePath + fileList[ImageIndex].fileName" alt="이미지!" @click="">
 		        
-		         <div class="thumbnail-images">
+		        <div class="thumbnail-images">
 			        <img v-for="(item, index) in fileList" :src="item.filePath+item.fileName" :alt="'이미지 ' + index" @click="selectImg(index)">
 			    </div>	
             </div>
@@ -286,8 +286,10 @@
               <!-- 상품 정보 영역: 상품의 제목, 가격, 설명 등이 여기!! -->
                 <div>
                     <h1> {{info.itemName}}</h1>
-                    <p>{{info.contents}}</p>
-                    <p>{{info.price}}원</p>
+                    <p v-html="info.contents">{{info.contents}}</p>
+                    <del style="color: #ccc">{{info.price}}원</del>
+                    <p>판매가 : {{(info.price)*((100-info.sRate)/100)}}원</p>
+                    <p style="color: #eb6f1c">{{info.sRate}}%</p>
                 </div>
                 <table>
                     <tr>
@@ -339,13 +341,12 @@
             <!-- 리뷰 영역 -->
             <div class="product-reviews">
                 <h3>리뷰</h3>
-                <div class="review-item" v-for="" :key="">
+                <div class="review-item" v-for="item in review">
                     <div class="review-content">
                         <!-- 작성자가 남긴 리뷰 -->
-                        <p class="author-name">작성자 이름</p>
-                        <p>상품 이름</p>
-                        <p>리뷰 내용</p>
-                        <P>날짜</P>
+                        <p class="author-name">{{item.hideName}} {{item.score}}</p>
+                        <p>{{item.rContents}}</p>
+                        <P>{{item.uDateTime}}</P>
                     </div>
                 </div>
             </div>
@@ -355,7 +356,7 @@
             <div class="product-inquiries">
                 <h3>상품 문의</h3>
                 <p>상품에 대한 문의를 남기는 공간입니다. 배송관련, 주문(취소/교환/환불) 관련 문의 및 요청사항은 1:1 문의에 남겨주세요.</p>
-                <button>1:1 문의하기</button>
+                <button @click="fnCustomer">1:1 문의하기</button>
                 <table>
                     <thead>
                         <tr>
@@ -422,6 +423,7 @@ var app = new Vue({
     	info: {},
     	fileList : [],
     	fileDetailList : [],
+    	review : [], //상품 리뷰
     	activeTab: 'details',
     	ImageIndex: 0 // 이미지 선택 인덱스
     	
@@ -440,10 +442,12 @@ var app = new Vue({
                 success: function(data) {
                 	console.log(self.itemNo);
                 	console.log(self.userId);
+                	console.log(data.review);
                 	
                 	self.info = data.info;
                 	self.fileList = data.filelist;
                 	self.fileDetailList = data.fileDetailList;
+                	self.review = data.review;
                 }
             });
         },
@@ -469,6 +473,9 @@ var app = new Vue({
                 	}
                 }
             });
+        },
+        fnCustomer: function(){
+        	location.href="customerService.do";
         },
         
         /* 상품정보, 상품평 등.. 선택버튼  */

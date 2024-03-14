@@ -18,4 +18,15 @@ public class Product {
 	private String code;
 	private String kind;
 	private int cellCnt;
+	
+	//ECO_ADMIN_REVIEW
+	private int reviewNo;
+	private String userId;
+	private String rContents;
+	private double score;
+	private String deleteYn;
+	private String deleteDate;
+	
+	private String name;
+	private String hideName;
 }
