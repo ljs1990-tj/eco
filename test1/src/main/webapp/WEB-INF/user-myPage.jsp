@@ -130,7 +130,7 @@
 		methods : {
 			/* 등급혜택 창 열기 */
 			fnopenPopup : function() {
-				this.isPopupOpen = true;
+				this.isPopupOpen = !this.isPopupOpen;
 			},
 			/* 등급혜택 창 닫기 */
 			fnclosePopup : function() {
