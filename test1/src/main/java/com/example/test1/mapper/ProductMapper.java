@@ -28,6 +28,8 @@ public interface ProductMapper {
 	
 	void insertCart(HashMap<String, Object> map); //제품 장바구니 추가
 	
-	List<Product> selectReview(HashMap<String, Object> map); // 상품 상세정보 리뷰불러오기
+	List<Product> selectReview(HashMap<String, Object> map); // 상품 상세정보 리뷰 불러오기
+	
+	List<Product> selectQa(HashMap<String, Object> map); // 상품 상세정보 문의 불러오기
 
 }

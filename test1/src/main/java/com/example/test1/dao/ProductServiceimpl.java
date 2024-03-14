@@ -65,11 +65,13 @@ public class ProductServiceimpl implements ProductService {
 			List<ProductFile> fileList = productMapper.selectProductContentsFileInfo(map);
 			List<ProductFile> fileDetailList = productMapper.selectProductDetailFileInfo(map);
 			List<Product> review = productMapper.selectReview(map); // 상품 리뷰 불러오기
+			List<Product> qa = productMapper.selectQa(map); //상품 문의 불러오기
 			
 			resultMap.put("info", product);
 			resultMap.put("filelist", fileList);
 			resultMap.put("fileDetailList", fileDetailList);
 			resultMap.put("review", review);
+			resultMap.put("qa", qa);
 			
 			resultMap.put("result", "success");
 		} catch (Exception e) {

@@ -173,7 +173,15 @@
         text-align: left;
         padding: 15px; 
     }
-        
+     
+    /* 답변 텍스트 색상 지정 */ 
+    .waiting {
+        color: red; /* 답변 대기 텍스트의 색상을 붉은색으로 지정 */
+    }
+    
+    .completed {
+        color: blue; /* 답변 완료 텍스트의 색상을 파란색으로 지정 */
+    }    
 </style>
 <body>
 	<div id="app">
@@ -227,8 +235,10 @@
 					        <tr v-for="item in list" >
 					        <template v-if="item.userId == userId || userType == 'A' ">
 					            <td @click="fnView(item.boardNo)" >{{ item.title }}</td>
-					            <td>{{ item.uDateTime }}</td>
-					            <td>답변 대기</td>		        
+					            <td>{{ item.uDate }}</td>
+					            <td :class="{ 'waiting': !item.comment, 'completed': item.comment }">
+					            	{{ item.comment ? '답변 완료' : '답변 대기' }}
+					            </td>		        
 					        </template>
 					        </tr>
                         </tbody>

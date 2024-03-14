@@ -127,7 +127,7 @@
                     </tr>
                     <tr>
                         <th style="width: 20%;">작성일</th>
-                        <td style="width: 80%;">{{info.uDateTime}}</td>
+                        <td style="width: 80%;">{{info.uDate}}</td>
                     </tr>
                 </table>
             </div>
