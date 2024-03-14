@@ -110,6 +110,6 @@
     <!-- 상품 문의 등록  -->
     <insert id="insertQa" parameterType="hashmap">
     	INSERT INTO ECO_ADMIN_QA
-		VALUES (NULL, #{title}, #{qaContents}, #{userId}, 'N', NULL, NOW(), NOW(), NULL, #{boardNo});
+		VALUES (NULL, #{title}, #{qaContents}, #{userId}, 'N', NULL, NOW(), NOW(), NULL, #{itemNo});
     </insert>
 </mapper>

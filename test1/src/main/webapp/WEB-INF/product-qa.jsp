@@ -124,32 +124,28 @@
 	    , methods: {
 	    	fnInsertQa: function(itemNo, userId) {
 	            var self = this;
-	            /* if(!confirm("등록하시겠습니까?")){
-            		return;
-            	} */
-	            var nparmap = {
-	            	title: self.title,
-	            	qaContents: self.qaContents,
-	            	itemNo : self.itemNo,
-	            	userId : self.userId
-	            };
-	            $.ajax({
-	                url:"addQa.dox",
-	                dataType:"json",
-	                type: "POST",
-	                data: nparmap,
-	                success: function(data) {
-	                	console.log("Item No: ", itemNo);
-	                    console.log("User ID: ", userId);
-	                	
-	                	/* if(data.result == "success"){
-	                		alert("문의가 등록됐습니다.");
-	                	} else{
-	                		alert("오류가 발생했습니다 다시 등록해주세요.");
-	                	} */
-	                }
-	            });
-	        }
+	            if(confirm("등록하시겠습니까?")){
+		            var nparmap = {
+		            	title: self.title,
+		            	qaContents: self.qaContents,
+		            	itemNo : self.itemNo,
+		            	userId : self.userId
+		            };
+		            $.ajax({
+		                url:"addQa.dox",
+		                dataType:"json",
+		                type: "POST",
+		                data: nparmap,
+		                success: function(data) {
+		                	if(data.result == "success"){
+		                		alert("문의가 등록됐습니다.");
+		                	} else{
+		                		alert("오류가 발생했습니다 다시 등록해주세요.");
+		                	} 
+		                }
+		            });
+	        	}
+	    	}
 	    }
 	    , created: function() {
 	    	var self = this;
