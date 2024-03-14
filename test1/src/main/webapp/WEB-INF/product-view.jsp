@@ -371,7 +371,7 @@
             <div class="product-inquiries">
                 <h3>상품 문의</h3>
                 <p>상품에 대한 문의를 남기는 공간입니다. 배송관련, 주문(취소/교환/환불) 관련 문의 및 요청사항은 1:1 문의에 남겨주세요.</p>
-                <button @click="fnCustomer">문의하기</button>
+                <button @click="fnCustomer(userId, itemNo)">문의하기</button>
                 <table>
                     <thead>
                         <tr>
@@ -396,7 +396,6 @@
 					    </tr>
                     </tbody>
                 </table>
-               
             </div>
 
             <!-- 배송 내용 영역 -->
@@ -499,8 +498,16 @@ var app = new Vue({
                 }
             });
         },
-        fnCustomer: function(){
-        	
+        fnCustomer: function(userId, itemNo){
+        	console.log(userId);
+        	console.log(itemNo);
+
+        	 // 팝업 창으로 열 페이지의 URL
+            var url = "/productQuestion.do?userId=" + userId + "&itemNo=" + itemNo;
+            // 팝업 창 옵션 설정
+            var windowOptions = "width=900, height=700";
+            // 팝업 창 열기
+            window.open(url, "ProductQuestion", windowOptions);
         },
         
         /* 상품정보, 상품평 등.. 선택버튼  */

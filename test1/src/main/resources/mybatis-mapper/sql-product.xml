@@ -106,4 +106,10 @@
 		INNER JOIN ECO_ADMIN_QA A ON E.ITEM_NO = A.ITEM_NO
 		WHERE E.ITEM_NO = #{itemNo}
     </select>
+    
+    <!-- 상품 문의 등록  -->
+    <insert id="insertQa" parameterType="hashmap">
+    	INSERT INTO ECO_ADMIN_QA
+		VALUES (NULL, #{title}, #{qaContents}, #{userId}, 'N', NULL, NOW(), NOW(), NULL, #{boardNo});
+    </insert>
 </mapper>
