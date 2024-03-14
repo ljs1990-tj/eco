@@ -50,6 +50,20 @@
 		VALUES(#{userId}, #{addr}, #{addrDetail}, #{zipCode}, #{name}, #{phone}, NULL, #{addrName})
 	</insert>
 
+	<!-- 아이디 찾기에서 쓰일 전화번호 입력해서 정보 찾기 -->
+	<select id="selectUserPhone">
+		SELECT USERID, NAME, NICKNAME
+		FROM ECO_USER
+		WHERE PHONE1 = #{phone1} AND PHONE2 = #{phone2} AND PHONE3 = #{phone3}
+	</select>
+
+	<!-- 비밀번호 찾기 후 비밀번호 업데이트 -->
+	<update id="updateUserPw" parameterType="hashmap">
+		UPDATE ECO_USER
+		SET
+			USERPW = #{userPw}
+		WHERE USERID = #{userId}
+	</update>
 	<!-- 유저 마이페이지 수정 -->
 	<update id="updateUser" parameterType="hashmap">
 		UPDATE ECO_USER

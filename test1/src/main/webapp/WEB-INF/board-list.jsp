@@ -248,9 +248,7 @@ ul:hover {
                 self.selectPage = num;
             },
 			fnUser : function(userId) {
-				$.pageChange("/boardUser.do", {//user 상세보기
-					userId : userId
-				}
+				$.pageChange("/boardUser.do", {userId : userId});
 			},
 	var app = new Vue({ 
 		el: '#app',
