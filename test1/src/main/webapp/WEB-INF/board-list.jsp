@@ -5,34 +5,66 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="../css/team_project_style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gaegu&display=swap"
+	rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Cute+Font&family=Gaegu&family=IBM+Plex+Sans+KR&family=Orbit&family=Sunflower:wght@300&display=swap"
+	rel="stylesheet">
 <script src="js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<title>첫번째 페이지</title>
+<title>게시판 목록 페이지</title>
 <style>
-body {
-	font-family: Arial, sans-serif;
+div#app {
+    text-align: center;
+    
+}
+
+body, button {
+	font-family: "Gaegu", sans-serif;
 }
 
 table {
-	margin: 10px;
 	border-collapse: collapse;
-	width: 100%;
+	width: 80%;
+	margin: 10px auto;
+}
+
+caption {
+	font-weight: bold;
+	font-size: 24px;
+	color: #000000;
+	text-align: center;
+	padding: 10px 0;
 }
 
 th, td {
-	border: 1px solid #ddd;
+	border-top: none;
+	border-bottom: 1px solid #ddd;
+	border-right: none;
 	padding: 8px;
 	text-align: center;
 	font-size: 14px;
-	font-family: Arial, sans-serif;
-}
-
-th {
-	background-color: #f2f2f2;
+	font-family: "Orbit", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+	cursor: default;
 }
 
 tr:hover {
 	background-color: #f5f5f5;
+}
+
+tr {
+	border: top 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+th {
+	background-color: #f2f2f2;
 }
 
 button {
@@ -45,7 +77,7 @@ button {
 	border: none;
 	border-radius: 4px;
 	transition: background-color 0.3s;
-	font-family: Arial, sans-serif;
+	display: inline-block;
 }
 
 button:hover {
@@ -60,82 +92,93 @@ li {
 ul {
 	padding: 5px 10px;
 	cursor: pointer;
-	background-color: #4CAF50;
-	color: white;
+	color: black;
 	border-radius: 4px;
 	display: inline-block;
 	margin-right: 10px;
-	font-size: 16px;
+	font-size: 30px;
 }
 
 ul:hover {
-	background-color: #45a049;
+	background-color: #fff;
 }
+
+.page-num {
+	font-weight: bold;
+}
+
+td {
+	height: 70px;
+}
+
+.page-num {
+	font-weight: bold;
+	font-size: 30px;
+}
+.pagination{
+	 text-align: center;
+	 font-size: 20px;
+}
+.write-button {
+    margin-left: 1000px;
+    font-size: 20px;
+}
+
 </style>
 </head>
 <body>
 	<div id="app">
 		<li>
 			<ul v-for="item in boardList"
-				:class="[kind==item.code ? 'select-tab' : 'tab']"
-				@click="fnGetList(item.code)">{{item.name}}
+				:class="[kind == item.code ? 'select-tab' : 'tab']"
+				@click="fnGetList(item.code); fnResetPage()">{{item.name}}
 			</ul>
 		</li>
 		<table>
 			<tr>
 				<th>번호</th>
-				<th>제목</th>
+				<th style="width: 40%;">제목</th>
 				<th v-if="kind == '2'">이미지</th>
 				<th>사용자</th>
 				<th>조회수</th>
 				<th>작성일</th>
-				<th>수정일</th>
 				<th>칼로리</th>
 			</tr>
-			<tr v-for="item in list">
+			<tr v-for="(item, index) in displayedList">
 				<td>{{ item.boardNo }}</td>
-				<td><a href="javascript:;" @click="fnView(item.boardNo)"
+				<td><a href="javascript:;" @click="fnView(item.boardNo, kind)"
 					v-html="item.title"></a></td>
-				<td>{{ item.userId }}</td>
-				<td>
-					<a href="javascript:;" @click="fnView(item.boardNo, kind)" v-html="item.title"></a>
-				</td>
 				<td v-if="kind == '2'">
-					<template  v-for="item2 in fileList" v-if="item.boardNo == item2.boardNo">
+					<template v-for="item2 in fileList"
+						v-if="item.boardNo == item2.boardNo">
 						<template v-if="item2.kind == 1">
-				    		<img :src="item2.path" alt="" width="100px">
+							<img :src="item2.path" alt="" width="100px">
 						</template>
-				  	</template>
+					</template>
 				</td>
-				
-				<td>
-					<a href="javascript:;" @click="fnUser(item.userId)">{{item.userId}}</a>
+
+				<td><a href="javascript:;" @click="fnUser(item.userId)">{{item.userId}}</a>
 				</td>
 				<td>{{ item.hits }}</td>
-				<td>{{ item.cDateTime }}</td>
 				<td>{{ item.uDateTime }}</td>
 				<td>{{ item.kCal }}</td>
 			</tr>
 		</table>
-		<div id="pagination">
+		<div v-if="userId != '' && userId != undefined">
+			<button class="write-button" @click="fnWrite" v-if="userType == 'A' || kind != 1">글쓰기</button>
+		</div>
+		<div class="pagination">
 			<a href="#" @click="fnPre">＜</a>
 			<template v-for="n in pageCount">
-				<a href="#" @click="fnPageList(n)"> 
-					<span
+				<a href="#" @click="fnPageList(n)"> <span
 					:class="[selectPage == n ? 'page-num' : '']">{{n}}</span>
 				</a>
 			</template>
 			<a href="#" @click="fnNext">＞</a>
 		</div>
-		<div v-if="userId != '' && userId != undefined">
-			<button @click="fnWrite" v-if="userType == 'A' || kind != 1">글쓰기</button>
-			{{userId}}
-		</div>
-		<button @click="fnWrite">글쓰기</button>
-		<!-- <button @click="fnDelete">삭제</button> -->
+		
 	</div>
 </body>
-</html>
 <script type="text/javascript">
     var app = new Vue({
         el: '#app',
@@ -143,7 +186,7 @@ ul:hover {
             list: [],
             userId: "${userId}",
             userType : "${userType}",
-            kind: 1,
+            kind: 2,
             boardList: ${boardList},
             pageCount: 1,
             selectPage: 1,
@@ -250,65 +293,6 @@ ul:hover {
 			fnUser : function(userId) {
 				$.pageChange("/boardUser.do", {//user 상세보기
 					userId : userId
-				}
-			},
-	var app = new Vue({ 
-		el: '#app',
-		data: {
-			list: [],
-			userId : "${userId}",
-			kind : 1,
-			boardList : ${boardList}
-		},
-		methods: {
-			fnGetList: function(kind) {
-				var self = this;
-				self.kind = kind;
-				var nparmap = {
-							kind : kind
-							};
-				$.ajax({
-					url: "boardList.dox",
-					dataType: "json",
-					type: "POST",
-					data: nparmap,
-					success: function(data) { 
-						console.log(data);
-						self.list = data.list;
-						
-					}
-				}); 
-			},
-			fnWrite: function() {
-				var self = this;
-				$.pageChange("boardInsert.do", { kind : self.kind });
-			},
-			fnView: function(boardNo) {
-				$.pageChange("boardView.do", { boardNo : boardNo });
-			},
-			fnDelete : function() {
-				var self = this;
-				if (!confirm("삭제할거냐")) {
-					return;
-				}
-				var nparmap = {
-					boardNo : self.boardNo
-				};
-				$.ajax({
-					url : "boardDelete.dox",
-					dataType : "json",
-					type : "POST",
-					data : nparmap,
-					success : function(data) {
-						/* self.info = data.info; */
-						if (data.result == "success") {
-							alert("삭제되었습니다");
-							$.pageChange("/boardList.do", {});
-							//location.href = "/boardList.do"
-						} else {
-							alert("다시 시도해주세요");
-						}
-					}
 				});
 			},
         },
