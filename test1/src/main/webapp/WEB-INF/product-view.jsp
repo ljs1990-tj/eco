@@ -18,10 +18,11 @@
         border-bottom: 1px solid #fafafa; 
     }
     .product-image {
-        flex-basis: 50%;
+    	flex-basis: 50%;
         display: flex;
         justify-content: center;
-        align-items: center; 
+        align-items: center;
+        flex-direction: column; /* 세로 정렬 */ 
     }
 
     .product-info {
@@ -43,10 +44,16 @@
     }
    
     .product-image img {
-        width: 450px;
-        height: 550px; /* 이미지 영역의 높이를 고정합니다 */
-        border-radius: 8px; /* 이미지 모서리를 둥글게 처리 */
+        width: 300px;
+        height: 350px; 
+        border-radius: 5px;
     }
+    
+    
+    /* 선택적: 기본적으로 첫 번째 이미지만 표시 */
+	.product-image img:first-child {
+	    display: block;
+	}
 
    	.product-info h1, .product-info p {
         margin: 0 0 10px; /* 제목과 단락 사이의 마진 설정 */
@@ -239,22 +246,50 @@
         color: white;
         background-color: #6fc76f;
     }
+    
+    /* 상품 상세정보 썸네일 이미지  */
+    .thumbnail-images {
+        display: flex;
+        justify-content: center;
+        gap: 5px; /* 이미지 사이의 간격 */
+        margin-top: 5px; /* 큰 이미지와의 간격 */
+    }
+
+    .thumbnail-images img {
+        width: 70px; 
+        height: auto; 
+        cursor: pointer; 
+        border: 2px solid transparent; 
+    }
+
+    .thumbnail-images img:hover {
+        border-color: #ddd; /* 호버 시 테두리 색상 변경 */
+    }
+    
 </style>
 <body>
     <div id="app">
         <div class="product-detail-top-container">
-            <div class="product-image">
-            	<template v-for="item in fileList">
-			    	<img :src="item.filePath+item.fileName" alt="">
-		        </template>
+            <div class="product-image" >
+            	<!-- <template v-for="item in fileList">
+			    	<img :src="item.filePath+item.fileName" alt="이미지!">
+		        </template> -->
+		        
+		        <img v-if="fileList.length > 0" :src="fileList[ImageIndex].filePath + fileList[ImageIndex].fileName" alt="이미지!" @click="">
+		        
+		        <div class="thumbnail-images">
+			        <img v-for="(item, index) in fileList" :src="item.filePath+item.fileName" :alt="'이미지 ' + index" @click="selectImg(index)">
+			    </div>	
             </div>
 
             <div class="product-info">
               <!-- 상품 정보 영역: 상품의 제목, 가격, 설명 등이 여기!! -->
                 <div>
                     <h1> {{info.itemName}}</h1>
-                    <p>{{info.contents}}</p>
-                    <p>{{info.price}}원</p>
+                    <p v-html="info.contents">{{info.contents}}</p>
+                    <del style="color: #ccc">{{info.price}}원</del>
+                    <p>판매가 : {{(info.price)*((100-info.sRate)/100)}}원</p>
+                    <p style="color: #eb6f1c">{{info.sRate}}%</p>
                 </div>
                 <table>
                     <tr>
@@ -277,7 +312,7 @@
               
                 <div class="button-container">
                     <button class="buy-btn">구매하기</button>
-                    <button class="cart-btn">장바구니에 담기</button>
+                    <button class="cart-btn" @click="fnAddCart(itemNo, userId)">장바구니에 담기</button>
                 </div>
             </div>
         </div>
@@ -306,13 +341,12 @@
             <!-- 리뷰 영역 -->
             <div class="product-reviews">
                 <h3>리뷰</h3>
-                <div class="review-item" v-for="" :key="">
+                <div class="review-item" v-for="item in review">
                     <div class="review-content">
                         <!-- 작성자가 남긴 리뷰 -->
-                        <p class="author-name">작성자 이름</p>
-                        <p>상품 이름</p>
-                        <p>리뷰 내용</p>
-                        <P>날짜</P>
+                        <p class="author-name">{{item.hideName}} {{item.score}}</p>
+                        <p>{{item.rContents}}</p>
+                        <P>{{item.uDateTime}}</P>
                     </div>
                 </div>
             </div>
@@ -322,7 +356,7 @@
             <div class="product-inquiries">
                 <h3>상품 문의</h3>
                 <p>상품에 대한 문의를 남기는 공간입니다. 배송관련, 주문(취소/교환/환불) 관련 문의 및 요청사항은 1:1 문의에 남겨주세요.</p>
-                <button>문의하기</button>
+                <button @click="fnCustomer">1:1 문의하기</button>
                 <table>
                     <thead>
                         <tr>
@@ -385,10 +419,14 @@ var app = new Vue({
     el: '#app',
     data: {
     	itemNo: "${map.itemNo}",
+    	userId: "${map.userId}",
     	info: {},
     	fileList : [],
     	fileDetailList : [],
-    	activeTab: 'details'
+    	review : [], //상품 리뷰
+    	activeTab: 'details',
+    	ImageIndex: 0 // 이미지 선택 인덱스
+    	
     }
     , methods: {
     	fnView: function() {
@@ -402,11 +440,42 @@ var app = new Vue({
                 type: "POST",
                 data: nparmap,
                 success: function(data) {
+                	console.log(self.itemNo);
+                	console.log(self.userId);
+                	console.log(data.review);
+                	
                 	self.info = data.info;
                 	self.fileList = data.filelist;
                 	self.fileDetailList = data.fileDetailList;
+                	self.review = data.review;
                 }
             });
+        },
+        
+        fnAddCart: function(itemNo, userId) {
+            var self = this;
+            var nparmap = {
+            		itemNo: self.itemNo,
+    				userId: self.userId	
+            };
+            $.ajax({
+                url:"addCart.dox",
+                dataType:"json",
+                type: "POST",
+                data: nparmap,
+                success: function(data) {
+                	console.log(itemNo);
+                	console.log(userId);
+                	if(data.result=="success"){
+                		alert("장바구니에 담았습니다.");
+                	}else{
+                		alert("예기지 못한 오류가 발생했습니다. 다시 시도해주세요");
+                	}
+                }
+            });
+        },
+        fnCustomer: function(){
+        	location.href="customerService.do";
         },
         
         /* 상품정보, 상품평 등.. 선택버튼  */
@@ -415,6 +484,26 @@ var app = new Vue({
 	        if(element) {
 	            element.scrollIntoView({ behavior: 'smooth' });
 	        }
+	    },
+	    
+	    /* 상품 정보 리스트 이미지  */
+	    /* nextImage: function() {
+	        if(this.ImageIndex < this.fileList.length - 1) {
+	            this.ImageIndex++;
+	        } else {
+	            this.ImageIndex = 0; 
+	        }
+	    },
+	    prevImage: function() {
+	        if(this.ImageIndex > 0) {
+	            this.ImageIndex--;
+	        } else {
+	            this.ImageIndex = this.fileList.length - 1; 
+	        }
+	    }, */
+	    /* 썸네일 이미지 선택 */
+	    selectImg: function(index) {
+	        this.ImageIndex = index;
 	    }
         
     }

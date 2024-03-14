@@ -4,19 +4,21 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="css/user-myPage.css" type="text/css">
 <script src="js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <title>비밀번호 확인 페이지</title>
 </head>
 <style>
+
 </style>
-<body>
-	<div id="app">
+<body class="MyPagePwdbackground">
+	<div id="app" class="app">
 		<div>
 			<span>비밀번호 입력 :</span> 
 			<input type="password" v-model="userPw" @keydown.enter="fnList()" @input="validateInput">
 			<button @click="fnList()">확인</button>
-			<button @click="fnclose()">취소</button>
+			<button @click="fnclose()" class="cancel-btn">취소</button>
 		</div>
 	</div>
 </body>
