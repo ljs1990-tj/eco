@@ -8,7 +8,7 @@
 <body>
 <!-- Header Section -->
 <%@ include file="layout/header.jsp" %>
-	<div id="app">
+	<div id="appMain">
 	    <!-- Hero Section Begin -->
 	    <section class="hero" id="HeaderAllTab">
 	        <div class="container">
@@ -88,11 +88,11 @@
 	                            <h5><a href="javascript:;">로컬푸드</a></h5>
 	                        </div>
 	                    </div>
- 	                   <!-- <div class="col-lg-3">
+ 	                  <div class="col-lg-3">
 	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-5.jpg">
 	                            <h5><a href="javascript:;">신선한 과일주스</a></h5>
 	                        </div>
-	                    </div> -->
+	                    </div> 
 	                </div>
 	            </div>
 	        </div>
@@ -532,7 +532,7 @@
 	    <!-- Blog Section End -->
 	
 <!-- Footer Section -->
-<%@ include file="layout/footer.jsp" %>
+
 	    	
 	<!-- 팝업 창 -->
 <!-- 		<div v-if="isPopupOpen" class="popup">
@@ -543,31 +543,32 @@
  		</div>  -->
  		
 	<!-- Js Plugins -->
-	<script src="js/jquery-3.3.1.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/jquery.nice-select.min.js"></script>
+ 	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>  
+	<script src="js/jquery.nice-select.min.js"></script> 
 	<script src="js/jquery-ui.min.js"></script>
-	<script src="js/jquery.slicknav.js"></script>
+	<script src="js/jquery.slicknav.js"></script> 
 	<script src="js/mixitup.min.js"></script>
 	<script src="js/owl.carousel.min.js"></script>
-	<script src="js/main.js"></script>
+	<script src="js/main.js"></script> 
 	<script src="js/jquery.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>   
 
 </body>
 </html>
 <script type="text/javascript">
   	var app = new Vue({
-		el : '#app',
+		el : '#appMain',
 		data : {
 			userId : "${userId}",
-			isPopupOpen : true,
+			test : "test"
+			
 		},
 		methods : {
 			fnList : function() {
 				var self = this;
 				var nparmap = {
-					userId : self.userId
+					
 				};
 				$.ajax({
 					url : "main.dox",
@@ -589,5 +590,6 @@
 		created : function() {
 			var self = this;
 		}
-	});
+	}); 
 </script>
+<%@ include file="layout/footer.jsp" %>

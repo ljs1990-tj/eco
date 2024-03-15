@@ -45,11 +45,27 @@
 		WHERE USERID = #{userId}
 	</update>
 	
+	<select id="selectChartCheck" parameterType="hashmap" resultType="int">
+        SELECT COUNT(*) as cnt
+		FROM ECO_PRODUCT_CHART
+		WHERE ITEM_NO = #{itemNo} AND MONTH = MONTH(NOW())
+    </select>
+	
 	<insert id="insertProductChart" parameterType="hashmap">
 		INSERT INTO ECO_PRODUCT_CHART
-		VALUES
-			(#{itemNo},#{selectCnt},MONTH(NOW()))
-
+		VALUES(#{itemNo},#{selectCnt},MONTH(NOW()))
+	</insert>
+	
+	<update id="updateProductChart" parameterType="hashmap">
+		UPDATE ECO_PRODUCT_CHART
+		SET
+			VALUE = VALUE + #{selectCnt}
+		WHERE ITEM_NO = #{itemNo} AND MONTH = MONTH(NOW())
+	</update>
+	
+	<insert id="insertPaymentHistory" parameterType="hashmap">
+		INSERT INTO ECO_PAYMENT
+		VALUES(NULL,#{userId},#{paymentKey},#{usePoint},#{rewardPoint},#{sumPrice},NOW())
 	</insert>
 	
 </mapper>

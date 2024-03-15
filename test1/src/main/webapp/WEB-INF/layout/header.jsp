@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="css/owl-carousel-min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav-min.css" type="text/css">
     <link rel="stylesheet" href="css/style2.css" type="text/css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
 </head>
 
@@ -98,7 +99,9 @@
 	                        <ul>
 	                            <li><a href="javascript:;" @click="fnFavorite"><i class="fa fa-heart"></i> <span>0</span></a></li>
 	                            <li><a href="javascript:;" @click="fnMoveCart"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
+	                            <li><a href="javascript:;"><i class="bi bi-gear-fill"></i></a></li>
 	                        </ul>
+	                       
 	                        <div class="header__cart__price"></div>
 	                    </div>
 	                </div>
@@ -122,6 +125,7 @@
     <script src="js/main.js"></script>
     <script src="js/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+   
     
 </body>
 </html>
