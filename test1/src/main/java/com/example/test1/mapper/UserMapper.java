@@ -13,6 +13,8 @@ public interface UserMapper {
 	User selectUser(HashMap<String, Object> map); // 유저 찾기
 
 	void insertUser(HashMap<String, Object> map); // 유저 회원가입
+	
+	User selectUserPhone(HashMap<String, Object> map); // 유저 찾기
 
 	void updateUserPw(HashMap<String, Object> map); // 유저 비밀번호 수정
 
@@ -37,6 +39,8 @@ public interface UserMapper {
 	void updateLoginCnt(HashMap<String, Object> map); // 로그인 실패 시 카운트 증가
 
 	void updateLoginCnt2(HashMap<String, Object> map); // 로그인 성공 시 카운트 초기화
+	
+	int selectCartCnt(HashMap<String, Object> map); // 로그인 성공 시 카운트 초기화
 
 	void updateUserDeleteDate(HashMap<String, Object> map); //회원탈퇴로 인한 ECO_USER 회원정보수정
 	

@@ -4,7 +4,7 @@
 
 <mapper namespace="com.example.test1.mapper.CommentMapper">
 	
-	<!-- 문의 게시판 관리자 답글 입력 -->
+	<!-- 1:1문의 및 상품문의 관리자 답글 입력 -->
 	<insert id="insertAdminComment" parameterType="hashmap">
 		INSERT INTO ECO_COMMENT
 		VALUES (NULL, #{boardNo}, #{comment}, #{userId}, 0, NULL, NOW(), NOW());

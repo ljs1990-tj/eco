@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="css/owl-carousel-min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav-min.css" type="text/css">
     <link rel="stylesheet" href="css/style2.css" type="text/css">
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
 <body id="HeaderAllTab">
@@ -66,19 +66,19 @@
 	            <div class="row">
 	                <div class="col-lg-3">
 	                    <div class="header__logo">
-	                        <a href="javascript:;" @click="fnUserPage"><img src="img/logo.png" alt="logo"> MyPage</a>
+	                        <a href="javascript:;" @click="fnUserPage" style="color: #2c9d59;"><img src="img/logo.png" alt="logo"> MyPage</a>
 	                    </div>
 	                </div>
 	                <div class="col-lg-6">
 	                    <nav class="header__menu">
 	                        <ul>
 	                        	<li class="active"><a href="/main.do">Home</a></li>
-	                            <li><a href="javascript:;">카테고리</a>
+	                            <li><a href="javascript:;" @click="fnMoveCategory('')">카테고리</a>
 									<ul class="header__menu__dropdown">
-										<li><a href="javascript:;" >유기농</a></li>
-										<li><a href="javascript:;" @click="fnEnterProduct()">비건</a></li>
-										<li><a href="javascript:;">글루텐-프리</a></li>
-										<li><a href="javascript:;">로컬푸드</a></li>
+										<li><a href="javascript:;" @click="fnMoveCategory('org')">유기농</a></li>
+										<li><a href="javascript:;" @click="fnMoveCategory('vegan')">비건</a></li>
+										<li><a href="javascript:;" @click="fnMoveCategory('gluten')">글루텐-프리</a></li>
+										<li><a href="javascript:;" @click="fnMoveCategory('local')">로컬푸드</a></li>
 									</ul>
 	                          	</li>
 	                            <li><a href="javascript:;">1:1 매칭</a></li>
@@ -97,8 +97,10 @@
 	                    <div class="header__cart">
 	                        <ul>
 	                            <li><a href="javascript:;" @click="fnFavorite"><i class="fa fa-heart"></i> <span>0</span></a></li>
-	                            <li><a href="javascript:;" @click="fnMoveCart"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
+	                            <li><a href="javascript:;" @click="fnMoveCart"><i class="fa fa-shopping-bag"></i> <span>{{cartCnt}}</span></a></li>
+	                       		<li v-if="userType == 'A'"><a href="/admin-main.do" ><i class="bi bi-gear-fill"></i></a></li>
 	                        </ul>
+	                       
 	                        <div class="header__cart__price"></div>
 	                    </div>
 	                </div>
@@ -130,7 +132,9 @@
 	    el: '#appHeader',
 	    data: {
 	    	userId: "${userId}",
+	    	userType: "${userType}", 
 	    	email: "",
+	    	cartCnt: "",
 	    	loginFlg: false
 	    }
 	    , methods: {
@@ -149,6 +153,7 @@
 		                success: function(data) {
 		                	if(data.result == 'fail') {
 		                		self.email = data.user.email;
+		                		self.cartCnt = data.cartCnt;
 		                	}
 		                }
 		            });
@@ -189,9 +194,8 @@
 					alert("로그인 후 입장 가능합니다.");
 				}
 			},
-			fnEnterProduct: function() {
-				var self = this;
-				$.pageChange("/cartList.do", {userId: self.userId});
+			fnMoveCategory: function(kind) {
+				$.pageChange("/productList.do", {code: kind});
 			},
 	    }
 	    , created: function() {

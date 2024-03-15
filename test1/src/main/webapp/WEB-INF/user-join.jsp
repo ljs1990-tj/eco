@@ -13,7 +13,7 @@
 	ul, li {
 		list-style: none;
 		margin-top: 10px;
-		font-size: 15px;
+		font-size: 14px;
 	}
 	.container-join {
 		border: none;
@@ -128,7 +128,6 @@
 	.margin-bottom-10px {
 		margin-bottom: 10px;
 	}
-
 </style>
 <body>
 	<!-- header -->
@@ -264,7 +263,7 @@
         </fieldset>
 	</div>
 	<!-- footer -->
-	<%@ include file="layout/footer.jsp"%>	
+	<%@ include file="layout/footer.jsp"%>
 </body>
 </html>
 <script type="text/javascript">

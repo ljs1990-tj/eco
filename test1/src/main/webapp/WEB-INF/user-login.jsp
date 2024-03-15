@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<!-- <link rel="stylesheet" href="../css/join-login.css"> -->
-	<script src="js/jquery.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<title>로그인 페이지</title>
+<meta charset="UTF-8">
+<!-- <link rel="stylesheet" href="../css/join-login.css"> -->
+<script src="js/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<title>로그인 페이지</title>
 </head>
 <style>
 .con-login {
@@ -17,12 +17,14 @@
 	margin: 200px auto;
 	width: 300px;
 }
+
 .login-title {
 	text-align: center;
 	font-size: 15px;
 	font-weight: bold;
 	margin: 25px;
 }
+
 .login-input {
 	width: 255px;
 	height: 40px;
@@ -31,15 +33,18 @@
 	margin-left: 10px;
 	padding-left: 20px;
 }
+
 .login-input::placeholder {
 	font-size: 12px;
 	color: #999;
 }
+
 .find-align {
 	text-align: right;
 	padding-right: 15px;
 	line-height: 0px;
 }
+
 .login-btn {
 	width: 255px;
 	height: 40px;
@@ -51,11 +56,13 @@
 	border: 1px solid #2c9d59;
 	margin-top: 10px;
 }
+
 .login-btn-alter {
 	background-color: white;
 	color: #2c9d59;
 	margin-bottom: 10px;
 }
+
 .login-text {
 	text-decoration: none;
 	font-size: 11px;
@@ -70,13 +77,19 @@
 		<fieldset class="con-login">
 			<div class="login-title" style="margin: 10px;">로그인</div>
 			<div style="margin: 10px;" class="inputBox">
-				<input type="text" class="login-input" v-model="userId" placeholder="아이디를 입력해 주세요" maxlength="20">
+				<input type="text" class="login-input" v-model="userId"
+					placeholder="아이디를 입력해 주세요" maxlength="20">
 			</div>
 			<div style="margin: 10px;">
-				<input type="password" class="login-input" v-model="userPw" @keyup.enter="fnLogin" placeholder="비밀번호를 입력해 주세요" maxlength="16">
+				<input type="password" class="login-input" v-model="userPw"
+					@keyup.enter="fnLogin" placeholder="비밀번호를 입력해 주세요" maxlength="16">
 			</div>
 			<div class="find-align" style="margin: 10px;">
-				<a class="login-text" href="/find-password.do" @click.prevent="fnOpenPopup('password')">비밀번호 찾기</a>
+				<a class="login-text" href="/find-password.do"
+					@click.prevent="fnOpenFind('id')">아이디 찾기</a> <span
+					style="font-size: 13px;">|</span> <a class="login-text"
+					href="/find-password.do" @click.prevent="fnOpenFind('password')">비밀번호
+					찾기</a>
 			</div>
 			<div style="margin: 10px;">
 				<button class="login-btn" @click="fnLogin">로그인</button>
@@ -141,33 +154,35 @@ var app = new Vue({
         fnJoin: function() {
         	$.pageChange("/user-join.do", {});
         },
-        fnOpenPopup: function(kind) {
-        	if(kind == 'password') {
+        fnOpenFind: function(kind) {
+        	var leftPosition = (window.screen.width / 2) - (460 / 2);
+       		var topPosition = (window.screen.height / 2) - (300 / 2);
+        	if(kind == 'id') {
+	       		window.open('/find-id.do', '_blank', 'width=460, height=300, left=' + leftPosition + ',top=' + topPosition + ', toolbar=no, location=no, status=no, menubar=no');        		
+        	} else if(kind == 'password') {
           		// 비밀번호 찾기 팝업을 창의 상단 중앙에 위치시키기 위해 창의 크기와 화면 크기를 이용하여 위치 조정
-	       		var leftPosition = (window.screen.width / 2) - (600 / 2);
-	       		var topPosition = (window.screen.height / 2) - (400 / 2);
-	       		window.open('/find-password.do', '_blank', 'width=600,height=400, left=' + leftPosition + ',top=' + topPosition);
+	       		window.open('/find-password.do', '_blank', 'width=460, height=300, left=' + leftPosition + ',top=' + topPosition + ', toolbar=no, location=no, status=no, menubar=no');
         	}
         }
     }
-    , created: function() {
-    	var self = this;
-	}
-});
+			    , created: function() {
+			    	var self = this;
+				}
+			});
 
-$(document).ready(function() {
-    var $loginBox = $('.outBox');
-    var $loginInputBox = $('#sampleId');
-
-    $loginInputBox.on('keyup', function() {
-        if ($(this).val() !== '') {
-            // 입력 값이 비어 있지 않은 경우
-            $loginBox.addClass('existence');
-        } else {
-            // 입력 값이 비어 있는 경우
-            $loginBox.removeClass('existence');
-        }
-    });
-});
+			$(document).ready(function() {
+			    var $loginBox = $('.outBox');
+			    var $loginInputBox = $('#sampleId');
+			
+			    $loginInputBox.on('keyup', function() {
+			        if ($(this).val() !== '') {
+			            // 입력 값이 비어 있지 않은 경우
+			            $loginBox.addClass('existence');
+			        } else {
+			            // 입력 값이 비어 있는 경우
+			            $loginBox.removeClass('existence');
+			        }
+			    });
+			});
 </script>
 </html>

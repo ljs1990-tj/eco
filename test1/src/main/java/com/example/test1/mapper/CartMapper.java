@@ -19,5 +19,10 @@ public interface CartMapper {
 
 	List<ProductFile> selectCartFile(HashMap<String, Object> map);
 	void updateSelectCnt(HashMap<String, Object> map);
-
+	void paymentEnd(HashMap<String, Object> map);
+	void updatePaymentEndUser(HashMap<String, Object> map);
+	void insertProductChart(HashMap<String, Object> map);
+	int selectChartCheck(HashMap<String, Object> map);
+	void updateProductChart(HashMap<String, Object> map);
+	void insertPaymentHistory(HashMap<String, Object> map);
 }

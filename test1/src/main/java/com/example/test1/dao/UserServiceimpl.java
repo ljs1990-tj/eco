@@ -52,8 +52,11 @@ public class UserServiceimpl implements UserService {
 		if (user == null) {
 			resultMap.put("result", "success");
 		} else {
+			int cartCnt = userMapper.selectCartCnt(map);
 			resultMap.put("result", "fail");
-			resultMap.put("user", user);
+			resultMap.put("user", user); // 비밀번호 찾기용 유저 정보 담기
+			resultMap.put("cartCnt", cartCnt); // 장바구니 개수 확인용
+			
 		}
 		return resultMap;
 	}
@@ -235,6 +238,22 @@ public class UserServiceimpl implements UserService {
 		try {
 			userMapper.updateUserPw(map);
 			resultMap.put("result", "success");
+		} catch (Exception e) {
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
+		return resultMap;
+	}
+	
+	// 폰 번호로 아이디 찾기
+	@Override
+	public HashMap<String, Object> checkUserPhone(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			User user = userMapper.selectUserPhone(map);
+			resultMap.put("result", "success");
+			resultMap.put("user", user);
 		} catch (Exception e) {
 			resultMap.put("result", "fail");
 			System.out.println(e.getMessage());

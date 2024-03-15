@@ -92,6 +92,7 @@
 	.cancle-btn:hover {
 		background-color: #e6e6e6;
 	}
+	
 </style>
 <body>
 	<div id="app">
@@ -100,14 +101,14 @@
 			{{userId}}, {{itemNo}}
 			<div class="form-field">
 				<label for="product-title">제목</label>
-				<input type="text" id="product-title" placeholder="제목 입력">
+				<input type="text" id="product-title" placeholder="제목 입력" v-model="title">
 			</div>
 			<div class="form-field">
 				<label for="inquiry">문의 내용</label>
-				<textarea id="inquiry" placeholder="문의하실 내용을 입력해주세요."></textarea>
+				<textarea id="inquiry" placeholder="문의하실 내용을 입력해주세요." v-model="qaContents"></textarea>
 			</div>
-			<button class="submit-btn">문의하기</button>
-            <button class="cancle-btn">취소</button>
+			<button class="submit-btn" @click="fnInsertQa(itemNo, userId)">문의하기</button>
+            <button class="cancle-btn" @click="cancleBtnClick">취소</button>
 		</div>
 		
 	</div>
@@ -117,25 +118,55 @@
 	    el: '#app',
 	    data: {
 	    	itemNo: "${map.itemNo}",
-	    	userId: "${map.userId}"
+	    	userId: "${map.userId}",
+	    	title: "",
+	    	qaContents: ""
 	    }
 	    , methods: {
-	    	fnList: function() {
+	    	fnInsertQa: function(itemNo, userId) {
 	            var self = this;
-	            var nparmap = {};
-	            $.ajax({
-	                url:"test.dox",
-	                dataType:"json",
-	                type: "POST",
-	                data: nparmap,
-	                success: function(data) {
-	                }
-	            });
+    
+	            if (self.title.trim() === "") {
+	                alert("제목을 입력해주세요.");
+	                return;
+	            } else if (self.qaContents.trim() === "") {
+	                alert("문의 내용을 입력해주세요.");
+	                return;
+	            }
+	            
+	            if(confirm("등록하시겠습니까?")){
+		            var nparmap = {
+		            	title: self.title,
+		            	qaContents: self.qaContents,
+		            	itemNo : self.itemNo,
+		            	userId : self.userId
+		            };
+		            $.ajax({
+		                url:"addQa.dox",
+		                dataType:"json",
+		                type: "POST",
+		                data: nparmap,
+		                success: function(data) {
+		                	if(data.result == "success"){
+		                		alert("문의가 등록됐습니다.");
+		                	} else{
+		                		alert("오류가 발생했습니다 다시 등록해주세요.");
+		                	} 
+		                }
+		            });
+	        	}
+	    	},
+	    	/* 취소 버튼 누를 떄 닫히게 하기 */
+	    	cancleBtnClick: function() {
+	            try {
+	                window.close();
+	            } catch (e) {
+	                alert("이 페이지는 스크립트로 닫을 수 없습니다. 브라우저에서 직접 창을 닫아주세요.");
+	            }
 	        }
 	    }
 	    , created: function() {
 	    	var self = this;
-			self.fnList();
 		}
 	});
 </script>

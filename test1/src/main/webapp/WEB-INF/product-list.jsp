@@ -10,12 +10,15 @@
 	<title>상품 페이지</title>
 </head>
 <style>
-    .container {
+    .prodcut-container {
         margin: 0 auto; 
         padding: 20px; 
         max-width: 1200px; 
         border-style: none;
         background-color: #ffffff;
+        
+        flex-direction: column; /* 세로 방향으로 내부 요소 정렬 */
+    	align-items: center; /* 가로 방향 중앙 정렬 */  
     }
 
     .banner {
@@ -109,24 +112,21 @@
     }
 
     .buttons-container {
-        display: flex;
+        /* display: flex; */
         margin-bottom: 30px;
-    }
-
-    .buttons-container button {
-        margin-right: 10px; /* 버튼 사이 간격 */
+        margin-right: 5px;
         color: #5cb85c;
         border: 1px solid #5cb85c;
         background-color: white;
-        border-radius: 3px;
+        border-radius: 5px;
         width: 100px;
         height: 30px;
         cursor: pointer;
     }
-    
+
     .buttons-container button:hover {
     	color : white;
-    	 background-color: #5cb85c;
+    	background-color: #5cb85c;
     }
 
     .dropdown-container {
@@ -141,39 +141,76 @@
     .button-selected {
 	    background-color: #4CAF50; /* 선택된 버튼의 배경색 */
 	    color: white; /* 선택된 버튼의 글자색 */
+	    margin-bottom: 30px;
+	    margin-right: 5px;
+        border: 1px solid #5cb85c;
+        border-radius: 5px;
+        width: 100px;
+        height: 30px;
+        cursor: pointer;  
 	}
-    
+	
+	.searchArea {
+	    width: 100%; 
+	    display: flex; 
+	    justify-content: center; 
+	    margin: 20px 0; 
+	}
+
+	.searchArea input[type="text"] {
+	    width: 400px; 
+	    padding: 10px; 
+	    border: 1px solid #5cb85c; 
+	    border-radius: 10px; 
+	}
+	
+	.control-wrapper {
+	    display: flex;
+	    justify-content: space-between;
+	    align-items: center;
+	    width: 100%; 
+	}
+	.search {
+		margin: 5px;
+		cursor: pointer;
+		/* text-align: center; */
+	}
 
 </style>
 <body>
+<!-- Header Section -->
+<%@ include file="layout/header.jsp" %>
 	<div id="app">
-		{{userId}}
-	    {{userType}}
-		<div class="container">
-            <div class="banner">
-              <!-- 배너 이미지 영역 -->
+		<div class="prodcut-container">
+           <!--  <div class="banner">
+              배너 이미지 영역
               <img src="/img/vegetable.jpg" alt="상단 배너 이미지">
-            </div>
-
-            <div class="buttons-container">
-                <button type="button" @click="fnList('org')">유기농</button>
-                <button type="button" @click="fnList('vegan')">비건</button>
-                <button type="button" @click="fnList('gluten')">글루텐프리</button>
-                <button type="button" @click="fnList('local')">로컬푸드</button>
+            </div> -->
+            
+			{{userId}}, {{userType}}
+			<div class="searchArea">
+				<input type="text" placeholder="검색어를 입력해주세요" v-model="keyword" @keyup.enter="fnList(code)">
+				<img class="search" src="/img/search.jpeg" @click="fnList(code)" style="width: 35px; height: 35px;">
+			</div>
+			
+            <div class="control-wrapper">
+            	<button type="button" :class="[selected == '' ? 'button-selected' : 'buttons-container']" @click="fnList('')">전체</button>
+                <button type="button" :class="[selected == 'org' ? 'button-selected' : 'buttons-container']" @click="fnList('org')">유기농</button>
+				<button type="button" :class="[selected == 'vegan' ? 'button-selected' : 'buttons-container']" @click="fnList('vegan')">비건</button>
+				<button type="button" :class="[selected == 'gluten' ? 'button-selected' : 'buttons-container']" @click="fnList('gluten')">글루텐프리</button>
+				<button type="button" :class="[selected == 'local' ? 'button-selected' : 'buttons-container']" @click="fnList('local')">로컬푸드</button>
 
                 <div class="dropdown-container">
                     <!-- 드롭박스를 오른쪽에 배치 -->
-                    <template v-if="userType == 'A' ">
-                    	<button @click="fnAdd">상품추가</button>
-                    </template>
                     <select>
-                      <option value="option1">옵션 1</option>
-                      <option value="option2">옵션 2</option>
-                      <option value="option3">옵션 3</option>
-                      <option value="option4">옵션 4</option>
+                    	<option>높은 가격순</option>
+                    	<option>낮은 가격순</option>
+                    	<option>신상품 순</option>
+                    	<option>구상품 순</option>
                     </select>
                 </div>
             </div>
+            
 
             <div class="product-list">
 		   		<div class="product-item" v-for="item in list" :key="item.id">
@@ -191,18 +228,12 @@
 			        		<br> 할인율{{item.sRate}}%
 			        	</div>
 			      	</div>
-			      	
-			      	<div class="admin-btn">
-			      		<template v-if="userType == 'A' ">
-				      		<button @click="fnRemove(item.itemNo)">상품삭제</button>
-				      		<button @click="fnEdit(item.itemNo)">상품수정</button>			      		
-			      		</template>
-			      	</div>	      	
 			    </div>
 			</div> 
-			
 		</div>
 	</div>
+<!-- Footer Section -->
+<%@ include file="layout/footer.jsp" %>	
 </body>
 </html>
 <script type="text/javascript">
@@ -213,14 +244,22 @@ var app = new Vue({
     	filelist : [],
     	userId : "${userId}",
 		userType : "${userType}",
-    	code : ""
+    	code : "${map.code}",
+    	keyword : "",
+    	selected : ""
+    	
     }
     , methods: {
     	fnList: function(code) {
             var self = this;
+            self.selected = code;
+            if(self.code != code){
+            	self.keyword = "";
+            }
             self.code = code;
             var nparmap = {
-            		code: code
+            	code: code,
+            	keyword : self.keyword
             };
             $.ajax({
                 url:"cordList.dox",
@@ -230,6 +269,7 @@ var app = new Vue({
                 success: function(data) {
                 	self.list = data.list;
                 	self.filelist = data.filelist;
+     				
                 }
             });
         },
@@ -247,7 +287,7 @@ var app = new Vue({
 	                success: function(data) {
 	                	if(data.result == "success") {
 	                		alert("삭제되었습니다!");
-	                		self.fnList('org');
+	                		self.fnList('');
 	                	} else {
 	                		alert("삭제 실패 오류 발생!");
 	                	}
@@ -296,7 +336,7 @@ var app = new Vue({
     }
     , created: function() {
     	var self = this;
-    	self.fnList('org');
+    	self.fnList(self.code);
 	}
 });
 </script>

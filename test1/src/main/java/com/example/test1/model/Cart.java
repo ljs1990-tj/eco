@@ -17,5 +17,8 @@ public class Cart {
 	private int price;
 	private float sRate;
 	private String itemName;
+	private int pRate;
+	private int cnt;
+	private String transInfo;
 	
     }

@@ -6,8 +6,9 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 <body>
+<!-- Header Section -->
 <%@ include file="layout/header.jsp" %>
-	<div id="app">
+	<div id="appMain">
 	    <!-- Hero Section Begin -->
 	    <section class="hero" id="HeaderAllTab">
 	        <div class="container">
@@ -19,10 +20,10 @@
 	                            <span>카테고리</span>
 	                        </div>
 	                        <ul>
-	                            <li><a href="javascript:;">유기농</a></li>
-	                            <li><a href="javascript:;">비건</a></li>
-	                            <li><a href="javascript:;">글루텐프리</a></li>
-	                            <li><a href="javascript:;">로컬푸드</a></li>
+	                            <li><a href="javascript:;" @click="fnMoveCategory('org')">유기농</a></li>
+	                            <li><a href="javascript:;" @click="fnMoveCategory('vegan')">비건</a></li>
+	                            <li><a href="javascript:;" @click="fnMoveCategory('gluten')">글루텐프리</a></li>
+	                            <li><a href="javascript:;" @click="fnMoveCategory('local')">로컬푸드</a></li>
 	                        </ul>
 	                    </div>
 	                </div>
@@ -53,7 +54,7 @@
 	                            <span>FRUIT FRESH</span>
 	                            <h2>Vegetable <br />100% Organic</h2>
 	                            <p>무료배송</p>
-	                            <a href="/productOrganic.do" class="primary-btn">구매하기</a>
+	                            <a href="/productList.do" class="primary-btn">구매하기</a>
 	                        </div>
 	                    </div>
 	                </div>
@@ -68,30 +69,30 @@
 	            <div class="row">
 	                <div class="categories__slider owl-carousel">
 	                    <div class="col-lg-3">
-	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-1.jpg">
-	                            <h5><a href="javascript:;">유기농</a></h5>
+	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-1.jpg" style="cursor: pointer;" @click="fnMoveCategory('org')">
+	                            <h5><a href="javascript:;" @click="fnMoveCategory('org')">유기농</a></h5>
 	                        </div>
 	                    </div>
 	                    <div class="col-lg-3">
-	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-2.jpg">
-	                            <h5><a href="javascript:;">비건</a></h5>
+	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-2.jpg" style="cursor: pointer;" @click="fnMoveCategory('vegan')">
+	                            <h5><a href="javascript:;" @click="fnMoveCategory('vegan')">비건</a></h5>
 	                        </div>
 	                    </div>
 	                    <div class="col-lg-3">
-	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-3.jpg">
-	                            <h5><a href="javascript:;">글루텐-프리</a></h5>
+	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-3.jpg" style="cursor: pointer;" @click="fnMoveCategory('gluten')">
+	                            <h5><a href="javascript:;" @click="fnMoveCategory('gluten')">글루텐-프리</a></h5>
 	                        </div>
 	                    </div>
 	                    <div class="col-lg-3">
-	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-4.jpg">
-	                            <h5><a href="javascript:;">로컬푸드</a></h5>
+	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-4.jpg" style="cursor: pointer;" @click="fnMoveCategory('local')">
+	                            <h5><a href="javascript:;" @click="fnMoveCategory('local')">로컬푸드</a></h5>
 	                        </div>
 	                    </div>
- 	                   <!-- <div class="col-lg-3">
+ 	                  <div class="col-lg-3">
 	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-5.jpg">
-	                            <h5><a href="javascript:;">신선한 과일주스</a></h5>
+	                            <h5><a href="javascript:;" @click="fnMoveCategory()">모두</a></h5>
 	                        </div>
-	                    </div> -->
+	                    </div> 
 	                </div>
 	            </div>
 	        </div>
@@ -530,9 +531,8 @@
 	</div>
 	    <!-- Blog Section End -->
 	
-	<!-- Footer Section Begin -->
-	   <%@ include file="layout/footer.jsp" %>
-	<!-- Footer Section End -->
+<!-- Footer Section -->
+
 	    	
 	<!-- 팝업 창 -->
 <!-- 		<div v-if="isPopupOpen" class="popup">
@@ -541,24 +541,24 @@
 				<button @click="closePopup">닫기</button>
 			</div>
  		</div>  -->
-<!-- Js Plugins -->
-
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery.nice-select.min.js"></script>
-<script src="js/jquery-ui.min.js"></script>
-<script src="js/jquery.slicknav.js"></script>
-<script src="js/mixitup.min.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/main.js"></script>
-<script src="js/jquery.js"></script>
-
+ 		
+	<!-- Js Plugins -->
+ 	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>  
+	<script src="js/jquery.nice-select.min.js"></script> 
+	<script src="js/jquery-ui.min.js"></script>
+	<script src="js/jquery.slicknav.js"></script> 
+	<script src="js/mixitup.min.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<script src="js/main.js"></script> 
+	<script src="js/jquery.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>   
 
 </body>
 </html>
 <script type="text/javascript">
   	var app = new Vue({
-		el : '#app',
+		el : '#appMain',
 		data : {
 			userId : "${userId}",
 			isPopupOpen : true,
@@ -567,7 +567,7 @@
 			fnList : function() {
 				var self = this;
 				var nparmap = {
-					userId : self.userId
+					
 				};
 				$.ajax({
 					url : "main.dox",
@@ -582,9 +582,13 @@
 			closePopup : function() {
 				this.isPopupOpen = false;
 			},
+			fnMoveCategory: function(kind) {
+				$.pageChange("/productList.do", {code: kind});
+			}
 		},
 		created : function() {
 			var self = this;
 		}
-	});
+	}); 
 </script>
+<%@ include file="layout/footer.jsp" %>

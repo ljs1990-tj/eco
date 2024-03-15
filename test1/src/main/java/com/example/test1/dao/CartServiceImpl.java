@@ -37,7 +37,7 @@ public class CartServiceImpl implements CartService{
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
-			System.out.println(map);
+			
 			List<Cart> list = cartMapper.selectCartList(map);
 			User user = userMapper.selectUser(map);
 			resultMap.put("list", list);
@@ -91,6 +91,76 @@ public class CartServiceImpl implements CartService{
 			System.out.println(e.getMessage());
 			resultMap.put("result", "fail");
 		}
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> paymentFinishCart(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			cartMapper.paymentEnd(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> paymentFinishUser(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			cartMapper.updatePaymentEndUser(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> paymentFinishChart(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			int check = cartMapper.selectChartCheck(map);
+			
+			if(check == 1) {
+				//update
+				cartMapper.updateProductChart(map);
+			}else {
+				//insert
+				cartMapper.insertProductChart(map);
+			}
+
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> paymentFinishHistory(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			cartMapper.insertPaymentHistory(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+		}
+		
 		return resultMap;
 	}
     

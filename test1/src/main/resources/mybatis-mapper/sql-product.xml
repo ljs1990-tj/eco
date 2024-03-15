@@ -22,6 +22,9 @@
 		<if test="code != '' ">
 		AND CODE = #{code}
 		</if>
+		<if test="keyword != '' ">
+		AND ITEM_NAME LIKE '%' #{keyword} '%'
+		</if>
 	</select>
 	
 	<select id="selectProductInfo" parameterType="hashmap" resultType="com.example.test1.model.Product">
@@ -100,16 +103,24 @@
     <!--상품 문의 불러오기  -->
     <select id="selectQa" parameterType="hashmap" resultType="com.example.test1.model.Product">
 	    SELECT 
-	    	E.ITEM_NO, TITLE, QA_CONTENTS, A.USERID, 
+	    	P.ITEM_NO, TITLE, QA_CONTENTS, A.USERID, C.COMMENTNO, C.`COMMENT`, A.BOARDNO,
 	    	DATE_FORMAT(A.UDATETIME, '%Y-%m-%d') AS QA_UDATE 
-		FROM ECO_PRODUCT E
-		INNER JOIN ECO_ADMIN_QA A ON E.ITEM_NO = A.ITEM_NO
-		WHERE E.ITEM_NO = #{itemNo}
+		FROM ECO_PRODUCT P
+		INNER JOIN ECO_ADMIN_QA A ON P.ITEM_NO = A.ITEM_NO
+		LEFT JOIN ECO_COMMENT C ON A.BOARDNO = C.BOARDNO
+		WHERE P.ITEM_NO = #{itemNo}
     </select>
     
     <!-- 상품 문의 등록  -->
     <insert id="insertQa" parameterType="hashmap">
     	INSERT INTO ECO_ADMIN_QA
-		VALUES (NULL, #{title}, #{qaContents}, #{userId}, 'N', NULL, NOW(), NOW(), NULL, #{boardNo});
+		VALUES (NULL, #{title}, #{qaContents}, #{userId}, 'N', NULL, NOW(), NOW(), NULL, #{itemNo});
     </insert>
+    
+    <!-- 문의한 상품 문의자 답변 출력  -->
+    <select id="selectQaAnswer" parameterType="hashmap" resultType="com.example.test1.model.Product">
+    	SELECT COMMENTNO, BOARDNO, COMMENT 
+		FROM ECO_COMMENT
+		WHERE BOARDNO = #{boardNo};
+    </select>
 </mapper>

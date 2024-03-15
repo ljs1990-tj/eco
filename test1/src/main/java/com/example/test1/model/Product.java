@@ -38,5 +38,13 @@ public class Product {
 	private String secretYn;
 	private String qaUdate;
 	
+	//ECO_COMMENT
+	private int commentNo;      
+	private String comment;
+	private String userID;
+	private int pCommentNo;
+	private String regDate;
+	private String updateDate; 
+	
 	
 }

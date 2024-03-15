@@ -291,65 +291,6 @@ td {
                 self.selectPage = num;
             },
 			fnUser : function(userId) {
-				$.pageChange("/boardUser.do", {userId : userId});
-			},
-	var app = new Vue({ 
-		el: '#app',
-		data: {
-			list: [],
-			userId : "${userId}",
-			kind : 1,
-			boardList : ${boardList}
-		},
-		methods: {
-			fnGetList: function(kind) {
-				var self = this;
-				self.kind = kind;
-				var nparmap = {
-							kind : kind
-							};
-				$.ajax({
-					url: "boardList.dox",
-					dataType: "json",
-					type: "POST",
-					data: nparmap,
-					success: function(data) { 
-						console.log(data);
-						self.list = data.list;
-						
-					}
-				}); 
-			},
-			fnWrite: function() {
-				var self = this;
-				$.pageChange("boardInsert.do", { kind : self.kind });
-			},
-			fnView: function(boardNo) {
-				$.pageChange("boardView.do", { boardNo : boardNo });
-			},
-			fnDelete : function() {
-				var self = this;
-				if (!confirm("삭제할거냐")) {
-					return;
-				}
-				var nparmap = {
-					boardNo : self.boardNo
-				};
-				$.ajax({
-					url : "boardDelete.dox",
-					dataType : "json",
-					type : "POST",
-					data : nparmap,
-					success : function(data) {
-						/* self.info = data.info; */
-						if (data.result == "success") {
-							alert("삭제되었습니다");
-							$.pageChange("/boardList.do", {});
-							//location.href = "/boardList.do"
-						} else {
-							alert("다시 시도해주세요");
-						}
-					}
 				$.pageChange("/boardUser.do", {//user 상세보기
 					userId : userId
 				});

@@ -10,6 +10,8 @@ public interface UserService {
 
 	HashMap<String, Object> checkUser(HashMap<String, Object> map); // 유저 아이디 중복체크
 
+	HashMap<String, Object> checkUserPhone(HashMap<String, Object> map); // 폰번호로 아이디 찾기
+
 	HashMap<String, Object> modifyUserPw(HashMap<String, Object> map); // 유저 아이디 중복체크
 
 	HashMap<String, Object> getUser(HashMap<String, Object> map); // 유저 마이페이지 정보 가져오기
@@ -29,6 +31,5 @@ public interface UserService {
 	HashMap<String, Object> resetDefaultAddress(HashMap<String, Object> map);// 유저 마이페이지 주소록 기본배송지 설정
 
 	HashMap<String, Object> UserDeletDate(HashMap<String, Object> map);// 회원탈퇴로 인한 회원정보 저장 및 회원정보 수정
-
 
 }

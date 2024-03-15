@@ -12,11 +12,11 @@
 </style>
 <body>
 	<div id="app">
-		<div>가입한 아이디에 쓰인 폰 번호를 입력해 주세요.</div>
+		<div>아이디 찾기</div>
 		<div>
-			<input type="text" v-model="inputNumber" :disabled="inputFlg" @input="validateInput" @keydown.enter="fnSms" placeholder="폰번호 입력">
+			<input type="text" v-model="inputNumber" :disabled="inputFlg" @input="validateInput" @keydown.enter="fnSms" placeholder="폰번호 입력" maxlength="11">
 			<button v-if="!phoneAuthFlg" @click="fnSms">인증번호 받기</button>
-			<button v-if="phoneAuthFlg" @click="fnRePhone">핸드폰번호 다시 입력하기</button>
+			<button v-if="phoneAuthFlg" @click="fnRePhone">폰번호 다시 입력하기</button>
 		</div>
 		<div v-if="phoneAuthFlg">
 			<h3>인증번호</h3>
@@ -26,10 +26,13 @@
 			<div>
 				<a href="javascript:;" @click="fnSms()">재전송</a>
 			</div>
-			<button @click="fnClose()">닫기</button>
-			<button @click="fnAuth()">확인</button>
+			<!-- <button @click="fnClose">닫기</button> -->
+			<button @click="fnAuth">확인</button>
 		</div>
-		<button v-if="!phoneAuthFlg" @click="fnClose()">닫기</button>
+		<div v-if="completeFlg">
+			<div>찾으신 아이디: {{userId}}</div>
+		</div>
+		<button v-if="!phoneAuthFlg" @click="fnClose">창 닫기</button>
 	</div>
 </body>
 </html>
@@ -37,17 +40,38 @@
 var app = new Vue({
     el: '#app',
     data: {
-    	inputId: "",
-    	phoneNum: "",
+    	userId: "",
    		phoneAuthFlg : false,
 		inputFlg : false,
+		completeFlg: false,
 		inputNumber : "",	// 핸드폰 번호 입력
 		inputNumber1 : "",	// 인증번호 입력
 		timer : "",			// 인증시간 표시
 		count : 180, // 인증시간을 3분(180초)으로 설정
-		number : ""	// 인증번호 비교
+		number : "",	// 인증번호 비교
+		timerInterval : "" // 시간 흐르는 타이머
     }
     , methods: {
+    	fnSearchId: function() {
+            var self = this;
+	        var nparmap = {phoneNumber: self.inputNumber};
+	        $.ajax({
+	            url:"checkPhoneNum.dox",
+	            dataType:"json",
+	            type: "POST", 
+	            data: nparmap,
+	            success: function(data) {
+	            	if(data.result == "success") {
+	            		console.log(data);
+	            		self.userId = data.userId;
+	            	} else {
+	            		self.completeFlg = false;
+	            		alert("해당 번호를 지닌 아이디가 존재하지 않습니다!");
+	            		window.close();
+	            	}
+	            }
+	        });
+    	},
 		validateInput : function() {
 			// 정규식을 사용하여 숫자만 허용
 			this.inputNumber = this.inputNumber.replace(/\D/g, '');
@@ -69,10 +93,10 @@ var app = new Vue({
 		fnSms : function() {
 			var self = this;
 			if(self.inputNumber == ""){
-				alert("핸드폰 번호를 입력해주세요");
+				alert("핸드폰 번호를 입력해 주세요");
 				return;
 			}else if (self.inputNumber.length !== 11) {
-		        alert("핸드폰번호 11자리여야 합니다.");
+		        alert("핸드폰 번호는 11자리여야 합니다.");
 		        return;
 		    }
 			var nparmap = {
@@ -90,7 +114,7 @@ var app = new Vue({
 						self.number = data.number;	//인증번호를 가져와서 저장
 						self.inputFlg = true;
 						self.phoneAuthFlg = true;
-						setInterval(self.fnTimer, 1000);	//함수호출하여 시간표시
+						self.timerInterval = setInterval(self.fnTimer, 1000);	//함수호출하여 시간표시
 					} else {
 						alert("문자 전송 실패했습니다.");
 						self.inputFlg = false;
@@ -105,9 +129,8 @@ var app = new Vue({
 			self.inputFlg = false;
 			self.phoneAuthFlg = false;
 			self.inputNumber = "";
-			
 		},
-		/* 인증번호 시간설정 */
+		/* 인증번호 시간 설정 */
 		fnTimer : function() {
 		    var self = this;  // Vue 인스턴스에 대한 참조를 변수에 저장
 		    // 분, 초 계산
@@ -123,17 +146,17 @@ var app = new Vue({
 		    // 타이머 카운트 다운
 		    if (--self.count < 0) {
 		        // 시간 초과 시 처리
-		        alert("시간초과했습니다. 다시 인증해주세요.");
+		        alert("시간 초과했습니다. 다시 인증해 주세요.");
 		        self.count = 180;  // 초기값으로 시간을 재설정 (3분, 180초)
 		        // 화면을 갱신하는 부분 (페이지 새로고침)
 		        location.reload(true);
 		    }
 		},
-		//인증완료시 실행
+		//인증 완료 시 실행
 		fnAuth : async function () {
 		    var self = this;
 		    if (self.inputNumber1 === "") {
-		        alert("인증번호를 입력해주세요.");
+		        alert("인증번호를 입력해 주세요.");
 		        return;
 		    } else if (self.inputNumber1.length !== 6) {
 		        alert("인증번호는 6자리여야 합니다.");
@@ -141,8 +164,10 @@ var app = new Vue({
 		    }
 		    if (self.number == self.inputNumber1) {
 		        alert("인증되었습니다.");
-		       
-		        if (window.opener && !window.opener.closed) {
+		        self.completeFlg = true;
+		        clearInterval(self.timerInterval);
+		        self.fnSearchId();
+		        /* if (window.opener && !window.opener.closed) {
 		            try {
 		                await new Promise(resolve => setTimeout(resolve, 500)); // 예시: 500ms 동안 대기
 		                window.opener.location.href = "/user-join.do";	// 메인 페이지 URL로 변경
@@ -152,14 +177,13 @@ var app = new Vue({
 		            }
 		        } else {
 		            alert("부모 창이 닫혀있거나 유효하지 않습니다.");
-		        }
+		        }  */
 		    } else {
-		        alert("인증번호 다시 확인 부탁드립니다.");
+		        alert("인증번호 다시 확인 바랍니다.");
 		    }
 		},
 		//팝업창 닫기
 		fnClose : function() {
-			var self = this;
 			window.close();
 		}
     }
