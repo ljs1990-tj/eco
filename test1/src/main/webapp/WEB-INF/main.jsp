@@ -53,7 +53,7 @@
 	                            <span>FRUIT FRESH</span>
 	                            <h2>Vegetable <br />100% Organic</h2>
 	                            <p>무료배송</p>
-	                            <a href="/productOrganic.do" class="primary-btn">구매하기</a>
+	                            <a href="/productList.do" class="primary-btn">구매하기</a>
 	                        </div>
 	                    </div>
 	                </div>
