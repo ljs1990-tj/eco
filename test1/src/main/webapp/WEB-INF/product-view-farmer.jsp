@@ -325,7 +325,6 @@
               
                 <div class="button-container">
                     <button class="buy-btn">구매하기</button>
-                    <button class="cart-btn" @click="fnAddCart(itemNo, userId)">장바구니에 담기</button>
                 </div>
             </div>
         </div>

@@ -33,5 +33,8 @@ public interface ProductMapper {
 	List<Product> selectQa(HashMap<String, Object> map); // 상품 상세정보 문의 불러오기
 	
 	void insertQa(HashMap<String, Object> map); // 상품 문의 등록
+	
+	void insertAdminComment(HashMap<String, Object> map); //1:1 문의 및 상품 문의 답변 등록
+	
 
 }

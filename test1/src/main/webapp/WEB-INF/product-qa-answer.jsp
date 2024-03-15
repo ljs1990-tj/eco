@@ -18,11 +18,11 @@
 	
 	#app {
 		background-color: white;
-		width: 850px;
-		height: 650px;
+		width: 600px;
+		height: 500px;
 		margin-left: auto;
 		margin-right: auto;
-		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		/* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
 		padding: 20px;
 		display: flex;
 		flex-direction: column;
@@ -97,17 +97,13 @@
 <body>
 	<div id="app">
 		<div class="inquiry-form">
-			<h2>상품 문의하기</h2>
-			{{userId}}, {{itemNo}}
+			<h2>답변하기</h2>
+			{{boardNo}}, {{userId}}
 			<div class="form-field">
-				<label for="product-title">제목</label>
-				<input type="text" id="product-title" placeholder="제목 입력" v-model="title">
+				<label for="inquiry">답변 내용</label>
+				<textarea id="inquiry" placeholder="답변하실 내용을 입력해주세요." v-model="comment"></textarea>
 			</div>
-			<div class="form-field">
-				<label for="inquiry">문의 내용</label>
-				<textarea id="inquiry" placeholder="문의하실 내용을 입력해주세요." v-model="qaContents"></textarea>
-			</div>
-			<button class="submit-btn" @click="fnInsertQa(itemNo, userId)">문의하기</button>
+			<button class="submit-btn" @click="fnInsertAnswer(userId)">등록하기</button>
             <button class="cancle-btn" @click="cancleBtnClick">취소</button>
 		</div>
 		
@@ -117,41 +113,38 @@
 	var app = new Vue({
 	    el: '#app',
 	    data: {
-	    	itemNo: "${map.itemNo}",
-	    	userId: "${map.userId}",
-	    	title: "",
-	    	qaContents: ""
+	    	boardNo: "${map.boardNo}",
+	    	userId: "${userId}",
+	    	comment : ""
 	    }
 	    , methods: {
-	    	fnInsertQa: function(itemNo, userId) {
+	    	fnInsertAnswer: function(userId) {
 	            var self = this;
     
-	            if (self.title.trim() === "") {
-	                alert("제목을 입력해주세요.");
-	                return;
-	            } else if (self.qaContents.trim() === "") {
+				if (self.comment.trim() === "") {
 	                alert("문의 내용을 입력해주세요.");
 	                return;
 	            }
 	            
 	            if(confirm("등록하시겠습니까?")){
 		            var nparmap = {
-		            	title: self.title,
-		            	qaContents: self.qaContents,
-		            	itemNo : self.itemNo,
-		            	userId : self.userId
+		            	comment : self.comment,
+		            	userId : self.userId,
+		            	boardNo :self.boardNo
 		            };
 		            $.ajax({
-		                url:"addQa.dox",
+		                url:"addAnswer.dox",
 		                dataType:"json",
 		                type: "POST",
 		                data: nparmap,
 		                success: function(data) {
 		                	if(data.result == "success"){
-		                		alert("문의가 등록됐습니다.");
+		                		alert("답변을 등록했습니다.");
+		                		window.location.href = "/productView.do";
+		                		window.close();
 		                	} else{
 		                		alert("오류가 발생했습니다 다시 등록해주세요.");
-		                	} 
+		                	}
 		                }
 		            });
 	        	}
@@ -161,7 +154,7 @@
 	            try {
 	                window.close();
 	            } catch (e) {
-	                alert("이 페이지는 스크립트로 닫을 수 없습니다. 브라우저에서 직접 창을 닫아주세요.");
+	                alert("예기지 못한 오류가 발생했습니다 브라우저 창을 직접 닫아주세요.");
 	            }
 	        }
 	    }

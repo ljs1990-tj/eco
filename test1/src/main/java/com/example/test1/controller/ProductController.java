@@ -23,11 +23,21 @@ public class ProductController {
 	
 	// 상품 페이지
 	@RequestMapping("/productList.do")
-	public String productOrganic(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
+	public String productList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
 			throws Exception {
 		request.setAttribute("map", map);
 		return "/product-list";
 	}
+	
+	// 농부 상품 페이지
+	@RequestMapping("/productListFarmer.do")
+	public String productListFarmer(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
+			throws Exception {
+		request.setAttribute("map", map);
+		return "/product-list-farmer";
+	}
+	
+	
 	
 	// 상품 상세 페이지
 	@RequestMapping("/productView.do")
@@ -36,6 +46,15 @@ public class ProductController {
 		request.setAttribute("map", map);
 		return "/product-view";
 	}
+	
+	// 농부 상품 상세 페이지
+	@RequestMapping("/productViewFarmer.do")
+	public String productViewFarmer(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
+			throws Exception {
+		request.setAttribute("map", map);
+		return "/product-view-farmer";
+	}
+	
 	// 상품 등록 페이지
 	@RequestMapping("/productAddFarmer.do")
 	public String productAddFarmer(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
@@ -51,6 +70,15 @@ public class ProductController {
 		request.setAttribute("map", map);
 		return "/product-qa";
 	}
+	
+	//등록된 문의 답변 페이지
+	@RequestMapping("/productAnswer.do")
+	public String productAnswer(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
+			throws Exception {
+		request.setAttribute("map", map);
+		return "/product-qa-answer";
+	}
+	
 	
 	// 제품 리스트
 	@RequestMapping(value = "/productList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -120,6 +148,15 @@ public class ProductController {
 	public String addQa(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = productService.addQa(map);
+		return new Gson().toJson(resultMap);
+	}
+	
+	//등록된 문의 답변 달기
+	@RequestMapping(value = "/addAnswer.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String addAnswer(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = productService.addAdminComment(map);
 		return new Gson().toJson(resultMap);
 	}
 }
