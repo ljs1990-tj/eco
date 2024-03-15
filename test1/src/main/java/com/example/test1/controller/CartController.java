@@ -25,7 +25,7 @@ public class CartController {
 		@RequestMapping("cartList.do") 
 	    public String cartList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
 			request.setAttribute("map", map);
-			System.out.println(map);
+			
 	        return "/cart-list";
 	    }
 		
@@ -37,7 +37,7 @@ public class CartController {
 	    }
 
 		
-	//cart 추가
+		//cart 추가
 		@RequestMapping(value = "/cart/add.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 		@ResponseBody
 		public String cartInsert(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -46,7 +46,7 @@ public class CartController {
 			return new Gson().toJson(resultMap);
 		}
 		
-	//cart 삭제
+		//cart 제거
 		@RequestMapping(value = "/cart/remove.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 		@ResponseBody
 		public String productRemove(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -54,7 +54,7 @@ public class CartController {
 			resultMap = cartService.removeCartItem(map);
 			return new Gson().toJson(resultMap);
 		}
-	//cart 리스트
+		//cart 리스트
 		@RequestMapping(value = "/cart/list.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 		@ResponseBody
 		public String cartList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -63,7 +63,7 @@ public class CartController {
 			return new Gson().toJson(resultMap);
 		}
 		
-		
+		//상품 선택 갯수 수정
 		@RequestMapping(value = "/cart/ChangSelectCnt.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 		@ResponseBody
 		public String ChangSelectCnt(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -71,5 +71,27 @@ public class CartController {
 			resultMap = cartService.editSelectCnt(map);
 			return new Gson().toJson(resultMap);
 		}
+		
+		
+		//결제완료
+		@RequestMapping(value = "paymentEndCart.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String deleteCart(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap<String, Object>();
+			resultMap = cartService.paymentFinishCart(map);
+			return new Gson().toJson(resultMap);
+		}
+		
+		
+		
+		@RequestMapping(value = "paymentEndUser.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String paymentEndUser(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap<String, Object>();
+			resultMap = cartService.paymentFinishUser(map);
+			return new Gson().toJson(resultMap);
+		}
+		
+		
 	
 }

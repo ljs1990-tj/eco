@@ -12,95 +12,104 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>주문/결제 페이지</title>
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+<!-- Google Font -->
+<link
+	href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
+	rel="stylesheet">
 
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="css/bootstrap-min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome-min.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="css/jquery-ui-min.css" type="text/css">
-    <link rel="stylesheet" href="css/owl-carousel-min.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav-min.css" type="text/css">
-    <link rel="stylesheet" href="css/style2.css" type="text/css">
-    
-   
-	<%-- <jsp:include page="/layout/header.jsp"></jsp:include> --%>
+<!-- Css Styles -->
+<link rel="stylesheet" href="css/bootstrap-min.css" type="text/css">
+<link rel="stylesheet" href="css/font-awesome-min.css" type="text/css">
+<link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
+<link rel="stylesheet" href="css/nice-select.css" type="text/css">
+<link rel="stylesheet" href="css/jquery-ui-min.css" type="text/css">
+<link rel="stylesheet" href="css/owl-carousel-min.css" type="text/css">
+<link rel="stylesheet" href="css/slicknav-min.css" type="text/css">
+<link rel="stylesheet" href="css/style2.css" type="text/css">
+
+
 </head>
 <style>
 </style>
 <body>
 	<div id="app">
-    <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="breadcrumb__text">
-                        <h2>주문/결제</h2>
-                        <div class="breadcrumb__option">
-                            <a href="javascript:;" @click="fnHome">Home</a>
-                            <span>결제하기</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Breadcrumb Section End -->
+		<!-- Breadcrumb Section Begin -->
+		<section class="breadcrumb-section set-bg"
+			data-setbg="img/breadcrumb.jpg">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 text-center">
+						<div class="breadcrumb__text">
+							<h2>주문/결제</h2>
+							<div class="breadcrumb__option">
+								<a href="javascript:;" @click="fnHome">Home</a> <span>결제하기</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Breadcrumb Section End -->
 
-    <!-- Checkout Section Begin -->
-    <section class="checkout spad">
-        
-            <div class="checkout__form" style="text-align: center;">
-                <h4>배송정보</h4>
-                <div class="checkout__input__checkbox">
-                    <label for="addr">
-                        <span>주소1: <span>{{user.addrNo}}</span></span>
-                        <input type="checkbox" id="addr">
-                        <span class="checkmark"></span>
-                    </label>
-                </div>
-                <div class="checkout__input__checkbox">
-                    <label for="diff-addr">
-                        <span>주소2: <span>{{user.addrNo}}</span></span>
-                        <input type="checkbox" id="diff-addr">
-                        <span class="checkmark"></span>
-                    </label>
-                </div>
-            </div>
-    </section>
-    <section class="checkout spad" >
-                    <div class="container" >
-                            <div class="checkout__order">
-                                <h4>주문정보</h4>
-                                <div class="checkout__order__products">전체 상품 <span>금액</span></div>
-                                <ul>
-								    <li v-for="product in products" :key="product.itemName">
-								        {{ product.itemName }} <span>₩{{ product.price }}</span>
-								    </li>
-								</ul>
+		<!-- Checkout Section Begin -->
+		<section class="checkout spad">
 
-                                <div class="checkout__order__subtotal">금액 <span>₩{{product.price}}</span></div>
-                                <div class="checkout__order__subtotal">적립률 <span>₩{{product.pRate}}</span></div>
-                                <div class="checkout__order__total">총 금액 <span>₩{{product.price}}-₩{{product.sRate}}</span></div>
-                                
-                                <button onclick="requestPay()" class="site-btn">
-                                <img src="../img/logo/kakaoPay.png" alt="카카오페이">
-                                카카오페이</button>
-                                <button id="naverPayBtn" class="site-btn">네이버페이</button>
-                                
-                                <button onclick="requestPay()" class="site-btn">휴대폰 결제</button>
-                                <button onclick="requestPay()" class="site-btn">가상계좌 결제</button>
-                        </div>
-                    </div>
-            </div>
-        </div>
-    </section>
-    <!-- Checkout Section End -->
+			<div class="checkout__form" style="text-align: center;">
+				<h4>배송정보</h4>
+				<div class="checkout__input__checkbox">
+					<label for="addr"> <span>주소1: <span></span></span> <input
+						type="radio" id="addr"> <span class="checkmark"></span>
+					</label>
+				</div>
+				<div class="checkout__input__checkbox">
+					<label for="diff-addr"> <span>주소2: <span></span></span> <input
+						type="radio" id="diff-addr"> <span class="checkmark"></span>
+					</label>
+				</div>
+			</div>
+		</section>
+		<section class="checkout spad">
+			<div class="container">
+				<div class="checkout__order">
+					<h4>주문정보</h4>
+
+
+					<div class="checkout__order__subtotal">
+						금액 <span>{{noRatePrice}}원</span>
+					</div>
+					<div class="checkout__order__subtotal">
+						적립금 <span>{{pRatePrice}} Point</span>
+					</div>
+					<div class="checkout__order__subtotal">
+						할인된 금액 <span>{{ratePrice}}원</span>
+					</div>
+					<div class="checkout__order__subtotal">
+						적립금 사용<span>사용가능포인트({{user.point}} Point) <input
+							type="text" v-model="usePoint" @keyup="totalPrice"
+							placeholder="5000원 이상부터 사용 가능"
+							style="font-size: 15px; width: 200px; text-align: center;">
+							Point
+						</span>
+					</div>
+					<div class="checkout__order__total">
+						총 금액 <span>{{totalPay}}원</span>
+					</div>
+
+					<button @click="requestPay" class="site-btn">
+						<img src="../img/logo/kakaoPay.png" alt="카카오페이"> 카카오페이
+					</button>
+					<button id="naverPayBtn" class="site-btn">네이버페이</button>
+
+					<button onclick="requestPay()" class="site-btn">휴대폰 결제</button>
+					<button onclick="requestPay()" class="site-btn">가상계좌 결제</button>
+				</div>
+			</div>
 	</div>
-	
+	</div>
+	</section>
+	<!-- Checkout Section End -->
+	</div>
+
 
 	<!-- Js Plugins -->
 	<script src="js/jquery-3.3.1.min.js"></script>
@@ -110,115 +119,246 @@
 	<script src="js/jquery.slicknav.js"></script>
 	<script src="js/mixitup.min.js"></script>
 	<script src="js/owl.carousel.min.js"></script>
-	<script src="js/main.js"></script>	
+	<script src="js/main.js"></script>
 </body>
 </html>
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
-<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <script src="https://nsp.pay.naver.com/sdk/js/naverpay.min.js"></script>
 
-    <script>
-    var app = new Vue({
-        el: '#app',
-        data: {
-            user: {
-            	userId: "${userId}",
-                cartItems: [],
-                product: {}
-            },
-            products: []
-        },
-            computed: {
-                payment: function() {
-                    let sumPrice = 0;
-                    let discount = 0;
-                    this.cartItems.forEach(item => {
-                        sumPrice += item.price * item.quantity;
-                        discount += item.price * item.sRate * item.quantity;
-                    });
-                    let finalPrice = sumPrice - discount;
-                    return {
-                        sumPrice: sumPrice,
-                        discount: discount,
-                        finalPrice: finalPrice
-                    };
-                }
-            },
-            methods: {
-                fnCheckOut: function() {
-                    var self = this;
-                    $.ajax({
-                        url: "kakaoPay.dox",
-                        dataType: "json",
-                        type: "POST",
-                        data: {},
-                        success: function(data) {
-                            self.cartItems = data; 
-                        },
-                        error: function(error) {
-                            console.log("Error fetching cart list:", error);
-                        }
-                    });
-                	}
-            },
-           created: function() {
-        this.fnCartList(); 
-    }
-});
-   
-   
-        var IMP = window.IMP;
-        IMP.init("imp71268227");
+<script>
+	var app = new Vue({
+		el : '#app',
+		data : {
+			userId : "${userId}",
+			cartItems : [],
+			list : [],
+			totalPay : 0,
+			ratePrice : 0,
+			noRatePrice : 0,
+			pRatePrice : 0,
+			user : {},
+			usePoint : "",
+			paymentPRatePrice : 0,
+			paymentTotalPay :0,
+			
 
-        function requestPay() {
-            IMP.request_pay(
-                {
-                    pg: "kakaopay.TC0ONETIME", //Test는 TC0ONETIME
-                    pay_method: "card",
-                    merchant_uid: "57008833-33100", //그냥 랜덤
-                    name: "테스트 상점", // 상표명
-                    amount: 1004, // 가격
-                    buyer_email: 'test@naver.com', //유저 이메일
-                    buyer_name: '코드쿡', // 상품명
-                    buyer_tel: '01032323232', // 유저 번호
-                    buyer_addr: '서울특별시', // 주소
-                    buyer_postcode: '123-456', //
-                },
-                function (rsp) {
-                	console.log(rsp);
-                $.ajax({
-                    type: 'POST',
-                    url: '/verifyIamport/' + rsp.imp_uid
-                }).done(function(data) {
-                    if(rsp.paid_amount === data.response.amount){
-                        alert("결제 성공");
-                        
-                    } else {
-                        alert("결제 실패");
-                    }
-                });
-            });
-        }
-        var oPay = Naver.Pay.create({
-            "mode" : "{#_mode}", // development or production
-            "clientId": "{#_clientId}", // clientId
-            "chainId": "{#_chainId}" // chainId
-      });
+		},
+		computed : {
+			payment : function() {
 
-      //직접 만드신 네이버페이 결제버튼에 click Event를 할당하세요
-      var elNaverPayBtn = document.getElementById("naverPayBtn");
+			}
+		},
+		methods : {
+			fnCheckOut : function() {
+				var self = this;
+				$.ajax({
+					url : "kakaoPay.dox",
+					dataType : "json",
+					type : "POST",
+					data : {},
+					success : function(data) {
+						self.cartItems = data;
+					},
+					error : function(error) {
+						console.log("Error fetching cart list:", error);
+					}
+				});
+			},
 
-      elNaverPayBtn.addEventListener("click", function() {
-          oPay.open({
-            "merchantUserKey": "{#_merchantUserKey}",
-            "merchantPayKey": "{#_merchantPayKey}",
-            "productName": "{#_productName}",
-            "totalPayAmount": "{#_totalPayAmount}",
-            "taxScopeAmount": "{#_taxScopeAmount}",
-            "taxExScopeAmount": "{#_taxExScopeAmount}",
-            "returnUrl": "{#_returnUrl}"
-          });
-      });
-        
-    </script>
+			fnCartList : function() {
+				var self = this;
+				var nparmap = {
+					userId : self.userId,
+					kind : 1,
+
+				};
+				$.ajax({
+					url : "/cart/list.dox",
+					dataType : "json",
+					type : "POST",
+					data : nparmap,
+					success : function(data) {
+						console.log(data);
+						self.list = data.list;
+						self.totalPrice();
+						self.user = data.user;
+
+					}
+				});
+			},
+
+			fnHome : function() {
+				location.href = "header.do";
+			},
+			totalPrice : function() {
+				var self = this
+				var noRatePay = 0;
+				for (var i = 0; i < self.list.length; i++) {
+					noRatePay += self.list[i].price * self.list[i].selectcnt;
+				}
+				self.noRatePrice = noRatePay.toLocaleString('ko-KR');
+				
+				var pay = 0;
+				for (var i = 0; i < self.list.length; i++) {
+					pay += self.list[i].price * self.list[i].selectcnt
+							* (100 - self.list[i].sRate) / 100;
+				}
+
+				if (self.usePoint != 0) {
+					if (self.user.point < self.usePoint) {
+						self.usePoint = self.user.point;
+					}
+					pay = pay - self.usePoint;
+				}
+				;
+				self.paymentTotalPay = pay;
+				self.totalPay = pay.toLocaleString('ko-KR');
+
+				var rate = 0;
+				for (var i = 0; i < self.list.length; i++) {
+					rate += self.list[i].price * self.list[i].selectcnt
+							* (self.list[i].sRate / 100)
+
+				}
+
+				self.ratePrice = rate.toLocaleString('ko-KR');
+
+				var pRate = 0;
+				for (var i = 0; i < self.list.length; i++) {
+					pRate += self.list[i].price * self.list[i].selectcnt
+							* (self.list[i].pRate / 100);
+				}
+				self.paymentPRatePrice = pRate;
+				self.pRatePrice = pRate.toLocaleString('ko-KR');
+			},
+
+			requestPay : function() {
+				var self = this;
+				if (self.usePoint != "") {
+					if (self.usePoint < 5000) {
+						alert("5000원 이상부터 사용 가능합니다.");
+						return;
+					}
+				}
+
+				var IMP = window.IMP;
+
+				IMP.init("imp71268227");
+
+				var randomNum = {};
+				randomNum.random = function(n1, n2) {
+					return parseInt(Math.random() * (n2 - n1 + 1)) + n1;
+				};
+				//인증번호를 뽑을 난수 입력 n 5이면 5자리
+				randomNum.authNo = function(n) {
+					var value = "";
+					for (var i = 0; i < n; i++) {
+						value += randomNum.random(0, 9);
+					}
+					return value;
+				};
+				console.log();
+
+				IMP.request_pay({
+					pg : "kakaopay.TC0ONETIME", //Test는 TC0ONETIME
+					pay_method : "card",
+					merchant_uid : randomNum.authNo(10), //그냥 랜덤
+					name : self.list[0].itemName, // 상품명
+					amount : self.totalPay, // 가격
+					buyer_email : self.user.email, //유저 이메일
+					buyer_name : self.user.name, // 구매자명
+					buyer_tel : self.user.phone1 + self.user.phone2
+							+ self.user.phone3, // 유저 번호
+					buyer_addr : '서울특별시', // 주소
+					buyer_postcode : '123-456', //
+				}, function(rsp) {
+					console.log(rsp);
+					$.ajax({
+						type : 'POST',
+						url : '/verifyIamport/' + rsp.imp_uid
+					}).done(function(data) {
+						if (rsp.paid_amount === data.response.amount) {
+
+							self.paymentEndCart();
+							self.paymentEndUser();
+							
+					            alert("결제 성공");
+					            }else {
+									alert("결제 실패");
+					            }
+	                });
+	            });
+	        },
+	        
+	        paymentEndCart : function(){
+	        	var self = this;
+				var nparmap = {
+						userId : self.userId
+					
+				};
+				$.ajax({
+					url : "paymentEndCart.dox",
+					dataType : "json",
+					type : "POST",
+					data : nparmap,
+					success : function(data) {
+						
+					}
+				});
+			},
+			paymentEndUser : function(){
+	        	var self = this;
+	        	
+	        	
+				var nparmap = {
+						userId : self.userId,
+						totalPay : self.paymentTotalPay,
+						usePoint : self.usePoint,
+						rewardPoint: self.paymentPRatePrice
+						
+					
+				};
+				$.ajax({
+					url : "paymentEndUser.dox",
+					dataType : "json",
+					type : "POST",
+					data : nparmap,
+					success : function(data) {
+						
+					}
+				});
+			}
+		
+		},
+
+		created : function() {
+			var self = this;
+			self.fnCartList();
+		}
+	});
+
+	var oPay = Naver.Pay.create({
+		"mode" : "{#_mode}", // development or production
+		"clientId" : "{#_clientId}", // clientId
+		"chainId" : "{#_chainId}" // chainId
+	});
+
+	//직접 만드신 네이버페이 결제버튼에 click Event를 할당하세요
+	var elNaverPayBtn = document.getElementById("naverPayBtn");
+
+	elNaverPayBtn.addEventListener("click", function() {
+		oPay.open({
+			"merchantUserKey" : "{#_merchantUserKey}",
+			"merchantPayKey" : "{#_merchantPayKey}",
+			"productName" : "{#_productName}",
+			"totalPayAmount" : "{#_totalPayAmount}",
+			"taxScopeAmount" : "{#_taxScopeAmount}",
+			"taxExScopeAmount" : "{#_taxExScopeAmount}",
+			"returnUrl" : "{#_returnUrl}"
+		});
+	});
+</script>

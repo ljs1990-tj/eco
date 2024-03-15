@@ -11,11 +11,10 @@
 		WHERE C.USERID = #{userId} AND KIND = 1
     </select>
   
-	<delete id="deleteCartItem" parameterType="hashmap">
+	<delete id="removeCart" parameterType="hashmap">
 		DELETE
 		FROM ECO_CART
-		WHERE ITEM_NO = #{itemNo}
-		AND USERID = #{userId}
+		WHERE CART_NO = #{cartNo}
 	</delete>
 	
 	<select id="selectCartFile" parameterType="hashmap" resultType="com.example.test1.model.ProductFile">
@@ -31,5 +30,20 @@
 			SELECTCNT = #{selectCnt}
 		WHERE CART_NO = #{cartNo}
 	</update>
+	
+	<delete id="paymentEnd" parameterType="hashmap">
+		DELETE
+		FROM ECO_CART
+		WHERE USERID = #{userId}
+	</delete>
+	
+	<update id="updatePaymentEndUser" parameterType="hashmap">
+		UPDATE ECO_USER
+		SET
+			POINT = POINT - #{usePoint} + #{rewardPoint},
+			TOTALPAY = TOTALPAY + #{totalPay}
+		WHERE USERID = #{userId}
+	</update>
+	
 	
 </mapper>
