@@ -75,10 +75,10 @@
 	                        	<li class="active"><a href="/main.do">Home</a></li>
 	                            <li><a href="javascript:;">카테고리</a>
 									<ul class="header__menu__dropdown">
-										<li><a href="javascript:;" >유기농</a></li>
-										<li><a href="javascript:;" @click="fnEnterProduct()">비건</a></li>
-										<li><a href="javascript:;">글루텐-프리</a></li>
-										<li><a href="javascript:;">로컬푸드</a></li>
+										<li><a href="javascript:;" @click="fnMoveCategory('org')">유기농</a></li>
+										<li><a href="javascript:;" @click="fnMoveCategory('vegan')">비건</a></li>
+										<li><a href="javascript:;" @click="fnMoveCategory('gluten')">글루텐-프리</a></li>
+										<li><a href="javascript:;" @click="fnMoveCategory('local')">로컬푸드</a></li>
 									</ul>
 	                          	</li>
 	                            <li><a href="javascript:;">1:1 매칭</a></li>
@@ -189,9 +189,8 @@
 					alert("로그인 후 입장 가능합니다.");
 				}
 			},
-			fnEnterProduct: function() {
-				var self = this;
-				$.pageChange("/cartList.do", {userId: self.userId});
+			fnMoveCategory: function(kind) {
+				$.pageChange("/productList.do", {code: kind});
 			},
 	    }
 	    , created: function() {
