@@ -22,7 +22,8 @@ public class User {
 	private String uDateTime;
 	private String StartDate;
 	private String EndDate;
-	private String deleteDate; //회원탈퇴하기
+	private String deleteDate; // 회원탈퇴하기
+	private String phone; // PHONE1+PHONE2+PHONE3
 	
 	public String getDeleteDate() {
 		return deleteDate;
@@ -155,5 +156,11 @@ public class User {
 	}
 	public void setEndDate(String endDate) {
 		EndDate = endDate;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 }

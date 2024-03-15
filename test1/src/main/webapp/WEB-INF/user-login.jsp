@@ -76,7 +76,9 @@
 				<input type="password" class="login-input" v-model="userPw" @keyup.enter="fnLogin" placeholder="비밀번호를 입력해 주세요" maxlength="16">
 			</div>
 			<div class="find-align" style="margin: 10px;">
-				<a class="login-text" href="/find-password.do" @click.prevent="fnOpenPopup('password')">비밀번호 찾기</a>
+				<a class="login-text" href="/find-password.do" @click.prevent="fnOpenFind('id')">아이디 찾기</a>
+				<span style="font-size: 13px;">|</span>
+				<a class="login-text" href="/find-password.do" @click.prevent="fnOpenFind('password')">비밀번호 찾기</a>
 			</div>
 			<div style="margin: 10px;">
 				<button class="login-btn" @click="fnLogin">로그인</button>
@@ -133,12 +135,14 @@ var app = new Vue({
         fnJoin: function() {
         	$.pageChange("/user-join.do", {});
         },
-        fnOpenPopup: function(kind) {
-        	if(kind == 'password') {
+        fnOpenFind: function(kind) {
+        	var leftPosition = (window.screen.width / 2) - (460 / 2);
+       		var topPosition = (window.screen.height / 2) - (300 / 2);
+        	if(kind == 'id') {
+	       		window.open('/find-id.do', '_blank', 'width=460, height=300, left=' + leftPosition + ',top=' + topPosition + ', toolbar=no, location=no, status=no, menubar=no');        		
+        	} else if(kind == 'password') {
           		// 비밀번호 찾기 팝업을 창의 상단 중앙에 위치시키기 위해 창의 크기와 화면 크기를 이용하여 위치 조정
-	       		var leftPosition = (window.screen.width / 2) - (600 / 2);
-	       		var topPosition = (window.screen.height / 2) - (400 / 2);
-	       		window.open('/find-password.do', '_blank', 'width=600,height=400, left=' + leftPosition + ',top=' + topPosition);
+	       		window.open('/find-password.do', '_blank', 'width=460, height=300, left=' + leftPosition + ',top=' + topPosition + ', toolbar=no, location=no, status=no, menubar=no');
         	}
         }
     }

@@ -46,6 +46,14 @@ public class UserController {
 		session.invalidate();
 		return "/user-login";
 	}
+	
+	// 아이디 찾기 페이지
+	@RequestMapping("/find-id.do") 
+    public String findId(Model model) throws Exception{
+		
+        return "/find-id";
+    }
+	
 	// 비밀번호 찾기 페이지
 	@RequestMapping("/find-password.do") 
     public String findPassword(Model model) throws Exception{
@@ -83,6 +91,14 @@ public class UserController {
 	public String changeUserPw(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = userService.modifyUserPw(map);
+		return new Gson().toJson(resultMap);
+	}
+	
+	@RequestMapping(value = "/checkPhoneNum.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String checkPhoneNum(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = userService.checkUserPhone(map);
 		return new Gson().toJson(resultMap);
 	}
 	

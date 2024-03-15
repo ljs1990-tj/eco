@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="css/owl-carousel-min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav-min.css" type="text/css">
     <link rel="stylesheet" href="css/style2.css" type="text/css">
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
 <body id="HeaderAllTab">
@@ -97,7 +97,9 @@
 	                    <div class="header__cart">
 	                        <ul>
 	                            <li><a href="javascript:;" @click="fnFavorite"><i class="fa fa-heart"></i> <span>0</span></a></li>
-	                            <li><a href="javascript:;" @click="fnMoveCart"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
+	                            <li><a href="javascript:;" @click="fnMoveCart"><i class="fa fa-shopping-bag"></i> <span>{{cartCnt}}</span></a></li>
+	                       		<!-- here -->
+	                       		<li v-if="userType == 'A'"><a href="/admin-main.do" ><i class="bi bi-gear-fill"></i></a></li>
 	                        </ul>
 	                        <div class="header__cart__price"></div>
 	                    </div>
@@ -122,7 +124,7 @@
     <script src="js/main.js"></script>
     <script src="js/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    
+
 </body>
 </html>
 <script type="text/javascript">
@@ -130,7 +132,9 @@
 	    el: '#appHeader',
 	    data: {
 	    	userId: "${userId}",
+	    	userType: "${userType}", 
 	    	email: "",
+	    	cartCnt: "",
 	    	loginFlg: false
 	    }
 	    , methods: {
@@ -149,6 +153,7 @@
 		                success: function(data) {
 		                	if(data.result == 'fail') {
 		                		self.email = data.user.email;
+		                		self.cartCnt = data.cartCnt;
 		                	}
 		                }
 		            });
