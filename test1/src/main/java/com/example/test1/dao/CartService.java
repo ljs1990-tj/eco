@@ -13,4 +13,5 @@ public interface CartService {
 	
 	HashMap<String, Object> paymentFinishCart(HashMap<String, Object> map);
 	HashMap<String, Object> paymentFinishUser(HashMap<String, Object> map);
+	HashMap<String, Object> paymentFinishChart(HashMap<String, Object> map);
 }

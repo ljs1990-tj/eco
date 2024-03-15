@@ -45,5 +45,11 @@
 		WHERE USERID = #{userId}
 	</update>
 	
+	<insert id="insertProductChart" parameterType="hashmap">
+		INSERT INTO ECO_PRODUCT_CHART
+		VALUES
+			(#{itemNo},#{selectCnt},MONTH(NOW()))
+
+	</insert>
 	
 </mapper>
