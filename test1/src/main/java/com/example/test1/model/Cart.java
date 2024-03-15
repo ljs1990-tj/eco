@@ -19,5 +19,6 @@ public class Cart {
 	private String itemName;
 	private int pRate;
 	private int cnt;
+	private String transInfo;
 	
     }
