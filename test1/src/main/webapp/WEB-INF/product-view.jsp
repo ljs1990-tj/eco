@@ -63,7 +63,7 @@
         color: #666; /* 단락 텍스트 색상 */
     }
     .button-container {
-        position: absolute;
+       /*  position: absolute; */
         right: 0;
         bottom: 0;
         margin: 10px;
@@ -78,10 +78,10 @@
         border: none; 
         border-radius: 3px; 
         cursor: pointer;
-        font-size: 16px;
-        font-weight: 700;
+        font-size: 14px;
+        font-weight: 500;
         transition: background-color 0.3s; 
-        width: 180px;
+        width: 160px;
         /* position: absolute; 
         right: 0; 
         bottom: 0;
@@ -92,13 +92,14 @@
         padding: 15px 20px;
         background-color: white; 
         color: #5cb85c;
-        border: 2px solid #5cb85c;
+        border: 1px solid #5cb85c;
         border-radius: 3px;
         cursor: pointer;
-        font-size: 16px;
-        font-weight: 700;
+        font-size: 14px;
+        font-weight: 500;
         transition: background-color 0.3s;
-        width: 180px; 
+        width: 160px; 
+       	
     }
 
     .product-description {
@@ -278,6 +279,8 @@
     
 </style>
 <body>
+<!-- Header Section -->
+<%@ include file="layout/header.jsp" %>
     <div id="app">
         <div class="product-detail-top-container">
             <div class="product-image" >
@@ -379,24 +382,41 @@
                             <th style="width: 10%;">작성자</th>
                             <th style="width: 10%;">작성일</th>
                             <th style="width: 10%;">답변 상태</th>
+                            <th style="width: 10%;">답변하기</th>
                         </tr>
                     </thead>
                     <tbody>
-                    	<template v-for="(item, index) in qa">
-	                        <tr>
-	                            <td @click="toggleContents(index)" style="width: 70%;" class="qaClick">{{item.title}}</td>
-	                            <td style="width: 10%;">{{item.userId}}</td>
-	                            <td style="width: 10%;">{{item.qaUdate}}</td>
-	                            <td style="width: 10%;">답변 대기</td>                        
-	                        </tr>
-	                        <tr v-if="qaOnOff === index">
-						        <td colspan="4" class="qa-contents">
-						        	<img src="img/question.png" style="width: 30px">
-						        	{{item.qaContents}}
-						        </td>
-						    </tr>
-                    	</template>
-                    </tbody>
+						<template v-if="qa.length > 0">
+							<template v-for="(item, index) in qa">
+								<tr>
+									<td @click="toggleContents(index)" style="width: 70%;"
+										class="qaClick">{{item.title}}</td>
+									<td style="width: 10%;">{{item.userId}}</td>
+									<td style="width: 10%;">{{item.qaUdate}}</td>
+									<td style="width: 10%;">
+					                    <span v-if="item.comment" style="color: #5cb85c">답변 완료</span>
+					                    <span v-else style="color: #ccc">답변 대기</span>
+					                </td>
+					                <td>
+					                	<button @click="fnAnswer(item.boardNo)">답변하기</button>
+					                </td>
+								</tr>
+								<tr v-if="qaOnOff === index">
+									<td colspan="4" class="qa-contents">
+										<img src="img/question.png" style="width: 30px"> 
+											{{item.qaContents }}
+										<div v-if="item.comment" style="margin-top: 20px;">
+											<img src="img/answer.png" style="width: 30px"> 
+											{{ item.comment }}
+										</div>
+									</td>
+								</tr>
+							</template>
+						</template>
+						<tr v-else>
+							<td colspan="4" style="text-align: center;">등록된 문의가 없습니다.</td>
+						</tr>
+					</tbody>
                 </table>
             </div>
 
@@ -434,6 +454,8 @@
             </div>
         </div>  
     </div>
+<!-- Footer Section -->
+<%@ include file="layout/footer.jsp" %>	
 </body>
 </html>
 <script type="text/javascript">
@@ -448,7 +470,7 @@ var app = new Vue({
     	review: [], //상품 리뷰
     	qa: [], // 상품 문의
     	activeTab: 'details',
-    	ImageIndex: 0, // 이미지 선택 인덱스,
+    	ImageIndex: 0, // 이미지 선택 인덱스
     	qaOnOff: null
     	
     }
@@ -511,7 +533,16 @@ var app = new Vue({
             // 팝업 창 열기
             window.open(url, "ProductQuestion", windowOptions);
         },
-        
+        fnAnswer: function(boardNo){
+        	var self = this;
+        	console.log(boardNo);
+        	
+            var url = "/productAnswer.do?boardNo=" + boardNo;
+            // 팝업 창 옵션 설정
+            var windowOptions = "width=650, height=550";
+            // 팝업 창 열기
+            window.open(url, "productAnswer", windowOptions);
+        },
         /* 상품정보, 상품평 등.. 선택버튼  */
         scrollToElement: function(selector) {
 	        var element = document.querySelector(selector);

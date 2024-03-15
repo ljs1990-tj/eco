@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.test1.mapper.CommentMapper;
 import com.example.test1.mapper.ProductMapper;
 import com.example.test1.model.Product;
 import com.example.test1.model.ProductFile;
@@ -17,6 +18,9 @@ public class ProductServiceimpl implements ProductService {
 
 	@Autowired
 	ProductMapper productMapper;
+	
+	@Autowired
+	CommentMapper commentMapper;
 
 	@Autowired
 	HttpSession session;
@@ -131,13 +135,28 @@ public class ProductServiceimpl implements ProductService {
 		}
 		return resultMap;
 	}
-
+	//상품 문의 등록
 	@Override
 	public HashMap<String, Object> addQa(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			productMapper.insertQa(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
+		return resultMap;
+	}
+	//등록된 문의 답변 달기
+	@Override
+	public HashMap<String, Object> addAdminComment(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			commentMapper.insertAdminComment(map);
 			resultMap.put("result", "success");
 		} catch (Exception e) {
 			// TODO: handle exception

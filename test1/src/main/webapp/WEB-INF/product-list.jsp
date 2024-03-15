@@ -10,7 +10,7 @@
 	<title>상품 페이지</title>
 </head>
 <style>
-    .container {
+    .prodcut-container {
         margin: 0 auto; 
         padding: 20px; 
         max-width: 1200px; 
@@ -151,7 +151,7 @@
 	<div id="app">
 		{{userId}}
 	    {{userType}}
-		<div class="container">
+		<div class="prodcut-container">
             <div class="banner">
               <!-- 배너 이미지 영역 -->
               <img src="/img/vegetable.jpg" alt="상단 배너 이미지">

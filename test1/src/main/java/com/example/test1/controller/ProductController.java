@@ -52,6 +52,15 @@ public class ProductController {
 		return "/product-qa";
 	}
 	
+	//등록된 문의 답변 페이지
+	@RequestMapping("/productAnswer.do")
+	public String productAnswer(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
+			throws Exception {
+		request.setAttribute("map", map);
+		return "/product-qa-answer";
+	}
+	
+	
 	// 제품 리스트
 	@RequestMapping(value = "/productList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -120,6 +129,15 @@ public class ProductController {
 	public String addQa(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = productService.addQa(map);
+		return new Gson().toJson(resultMap);
+	}
+	
+	//등록된 문의 답변 달기
+	@RequestMapping(value = "/addAnswer.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String addAnswer(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = productService.addAdminComment(map);
 		return new Gson().toJson(resultMap);
 	}
 }

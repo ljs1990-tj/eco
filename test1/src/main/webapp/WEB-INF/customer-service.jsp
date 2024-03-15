@@ -11,14 +11,14 @@
 	<title>고객센터</title>
 </head>
 <style>
-		.container {
+	.customer-container {
 		display: flex; /* Flexbox 레이아웃 적용 */
 		width: 75%;
 		max-width: 1200px;
 		margin: 0 auto;
 		padding: 20px;
 		background: #fff;
-		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		/* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
 	}
 	
 	.menu-area {
@@ -184,8 +184,10 @@
     }    
 </style>
 <body>
+<!-- Header Section -->
+<%@ include file="layout/header.jsp" %>
 	<div id="app">
-	    <div class="container">
+	    <div class="customer-container">
 	        <div class="menu-area">
 				<h2>고객센터</h2>
 				<div class="menu-item" :class="{ 'menu-item-selected': selectedMenuItem === 'faq' }" @click="updateContent('faq')">자주하는 질문 <span class="align-right">></span></div>
@@ -267,6 +269,8 @@
 	        </div>
 	    </div><!-- <div class="container">  -->
 	</div><!--<div id="app">  -->
+<!-- Footer Section -->
+<%@ include file="layout/footer.jsp" %>	
 </body>
 </html>
 

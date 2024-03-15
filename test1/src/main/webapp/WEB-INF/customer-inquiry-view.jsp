@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
@@ -10,7 +11,7 @@
 	<title>첫번째 페이지</title>
 </head>
 <style>
-     .container {
+     .customer-container {
 		display: flex;
 		flex-direction: column; /* 요소들을 세로로 나열 */
 		width: 75%;
@@ -18,7 +19,7 @@
 		margin: 0 auto;
 		padding: 20px;
 		background: #fff;
-		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		/* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
 	}
 	.inquiry-summary {
 		margin-bottom: 50px;
@@ -107,8 +108,10 @@
     }
 </style>
 <body>
+<!-- Header Section -->
+<%@ include file="layout/header.jsp" %>
 	<div id="app">
-		<div class="container">
+		<div class="customer-container">
             <div class="inquiry-summary">
                 <h2>문의 내역</h2>
                 <p>고객님이 남겨주신 문의 내용이에요. 문의주신 내용을 빨리 확인하도록 하겠습니다.</p>
@@ -161,6 +164,8 @@
         </div>
         
 	</div>
+<!-- Footer Section -->
+<%@ include file="layout/footer.jsp" %>	
 </body>
 </html>
 <script type="text/javascript">
