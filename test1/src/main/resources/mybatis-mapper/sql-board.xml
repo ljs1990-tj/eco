@@ -87,7 +87,7 @@
 	
 	<select id="selectBoardContentsFileInfo" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
 		SELECT B.*,
-			FILEPATH || FILENAME AS PATH
+			CONCAT(FILEPATH, FILENAME) AS PATH
 		FROM ECO_BOARD_IMAGE B
 		WHERE BOARDNO = #{boardNo}
 	</select>
