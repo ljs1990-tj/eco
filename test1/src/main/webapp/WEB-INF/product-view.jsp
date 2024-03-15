@@ -382,18 +382,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(item, index) in qa">
-                            <td @click="toggleContents(index)" style="width: 70%;" class="qaClick">{{item.title}}</td>
-                            <td style="width: 10%;">{{item.userId}}</td>
-                            <td style="width: 10%;">{{item.qaUdate}}</td>
-                            <td style="width: 10%;">답변 대기</td>                        
-                        </tr>
-                        <tr v-for="(item, index) in qa" v-if="qaOnOff === index">
-					        <td colspan="3" class="qa-contents">
-					        	<img src="img/question.png" style="width: 30px">
-					        	{{item.qaContents}}
-					        </td>
-					    </tr>
+                    	<template v-for="(item, index) in qa">
+	                        <tr>
+	                            <td @click="toggleContents(index)" style="width: 70%;" class="qaClick">{{item.title}}</td>
+	                            <td style="width: 10%;">{{item.userId}}</td>
+	                            <td style="width: 10%;">{{item.qaUdate}}</td>
+	                            <td style="width: 10%;">답변 대기</td>                        
+	                        </tr>
+	                        <tr v-if="qaOnOff === index">
+						        <td colspan="4" class="qa-contents">
+						        	<img src="img/question.png" style="width: 30px">
+						        	{{item.qaContents}}
+						        </td>
+						    </tr>
+                    	</template>
                     </tbody>
                 </table>
             </div>
