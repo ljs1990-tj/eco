@@ -123,6 +123,21 @@ public class CartServiceImpl implements CartService{
 		}
 		return resultMap;
 	}
+
+	@Override
+	public HashMap<String, Object> paymentFinishChart(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			cartMapper.insertProductChart(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
     
 	
 

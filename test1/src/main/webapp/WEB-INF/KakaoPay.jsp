@@ -285,6 +285,7 @@
 
 							self.paymentEndCart();
 							self.paymentEndUser();
+							self.paymentEndChart();
 							
 					            alert("결제 성공");
 					            }else {
@@ -312,15 +313,11 @@
 			},
 			paymentEndUser : function(){
 	        	var self = this;
-	        	
-	        	
 				var nparmap = {
 						userId : self.userId,
 						totalPay : self.paymentTotalPay,
 						usePoint : self.usePoint,
 						rewardPoint: self.paymentPRatePrice
-						
-					
 				};
 				$.ajax({
 					url : "paymentEndUser.dox",
@@ -328,10 +325,34 @@
 					type : "POST",
 					data : nparmap,
 					success : function(data) {
-						
 					}
 				});
+			},
+			paymentEndChart : function(){
+	        	var self = this;
+	        	
+	        	for(var i=0 ; i<self.list.length; i++){
+	        		var itemNo = self.list[i].itemNo;
+	        		var selectCnt = self.list[i].selectcnt;
+	        		
+	        		var nparmap = {
+							itemNo : itemNo,
+							selectCnt : selectCnt
+					};
+					$.ajax({
+						url : "paymentEndChart.dox",
+						dataType : "json",
+						type : "POST",
+						data : nparmap,
+						success : function(data) {
+						}
+					});
+	        		
+	        	}
+				
 			}
+			
+			
 		
 		},
 

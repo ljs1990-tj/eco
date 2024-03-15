@@ -21,5 +21,6 @@ public interface CartMapper {
 	void updateSelectCnt(HashMap<String, Object> map);
 	void paymentEnd(HashMap<String, Object> map);
 	void updatePaymentEndUser(HashMap<String, Object> map);
+	void insertProductChart(HashMap<String, Object> map);
 
 }
