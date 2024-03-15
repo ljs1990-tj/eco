@@ -213,7 +213,7 @@ var app = new Vue({
     	filelist : [],
     	userId : "${userId}",
 		userType : "${userType}",
-    	code : ""
+    	code : "${map.code}"
     }
     , methods: {
     	fnList: function(code) {
@@ -296,7 +296,7 @@ var app = new Vue({
     }
     , created: function() {
     	var self = this;
-    	self.fnList('org');
+    	self.fnList(self.code);
 	}
 });
 </script>

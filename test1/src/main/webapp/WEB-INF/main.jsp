@@ -19,10 +19,10 @@
 	                            <span>카테고리</span>
 	                        </div>
 	                        <ul>
-	                            <li><a href="javascript:;">유기농</a></li>
-	                            <li><a href="javascript:;">비건</a></li>
-	                            <li><a href="javascript:;">글루텐프리</a></li>
-	                            <li><a href="javascript:;">로컬푸드</a></li>
+	                            <li><a href="javascript:;" @click="fnMoveCategory('org')">유기농</a></li>
+	                            <li><a href="javascript:;" @click="fnMoveCategory('vegan')">비건</a></li>
+	                            <li><a href="javascript:;" @click="fnMoveCategory('gluten')">글루텐프리</a></li>
+	                            <li><a href="javascript:;" @click="fnMoveCategory('local')">로컬푸드</a></li>
 	                        </ul>
 	                    </div>
 	                </div>
@@ -541,18 +541,18 @@
 				<button @click="closePopup">닫기</button>
 			</div>
  		</div>  -->
-<!-- Js Plugins -->
-
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery.nice-select.min.js"></script>
-<script src="js/jquery-ui.min.js"></script>
-<script src="js/jquery.slicknav.js"></script>
-<script src="js/mixitup.min.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/main.js"></script>
-<script src="js/jquery.js"></script>
-
+ 		
+	<!-- Js Plugins -->
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.nice-select.min.js"></script>
+	<script src="js/jquery-ui.min.js"></script>
+	<script src="js/jquery.slicknav.js"></script>
+	<script src="js/mixitup.min.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<script src="js/main.js"></script>
+	<script src="js/jquery.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 </body>
 </html>
@@ -582,6 +582,10 @@
 			closePopup : function() {
 				this.isPopupOpen = false;
 			},
+			fnMoveCategory: function(kind) {
+				var self = this;
+				$.pageChange("/productList.do", {code: kind});
+			}
 		},
 		created : function() {
 			var self = this;
