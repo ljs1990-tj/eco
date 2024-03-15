@@ -51,7 +51,7 @@ var app = new Vue({
           colors: ['transparent']
         },
         xaxis: {
-          categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9' ,'10','11','12'],
+        	categories: ["1","2","3","4","5","6","7","8","9","10","11","12"],
         },
         yaxis: {
           title: {
@@ -102,7 +102,14 @@ var app = new Vue({
                 		}if(data.ProductList[i].code == "gluten") {
                 			glutenList.push(data.ProductList[i].totalPay);
                 		}
+                		
                 	}
+                	
+                	
+                	
+                	
+                	
+              
                 	self.series.push({
                         name: "로컬푸드",
                         data: localList
@@ -122,7 +129,12 @@ var app = new Vue({
                 	
                 }
             });
+        },
+        
+        fnmmmmmm : function(){
+        	
         }
+        
     	
     	
     	

@@ -101,5 +101,14 @@ public class CartController {
 			return new Gson().toJson(resultMap);
 		}
 		
+		
+		
+		@RequestMapping(value = "paymentEndHistorySave.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String paymentEndHistorySave(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap<String, Object>();
+			resultMap = cartService.paymentFinishHistory(map);
+			return new Gson().toJson(resultMap);
+		}
 	
 }

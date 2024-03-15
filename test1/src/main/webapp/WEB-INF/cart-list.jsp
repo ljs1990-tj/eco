@@ -126,16 +126,28 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6" v-if="list.length != 0">
                     <div class="shoping__checkout">
-                        <h5>총 금액</h5>
+                        <h5 >총 금액</h5>
                         <ul>
-                            <li>금액 <span>{{noRatePrice}}원</span></li>
-                            <li>할인된 금액 <span> {{ratePrice}}원</span></li>
-                            <li>적립된 포인트 <span>{{Point}}Point</span></li>
-                            <li>총 금액 <span >{{totalPay}}원</span></li>
+                            <li >금액 <span>{{noRatePrice}}원</span></li>
+                            <li >할인된 금액 <span> {{ratePrice}}원</span></li>
+                            <li >적립된 포인트 <span>{{Point}}Point</span></li>
+                            <li >총 금액 <span >{{totalPay}}원</span></li>
                         </ul>
-                        <a href="javascript:;" @click="fnKakaoPay" class="primary-btn">계속해서 진행하기</a>
+                        <a href="javascript:;" @click="fnKakaoPay" class="primary-btn" >계속해서 진행하기</a>
+                        
+                    </div>
+                </div>
+                 <div class="col-lg-6" v-if="list.length == 0">
+                    <div class="shoping__checkout">
+                        <h5 >총 금액</h5>
+                        <ul>
+                        	<li>	
+                        	<span>장바구니에 아무런 상품도 담겨있지 않아요!</span>	
+                        	</li>
+                        </ul>
+                        
                         
                     </div>
                 </div>

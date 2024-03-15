@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="zxx">
 <head>
-	<meta charset="UTF-8">
+   <meta charset="UTF-8">
     <meta name="description" content="Ogani Template">
     <meta name="keywords" content="Ogani, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -77,10 +77,10 @@
         </div>
         <div id ="appFooter"></div>
     </footer>
-
+    
 </body>
 <script type="text/javascript">
-	var app = new Vue({
+ 	var app = new Vue({
 	    el: '#appFooter',
 	    data: {
 	    	
@@ -94,6 +94,6 @@
 	    , created: function() {
 	    
 		}
-	});
+	}); 
 </script>
 </html>

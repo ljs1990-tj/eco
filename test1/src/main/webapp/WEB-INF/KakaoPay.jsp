@@ -81,7 +81,7 @@
 						적립금 <span>{{pRatePrice}} Point</span>
 					</div>
 					<div class="checkout__order__subtotal">
-						할인된 금액 <span>{{ratePrice}}원</span>
+						총 할인된 금액 <span>{{ratePrice}}원({{Math.round(paymentRatePrice/paymentNoRatePrice*100)}}%)</span>
 					</div>
 					<div class="checkout__order__subtotal">
 						적립금 사용<span>사용가능포인트({{user.point}} Point) <input
@@ -90,6 +90,11 @@
 							style="font-size: 15px; width: 200px; text-align: center;">
 							Point
 						</span>
+					</div>
+					<div class="checkout__order__subtotal">
+						배송비 
+						<span v-if="paymentNoRatePrice > 10000"> 0원 (10,000원 이상 배송비 무료)</span>
+						<span v-if="paymentNoRatePrice < 10000"> 3000원 (10,000원 이상 배송비 무료)</span>
 					</div>
 					<div class="checkout__order__total">
 						총 금액 <span>{{totalPay}}원</span>
@@ -144,6 +149,8 @@
 			usePoint : "",
 			paymentPRatePrice : 0,
 			paymentTotalPay :0,
+			paymentNoRatePrice : 0,
+			paymentRatePrice : 0
 			
 
 		},
@@ -200,6 +207,7 @@
 				for (var i = 0; i < self.list.length; i++) {
 					noRatePay += self.list[i].price * self.list[i].selectcnt;
 				}
+				self.paymentNoRatePrice =noRatePay;
 				self.noRatePrice = noRatePay.toLocaleString('ko-KR');
 				
 				var pay = 0;
@@ -212,11 +220,22 @@
 					if (self.user.point < self.usePoint) {
 						self.usePoint = self.user.point;
 					}
+					if(self.usePoint > pay){
+						self.usePoint = pay;
+					}
 					pay = pay - self.usePoint;
+					
+				};
+				
+				
+				if(self.paymentNoRatePrice < 3000){
+					self.paymentTotalPay = pay + 3000;
+					self.totalPay = (pay+3000).toLocaleString('ko-KR');
+				}else{
+					self.paymentTotalPay = pay;
+					self.totalPay = pay.toLocaleString('ko-KR');
 				}
-				;
-				self.paymentTotalPay = pay;
-				self.totalPay = pay.toLocaleString('ko-KR');
+				
 
 				var rate = 0;
 				for (var i = 0; i < self.list.length; i++) {
@@ -224,7 +243,7 @@
 							* (self.list[i].sRate / 100)
 
 				}
-
+				self.paymentRatePrice = rate;
 				self.ratePrice = rate.toLocaleString('ko-KR');
 
 				var pRate = 0;
@@ -245,7 +264,7 @@
 					}
 				}
 
-				var IMP = window.IMP;
+				 var IMP = window.IMP;
 
 				IMP.init("imp71268227");
 
@@ -262,11 +281,25 @@
 					return value;
 				};
 				console.log();
-
+				var ReceiptCode = randomNum.authNo(100)
+				
+				if(self.paymentTotalPay == 0){
+					if(confirm("포인트로 전액 결제 하시겠습니까?")){
+						self.paymentEndCart();
+						self.paymentEndUser();
+						self.paymentEndChart();
+						self.paymentEndHistorySave(ReceiptCode);
+						alert("결제완료");
+						return;
+					}
+					
+					return;
+				} 
+				
 				IMP.request_pay({
 					pg : "kakaopay.TC0ONETIME", //Test는 TC0ONETIME
 					pay_method : "card",
-					merchant_uid : randomNum.authNo(10), //그냥 랜덤
+					merchant_uid : ReceiptCode, //그냥 랜덤
 					name : self.list[0].itemName, // 상품명
 					amount : self.totalPay, // 가격
 					buyer_email : self.user.email, //유저 이메일
@@ -286,14 +319,17 @@
 							self.paymentEndCart();
 							self.paymentEndUser();
 							self.paymentEndChart();
-							
-					            alert("결제 성공");
-					            }else {
-									alert("결제 실패");
-					            }
+							self.paymentEndHistorySave(ReceiptCode);
+					        alert("결제 성공");
+					            
+					        location.href="main.do";
+					            
+					        } else {
+							alert("결제 실패");
+					        }
 	                });
-	            });
-	        },
+	            }); 
+	        }, 
 	        
 	        paymentEndCart : function(){
 	        	var self = this;
@@ -338,6 +374,7 @@
 	        		var nparmap = {
 							itemNo : itemNo,
 							selectCnt : selectCnt
+							
 					};
 					$.ajax({
 						url : "paymentEndChart.dox",
@@ -350,7 +387,31 @@
 	        		
 	        	}
 				
+			},
+			paymentEndHistorySave : function(paymentKey){
+	        	var self = this;
+	        		
+	        		var nparmap = {
+	        				userId : self.userId,
+	        				paymentKey : paymentKey,
+	        				usePoint : self.usePoint,
+	        				rewardPoint : self.paymentPRatePrice,
+	        				sumPrice : self.paymentTotalPay
+					};
+					$.ajax({
+						url : "paymentEndHistorySave.dox",
+						dataType : "json",
+						type : "POST",
+						data : nparmap,
+						success : function(data) {
+						}
+					});
+	        		
+	        	
+				
 			}
+			
+			
 			
 			
 		
@@ -367,7 +428,6 @@
 		"clientId" : "{#_clientId}", // clientId
 		"chainId" : "{#_chainId}" // chainId
 	});
-
 	//직접 만드신 네이버페이 결제버튼에 click Event를 할당하세요
 	var elNaverPayBtn = document.getElementById("naverPayBtn");
 
@@ -382,4 +442,6 @@
 			"returnUrl" : "{#_returnUrl}"
 		});
 	});
+
+	
 </script>
