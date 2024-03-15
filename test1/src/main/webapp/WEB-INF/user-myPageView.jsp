@@ -24,7 +24,7 @@
                     </li>
                     <li>
                         <span>비밀번호: </span>
-                        <input type="text" v-model="user.userPw" maxlength="16" @input="validatePassword($event, 'userPw')" >
+                        <input type="password" v-model="user.userPw" maxlength="16" @input="validatePassword($event, 'userPw')" >
                         <div>
                             <span v-if="!checkPasswordMatch" style="color: red;">{{ passwordErrorMessage }}</span>
                         </div>
@@ -39,7 +39,7 @@
                     </li>
                     <li>
                         <span>이름: </span>
-                        <input type="text" v-model="user.name" maxlength="30">
+						<input type="text" v-model="user.name" maxlength="30" @input="validateName">
                     </li>
                     <li>
                         <span>닉네임: </span>
@@ -56,9 +56,9 @@
 					<li>
 						<span>핸드폰 번호: </span>
 						<div class="inline-input">
-							 <input type="text" v-model="user.phone1"  maxlength="3" @input="allowOnlyNumbers($event, 'phone1')">-
-       						<input type="text" v-model="user.phone2"  maxlength="4" @input="allowOnlyNumbers($event, 'phone2')">-
-        					<input type="text" v-model="user.phone3"  maxlength="4" @input="allowOnlyNumbers($event, 'phone3')">    
+						    <input type="text" v-model="user.phone1" maxlength="3" @input="allowOnlyNumbers1($event, 'phone1')">-
+						    <input type="text" v-model="user.phone2" maxlength="4" @input="allowOnlyNumbers2($event, 'phone2')">-
+						    <input type="text" v-model="user.phone3" maxlength="4" @input="allowOnlyNumbers2($event, 'phone3')">    
 						</div>
 					</li>
                     <li>
@@ -105,10 +105,18 @@
                 phone3: "",
                 email: "",
                 birth: "",
-                zipCode: "",
-            	addr: "",
-            	addrDetail: "",
-            	addrName: "집",
+                userGrade : "",
+                authYn : "",
+                eventYn : "",
+                loginCnt : "",
+                point : "",
+                totalP : "",
+                userType : "",
+                cDateTime : "",
+                uDateTime : "",
+                StartDate : "",
+                EndDate : "",
+                deleteDate : ""
             },
             email1: "",
         	email2: "",
@@ -119,35 +127,54 @@
             passwordConfirmErrorMessage: ""
         },
         methods: {
+        	//기존정보 호출하기
             information: function () {
                 var self = this;
-                var nparmap = self.user;
+                var nparmap = {
+                		userId :self.user.userId
+                };
                 $.ajax({
                     url: "user-mypage.dox",
                     dataType: "json",
                     type: "POST",
                     data: nparmap,
                     success: function (data) {
+                    	console.log(data.user);
+                    	console.log(data.list);
                         self.user = data.user;
-                        self.user.userPw = '';
-                        self.user.userPw2 = '';
                         var atIdx = data.user.email.indexOf('@');
                         self.email1 = data.user.email.substring(0, atIdx);
                         self.email2 = data.user.email.substring(atIdx + 1);
                     }
                 });
             },
-           
-         	 // 핸드폰 번호 입력 정규식 - 숫자만 허용
-			allowOnlyNumbers: function (event, field) {
-				var self = this;
-				self.user[field] = event.target.value.replace(/[^0-9]/g, '');
+            selectEmail : function(){
+            	var self = this;
+            	self.email2 = self.email3;
+            },
+            //이름에 입력에 대한 정규식
+            validateName: function(event) {
+                var inputValue = event.target.value;
+                // 한글, 영어, 띄어쓰기만 허용하고 최대 30자까지 입력되도록 처리
+                this.user.name = inputValue.replace(/[^가-힣a-zA-Z\s]/g, '').substring(0, 30);
+            },
+         	// 핸드폰 번호 입력 필드에서 숫자만 허용하는 메소드
+            allowOnlyNumbers1: function (event, field) {
+			    var inputValue = event.target.value;
+			    this.user[field] = inputValue.replace(/\D/g, '').substring(0, 3);
+			},
+			// 핸드폰 번호 입력 필드에서 숫자만 허용하는 메소드
+			allowOnlyNumbers2: function (event, field) {
+			    var inputValue = event.target.value;
+			    // 숫자가 아닌 문자는 제거하고, 최대 4자리까지만 입력되도록 처리
+			    this.user[field] = inputValue.replace(/\D/g, '').substring(0, 4);
 			},
             //생일 입력 정규식
-            formatBirthDate: function () {
-                var formattedDate = moment(this.user.birth, "YYYYMMDD").format("YYYY-MM-DD");
-                this.user.birth = formattedDate;
-            },
+          	formatBirthDate: function(event) {
+			    var inputValue = event.target.value;
+			    // 숫자가 아닌 문자는 제거하고, 최대 8자리까지만 입력되도록 처리
+			    this.user.birth = inputValue.replace(/\D/g, '').substring(0, 8);
+			},
         	//비밀번호 정규식 유효성 검사
             validatePassword: function (event, field) {
                 var self = this;
@@ -224,6 +251,10 @@
             //정보수정하기
             fnmodify: function () {
                 var self = this;
+                if(self.user.userId == ""){
+            		alert("로그인 후 입장 가능합니다.");
+            		window.location.href = "/user-login.do";
+            	}
                 if ((!self.user.userPw || !self.user.userPw.trim()) && (!self.user.userPw2 || !self.user.userPw2.trim())) {
                 	self.user.userPw = "";
 		            self.user.userPw2 = "";
@@ -257,11 +288,16 @@
                     alert("별명을 입력해 주세요");
                     return;
                 }
-                if (self.user.phone1 || self.user.phone2 || self.user.phone3 == "") {
-                    alert("핸드폰 번호를 입력해 주세요");
+                if(self.user.gender == ""){
+                	alert("성별을 선택해 주세요");
                     return;
                 }
-                if (self.user.email == "") {
+                if(self.user.phone1 == "" || self.user.phone2 == "" || self.user.phone3 == ""){
+                	alert("핸드폰 번호 입력해 주세요");
+                    return;
+                }
+                
+                if (self.user.email1 == "" || self.user.email == "") {
                     alert("이메일을 입력해 주세요");
                     return;
                 }
@@ -269,10 +305,6 @@
                     alert("생년월일을 입력해 주세요");
                     return;
                 }
-                if(self.user.userId == ""){
-            		alert("로그인 후 입장 가능합니다.");
-            		window.location.href = "/user-login.do";
-            	}
                 self.user.email = self.email1 + "@" + self.email2;
                 var nparmap = self.user;
                 $.ajax({
@@ -294,22 +326,76 @@
                     }
                 });
             },
-            //회원탈퇴하기
+            //회원탈퇴
             fnUserDelete : function() {
-                var self = this;     
-                var nparmap = {
-                		userId: self.userId,
-                };
+                var self = this;
+                if(self.user.userId == ""){
+            		alert("로그인 후 입장 가능합니다.");
+            		window.location.href = "/user-login.do";
+            	}
+                if ((!self.user.userPw || !self.user.userPw.trim()) && (!self.user.userPw2 || !self.user.userPw2.trim())) {
+                	self.user.userPw = "";
+		            self.user.userPw2 = "";
+                	alert("비밀번호와 비밀번호 확인을 모두 기입해 주세요.");
+                    return;
+                }
+                if (self.user.userPw == "") {
+                	self.user.userPw = "";
+		            self.user.userPw2 = "";
+                	alert("비밀번호를 기입해 주세요.");
+                    return;
+                }
+                if (self.user.userPw2 == "") {
+                	self.user.userPw = "";
+		            self.user.userPw2 = "";
+                	alert("비밀번호 확인 기입해 주세요.");
+                    return;
+                }
+                if (self.user.userPw != self.user.userPw2) {
+                	self.user.userPw = "";
+		            self.user.userPw2 = "";
+                	alert("비밀번호랑 비밀번호 확인이 다릅니다.");
+                    return;
+                }
+         
+                if (self.user.name == "") {
+                    alert("이름을 입력해 주세요");
+                    return;
+                }
+                if (self.user.nickName == "") {
+                    alert("별명을 입력해 주세요");
+                    return;
+                }
+                if(self.user.gender == ""){
+                	alert("성별을 선택해 주세요");
+                    return;
+                }
+                if(self.user.phone1 == "" || self.user.phone2 == "" || self.user.phone3 == ""){
+                	alert("핸드폰 번호 입력해 주세요");
+                    return;
+                }
+                
+                if (self.user.email1 == "" || self.user.email == "") {
+                    alert("이메일을 입력해 주세요");
+                    return;
+                }
+                if (self.user.birth == "") {
+                    alert("생년월일을 입력해 주세요");
+                    return;
+                }
+                self.user.email = self.email1 + "@" + self.email2;nparmap = self.user;
                 $.ajax({
-                    url:"user-login.dox",
+                    url:"user-delete.dox",
                     dataType:"json",
                     type: "POST",
                     data: nparmap,
                     success: function(data) {
                     	if(data.result == "success") {
-                    		self.resultMessage = ""; 
+                    		alert("사용자 정보가 탈퇴하였습니다.");
+                    		window.location.href="/user-login.do";
                     	} else {
-                    		self.resultMessage = "없는 아이디 또는 비밀번호입니다!";
+                    		alert("사용자 탈퇴에 실패했습니다. 다시 시도하세요.");
+    						return;
                     	}
                     }
                 });

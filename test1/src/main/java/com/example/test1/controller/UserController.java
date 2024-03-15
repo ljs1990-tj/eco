@@ -31,7 +31,7 @@ public class UserController {
 	// 헤더만 있는 임시 메인
 	@RequestMapping("/header.do")
 	public String header(Model model) throws Exception {
-
+		
 		return "/layout/header";
 	}
 	// 가입 페이지

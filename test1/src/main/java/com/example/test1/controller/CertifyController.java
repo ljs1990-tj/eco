@@ -66,6 +66,13 @@ public class CertifyController {
 		return "/user-myPage-addrAdd";
 	}
 
+	// 유저 회원탈퇴 
+	@RequestMapping("/user-ResumeMain.do")
+	public String userResumeMain(Model model) throws Exception {
+		session.invalidate();//세션 끊어버리기
+		return "/user-ResumeMain";
+	}
+
 	// 유저 주소록 수정하기
 	@RequestMapping("/user-myPage-addrUpdate.do")
 	public String usermyPageaddrUpdate(HttpServletRequest request, Model model,
@@ -143,7 +150,7 @@ public class CertifyController {
 		return new Gson().toJson(resultMap);
 	}
 
-	// 유저 마이페이지 주소록 기본배송지 값 N초기화
+	// 유저 마이페이지 주소록 기본배송지
 	@RequestMapping(value = "/user-addr-default-reset.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String useraddrdefaultreset(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -153,14 +160,16 @@ public class CertifyController {
 		return new Gson().toJson(resultMap);
 	}
 
-	// 유저 마이페이지 주소록 기본배송지 설정
-	@RequestMapping(value = "/user-addr-default.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	// 회원탈퇴
+	@RequestMapping(value = "/user-delete.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String useraddrdefault(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+	public String userdelete(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap = userService.setAddressToDefault(map);
+		resultMap = userService.UserDeletDate(map);
 		System.out.println(resultMap);
 		return new Gson().toJson(resultMap);
 	}
+
+
 
 }
