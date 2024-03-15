@@ -39,14 +39,14 @@
 				<span>비밀번호: </span><input type="password" v-model="userPw" @keyup="fnCheck('pw1')" maxlength="16">
 			</div>
 			<div v-if="userPw != ''">
-				<div v-if="!pwCheckFlg" style="color: red;">비밀번호는 최소 8글자, 최대 16글자이어야 하며 하나 이상의 숫자, 영문자 및 특수문자를 각각 포함하여야 합니다!</div>
+				<div v-if="!pwCheckFlg" style="color: red; font-weight: bold;">{{alertMessage}}</div>
 			</div>
 			<div>----------</div>
 			<div>
 				<span>비밀번호 확인: </span><input type="password" v-model="userPw2" @keyup="fnCheck('pw2')" maxlength="16">
 			</div>
                <div v-if="userPw2 != ''">
-                   <div v-if="!pwCheckFlg2" style="color: red;">비밀번호와 똑같이 입력하세요!</div>
+                   <div v-if="!pwCheckFlg2" style="color: red; font-weight: bold;">{{alertMessage}}</div>
                </div>
                <button @click="fnFixPw">비밀번호 수정</button>
 		</div>		
@@ -58,17 +58,18 @@
 var app = new Vue({
     el: '#app',
     data: {
-    	checkIdFlg: false,
+    	checkIdFlg: false,	// 아이디 확인용 플래그
     	//checkArthFlg: false,
-    	completeFlg: false,
-    	inputId: "",
-    	phoneNum: "",
+    	completeFlg: false,	// 문자 확인 완료용 플래그
+    	inputId: "",		// 유저 아이디 입력
+    	phoneNum: "",		// 폰번호 입력
+    	userPw: "",			// 비밀번호
+    	userPw2: "",		// 비밀번호 확인
    		phoneAuthFlg : false,
 		inputFlg : false,
-    	pwCheckFlg: false,
-    	pwCheckFlg2: false,
-    	userPw: "",
-    	userPw2: "",
+    	pwCheckFlg: false, 	// 비밀번호용 플래그
+    	pwCheckFlg2: false, // 비밀번호 확인용 플래그
+    	alertMessage: ""	// 얼럿메시지
 		inputNumber : "",	// 핸드폰 번호 입력
 		inputNumber1 : "",	// 인증번호 입력
 		timer : "",			// 인증시간 표시
@@ -120,30 +121,39 @@ var app = new Vue({
            	if(flg == 'pw1') {
 	            if(regPwd.test(self.user.userPw)) {
 					self.pwCheckFlg = true;
+					self.alertMessage = "";
 	            } else {
 	            	self.pwCheckFlg = false;
+	            	self.alertMessage = "비밀번호는 최소 8글자, 최대 16글자이어야 하며 하나 이상의 숫자, 영문자 및 특수문자를 각각 포함하여야 합니다!";
 	            }
            	} else if(flg == 'pw2') {
 	            if(self.user.userPw != self.user.userPw2) {
 					self.pwCheckFlg2 = false;
+					self.alertMessage = "비밀번호와 똑같이 입력하세요!";
 	            } else {
 	            	self.pwCheckFlg2 = true;
+	            	self.alertMessage = "";
 	            }
            	}
 		},
 		fnFixPw: function() {
 			var self = this;
-	        var nparmap = {userId: self.inputId, userPw : self.userPw};
-	        $.ajax({
-	            url:"changePw.dox",
-	            dataType:"json",
-	            type: "POST", 
-	            data: nparmap,
-	            success: function(data) {
-	            	alert("비밀번호 변경 성공!");
-	            	window.close();
-	            }
-	        });
+			if(self.pwCheckFlg && self.pwCheckFlg2) {
+		        var nparmap = {userId: self.inputId, userPw : self.userPw};
+		        $.ajax({
+		            url:"changePw.dox",
+		            dataType:"json",
+		            type: "POST", 
+		            data: nparmap,
+		            success: function(data) {
+		            	alert("비밀번호 변경 성공!");
+		            	window.close();
+		            }
+		        });
+			} else {
+				alert("")
+				return;
+			}
 			
 		},
 		//문자 인증받기 
