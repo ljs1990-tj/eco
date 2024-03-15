@@ -194,6 +194,7 @@
 			</div>
 			
             <div class="control-wrapper">
+            	<button type="button" :class="[selected == '' ? 'button-selected' : 'buttons-container']" @click="fnList('')">전체</button>
                 <button type="button" :class="[selected == 'org' ? 'button-selected' : 'buttons-container']" @click="fnList('org')">유기농</button>
 				<button type="button" :class="[selected == 'vegan' ? 'button-selected' : 'buttons-container']" @click="fnList('vegan')">비건</button>
 				<button type="button" :class="[selected == 'gluten' ? 'button-selected' : 'buttons-container']" @click="fnList('gluten')">글루텐프리</button>
@@ -202,13 +203,14 @@
                 <div class="dropdown-container">
                     <!-- 드롭박스를 오른쪽에 배치 -->
                     <select>
-                      <option value="option1">옵션 1</option>
-                      <option value="option2">옵션 2</option>
-                      <option value="option3">옵션 3</option>
-                      <option value="option4">옵션 4</option>
+                    	<option>높은 가격순</option>
+                    	<option>낮은 가격순</option>
+                    	<option>신상품 순</option>
+                    	<option>구상품 순</option>
                     </select>
                 </div>
             </div>
+            
 
             <div class="product-list">
 		   		<div class="product-item" v-for="item in list" :key="item.id">
