@@ -6,6 +6,7 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 <body>
+<!-- Header Section -->
 <%@ include file="layout/header.jsp" %>
 	<div id="app">
 	    <!-- Hero Section Begin -->
@@ -530,9 +531,8 @@
 	</div>
 	    <!-- Blog Section End -->
 	
-	<!-- Footer Section Begin -->
-	   <%@ include file="layout/footer.jsp" %>
-	<!-- Footer Section End -->
+<!-- Footer Section -->
+<%@ include file="layout/footer.jsp" %>
 	    	
 	<!-- 팝업 창 -->
 <!-- 		<div v-if="isPopupOpen" class="popup">
@@ -583,7 +583,6 @@
 				this.isPopupOpen = false;
 			},
 			fnMoveCategory: function(kind) {
-				var self = this;
 				$.pageChange("/productList.do", {code: kind});
 			}
 		},

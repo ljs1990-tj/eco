@@ -146,6 +146,8 @@
 
 </style>
 <body>
+<!-- Header Section -->
+<%@ include file="layout/header.jsp" %>
 	<div id="app">
 		{{userId}}
 	    {{userType}}
@@ -200,9 +202,10 @@
 			      	</div>	      	
 			    </div>
 			</div> 
-			
 		</div>
 	</div>
+<!-- Footer Section -->
+<%@ include file="layout/footer.jsp" %>	
 </body>
 </html>
 <script type="text/javascript">
