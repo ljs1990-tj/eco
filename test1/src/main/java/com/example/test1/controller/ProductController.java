@@ -23,11 +23,21 @@ public class ProductController {
 	
 	// 상품 페이지
 	@RequestMapping("/productList.do")
-	public String productOrganic(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
+	public String productList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
 			throws Exception {
 		request.setAttribute("map", map);
 		return "/product-list";
 	}
+	
+	// 농부 상품 페이지
+	@RequestMapping("/productListFarmer.do")
+	public String productListFarmer(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
+			throws Exception {
+		request.setAttribute("map", map);
+		return "/product-list-farmer";
+	}
+	
+	
 	
 	// 상품 상세 페이지
 	@RequestMapping("/productView.do")
@@ -36,6 +46,15 @@ public class ProductController {
 		request.setAttribute("map", map);
 		return "/product-view";
 	}
+	
+	// 농부 상품 상세 페이지
+	@RequestMapping("/productViewFarmer.do")
+	public String productViewFarmer(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
+			throws Exception {
+		request.setAttribute("map", map);
+		return "/product-view-farmer";
+	}
+	
 	// 상품 등록 페이지
 	@RequestMapping("/productAddFarmer.do")
 	public String productAddFarmer(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)

@@ -201,6 +201,9 @@
 
                 <div class="dropdown-container">
                     <!-- 드롭박스를 오른쪽에 배치 -->
+                    <template v-if="userType == 'A' ">
+                    	<button @click="fnAdd">상품추가</button>
+                    </template>
                     <select>
                       <option value="option1">옵션 1</option>
                       <option value="option2">옵션 2</option>
@@ -215,9 +218,7 @@
 			    	<template  v-for="item2 in filelist" v-if="item.itemNo == item2.itemNo">
 						<img :src="item2.filePath+item2.fileName" alt="" @click="fnDetailView(item.itemNo, userId)">
 				    </template>
-			    	
-			      	<button type="button" href="javascript:;" @click="fnAddCart(item.itemNo, userId)">장바구니에 담기</button>
-			      	
+		      	
 			      	<div class="product-info" @click="fnDetailView(item.itemNo)">
 			        	<div class="product-name">{{item.itemName}}</div>
 			        	<div class="product-price">
@@ -226,6 +227,13 @@
 			        		<br> 할인율{{item.sRate}}%
 			        	</div>
 			      	</div>
+			      	
+			      	<div class="admin-btn">
+			      		<template v-if="userType == 'A' ">
+				      		<button @click="fnRemove(item.itemNo)">상품삭제</button>
+				      		<button @click="fnEdit(item.itemNo)">상품수정</button>			      		
+			      		</template>
+			      	</div>	      	
 			    </div>
 			</div> 
 		</div>
@@ -298,7 +306,7 @@ var app = new Vue({
         /* 제품 상세 페이지  */
         fnDetailView: function(itemNo, userId) {
 			var self = this;
-			$.pageChange("/productView.do", {itemNo: itemNo, userId: self.userId});
+			$.pageChange("/productViewFarmer.do", {itemNo: itemNo, userId: self.userId});
 		},
 		/* 상품 추가 페이지 */
 		fnAdd: function(){

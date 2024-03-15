@@ -22,6 +22,9 @@
 		<if test="code != '' ">
 		AND CODE = #{code}
 		</if>
+		<if test="keyword != '' ">
+		AND ITEM_NAME LIKE '%' #{keyword} '%'
+		</if>
 	</select>
 	
 	<select id="selectProductInfo" parameterType="hashmap" resultType="com.example.test1.model.Product">

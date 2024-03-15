@@ -98,12 +98,12 @@
 	<div id="app">
 		<div class="inquiry-form">
 			<h2>답변하기</h2>
-			{{boardNo}}
+			{{boardNo}}, {{userId}}
 			<div class="form-field">
 				<label for="inquiry">답변 내용</label>
-				<textarea id="inquiry" placeholder="답변하실 내용을 입력해주세요."></textarea>
+				<textarea id="inquiry" placeholder="답변하실 내용을 입력해주세요." v-model="comment"></textarea>
 			</div>
-			<button class="submit-btn" @click="fnInsertAnswer()">등록하기</button>
+			<button class="submit-btn" @click="fnInsertAnswer(userId)">등록하기</button>
             <button class="cancle-btn" @click="cancleBtnClick">취소</button>
 		</div>
 		
@@ -114,19 +114,23 @@
 	    el: '#app',
 	    data: {
 	    	boardNo: "${map.boardNo}",
+	    	userId: "${userId}",
+	    	comment : ""
 	    }
 	    , methods: {
-	    	fnInsertAnswer: function() {
+	    	fnInsertAnswer: function(userId) {
 	            var self = this;
     
-				if (self.qaContents.trim() === "") {
+				if (self.comment.trim() === "") {
 	                alert("문의 내용을 입력해주세요.");
 	                return;
 	            }
 	            
 	            if(confirm("등록하시겠습니까?")){
 		            var nparmap = {
-		            	
+		            	comment : self.comment,
+		            	userId : self.userId,
+		            	boardNo :self.boardNo
 		            };
 		            $.ajax({
 		                url:"addAnswer.dox",
@@ -135,10 +139,12 @@
 		                data: nparmap,
 		                success: function(data) {
 		                	if(data.result == "success"){
-		                		alert("문의가 등록됐습니다.");
+		                		alert("답변을 등록했습니다.");
+		                		window.location.href = "/productView.do";
+		                		window.close();
 		                	} else{
 		                		alert("오류가 발생했습니다 다시 등록해주세요.");
-		                	} 
+		                	}
 		                }
 		            });
 	        	}
