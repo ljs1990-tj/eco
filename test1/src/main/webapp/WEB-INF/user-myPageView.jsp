@@ -251,6 +251,10 @@
             //정보수정하기
             fnmodify: function () {
                 var self = this;
+                if(self.user.userId == ""){
+            		alert("로그인 후 입장 가능합니다.");
+            		window.location.href = "/user-login.do";
+            	}
                 if ((!self.user.userPw || !self.user.userPw.trim()) && (!self.user.userPw2 || !self.user.userPw2.trim())) {
                 	self.user.userPw = "";
 		            self.user.userPw2 = "";
@@ -284,8 +288,16 @@
                     alert("별명을 입력해 주세요");
                     return;
                 }
-         
-                if (self.user.email == "") {
+                if(self.user.gender == ""){
+                	alert("성별을 선택해 주세요");
+                    return;
+                }
+                if(self.user.phone1 == "" || self.user.phone2 == "" || self.user.phone3 == ""){
+                	alert("핸드폰 번호 입력해 주세요");
+                    return;
+                }
+                
+                if (self.user.email1 == "" || self.user.email == "") {
                     alert("이메일을 입력해 주세요");
                     return;
                 }
@@ -293,10 +305,6 @@
                     alert("생년월일을 입력해 주세요");
                     return;
                 }
-                if(self.user.userId == ""){
-            		alert("로그인 후 입장 가능합니다.");
-            		window.location.href = "/user-login.do";
-            	}
                 self.user.email = self.email1 + "@" + self.email2;
                 var nparmap = self.user;
                 $.ajax({
@@ -318,23 +326,73 @@
                     }
                 });
             },
-            //회원탈퇴하기
+            //회원탈퇴
             fnUserDelete : function() {
                 var self = this;
                 if(self.user.userId == ""){
             		alert("로그인 후 입장 가능합니다.");
             		window.location.href = "/user-login.do";
             	}
-                var nparmap = self.user;
+                if ((!self.user.userPw || !self.user.userPw.trim()) && (!self.user.userPw2 || !self.user.userPw2.trim())) {
+                	self.user.userPw = "";
+		            self.user.userPw2 = "";
+                	alert("비밀번호와 비밀번호 확인을 모두 기입해 주세요.");
+                    return;
+                }
+                if (self.user.userPw == "") {
+                	self.user.userPw = "";
+		            self.user.userPw2 = "";
+                	alert("비밀번호를 기입해 주세요.");
+                    return;
+                }
+                if (self.user.userPw2 == "") {
+                	self.user.userPw = "";
+		            self.user.userPw2 = "";
+                	alert("비밀번호 확인 기입해 주세요.");
+                    return;
+                }
+                if (self.user.userPw != self.user.userPw2) {
+                	self.user.userPw = "";
+		            self.user.userPw2 = "";
+                	alert("비밀번호랑 비밀번호 확인이 다릅니다.");
+                    return;
+                }
+         
+                if (self.user.name == "") {
+                    alert("이름을 입력해 주세요");
+                    return;
+                }
+                if (self.user.nickName == "") {
+                    alert("별명을 입력해 주세요");
+                    return;
+                }
+                if(self.user.gender == ""){
+                	alert("성별을 선택해 주세요");
+                    return;
+                }
+                if(self.user.phone1 == "" || self.user.phone2 == "" || self.user.phone3 == ""){
+                	alert("핸드폰 번호 입력해 주세요");
+                    return;
+                }
+                
+                if (self.user.email1 == "" || self.user.email == "") {
+                    alert("이메일을 입력해 주세요");
+                    return;
+                }
+                if (self.user.birth == "") {
+                    alert("생년월일을 입력해 주세요");
+                    return;
+                }
+                self.user.email = self.email1 + "@" + self.email2;nparmap = self.user;
                 $.ajax({
                     url:"user-delete.dox",
                     dataType:"json",
                     type: "POST",
                     data: nparmap,
                     success: function(data) {
-                    	console.log(self.user);
                     	if(data.result == "success") {
                     		alert("사용자 정보가 탈퇴하였습니다.");
+                    		window.location.href="/user-login.do";
                     	} else {
                     		alert("사용자 탈퇴에 실패했습니다. 다시 시도하세요.");
     						return;

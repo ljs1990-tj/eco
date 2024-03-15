@@ -200,7 +200,7 @@
 							alert("다시 시도해주세요");
 							return;
 						}
-					}
+					 }
 				});
 			},
 	
@@ -239,43 +239,22 @@
 			        return;
 			    }
 			    var nparmap = {
-			        userId: self.user.userId
+			        userId : self.user.userId,
+			        addrNo: self.radio
 			    };
-			    // 첫 번째 AJAX 호출: 기본배송지를 'N'으로 초기화
 			    $.ajax({
 			        url: "user-addr-default-reset.dox",
 			        dataType: "json",
 			        type: "POST",
 			        data: nparmap,
 			        success: function(data) {
-			            if (data.result == "success") {
-			                // 두 번째 AJAX 호출: 선택한 주소를 기본배송지로 설정
-			                $.ajax({
-			                    url: "user-addr-default.dox",
-			                    dataType: "json",
-			                    type: "POST",
-			                    data: { addrNo: self.radio },
-			                    success: function(data) {
-			                        if (data.result == "success") {
-			                            alert("기본배송지가 설정되었습니다.");
-			                            location.reload(true);
-			                        } else {
-			                            alert("다시 시도해주세요");
-			                        }
-			                    },
-			                    error: function(xhr, status, error) {
-			                        console.error("두 번째 AJAX 호출 실패: " + error);
-			                        alert("다시 시도해주세요");
-			                    }
-			                });
-			            } else {
-			                alert("다시 시도해주세요");
-			            }
-			        },
-			        error: function(xhr, status, error) {
-			            console.error("첫 번째 AJAX 호출 실패: " + error);
-			            alert("다시 시도해주세요");
-			        }
+			        	 if (data.result == "success") {
+	                            alert("기본배송지가 설정되었습니다.");
+	                            location.reload(true);
+	                        } else {
+	                            alert("다시 시도해주세요");
+	                        }
+			        } 
 			    });
 			},
 			// 사용자 정보 가져오기
@@ -293,6 +272,7 @@
 		            data: nparmap,
 		            success: function(data) {
 		                // 서버로부터 받아온 사용자 정보를 Vue.js 데이터에 할당
+		                console.log(data);
 		                self.user = data.user;
 		            }
 		        });
@@ -326,14 +306,14 @@
 		    }
 		},
 		created : function() {
-			if (this.user.userId == "") {
-				alert("로그인 후 입장 가능합니다.");
-				window.location.href = "/user-login.do";
-				return;
-			}
-			 this.getUserInfo();
-			 this.getAddress();
-			
+		    var self = this;
+		    if (this.user.userId == "") {
+		        alert("로그인 후 입장 가능합니다.");
+		        window.location.href = "/user-login.do";
+		        return;
+		    }
+		    self.getUserInfo();
+		    self.getAddress();
 		}
 	});
 </script>

@@ -97,39 +97,47 @@ var app = new Vue({
     data: {
     	userId: "",
     	userPw: "",
-    	resultMessage: ""
+    	resultMessage: "",
+    	userType : ""
     }
     , methods: {
     	fnLogin: function() {
-            var self = this;
-            if(self.userId == "") {
-            	self.resultMessage = "아이디를 입력해 주세요!";
-            	return;
-            }
-            if(self.userPw == "") {
-            	self.resultMessage = "비밀번호를 입력해 주세요!";
-            	return;
-            }
-            var nparmap = {
-            		userId: self.userId,
-            		userPw: self.userPw
-            };
-            $.ajax({
-                url:"user-login.dox",
-                dataType:"json",
-                type: "POST",
-                data: nparmap,
-                success: function(data) {
-                	if(data.result == "success") {
-                		self.resultMessage = ""; 
-                		$.pageChange("/header.do", {});
-                	} else if(data.result == "fail") {
-                		//self.resultMessage = "없는 아이디 또는 비밀번호입니다!";
-                		self.resultMessage = data.message;
-                	}
-                }
-            });
-        },
+    	    var self = this;
+    	    if (self.userId == "") {
+    	        self.resultMessage = "아이디를 입력해 주세요!";
+    	        return;
+    	    }
+    	    if (self.userPw == "") {
+    	        self.resultMessage = "비밀번호를 입력해 주세요!";
+    	        return;
+    	    }
+    	    var nparmap = {
+    	        userId: self.userId,
+    	        userPw: self.userPw
+    	    };
+    	    $.ajax({
+    	        url: "user-login.dox",
+    	        dataType: "json",
+    	        type: "POST",
+    	        data: nparmap,
+    	        success: function(data) {
+    	        	console.log(data);
+    	            if (data.result == "success") {
+    	                self.resultMessage = "";
+    	                self.userType = data.user.userType; // 로그인 후 등급 정보 할당
+    	                if (self.userType === 'D') {
+    	                    // 등급이 D인 경우 회원탈퇴상태이므로 복구 페이지로 이동
+    	                    window.location.href = "/user-resumeMain.do";
+    	                } else {
+    	                    // 등급이 D가 아닌 경우 기존의 로직 수행
+    	                   $.pageChange("/header.do", {});
+    	                }
+    	            } else if (data.result == "fail") {
+    	                self.resultMessage = data.message;
+    	            }
+    	        }
+    	    });
+    	},
         fnJoin: function() {
         	$.pageChange("/user-join.do", {});
         },

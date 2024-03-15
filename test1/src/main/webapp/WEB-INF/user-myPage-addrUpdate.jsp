@@ -170,7 +170,6 @@
    		 				console.log("UserId:", self.user.userId);
     					console.log("Info:", data.info.zipCode);
                         console.log("zipCode:",  self.user.zipCode);
-	
 					}
 				});
 			},
@@ -237,7 +236,7 @@
 						location.reload(true);
 						return;
 					}
-			    }
+			     }
 			   });
 		   },
 		   //취소버튼 클릭시 팝업창 닫음

@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.example.test1.mapper.BoardMapper;
 import com.example.test1.mapper.UserMapper;
-import com.example.test1.model.Board;
 import com.example.test1.model.Addr;
+import com.example.test1.model.Board;
 import com.example.test1.model.User;
 
 @Service
@@ -127,7 +127,7 @@ public class UserServiceimpl implements UserService {
 		// TODO Auto-generated method stub
 		User user = userMapper.selectUser(map);
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-
+		
 		if (user == null) { // 아이디가 없는 경우
 			resultMap.put("result", "fail");
 			resultMap.put("message", "존재하지 않는 아이디입니다!");
@@ -139,6 +139,7 @@ public class UserServiceimpl implements UserService {
 					resultMap.put("message", "로그인 시도가 5회가 넘어 로그인할 수 없습니다! 관리자에게 직접 문의하여 해결하세요!");
 				} else {
 					userMapper.updateLoginCnt2(map); // 로그인 성공 시 카운트 초기화
+					resultMap.put("user", user );
 					resultMap.put("result", "success");
 					resultMap.put("message", user.getName() + "님 환영합니다!");
 					// ↓ 세션 설정
@@ -217,20 +218,6 @@ public class UserServiceimpl implements UserService {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			userMapper.updateDefaultAddressToN(map);
-			resultMap.put("result", "success");
-		} catch (Exception e) {
-			resultMap.put("result", "fail");
-			System.out.println(e.getMessage());
-		}
-		return resultMap;
-	}
-
-	// 유저 마이페이지 주소록 배송지 기본으로 설정
-	@Override
-	public HashMap<String, Object> setAddressToDefault(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		try {
 			userMapper.updateAddressToDefault(map);
 			resultMap.put("result", "success");
 		} catch (Exception e) {
@@ -255,13 +242,14 @@ public class UserServiceimpl implements UserService {
 		return resultMap;
 	}
 
-	// 회원가입 탈퇴
+	// 회원탈퇴하여 다른 테이블에 저장 기간 3달
 	@Override
-	public HashMap<String, Object> deleteUser(HashMap<String, Object> map) {
+	public HashMap<String, Object> UserDeletDate(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
-			userMapper.deleteUser(map);
+			userMapper.updateUserDeleteDate(map);
+			userMapper.insertUserDeleteDate(map);
 			resultMap.put("result", "success");
 		} catch (Exception e) {
 			resultMap.put("result", "fail");
@@ -269,4 +257,5 @@ public class UserServiceimpl implements UserService {
 		}
 		return resultMap;
 	}
+
 }

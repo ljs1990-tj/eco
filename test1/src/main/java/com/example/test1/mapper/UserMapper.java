@@ -37,6 +37,8 @@ public interface UserMapper {
 	void updateLoginCnt(HashMap<String, Object> map); // 로그인 실패 시 카운트 증가
 
 	void updateLoginCnt2(HashMap<String, Object> map); // 로그인 성공 시 카운트 초기화
+
+	void updateUserDeleteDate(HashMap<String, Object> map); //회원탈퇴로 인한 ECO_USER 회원정보수정
 	
-	void deleteUser(HashMap<String, Object> map); // 회원탈퇴
+	void insertUserDeleteDate(HashMap<String, Object> map); //회원탈퇴로 인한 ECO_USER_DELETE 정보저장
 }

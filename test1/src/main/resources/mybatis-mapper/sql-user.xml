@@ -139,25 +139,30 @@
 		SET ISDEFAULT = 'Y'
 		WHERE ADDRNO = #{addrNo}
 	</update>
-	<!-- 회원을 삭제하고 DELETE_DATE 열에 현재 날짜와 삭제 예정 기간을 추가하는 쿼리 -->
-	<delete id="deleteUser" parameterType="hashmap">
-	 <!-- 사용자 정보를 ECO_USER_DELETE 테이블에 삽입 -->
-	 <!--   
+
+	<!-- 회원 탈퇴로 인한 사용자 정보를 ECO_USER_DELETE 테이블에 삽입 -->
+	<insert id="insertUserDeleteDate" parameterType="hashmap">
 	    INSERT INTO ECO_USER_DELETE 
 	    VALUES (
 	        #{userId}, #{userPw}, #{name}, #{nickName}, #{gender}, #{phone1}, 
 	        #{phone2}, #{phone3}, #{email}, #{birth}, #{userGrade}, #{authYn}, 
-	        #{eventYn}, #{loginCnt}, #{point}, #{totalP}, #{userType}, NOW(), 
-	        NOW(), NOW(), NOW(), NOW()
-	    );
-	
-	    DELETE_DATE를 현재 날짜에서 1달 뒤로 설정
-	    UPDATE ECO_USER_DELETE 
-	    SET DELETE_DATE = DATE_ADD(NOW(), INTERVAL 1 MONTH) 
-	    WHERE USERID = #{userId};
-	
-	    ECO_USER 테이블에서 사용자 삭제
-	    DELETE FROM ECO_USER 
-	    WHERE USERID = #{userId}; -->
-	</delete>
+	        #{eventYn}, #{loginCnt}, #{point}, #{totalP}, #{userType}, #{cDateTime}, 
+	        #{uDateTime}, #{StartDate}, #{EndDate}, DATE_ADD(NOW(), INTERVAL 3 MINUTE)
+	    )
+	</insert>
+	<!-- 회원 탈퇴로 인한 정보수정 -->
+	<update id="updateUserDeleteDate" parameterType="hashmap">
+		UPDATE ECO_USER
+		SET
+		DELETE_DATE = DATE_ADD(NOW(), INTERVAL 3 MONTH),
+		USERTYPE = 'D'
+		WHERE USERID = #{userId}
+	</update>
+
+	<select id="DeleteselectUser" parameterType="hashmap"
+		resultType="com.example.test1.model.User">
+		SELECT *
+		FROM ECO_USER_DELETE
+		WHERE USERID = #{userId}
+	</select>
 </mapper>
