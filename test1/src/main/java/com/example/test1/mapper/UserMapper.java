@@ -39,5 +39,7 @@ public interface UserMapper {
 	void updateLoginCnt(HashMap<String, Object> map); // 로그인 실패 시 카운트 증가
 
 	void updateLoginCnt2(HashMap<String, Object> map); // 로그인 성공 시 카운트 초기화
+	
+	int selectCartCnt(HashMap<String, Object> map); // 로그인 성공 시 카운트 초기화
 
 }

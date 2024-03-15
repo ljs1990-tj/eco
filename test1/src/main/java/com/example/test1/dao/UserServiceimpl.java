@@ -52,8 +52,11 @@ public class UserServiceimpl implements UserService {
 		if (user == null) {
 			resultMap.put("result", "success");
 		} else {
+			int cartCnt = userMapper.selectCartCnt(map);
 			resultMap.put("result", "fail");
 			resultMap.put("user", user); // 비밀번호 찾기용 유저 정보 담기
+			resultMap.put("cartCnt", cartCnt); // 장바구니 개수 확인용
+			
 		}
 		return resultMap;
 	}
