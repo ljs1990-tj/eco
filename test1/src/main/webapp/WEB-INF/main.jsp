@@ -90,7 +90,7 @@
 	                    </div>
  	                  <div class="col-lg-3">
 	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-5.jpg">
-	                            <h5><a href="javascript:;">신선한 과일주스</a></h5>
+	                            <h5><a href="javascript:;" @click="fnMoveCategory()">모두</a></h5>
 	                        </div>
 	                    </div> 
 	                </div>

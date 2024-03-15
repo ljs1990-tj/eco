@@ -66,14 +66,14 @@
 	            <div class="row">
 	                <div class="col-lg-3">
 	                    <div class="header__logo">
-	                        <a href="javascript:;" @click="fnUserPage"><img src="img/logo.png" alt="logo"> MyPage</a>
+	                        <a href="javascript:;" @click="fnUserPage" style="color: #2c9d59;"><img src="img/logo.png" alt="logo"> MyPage</a>
 	                    </div>
 	                </div>
 	                <div class="col-lg-6">
 	                    <nav class="header__menu">
 	                        <ul>
 	                        	<li class="active"><a href="/main.do">Home</a></li>
-	                            <li><a href="javascript:;">카테고리</a>
+	                            <li><a href="javascript:;" @click="fnMoveCategory('')">카테고리</a>
 									<ul class="header__menu__dropdown">
 										<li><a href="javascript:;" @click="fnMoveCategory('org')">유기농</a></li>
 										<li><a href="javascript:;" @click="fnMoveCategory('vegan')">비건</a></li>

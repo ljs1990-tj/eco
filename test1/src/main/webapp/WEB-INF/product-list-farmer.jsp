@@ -294,7 +294,7 @@ var app = new Vue({
 	                success: function(data) {
 	                	if(data.result == "success") {
 	                		alert("삭제되었습니다!");
-	                		self.fnList('org');
+	                		self.fnList('');
 	                	} else {
 	                		alert("삭제 실패 오류 발생!");
 	                	}
