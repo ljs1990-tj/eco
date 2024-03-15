@@ -53,7 +53,7 @@ public class UserServiceimpl implements UserService {
 			resultMap.put("result", "success");
 		} else {
 			resultMap.put("result", "fail");
-			resultMap.put("user", user);
+			resultMap.put("user", user); // 비밀번호 찾기용 유저 정보 담기
 		}
 		return resultMap;
 	}
@@ -248,6 +248,22 @@ public class UserServiceimpl implements UserService {
 		try {
 			userMapper.updateUserPw(map);
 			resultMap.put("result", "success");
+		} catch (Exception e) {
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
+		return resultMap;
+	}
+	
+	// 폰 번호로 아이디 찾기
+	@Override
+	public HashMap<String, Object> checkUserPhone(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			User user = userMapper.selectUserPhone(map);
+			resultMap.put("result", "success");
+			resultMap.put("user", user);
 		} catch (Exception e) {
 			resultMap.put("result", "fail");
 			System.out.println(e.getMessage());

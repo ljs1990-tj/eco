@@ -69,23 +69,23 @@
 	            <div class="row">
 	                <div class="categories__slider owl-carousel">
 	                    <div class="col-lg-3">
-	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-1.jpg">
-	                            <h5><a href="javascript:;">유기농</a></h5>
+	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-1.jpg" style="cursor: pointer;" @click="fnMoveCategory('org')">
+	                            <h5><a href="javascript:;" @click="fnMoveCategory('org')">유기농</a></h5>
 	                        </div>
 	                    </div>
 	                    <div class="col-lg-3">
-	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-2.jpg">
-	                            <h5><a href="javascript:;">비건</a></h5>
+	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-2.jpg" style="cursor: pointer;" @click="fnMoveCategory('vegan')">
+	                            <h5><a href="javascript:;" @click="fnMoveCategory('vegan')">비건</a></h5>
 	                        </div>
 	                    </div>
 	                    <div class="col-lg-3">
-	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-3.jpg">
-	                            <h5><a href="javascript:;">글루텐-프리</a></h5>
+	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-3.jpg" style="cursor: pointer;" @click="fnMoveCategory('gluten')">
+	                            <h5><a href="javascript:;" @click="fnMoveCategory('gluten')">글루텐-프리</a></h5>
 	                        </div>
 	                    </div>
 	                    <div class="col-lg-3">
-	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-4.jpg">
-	                            <h5><a href="javascript:;">로컬푸드</a></h5>
+	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-4.jpg" style="cursor: pointer;" @click="fnMoveCategory('local')">
+	                            <h5><a href="javascript:;" @click="fnMoveCategory('local')">로컬푸드</a></h5>
 	                        </div>
 	                    </div>
  	                   <!-- <div class="col-lg-3">
@@ -532,7 +532,7 @@
 	    <!-- Blog Section End -->
 	
 <!-- Footer Section -->
-<%@ include file="layout/footer.jsp" %>
+
 	    	
 	<!-- 팝업 창 -->
 <!-- 		<div v-if="isPopupOpen" class="popup">
@@ -562,6 +562,7 @@
 		data : {
 			userId : "${userId}",
 			isPopupOpen : true,
+			
 		},
 		methods : {
 			fnList : function() {
@@ -591,3 +592,4 @@
 		}
 	});
 </script>
+<%@ include file="layout/footer.jsp" %>
