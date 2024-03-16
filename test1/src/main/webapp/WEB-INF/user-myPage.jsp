@@ -254,7 +254,12 @@
 	                        } else {
 	                            alert("다시 시도해주세요");
 	                        }
-			        } 
+			        },
+			        error: function(xhr, status, error) {
+	                    // 에러 발생 시 처리
+	                    // 에러 페이지로 리다이렉션
+	                    window.location.href = "/error-page"; // 에러 페이지의 URL로 리다이렉션
+	                }
 			    });
 			},
 			// 사용자 정보 가져오기
@@ -274,7 +279,12 @@
 		                // 서버로부터 받아온 사용자 정보를 Vue.js 데이터에 할당
 		                console.log(data);
 		                self.user = data.user;
-		            }
+		            },
+		            error: function(xhr, status, error) {
+	                    // 에러 발생 시 처리
+	                    // 에러 페이지로 리다이렉션
+	                    window.location.href = "/error-page"; // 에러 페이지의 URL로 리다이렉션
+	                }
 		        });
 		    },
 		    // 주소록 가져오기
@@ -301,7 +311,12 @@
 		                    var defaultAddress = self.addrList.splice(defaultAddressIndex, 1)[0];
 		                    self.addrList.unshift(defaultAddress);
 		                }
-		            }
+		            },
+		            error: function(xhr, status, error) {
+	                    // 에러 발생 시 처리
+	                    // 에러 페이지로 리다이렉션
+	                    window.opener.location.href = "/error-page"; // 에러 페이지의 URL로 리다이렉션
+	                }
 		        });
 		    }
 		},
