@@ -46,7 +46,6 @@ a {
 <body>
 	<div id="app">
 		<div class="container">
-			<h1>회원복구 합니다</h1>
 			<h2>문자 본인인증 서비스</h2>
 			<p>안전하고 신속한 본인인증 서비스를 경험하세요.</p>
 			<a @click="openCertificationPopup">본인인증 시작하기</a>
@@ -66,7 +65,7 @@ a {
 			openCertificationPopup : function() {
 				var self = this;
 				// 'width=900,height=900'으로 설정된 부분 수정
-				var popup = window.open('/user-certifySms.do',
+				var popup = window.open('/user-login-certifySms.do',
 						'Certification Popup', 'width=900,height=900');
 
 				// 주기적으로 팝업 창이 닫혔는지 확인
@@ -74,16 +73,29 @@ a {
 					if (popup && popup.closed) {
 						clearInterval(interval); // 인터벌 중단
 						// 팝업 창이 닫혔을 때 부모 창으로 이동
-						window.location.href = '/user-certifyMain.do';
+						window.location.href = '/user-login-certifyMain.do';
 					}
 				}, 1000); // 1초마다 확인
 			},
-			fnback : function() {
-				var self = this;
-				// 메인 페이지로 이동하는 로직을 여기에 작성
-				window.location.href = '/header.do';
-			}
+			fnback: function() {
+			    var self = this;
+			    alert("본인 인증시 사용이 가능합니다 다시 로그인하여 인증해주시기 바랍니다");
+			    // 서버에 로그아웃 요청을 보냄
+			    $.ajax({
+			        url: "/logout", // 로그아웃을 처리하는 서버의 URL
+			        type: "POST",
+			        success: function(response) {
+			            // 세션을 제거하고 로그인 페이지로 이동
+			            window.location.href = '/header.do';
+			        },
+			        error: function(xhr, status, error) {
+	                    // 에러 발생 시 처리
+	                    // 에러 페이지로 리다이렉션
+	                    window.location.href = "/error-page"; // 에러 페이지의 URL로 리다이렉션
+	                }
 
+			    });
+			}
 		},
 		created : function() {
 			var self = this;

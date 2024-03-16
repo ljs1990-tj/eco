@@ -207,7 +207,12 @@
 						location.reload(true);
 						return;
 					}
-			    }
+			    },
+			    error: function(xhr, status, error) {
+                    // 에러 발생 시 처리
+                    // 에러 페이지로 리다이렉션
+                    window.opener.location.href = "/error-page"; // 에러 페이지의 URL로 리다이렉션
+                }
 			   });
 		   },
 		   //취소버튼 클릭시 팝업창 닫음

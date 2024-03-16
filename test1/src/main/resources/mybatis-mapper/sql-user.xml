@@ -165,11 +165,11 @@
 		USERTYPE = 'D'
 		WHERE USERID = #{userId}
 	</update>
-
-	<select id="DeleteselectUser" parameterType="hashmap"
-		resultType="com.example.test1.model.User">
-		SELECT *
-		FROM ECO_USER_DELETE
+	<!-- 로그인하여 인증시 정보수정 AUTHYN = 'Y' -->
+	<update id="updateUserAuthYn" parameterType="hashmap">
+		UPDATE ECO_USER
+		SET
+		AUTHYN = 'Y'
 		WHERE USERID = #{userId}
-	</select>
+	</update>
 </mapper>

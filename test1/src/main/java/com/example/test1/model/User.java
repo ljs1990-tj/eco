@@ -12,7 +12,7 @@ public class User {
 	private String email;
 	private String birth;
 	private String userGrade;
-	private String authYn;
+	private String authYn;	//본인인증 Y,N
 	private String eventYn;
 	private int loginCnt;
 	private int point;

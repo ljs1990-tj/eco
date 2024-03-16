@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,7 +49,7 @@ public class CertifyController {
 	// 본인인증 메인 페이지
 	@RequestMapping("/user-certifyMain.do")
 	public String usercertifyMain(Model model) throws Exception {
-
+		session.invalidate();// 세션 끊어버리기
 		return "/user-certifyMain";
 	}
 
@@ -66,11 +67,11 @@ public class CertifyController {
 		return "/user-myPage-addrAdd";
 	}
 
-	// 유저 회원탈퇴 
-	@RequestMapping("/user-ResumeMain.do")
-	public String userResumeMain(Model model) throws Exception {
-		session.invalidate();//세션 끊어버리기
-		return "/user-ResumeMain";
+	// 유저 회원복구
+	@RequestMapping("/user-resume.do")
+	public String userresume(Model model) throws Exception {
+		
+		return "/user-resume";
 	}
 
 	// 유저 주소록 수정하기
@@ -79,6 +80,32 @@ public class CertifyController {
 			@RequestParam HashMap<String, Object> map) throws Exception {
 		request.setAttribute("map", map);
 		return "/user-myPage-addrUpdate";
+	}
+
+	// 로그인 아웃 시키기
+	@PostMapping("/logout") // POST 방식의 /logout 요청을 처리
+	public String logout(HttpServletRequest request) {
+		// 현재 세션을 가져옴
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+			// 세션이 존재하면 세션을 무효화하여 로그아웃 처리
+			session.invalidate();
+		}
+		// 로그아웃 후 로그인 페이지로 리다이렉션
+		return "redirect:/header.do"; // 로그인 페이지의 URL로 리다이렉션
+	}
+
+	// 로그인시 본인인증 안하면 이동하는 메인 페이지
+	@RequestMapping("user-login-certifyMain.do")
+	public String userlogincertifyMain(Model model) throws Exception {
+		return "/user-login-certifyMain";
+	}
+
+	// 로그인시 본인인증하기
+	@RequestMapping("/user-login-certifySms.do")
+	public String userlogincertifySms(Model model) throws Exception {
+
+		return "/user-login-certifySms";
 	}
 
 	// 유저정보 가져오기
@@ -160,7 +187,7 @@ public class CertifyController {
 		return new Gson().toJson(resultMap);
 	}
 
-	// 회원탈퇴
+	// 회원탈퇴하기
 	@RequestMapping(value = "/user-delete.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String userdelete(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -170,6 +197,14 @@ public class CertifyController {
 		return new Gson().toJson(resultMap);
 	}
 
-
+	// 본인인증성공시 self.authYn = 'Y'값으로 변환
+	@RequestMapping(value = "/user-authYn.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String userauthYn(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = userService.AuthYnupdateUser(map);
+		System.out.println(resultMap);
+		return new Gson().toJson(resultMap);
+	}
 
 }

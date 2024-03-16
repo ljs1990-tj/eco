@@ -45,4 +45,6 @@ public interface UserMapper {
 	void updateUserDeleteDate(HashMap<String, Object> map); //회원탈퇴로 인한 ECO_USER 회원정보수정
 	
 	void insertUserDeleteDate(HashMap<String, Object> map); //회원탈퇴로 인한 ECO_USER_DELETE 정보저장
+	
+	void updateUserAuthYn(HashMap<String, Object> map); //로그인시 문자 인증하면 AuthYn 변경
 }
