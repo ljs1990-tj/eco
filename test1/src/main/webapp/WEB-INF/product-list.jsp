@@ -129,7 +129,7 @@
     	background-color: #5cb85c;
     }
 
-    .dropdown-container {
+    .order-container {
         margin-left: auto; /* 왼쪽 마진 자동으로 주어 오른쪽에 붙임 */
     }
 
@@ -200,13 +200,12 @@
 				<button type="button" :class="[selected == 'gluten' ? 'button-selected' : 'buttons-container']" @click="fnList('gluten')">글루텐프리</button>
 				<button type="button" :class="[selected == 'local' ? 'button-selected' : 'buttons-container']" @click="fnList('local')">로컬푸드</button>
 
-                <div class="dropdown-container">
-                    <!-- 드롭박스를 오른쪽에 배치 -->
+                <div class="order-container">     
                     <select>
+                    	<option>신상품순</option>
+                    	<option>구상품순</option>
                     	<option>높은 가격순</option>
                     	<option>낮은 가격순</option>
-                    	<option>신상품 순</option>
-                    	<option>구상품 순</option>
                     </select>
                 </div>
             </div>
@@ -246,7 +245,9 @@ var app = new Vue({
 		userType : "${userType}",
     	code : "${map.code}",
     	keyword : "",
-    	selected : ""
+    	selected : "",
+    	type: "CDATE",
+        order: "DESC"
     	
     }
     , methods: {
@@ -259,7 +260,7 @@ var app = new Vue({
             self.code = code;
             var nparmap = {
             	code: code,
-            	keyword : self.keyword
+            	keyword : self.keyword,
             };
             $.ajax({
                 url:"cordList.dox",
@@ -333,6 +334,8 @@ var app = new Vue({
                 }
             });
         }
+       
+        
     }
     , created: function() {
     	var self = this;

@@ -18,7 +18,16 @@
 	<select id="selectCodeList" parameterType="hashmap" resultType="com.example.test1.model.Product">
 		SELECT 
 			*,
-			ITEM_NAME 
+			<if test="type == 'CDATE' and order == 'DESC'">
+				ROW_NUMBER() OVER(ORDER BY CDATETIME DESC) AS PAGE,
+			</if>
+			<if test="type == 'CDATE' and order == 'ASC'">
+				ROW_NUMBER() OVER(ORDER BY CDATETIME ASC) AS PAGE,
+			</if>
+			<if test="type == 'PRICE' and order == 'DESC'">
+				ROW_NUMBER() OVER(ORDER BY PRICE DESC) AS PAGE,			
+			</if>
+				ROW_NUMBER() OVER(ORDER BY PRICE ASC) AS PAGE
 		FROM
 			ECO_PRODUCT
 		WHERE 1=1
