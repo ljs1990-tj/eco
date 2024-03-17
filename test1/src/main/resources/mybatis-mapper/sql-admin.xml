@@ -124,6 +124,14 @@
 		WHERE
 		PAGE BETWEEN #{startNum} AND #{lastNum}
 	</select>
+	
+	<select id="selectUserListALL" parameterType="hashmap"
+		resultType="com.example.test1.model.User">
+		SELECT *
+		FROM ECO_USER
+		</select>
+	
+	
 	<select id="selectUserListCnt" parameterType="hashmap"
 		resultType="int">
 		SELECT COUNT(*)

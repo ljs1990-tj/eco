@@ -242,61 +242,44 @@
 								<i class="fas fa-table me-1"></i> 가입 유저 리스트
 							</div>
 							<div class="card-body">
-								<select v-model="selectNum" @click="fnPageList(1)">
-									<option value="5">5개</option>
-									<option value="10">10개</option>
-									<option value="20">20개</option>
-									<option value="30">30개</option>
-								</select> <select v-model="keywordType">
-									<option value="id">아이디</option>
-									<option value="name">닉네임</option>
-								</select> <input type="text" v-model="keyword" @keyup="fnUserList()">
-								<table style="text-align: center;">
-									<thead>
-										<tr>
-											<th width="10%">유저아이디</th>
-											<th width="10%">유저이름</th>
-											<th width="5%">생일</th>
-											<th width="10%">성별</th>
-											<th width="10%">이메일</th>
-											<th width="10%">닉네임</th>
-											<th width="15%">휴대폰 번호</th>
-											<th width="10%">로그인 실패 횟수</th>
-											<th width="10%">유저등급</th>
-											<th width="10%">권한</th>
-											<th width="0%">view</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr v-if="list.length ==0">
-											<td colspan="11">검색결과 없음</td>
-										</tr>
-										<tr v-for="item in list" v-if="list.length !=0">
-											<td>{{item.userId}}</td>
-											<td>{{item.name}}</td>
-											<td>{{item.birth}}</td>
-											<td>{{item.gender}}</td>
-											<td>{{item.email}}</td>
-											<td>{{item.nickName}}</td>
-											<td>{{item.phone1}} - {{item.phone2}} - {{item.phone3}}</td>
-											<td>{{item.loginCnt}}</td>
-											<td>{{item.userGrade}}</td>
-											<td>{{item.userType}}</td>
-											<td><a href="javascript:;" @click="fnMoveUserDetail(item.userId)"><i class="fas fa-book-open"></i></a></td>
-											
-										</tr>
-									</tbody>
-								</table>
-								<a href="javascript:;" @click="fnPageMove(1)">◀</a>
-								<template v-for="n in pageCount">
-
-									<a href="javascript:;" @click="fnPageList(n)"
-										:class="selectPage == n ? 'select-tab' : 'tab'" v-if>
-										({{n}}) </a>
-
-								</template>
-								<a href="javascript:;" @click="fnPageMove(2)"> ▶</a> <a
-									href="javascript:;" @click="fnPageMove(3)"> ≥</a>
+								<table id="datatablesSimple">
+                                    <thead>
+                                        <tr>
+                                            <th>아이디</th>
+                                            <th>이름</th>
+                                            <th>닉네임</th>
+                                            <th>생일</th>
+                                            <th>가입일</th>
+                                            <th>포인트</th>
+                                            <th>로그인실패</th>
+                                            <th>상세보기</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>아이디</th>
+                                            <th>이름</th>
+                                            <th>닉네임</th>
+                                            <th>생일</th>
+                                            <th>가입일</th>
+                                            <th>포인트</th>
+                                            <th>로그인실패</th>
+                                            <th>상세보기</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        <tr v-for="item in list">
+                                            <td>{{item.userId}}</td>
+                                            <td>{{item.name}}</td>
+                                            <td>{{item.nickName}}</td>
+                                            <td>{{item.birth}}</td>
+                                            <td>{{item.cDateTime}}</td>
+                                            <td>{{item.point}}</td>
+                                            <td>{{item.loginCnt}}</td>
+                                            <td><a href="javascript:;" @click="fnMoveUserDetail(item.userId)"><i class="fas fa-columns"></i></a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
 							</div>
 						</div>
 					</div>
@@ -317,6 +300,8 @@
 	</div>
 
 	</div>
+	<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+        <script src="js/datatables-simple-demo.js"></script>
 </body>
 <script type="text/javascript">
 	var app = new Vue({
@@ -369,16 +354,6 @@
 				}
 			},
 			list : [],
-			keyword : "",
-			pageCount : 1,
-			selectPage : 1,
-			selectNum : 10,
-			selectType : "id",
-			startNum : 1,
-			lastNum : 10,
-			type : "id",
-			order : "DESC",
-			keywordType : "id",
 			userId : "${userId}"
 
 		}
@@ -388,6 +363,7 @@
 			fnList : function() {
 				var self = this;
 				self.fnData();
+				self.fnUserList();
 
 			},
 
@@ -456,105 +432,17 @@
 			},
 			fnUserList : function() {
 				var self = this;
-
-				var nparmap = {
-					keyword : self.keyword,
-					startNum : self.startNum,
-					lastNum : self.lastNum,
-					keywordType : self.keywordType,
-					type : self.type,
-					order : self.order
-
-				};
+				var nparmap = {};
 				$.ajax({
-					url : "AdminUserList.dox",
+					url : "AdminUserListAll.dox",
 					dataType : "json",
 					type : "POST",
 					data : nparmap,
 					success : function(data) {
 						console.log(data);
-						self.list = data.userList;
-						self.pageCount = Math.ceil(data.cnt / self.selectNum);
+						self.list = data.userListAll;
 					}
 				});
-			},
-			fnOrder : function(type, order) {
-				var self = this;
-				self.selectList = [];
-				self.type = type;
-				self.order = order;
-
-				var startNum = ((self.selectPage - 1) * self.selectNum) + 1;
-				var lastNum = self.selectPage * self.selectNum;
-				self.selectPage = self.selectPage;
-				var nparmap = {
-					keyword : self.keyword,
-					keywordType : self.keywordType,
-					startNum : startNum,
-					lastNum : lastNum,
-					kind : self.kind,
-					type : type,
-					order : order
-				};
-				$.ajax({
-					url : "AdminUserList.dox",
-					dataType : "json",
-					type : "POST",
-					data : nparmap,
-					success : function(data) {
-						self.list = data.list;
-						self.pageCount = Math.ceil(data.cnt / self.selectNum);
-					}
-				});
-
-			},
-			fnPageList : function(num) {
-				var self = this;
-
-				var startNum = ((num - 1) * self.selectNum) + 1;
-				var lastNum = num * self.selectNum;
-				self.selectPage = num;
-				var nparmap = {
-					keyword : self.keyword,
-					keywordType : self.keywordType,
-					startNum : startNum,
-					lastNum : lastNum,
-					kind : self.kind,
-					type : self.type,
-					order : self.order
-				};
-				$.ajax({
-					url : "AdminUserList.dox",
-					dataType : "json",
-					type : "POST",
-					data : nparmap,
-					success : function(data) {
-						self.list = data.userList;
-						self.pageCount = Math.ceil(data.cnt / self.selectNum);
-					}
-				});
-			},
-			fnPageMove : function(num) {
-				var self = this;
-				if (num == 1) {
-					if (self.selectPage == 1) {
-						self.selectPage = 1;
-					} else {
-						self.selectPage = self.selectPage - 1;
-						console.log(self.selectPage);
-					}
-
-				} else if (num == 2) {
-					if (self.selectPage >= self.pageCount) {
-						self.selectPage = self.pageCount;
-					} else {
-						self.selectPage = self.selectPage + 1;
-						console.log(self.selectPage);
-					}
-				} else if (num == 3) {
-					self.selectPage = self.pageCount;
-				}
-				self.fnPageList(self.selectPage);
 			},
 			fnMoveUserDetail : function(userId) {
 
@@ -570,7 +458,7 @@
 		created : function() {
 			var self = this;
 			self.fnList();
-			self.fnUserList();
+			
 
 		}
 	})

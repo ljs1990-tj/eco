@@ -43,4 +43,6 @@ public interface AdminMapper {
 	void updateUserLoginCntZero(HashMap<String, Object> map);
 
 	int selectUserListCnt(HashMap<String, Object> map);
+	
+	List<User> selectUserListALL(HashMap<String, Object> map);
 }

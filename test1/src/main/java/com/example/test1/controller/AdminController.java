@@ -291,6 +291,14 @@ public class AdminController {
 		resultMap = adminService.searchUserList(map);
 		return new Gson().toJson(resultMap);
 	}
+	//전체 유저리스트(메인에서 쓸 데이터)
+	@RequestMapping(value = "/AdminUserListAll.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String AdminUserListAll(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = adminService.searchUserListAll(map);
+		return new Gson().toJson(resultMap);
+	}
 	
 	@RequestMapping(value = "/AdminUserDetail.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
