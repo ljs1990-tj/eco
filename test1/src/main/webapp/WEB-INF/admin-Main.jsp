@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -14,10 +10,13 @@
         <meta name="author" content="" />
         <title>Dashboard - SB Admin</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-        <link href="css/styles.css" rel="stylesheet" />
+        <link href="css/styles-admin.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="js/jquery.js"></script>
     </head>
     <body class="sb-nav-fixed">
+    <div id="app">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
             <a class="navbar-brand ps-3" href="index.html">Start Bootstrap</a>
@@ -682,79 +681,31 @@
                 </footer>
             </div>
         </div>
+         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="js/scripts.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="assets/demo/chart-area-demo.js"></script>
-        <script src="assets/demo/chart-bar-demo.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="js/datatables-simple-demo.js"></script>
+        
+       
+        
     </body>
-</html>
-script src="js/jquery.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<title>관리자 페이지</title>
-
-</head>
-<style>
-
-</style>
-<body>
-	<%@ include file="layout/header.jsp"%>
-	<div id="app">
-
-		<div>
-			<button @click="fnProdutList">상품 관리</button>
-		</div>
-		<div>
-			<button @click="fnChart">판매통계</button>
-		</div>
-		<div>
-			<button>리뷰관리</button>
-		</div>
-		<div>
-			<button>문의관리</button>
-		</div>
-		<div>
-			<button>공유 레시피 관리</button>
-		</div>
-		<div>
-			<button>배송관리</button>
-		</div>
-		<div>
-			<button @click="fnUserList">고객관리</button>
-		</div>
-		<div>
-			<button>판매자관리</button>
-		</div>
-	
-	<div>
-		<button>카카오페이</button>
-	</div>
-
-	</div>
-</body>
-</html>
-<script type="text/javascript">
+    <script type="text/javascript">
 	var app = new Vue({
 		el : '#app',
-		data : {},
-		methods : {
-
-			fnProdutList : function() {
-				location.href = "AdminProductList.do"
-			},
-			fnChart : function(){
-				location.href="AdminProductChart.do"
-			},
-			fnUserList : function(){
-				location.href="AdminUserList.do"
-			}
-
+		data : {
+			
 		},
+		methods : {
+			
+		
+		},
+		
 		created : function() {
 			var self = this;
-
+			
 		}
 	});
 </script>
+</html>
