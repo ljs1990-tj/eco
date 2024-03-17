@@ -16,8 +16,11 @@
 	</select> -->
 	
 	<select id="selectCodeList" parameterType="hashmap" resultType="com.example.test1.model.Product">
-		SELECT * FROM
-		ECO_PRODUCT
+		SELECT 
+			*,
+			ITEM_NAME 
+		FROM
+			ECO_PRODUCT
 		WHERE 1=1
 		<if test="code != '' ">
 		AND CODE = #{code}
