@@ -216,7 +216,7 @@
 
             <div class="product-list">
 		   		<div class="product-item" v-for="item in list" :key="item.id">
-			    	<template  v-for="item2 in filelist" v-if="item.itemNo == item2.itemNo">
+			    	<template  v-for="item2 in fileList" v-if="item.itemNo == item2.itemNo">
 						<img :src="item2.filePath+item2.fileName" alt="" @click="fnDetailView(item.itemNo, userId)">
 				    </template>
 		      	
@@ -248,7 +248,7 @@ var app = new Vue({
     el: '#app',
     data: {
     	list : [],
-    	filelist : [],
+    	fileList : [],
     	userId : "${userId}",
 		userType : "${userType}",
     	code : "${map.code}",
@@ -269,13 +269,13 @@ var app = new Vue({
             	keyword : self.keyword
             };
             $.ajax({
-                url:"cordList.dox",
+                url:"codeList.dox",
                 dataType:"json",
                 type: "POST",
                 data: nparmap,
                 success: function(data) {
                 	self.list = data.list;
-                	self.filelist = data.filelist;
+                	self.fileList = data.fileList;
      				
                 }
             });

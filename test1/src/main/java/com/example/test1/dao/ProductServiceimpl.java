@@ -72,7 +72,7 @@ public class ProductServiceimpl implements ProductService {
 			List<Product> qa = productMapper.selectQa(map); //상품 문의 불러오기
 			
 			resultMap.put("info", product);
-			resultMap.put("filelist", fileList);
+			resultMap.put("fileList", fileList);
 			resultMap.put("fileDetailList", fileDetailList);
 			resultMap.put("review", review);
 			resultMap.put("qa", qa);
@@ -86,7 +86,7 @@ public class ProductServiceimpl implements ProductService {
 		return resultMap;
 	}
 
-	// cord 분류에 따른 제품 리스트
+	// code 분류에 따른 제품 리스트
 	@Override
 	public HashMap<String, Object> searchCodeList(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
@@ -95,7 +95,7 @@ public class ProductServiceimpl implements ProductService {
 			List<Product> list = productMapper.selectCodeList(map);
 			List<ProductFile> fileList = productMapper.selectProductFileInfo(map);
 			resultMap.put("list", list);
-			resultMap.put("filelist", fileList);
+			resultMap.put("fileList", fileList);
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());

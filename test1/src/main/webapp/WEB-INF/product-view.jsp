@@ -492,7 +492,7 @@ var app = new Vue({
                 	console.log(data.qa);
                 	
                 	self.info = data.info;
-                	self.fileList = data.filelist;
+                	self.fileList = data.fileList;
                 	self.fileDetailList = data.fileDetailList;
                 	self.review = data.review;
                 	self.qa = data.qa;
