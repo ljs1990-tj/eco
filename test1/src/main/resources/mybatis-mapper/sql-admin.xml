@@ -81,7 +81,6 @@
 		SELECT P.CODE, MONTH, VALUE*(PRICE*(100-S_RATE)/100) AS TOTALPAY
 		FROM ECO_PRODUCT P
 		INNER JOIN ECO_PRODUCT_CHART C ON P.ITEM_NO = C.ITEM_NO
-		WHERE P.CODE =#{code}
 		) AS subquery
 		GROUP BY CODE, MONTH
 		ORDER BY MONTH ASC;
@@ -106,6 +105,9 @@
 		U.USER_GRADE,
 		U.USERTYPE,
 		U.EMAIL,
+		U.TOTALPAY,
+		U.POINT,
+		
 		@row_number:=@row_number + 1 AS PAGE
 		FROM
 		(SELECT @row_number:=0) AS t,
@@ -155,4 +157,6 @@
 		UDATETIME = NOW()
 		WHERE USERID = #{userId}
 	</update>
+	
+	
 </mapper>

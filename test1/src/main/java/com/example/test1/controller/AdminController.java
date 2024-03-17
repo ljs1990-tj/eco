@@ -34,7 +34,7 @@ public class AdminController {
 	@RequestMapping("/admin-main.do") 
     public String main(Model model) throws Exception{		
 
-        return "/admin-Main"; 
+        return "/admin-Main2"; 
     }
 	
 	//상품 추가 페이지
@@ -69,7 +69,7 @@ public class AdminController {
 		public String AdminProductChart(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
 			request.setAttribute("map", map);
 			
-			return "/admin-product-chart";
+			return "/admin-product-line";
 	}
 		
 	@RequestMapping("/KakaoPay.do") 
