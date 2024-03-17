@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="css/user-myPage.css" type="text/css">
 <script src="js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -11,48 +12,50 @@
 </head>
 <style>
 </style>
-<body>
+<body class="addrUpdatebackground">
 	<div id="app">
-		{{addrNo}}
-		<div>
-			<span>받는 분 성함 : </span> 
-			<input type="text" v-model="user.name" placeholder="직접 입력">
+		<div class="containerAddrUpdate">
+			{{addrNo}}
+			<div>
+				<span>받는 분 성함 : </span> 
+				<input type="text" v-model="user.name" placeholder="직접 입력">
+			</div>
+			<div>
+				<span>받는 분 전화번호 : </span> 
+				<input type="text" v-model="user.phone" placeholder="직접 입력" @input="validateInput">
+			</div>
+			<div>
+				<span>배송 요청 사항 : </span> 
+				<input type="text" v-model="user.addrRequest" placeholder="직접 입력">
+			</div>
+			<div>
+				<span>배송지 위치 : </span> <input type="text" v-model="user.addrName"
+					placeholder="직접 입력"> <select v-model="addrName2"
+					@change="selectAddrName">
+					<option value="" :selected="!addrName2">::직접입력::</option>
+					<option value="집" :selected="addrName2 === '집'">집</option>
+					<option value="회사" :selected="addrName2 === '회사'">회사</option>
+					<option value="기타" :selected="addrName2 === '기타'">기타</option>
+				</select>
+			</div>
+			<div>
+				<div>받는 분 주소 : <span style="color: red;">*</span></div>
+				<input type="text" v-model="user.zipCode" placeholder="우편번호">
+				<input type="button" @click="execDaumPostcode1()" value="우편번호 찾기">
+				<div class="margin-bottom-10px"></div>
+				<input type="text" v-model="user.addr" placeholder="주소">
+				<div></div>
+				<input type="text" v-model="addrDetail1" ref="addrDetail1"	placeholder="상세주소"> 
+				<input type="text" v-model="addrDetail2" placeholder="참고항목">
+				<div style="margin-bottom: 10px;"></div>
+				<div style="padding-left: 10px; font-size: 10px;">※ 현재 주소는 집
+					주소로 기본 저장되며, 후에 마이페이지에서 수정이 가능합니다.</div>
+			</div>
+			<div>
+				<button @click="fnUserAddUpdate()">수정하기</button>
+				<button @click="fnclose()">취소하기</button>
+			</div>
 		</div>
-		<div>
-			<span>받는 분 전화번호 : </span> 
-			<input type="text" v-model="user.phone" placeholder="직접 입력" @input="validateInput">
-		</div>
-		<div>
-			<span>배송 요청 사항 : </span> 
-			<input type="text" v-model="user.addrRequest" placeholder="직접 입력">
-		</div>
-		<div>
-			<span>배송지 위치 : </span> <input type="text" v-model="user.addrName"
-				placeholder="직접 입력"> <select v-model="addrName2"
-				@change="selectAddrName">
-				<option value="" :selected="!addrName2">::직접입력::</option>
-				<option value="집" :selected="addrName2 === '집'">집</option>
-				<option value="회사" :selected="addrName2 === '회사'">회사</option>
-				<option value="기타" :selected="addrName2 === '기타'">기타</option>
-			</select>
-		</div>
-	<div>
-		<div>받는 분 주소 : <span style="color: red;">*</span></div>
-		<input type="text" v-model="user.zipCode" placeholder="우편번호">
-		<input type="button" @click="execDaumPostcode1()" value="우편번호 찾기">
-		<div class="margin-bottom-10px"></div>
-		<input type="text" v-model="user.addr" placeholder="주소">
-		<div></div>
-		<input type="text" v-model="addrDetail1" ref="addrDetail1"	placeholder="상세주소"> 
-		<input type="text" v-model="addrDetail2" placeholder="참고항목">
-		<div style="margin-bottom: 10px;"></div>
-		<div style="padding-left: 10px; font-size: 10px;">※ 현재 주소는 집
-			주소로 기본 저장되며, 후에 마이페이지에서 수정이 가능합니다.</div>
-	</div>
-	<div>
-		<button @click="fnUserAddUpdate()">수정하기</button>
-		<button @click="fnclose()">취소하기</button>
-	</div>
 	</div>
 </body>
 </html>
@@ -167,8 +170,12 @@
    		 				console.log("UserId:", self.user.userId);
     					console.log("Info:", data.info.zipCode);
                         console.log("zipCode:",  self.user.zipCode);
-	
-					}
+					},
+					 error: function(xhr, status, error) {
+		                    // 에러 발생 시 처리
+		                    // 에러 페이지로 리다이렉션
+		                    window.opener.location.href = "/error-page"; // 에러 페이지의 URL로 리다이렉션
+		                }
 				});
 			},
 			/* 주소록 수정하기 */
@@ -234,7 +241,12 @@
 						location.reload(true);
 						return;
 					}
-			    }
+			     },
+			     error: function(xhr, status, error) {
+	                    // 에러 발생 시 처리
+	                    // 에러 페이지로 리다이렉션
+	                    window.opener.location.href = "/error-page"; // 에러 페이지의 URL로 리다이렉션
+	                }
 			   });
 		   },
 		   //취소버튼 클릭시 팝업창 닫음

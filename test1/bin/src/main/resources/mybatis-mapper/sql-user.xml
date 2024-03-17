@@ -5,24 +5,24 @@
 <mapper namespace="com.example.test1.mapper.UserMapper">
 
 	<!-- 유저 아이디 존재 확인 -->
-
-	<select id="selectUser" parameterType="hashmap"
-		resultType="com.example.test1.model.User">
-		SELECT *
-		FROM ECO_USER
+	<select id="selectUser" parameterType="hashmap" resultType="com.example.test1.model.User">
+		SELECT U.*, CONCAT(PHONE1, PHONE2, PHONE3) AS PHONE
+		FROM ECO_USER U
 		WHERE USERID = #{userId}
 	</select>
 
 	<!-- 유저 회원가입 -->
-
 	<insert id="insertUser" parameterType="hashmap">
 		INSERT INTO ECO_USER
+			(USERID, USERPW, NAME, NICKNAME, GENDER, PHONE1, PHONE2, PHONE3, EMAIL, BIRTH, USER_GRADE, AUTHYN, EVENTYN, LOGINCNT, POINT, TOTALPAY, USERTYPE, CDATETIME, UDATETIME)
 		VALUES
 		(#{userId}, #{userPw}, #{name}, #{nickName}, #{gender},
 		#{phone1}, #{phone2},
 		#{phone3}, #{email}, #{birth}, 'SILVER', 'N',
 		#{eventYn}, 0, 0, 0,
-		'U', NOW(), NOW(), NOW(), DATE_ADD(NOW(), INTERVAL 3 MONTH))
+		'U', NOW(), NOW(), NOW(), DATE_ADD(NOW(), INTERVAL
+		3 MONTH))
+		(#{userId}, #{userPw}, #{name}, #{nickName}, #{gender}, #{phone1}, #{phone2}, #{phone3}, #{email}, #{birth}, 'SILVER', 'N', #{eventYn}, 0, 0, 0, 'U', NOW(), NOW())
 	</insert>
 
 	<!-- 로그인 카운트 증가 -->
@@ -30,7 +30,7 @@
 	<update id="updateLoginCnt" parameterType="hashmap">
 		UPDATE ECO_USER
 		SET
-			LOGINCNT = LOGINCNT + 1
+		LOGINCNT = LOGINCNT + 1
 		WHERE USERID = #{userId}
 	</update>
 
@@ -39,49 +39,11 @@
 	<update id="updateLoginCnt2" parameterType="hashmap">
 		UPDATE ECO_USER
 		SET
-			LOGINCNT = 0
+		LOGINCNT = 0
 		WHERE USERID = #{userId}
 	</update>
-	
-<<<<<<< HEAD
-=======
+
 	<!-- 회원가입으로 주소등록 -->
->>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
-	<insert id="insertUserAddr" parameterType="hashmap">
-		INSERT INTO ECO_ADDR
-		(USERID, ADDR, ADDRDETAIL, ZIPCODE, NAME, PHONE, ADDRREQUEST,
-		ADDRNAME)
-		VALUES(#{userId}, #{addr}, #{addrDetail}, #{zipCode},
-		#{name}, #{phone}, NULL, #{addrName})
-<<<<<<< HEAD
-=======
-			(USERID, ADDR, ADDRDETAIL, ZIPCODE, NAME, PHONE, ADDRREQUEST, ADDRNAME)
-		VALUES
-			(#{userId}, #{addr}, #{addrDetail}, #{zipCode}, #{name}, #{phone}, NULL, #{addrName})
->>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
-	</insert>
-<<<<<<< HEAD
-
-	<!-- 유저 마이페이지 수정 -->
-	<update id="updateUser" parameterType="hashmap">
-		UPDATE ECO_USER
-		SET
-			USERPW = #{userPw}, NAME = #{name}, NICKNAME = #{nickName}, GENDER = #{gender},
-			PHONE1 = #{phone1}, PHONE2 = #{phone2}, PHONE3 = #{phone3}, EMAIL = #{email}, BIRTH = #{birth}
-		WHERE USERID = #{userId}
-	</update>
-
-=======
-	<!-- 유저 마이페이지 수정 -->
-	<update id="updateUser" parameterType="hashmap">
-		UPDATE ECO_USER
-		SET
-		USERPW =
-		#{userPw}, NAME = #{name}, NICKNAME = #{nickName}, GENDER = #{gender}, 
-		PHONE1 = #{phone1}, PHONE2 = #{phone2}, PHONE3 = #{phone3},
-		EMAIL = #{email}, BIRTH = #{birth}
-		WHERE USERID = #{userId}
-	</update>
 	<insert id="insertUserAddr" parameterType="hashmap">
 		INSERT INTO ECO_ADDR
 		(USERID, ADDR, ADDRDETAIL, ZIPCODE, NAME, PHONE, ADDRREQUEST,
@@ -90,15 +52,38 @@
 		#{name}, #{phone}, NULL, #{addrName})
 	</insert>
 
+	<!-- 아이디 찾기에서 쓰일 전화번호 입력해서 정보 찾기 -->
+	<select id="selectUserPhone" parameterType="hashmap" resultType="com.example.test1.model.User">
+		SELECT USERID
+		FROM ECO_USER
+		WHERE
+		PHONE1 = #{phone1} AND PHONE2 = #{phone2} AND PHONE3 = #{phone3}
+		WHERE CONCAT(PHONE1, PHONE2, PHONE3) = #{phoneNumber}
+	</select>
+	
+	<select id="selectCartCnt" parameterType="hashmap" resultType="int">
+		SELECT IFNULL(COUNT(*), 0) AS CARTCNT
+		FROM ECO_CART
+		WHERE USERID = #{userId};
+	</select>
+
+	<!-- 비밀번호 찾기 후 비밀번호 업데이트 -->
+	<update id="updateUserPw" parameterType="hashmap">
+		UPDATE ECO_USER
+		SET
+		USERPW = #{userPw}
+		WHERE USERID = #{userId}
+	</update>
 	<!-- 유저 마이페이지 수정 -->
 	<update id="updateUser" parameterType="hashmap">
 		UPDATE ECO_USER
 		SET
-			USERPW = #{userPw}, NAME = #{name}, NICKNAME = #{nickName}, GENDER = #{gender},
-			PHONE1 = #{phone1}, PHONE2 = #{phone2}, PHONE3 = #{phone3}, EMAIL = #{email}, BIRTH = #{birth}
+		USERPW = #{userPw}, NAME = #{name}, NICKNAME = #{nickName}, GENDER =
+		#{gender},
+		PHONE1 = #{phone1}, PHONE2 = #{phone2}, PHONE3 = #{phone3}, EMAIL =
+		#{email}, BIRTH = #{birth}
 		WHERE USERID = #{userId}
 	</update>
->>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
 
 	<!-- 유저 마이페이지 주소록 호출 및 개수제한 -->
 	<select id="selectAddr" parameterType="hashmap"
@@ -109,23 +94,26 @@
 		SELECT USERID, COUNT(*) AS CNT
 		FROM ECO_ADDR
 		GROUP BY USERID
-		) AS user_counts ON ECO_ADDR.USERID = user_counts.USERID
-		WHERE ECO_ADDR.USERID = #{userId}
+		) AS
+		user_counts ON ECO_ADDR.USERID = user_counts.USERID
+		WHERE
+		ECO_ADDR.USERID = #{userId}
 	</select>
-	
+
 	<!-- 유저 마이페이지 주소록 삭제 -->
 	<delete id="deleteAddr" parameterType="hashmap">
 		DELETE FROM ECO_ADDR
-		WHERE ADDRNO = #{addrNo}
+		WHERE
+		ADDRNO = #{addrNo}
 	</delete>
-	
+
 	<!-- 유저 마이페이지 주소록 추가 -->
 	<insert id="insertMyPageAddrAdd" parameterType="hashmap">
 		INSERT INTO
 		ECO_ADDR VALUES(NULL, #{userId}, #{addr}, #{addrDetail}, #{zipCode},
-		#{name}, #{phone}, #{addrRequest}, #{addrName})
+		#{name}, #{phone}, #{addrRequest}, #{addrName}, 'N')
 	</insert>
-	
+
 	<!-- 유저 마이페이지 주소록 호출 -->
 	<select id="selectAddrAddNo" parameterType="hashmap"
 		resultType="com.example.test1.model.Addr">
@@ -133,13 +121,55 @@
 		FROM ECO_ADDR
 		WHERE ADDRNO = #{addrNo}
 	</select>
-	
+
 	<!-- 유저 마이페이지 주소록 수정 -->
 	<update id="updateAddr" parameterType="hashmap">
 		UPDATE ECO_ADDR
 		SET
-		ADDRNO = #{addrNo}, USERID = #{userId}, ADDR = #{addr}, ADDRDETAIL = #{addrDetail}, 
-		ZIPCODE = #{zipCode}, NAME = #{name}, PHONE = #{phone}, ADDRREQUEST = #{addrRequest}, 
-		ADDRNAME = #{addrName} WHERE ADDRNO = #{addrNo}
+		ADDRNO =
+		#{addrNo}, USERID = #{userId}, ADDR = #{addr}, ADDRDETAIL =
+		#{addrDetail},
+		ZIPCODE = #{zipCode}, NAME = #{name}, PHONE = #{phone}, ADDRREQUEST =
+		#{addrRequest},
+		ADDRNAME = #{addrName}, ISDEFAULT = #{isDefault} WHERE ADDRNO = #{addrNo}
+	</update>
+
+	<!-- 유저 마이페이지 주소록 배송지 N초기화 -->
+	<update id="updateDefaultAddressToN" parameterType="hashmap">
+		UPDATE ECO_ADDR
+		SET ISDEFAULT = 'N'
+		WHERE USERID = #{userId} AND ISDEFAULT = 'Y'
+	</update>
+	<!-- 유저 마이페이지 주소록 배송지 기본배송지 설정 -->
+	<update id="updateAddressToDefault" parameterType="hashmap">
+		UPDATE ECO_ADDR
+		SET ISDEFAULT = 'Y'
+		WHERE ADDRNO = #{addrNo}
+	</update>
+
+	<!-- 회원 탈퇴로 인한 사용자 정보를 ECO_USER_DELETE 테이블에 삽입 -->
+	<insert id="insertUserDeleteDate" parameterType="hashmap">
+	    INSERT INTO ECO_USER_DELETE 
+	    VALUES (
+	        #{userId}, #{userPw}, #{name}, #{nickName}, #{gender}, #{phone1}, 
+	        #{phone2}, #{phone3}, #{email}, #{birth}, #{userGrade}, #{authYn}, 
+	        #{eventYn}, #{loginCnt}, #{point}, #{totalP}, #{userType}, #{cDateTime}, 
+	        #{uDateTime}, #{StartDate}, #{EndDate}, DATE_ADD(NOW(), INTERVAL 3 MINUTE)
+	    )
+	</insert>
+	<!-- 회원 탈퇴로 인한 정보수정 -->
+	<update id="updateUserDeleteDate" parameterType="hashmap">
+		UPDATE ECO_USER
+		SET
+		DELETE_DATE = DATE_ADD(NOW(), INTERVAL 3 MONTH),
+		USERTYPE = 'D'
+		WHERE USERID = #{userId}
+	</update>
+	<!-- 로그인하여 인증시 정보수정 AUTHYN = 'Y' -->
+	<update id="updateUserAuthYn" parameterType="hashmap">
+		UPDATE ECO_USER
+		SET
+		AUTHYN = 'Y'
+		WHERE USERID = #{userId}
 	</update>
 </mapper>

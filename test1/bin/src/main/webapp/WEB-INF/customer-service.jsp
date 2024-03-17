@@ -11,14 +11,14 @@
 	<title>고객센터</title>
 </head>
 <style>
-		.container {
+	.customer-container {
 		display: flex; /* Flexbox 레이아웃 적용 */
 		width: 75%;
 		max-width: 1200px;
 		margin: 0 auto;
 		padding: 20px;
 		background: #fff;
-		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		/* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
 	}
 	
 	.menu-area {
@@ -173,11 +173,21 @@
         text-align: left;
         padding: 15px; 
     }
-        
+     
+    /* 답변 텍스트 색상 지정 */ 
+    .waiting {
+        color: red; /* 답변 대기 텍스트의 색상을 붉은색으로 지정 */
+    }
+    
+    .completed {
+        color: blue; /* 답변 완료 텍스트의 색상을 파란색으로 지정 */
+    }    
 </style>
 <body>
+<!-- Header Section -->
+<%@ include file="layout/header.jsp" %>
 	<div id="app">
-	    <div class="container">
+	    <div class="customer-container">
 	        <div class="menu-area">
 				<h2>고객센터</h2>
 				<div class="menu-item" :class="{ 'menu-item-selected': selectedMenuItem === 'faq' }" @click="updateContent('faq')">자주하는 질문 <span class="align-right">></span></div>
@@ -227,8 +237,10 @@
 					        <tr v-for="item in list" >
 					        <template v-if="item.userId == userId || userType == 'A' ">
 					            <td @click="fnView(item.boardNo)" >{{ item.title }}</td>
-					            <td>{{ item.uDateTime }}</td>
-					            <td>답변 대기</td>		        
+					            <td>{{ item.uDate }}</td>
+					            <td :class="{ 'waiting': !item.comment, 'completed': item.comment }">
+					            	{{ item.comment ? '답변 완료' : '답변 대기' }}
+					            </td>		        
 					        </template>
 					        </tr>
                         </tbody>
@@ -257,6 +269,8 @@
 	        </div>
 	    </div><!-- <div class="container">  -->
 	</div><!--<div id="app">  -->
+<!-- Footer Section -->
+<%@ include file="layout/footer.jsp" %>	
 </body>
 </html>
 

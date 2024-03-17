@@ -51,7 +51,7 @@ var app = new Vue({
           colors: ['transparent']
         },
         xaxis: {
-          categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9' ,'10','11','12'],
+        	categories: ["1","2","3","4","5","6","7","8","9","10","11","12"],
         },
         yaxis: {
           title: {
@@ -65,20 +65,29 @@ var app = new Vue({
           y: {
             formatter: function (val) {
             	
-              return "&#8361;" + val.toLocaleString('ko-KR') + "원"
+              return val.toLocaleString('ko-KR') + "원"
             }
           }
         }
-      },
-      list : []
+      }
+      
       
     }
     
     ,methods: {
     	fnList: function() {
             var self = this;
+            self.fnData("org");
+            self.fnData("vegan");
+            self.fnData("gluten");
+            self.fnData("local");
+            
+        },
+        
+        fnData : function(code){
+        	var self = this;
             var nparmap = {
-            			
+            			code : code
             };
             $.ajax({
                 url:"AdminProductChart.dox",
@@ -86,12 +95,12 @@ var app = new Vue({
                 type: "POST",
                 data: nparmap,
                 success: function(data) {
-                	self.list = data.ProductList;
-                	console.log(data);
+                	
                 	var localList = [];
                 	var veganList = [];
                 	var orgList =[];
                 	var glutenList =[];
+                	
                 	for(var i=0; i<data.ProductList.length; i++){
                 		if(data.ProductList[i].code == "local"){
                 			localList.push(data.ProductList[i].totalPay);
@@ -103,33 +112,47 @@ var app = new Vue({
                 			glutenList.push(data.ProductList[i].totalPay);
                 		}
                 	}
-                	self.series.push({
-                        name: "로컬푸드",
-                        data: localList
-                    });
-                	self.series.push({
-                        name: "비건푸드",
-                        data: veganList
-                    });
-                	self.series.push({
-                        name: "유기농푸드",
-                        data: orgList
-                    });
-                	self.series.push({
-                        name: "글루텐프리",
-                        data: glutenList
-                    });
+                	
+                	if(localList.length != 0){
+                		self.series.push({
+                            name: "로컬푸드",
+                            data: localList
+                        });
+                	}
+                	
+                	if(veganList.length != 0){
+                		self.series.push({
+                            name: "비건푸드",
+                            data: veganList
+                        });
+                	}
+                	
+                	if(orgList.length != 0){
+                		self.series.push({
+                            name: "유기농푸드",
+                            data: orgList
+                        });
+                	}
+                	
+                	if(glutenList.length != 0){
+                		self.series.push({
+                            name: "글루텐프리",
+                            data: glutenList
+                        });
+                	}
+                	
                 	
                 }
             });
         }
+        
     	
     	
     	
     }
     , created: function () {
     	var self = this;
-    	self.fnList();
+    	self.fnList("org");
     	
     }
   })

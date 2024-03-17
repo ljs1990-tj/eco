@@ -4,19 +4,21 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="css/user-myPage.css" type="text/css">
 <script src="js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <title>비밀번호 확인 페이지</title>
 </head>
 <style>
+
 </style>
-<body>
-	<div id="app">
+<body class="MyPagePwdbackground">
+	<div id="app" class="app">
 		<div>
 			<span>비밀번호 입력 :</span> 
 			<input type="password" v-model="userPw" @keydown.enter="fnList()" @input="validateInput">
 			<button @click="fnList()">확인</button>
-			<button @click="fnclose()">취소</button>
+			<button @click="fnclose()" class="cancel-btn">취소</button>
 		</div>
 	</div>
 </body>
@@ -64,7 +66,13 @@ var app = new Vue({
                 		location.reload(true);
                 		return;
                 	}
+                },
+                error: function(xhr, status, error) {
+                    // 에러 발생 시 처리
+                    // 에러 페이지로 리다이렉션
+                    window.opener.location.href = "/error-page"; // 에러 페이지의 URL로 리다이렉션
                 }
+
             });
         },
         //취소버튼 클릭시 팝업창 닫음

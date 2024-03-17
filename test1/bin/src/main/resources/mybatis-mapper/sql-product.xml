@@ -22,6 +22,9 @@
 		<if test="code != '' ">
 		AND CODE = #{code}
 		</if>
+		<if test="keyword != '' ">
+		AND ITEM_NAME LIKE '%' #{keyword} '%'
+		</if>
 	</select>
 	
 	<select id="selectProductInfo" parameterType="hashmap" resultType="com.example.test1.model.Product">
@@ -64,9 +67,60 @@
 	</select>
 	
 	<!-- 판매자 상품 추가  -->
-	<!-- <insert id="insertProduct" parameterType="hashmap" useGeneratedKeys="true" keyProperty="itemNo" keyColumn="itemNo">
+	<insert id="insertProduct" parameterType="hashmap" useGeneratedKeys="true" keyProperty="itemNo" keyColumn="itemNo">
 		INSERT INTO ECO_PRODUCT
 		VALUES
 			(null, #{name}, #{price}, #{Srate}, #{Prate}, #{contents}, #{trans}, #{sellYN}, NOW(), NOW(), #{cnt}, #{code}, 0)
-	</insert> -->
+	</insert>
+	
+	<!-- 상품 페이지에서 장바구니 추가  -->
+	<insert id="insertCart" parameterType="hashmap">
+      	INSERT INTO ECO_CART
+      	VALUES(NULL, #{userId},#{itemNo},NOW(),'N',1)
+    </insert>
+    
+    <!-- 상품 상세 페이지 리뷰 불러오기  -->
+    <select id="selectReview" parameterType="hashmap" resultType="com.example.test1.model.Product">
+    	SELECT 
+		    CONCAT(
+		        LEFT(U.NAME, 1), 
+		        '*', 
+		        RIGHT(U.NAME, 1)
+		    ) AS HIDE_NAME, 
+		    P.*, 
+		    R.*, 
+		    U.*,
+		    DATE_FORMAT(R.UDATETIME, '%Y.%m.%d') AS UDATETIMENEW
+		FROM 
+		    ECO_PRODUCT P
+		INNER JOIN 
+		    ECO_ADMIN_REVIEW R ON P.ITEM_NO = R.ITEM_NO
+		INNER JOIN 
+		    ECO_USER U ON R.USERID = U.USERID
+		WHERE P.ITEM_NO = #{itemNo}
+    </select>
+    
+    <!--상품 문의 불러오기  -->
+    <select id="selectQa" parameterType="hashmap" resultType="com.example.test1.model.Product">
+	    SELECT 
+	    	P.ITEM_NO, TITLE, QA_CONTENTS, A.USERID, C.COMMENTNO, C.`COMMENT`, A.BOARDNO,
+	    	DATE_FORMAT(A.UDATETIME, '%Y-%m-%d') AS QA_UDATE 
+		FROM ECO_PRODUCT P
+		INNER JOIN ECO_ADMIN_QA A ON P.ITEM_NO = A.ITEM_NO
+		LEFT JOIN ECO_COMMENT C ON A.BOARDNO = C.BOARDNO
+		WHERE P.ITEM_NO = #{itemNo}
+    </select>
+    
+    <!-- 상품 문의 등록  -->
+    <insert id="insertQa" parameterType="hashmap">
+    	INSERT INTO ECO_ADMIN_QA
+		VALUES (NULL, #{title}, #{qaContents}, #{userId}, 'N', NULL, NOW(), NOW(), NULL, #{itemNo});
+    </insert>
+    
+    <!-- 문의한 상품 문의자 답변 출력  -->
+    <select id="selectQaAnswer" parameterType="hashmap" resultType="com.example.test1.model.Product">
+    	SELECT COMMENTNO, BOARDNO, COMMENT 
+		FROM ECO_COMMENT
+		WHERE BOARDNO = #{boardNo};
+    </select>
 </mapper>

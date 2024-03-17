@@ -105,7 +105,7 @@
 						eventYn : "",
 						loginCnt : "",
 						point : "",
-						totalP : "",
+						totalPay : "",
 						userType : "",
 						cDateTime : "",
 						uDateTime : "",
