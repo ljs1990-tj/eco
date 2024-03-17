@@ -109,8 +109,6 @@ var app = new Vue({
 		type : "id",
 		order : "DESC",
 		keywordType : "id",
-	
-    	
     }
     , methods: {
     	

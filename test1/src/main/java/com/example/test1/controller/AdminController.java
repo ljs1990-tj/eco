@@ -34,14 +34,14 @@ public class AdminController {
 	@RequestMapping("/admin-main.do") 
     public String main(Model model) throws Exception{		
 
-        return "/admin-Main"; 
+        return "/admin-Main2"; 
     }
 	
 	//상품 추가 페이지
 	@RequestMapping("/productAdd.do") 
 	public String productAdd(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
 		request.setAttribute("map", map);
-		System.out.println(map);
+		
 		return "/product-add";
 	}
 	
@@ -69,7 +69,7 @@ public class AdminController {
 		public String AdminProductChart(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
 			request.setAttribute("map", map);
 			
-			return "/admin-product-chart";
+			return "/admin-product-line";
 	}
 		
 	@RequestMapping("/KakaoPay.do") 
@@ -289,6 +289,14 @@ public class AdminController {
 	public String AdminUserList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = adminService.searchUserList(map);
+		return new Gson().toJson(resultMap);
+	}
+	//전체 유저리스트(메인에서 쓸 데이터)
+	@RequestMapping(value = "/AdminUserListAll.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String AdminUserListAll(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = adminService.searchUserListAll(map);
 		return new Gson().toJson(resultMap);
 	}
 	
