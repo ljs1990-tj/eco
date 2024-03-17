@@ -41,7 +41,7 @@ public class AdminController {
 	@RequestMapping("/productAdd.do") 
 	public String productAdd(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
 		request.setAttribute("map", map);
-		System.out.println(map);
+		
 		return "/product-add";
 	}
 	

@@ -188,8 +188,13 @@ public class AdminServiceinpl implements AdminService {
 		
 		try {
 			User userInfo = adminMapper.selectAdminUserInfo(map);
-			resultMap.put("userInfo", userInfo);
-			resultMap.put("result", "success");
+			if(userInfo == null) {
+				resultMap.put("result", "fail");
+			}else {
+				resultMap.put("userInfo", userInfo);
+				resultMap.put("result", "success");
+			}
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());

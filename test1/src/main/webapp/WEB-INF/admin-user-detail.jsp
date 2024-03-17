@@ -84,7 +84,7 @@
 	var app = new Vue({
 	    el: '#app',
 	    data: {
-	    	userId :  "${map.userId}",
+	    	userId :"${map.userId}",
 	    	userInfo : {},
 	    	
 	    }
@@ -93,8 +93,6 @@
 	            var self = this;
 	            var nparmap = {
 	            		userId : self.userId,
-	            		
-	            		
 	            };
 	            $.ajax({
 	                url:"AdminUserDetail.dox",
@@ -103,12 +101,18 @@
 	                data: nparmap,
 	                success: function(data) {
 	                	console.log(data);
-	                	self.userInfo = data.userInfo;
+	                	if(data.result == "success"){
+	                		self.userInfo = data.userInfo;
+	                	}else{
+	                		alert("아이디를 확인해주세요.");
+	                		history.back();
+	                	}
+	                	
 	                }
 	            });
 	        },
 	        fnMoveAdminMain : function(){
-	        	location.href="AdminUserList.do";
+	        	location.href="admin-main.do";
 	        },
 	        
 	        fnUserTypeEdit: function() {
@@ -137,6 +141,7 @@
 	       
 	        fnResetLoginCnt: function() {
 	            var self = this;
+	            
 	            var nparmap = {
 	            		userId : self.userId,
 	            };
