@@ -38,16 +38,18 @@
 				<i class="fas fa-bars"></i>
 			</button>
 			<!-- Navbar Search-->
-			<form
+			<form @submit.prevent="handleFormSubmit"
 				class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
 				<div class="input-group">
-					<input class="form-control" type="text" placeholder="유저 아이디로 검색..."
-						aria-label="유저 아이디로 검색..." aria-describedby="btnNavbarSearch" v-model="keywordId" />
+					<input @keyup.enter="fnMoveUserDetail" class="form-control" type="text" placeholder="유저 아이디로 검색..."
+						aria-label="유저 아이디로 검색..." aria-describedby="btnNavbarSearch" v-model="keywordId" autofocus/>
 					<button class="btn btn-primary" id="btnNavbarSearch" type="button" @click="fnMoveUserDetail">
 						<i class="fas fa-search"></i>
 					</button>
 				</div>
 			</form>
+			
+			
 			<!-- Navbar-->
 			<ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
 				<li class="nav-item dropdown"><a
@@ -61,7 +63,13 @@
 						<li><hr class="dropdown-divider" /></li>
 						<li><a class="dropdown-item" href="#" @click="fnLogout">Logout</a></li>
 					</ul></li>
+					<li>
+					<a href="main.do" class="nav-link dropdown">
+					<i class="bi bi-house-door-fill"></i>
+					</a>
+					</li>
 			</ul>
+			
 		</nav>
 		<div id="layoutSidenav">
 			<div id="layoutSidenav_nav">
@@ -69,11 +77,16 @@
 					id="sidenavAccordion">
 					<div class="sb-sidenav-menu">
 						<div class="nav">
-							<div class="sb-sidenav-menu-heading">Core</div>
+							<div class="sb-sidenav-menu-heading">링크</div>
 							<a class="nav-link" href="/admin-main.do">
 								<div class="sb-nav-link-icon">
 									<i class="fas fa-tachometer-alt"></i>
 								</div> 관리자 페이지
+							</a>
+							<a class="nav-link" href="/main.do">
+								<div class="sb-nav-link-icon">
+									<i class="bi bi-house-door-fill"></i>
+								</div> 메인 페이지
 							</a>
 							<div class="sb-sidenav-menu-heading">상품관리</div>
 							<a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
@@ -86,6 +99,7 @@
 									<i class="fas fa-angle-down"></i>
 								</div>
 							</a>
+							
 							<div class="collapse" id="collapseLayouts"
 								aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 								<nav class="sb-sidenav-menu-nested nav">
@@ -96,12 +110,7 @@
 
 								</nav>
 							</div>
-							<a class="nav-link collapsed" href="#" >
-								<div class="sb-nav-link-icon">
-									<i class="bi bi-people-fill"></i>
-								</div>유저관리
-								
-							</a>
+							
 							<a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
 								data-bs-target="#collapsePages" aria-expanded="false"
 								aria-controls="collapsePages">
@@ -112,6 +121,7 @@
 									<i class="fas fa-angle-down"></i>
 								</div>
 							</a>
+							
 							<div class="collapse" id="collapsePages"
 								aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
 								<nav class="sb-sidenav-menu-nested nav accordion"
@@ -147,9 +157,21 @@
 										<nav class="sb-sidenav-menu-nested nav">
 											<a class="nav-link" href="#">공지사항 등록</a> <a class="nav-link"
 												href="#">문의글 관리</a> <a class="nav-link" href="#"></a>
+												
 										</nav>
+										
 									</div>
+									
 								</nav>
+								
+							</div>
+							<div>
+							<a class="nav-link collapsed" href="#" >
+								<div class="sb-nav-link-icon">
+									<i class="bi bi-people-fill"></i>
+								</div>유저관리
+								
+							</a>
 							</div>
 							<div class="sb-sidenav-menu-heading">차트분석</div>
 							<a class="nav-link" href="tables.html">
@@ -255,7 +277,11 @@
 											<th>생일</th>
 											<th>가입일</th>
 											<th>포인트</th>
+											<th>휴대폰 번호</th>
+											<th>권한</th>
+											<th>유저등급</th>
 											<th>로그인실패</th>
+											
 											
 										</tr>
 									</thead>
@@ -267,6 +293,9 @@
 											<th>생일</th>
 											<th>가입일</th>
 											<th>포인트</th>
+											<th>휴대폰 번호</th>
+											<th>권한</th>
+											<th>유저등급</th>
 											<th>로그인실패</th>
 											
 										</tr>
@@ -279,7 +308,11 @@
 											<td>{{item.birth}}</td>
 											<td>{{item.cDateTime}}</td>
 											<td>{{item.point}}</td>
+											<td>{{item.phone1}} - {{item.phone2}} - {{item.phone3}}</td>
+											<td>{{item.userType}}</td>
+											<td>{{item.userGrade}}</td>
 											<td>{{item.loginCnt}}</td>
+											
 										</tr>
 									</tbody>
 								</table>
@@ -451,6 +484,10 @@
 						self.list = data.userListAll;
 					}
 				});
+			},
+			handleFormSubmit : function(){
+				var self = this;
+	        	$.pageChange("/adminUserDetail.do", { userId : self.keywordId});
 			},
 			
 			fnMoveAdminPage : function() {
