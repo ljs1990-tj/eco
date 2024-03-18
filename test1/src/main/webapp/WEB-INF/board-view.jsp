@@ -91,7 +91,7 @@ a {
 <body>
 <%@ include file="layout/header.jsp" %>
 	<div id="app">
-		<table>
+		<table style="width: 60%;">
 			<tr>
 				<th width="20%">제목</th>
 				<td width="80%">{{info.title}}</td> 
@@ -106,7 +106,7 @@ a {
 					<template v-if="kind == '2'">
 						<template  v-for="item in fileList">
 							<template v-if="item.kind == 2">
-					    		<img :src="item.path" alt="" width="150px">
+					    		<img :src="item.path" alt="">
 							</template>
 						</template>
 					</template>
@@ -117,7 +117,7 @@ a {
 			</tr>
 			
 		</table>
-		<div v-if="info.userId == userId || userType == 'A'">
+		<div class="buttons" style="text-align: center; margin: 30px;" v-if="info.userId == userId || userType == 'A'">
 			<button @click="fnDelete">삭제</button>
 			<button @click="fnEdit">수정</button>
 			<button @click="fnList">목록으로 가기</button>	
