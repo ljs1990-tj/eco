@@ -21,9 +21,11 @@ public class BoardServiceimpl implements BoardService{
 	public HashMap<String, Object> searchBoardList(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		List<Board> list= boardMapper.selectBoardList(map);
+		int cnt = boardMapper.selectBoardListCnt(map);
 		try {
-			List<Board> list= boardMapper.selectBoardList(map);
 			resultMap.put("list", list);
+			resultMap.put("cnt", cnt);
 			resultMap.put("result", "success");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -266,5 +268,7 @@ public class BoardServiceimpl implements BoardService{
 		
 		return resultMap;
 	}
+
+
 	
 }
