@@ -294,7 +294,7 @@
 	                </div>
 	            </div>
 	            <div class="row">
-	            	<template v-for="(item, index) in listR" v-if="index < 3">
+	            	<template v-for="(item, index) in listR">
 	            		<template v-for="item2 in fileListR" v-if="item.boardNo == item2.boardNo">
 			                <div class="col-lg-4 col-md-4 col-sm-6">
 			                    <div class="blog__item">
@@ -303,11 +303,11 @@
 			                        </div>
 			                        <div class="blog__item__text">
 			                            <ul>
-			                                <li><i class="fa fa-calendar-o"></i> {{}}</li>
-			                                <li><i class="fa fa-thumbs-up"></i></i> 114</li>
+			                                <li><i class="fa fa-calendar-o"></i> {{item.cDate}}</li>
+			                                <li><i class="fa fa-eye"></i> {{item.hits}}</li>
 			                            </ul>
-			                            <h5><a href="javascript:;">쉽게 요리하는 팁 공유</a></h5>
-			                            <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
+			                            <h5><a href="javascript:;">{{truncateText(item.title, 10)}}</a></h5>
+			                            <p><span v-html="truncateText(item.contents, 50)"></span></p>
 			                        </div>
 			                    </div>
 			                </div>
@@ -446,6 +446,13 @@
 				var self = this;
 				$.pageChange("/productView.do", {itemNo: itemNo, userId: self.userId});
 			},
+            truncateText(text, maxLength) {
+                if (text.length > maxLength) {
+                    return text.slice(0, maxLength) + '...';
+                } else {
+                    return text;
+                }
+            },
 		},
 		created : function() {
 			var self = this;
