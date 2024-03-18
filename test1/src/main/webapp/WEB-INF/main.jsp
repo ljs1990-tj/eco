@@ -385,7 +385,8 @@
 	                        <div class="blog__item__text">
 	                            <ul>
 	                                <li><i class="fa fa-calendar-o"></i> 2024년 1월 2일</li>
-	                                <li><i class="fa fa-comment-o"></i> 4</li>
+	                                <li><i class="fa fa-thumbs-up"></i></i> 114</li>
+	                                
 	                            </ul>
 	                            <h5><a href="javascript:;">쉽게 유리하는 팁 공유</a></h5>
 	                            <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
