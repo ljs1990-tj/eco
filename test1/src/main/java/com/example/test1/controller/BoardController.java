@@ -54,7 +54,12 @@ public class BoardController {
 	@ResponseBody
 	public String boardList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		String offset = (String) map.get("offset");
+		String limit = (String) map.get("limit");
+		map.put("offset", Integer.parseInt(offset));
+		map.put("limit", Integer.parseInt(limit));
 		resultMap = boardService.searchBoardList(map);
+		
 		return new Gson().toJson(resultMap);
 	}
 	

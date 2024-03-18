@@ -13,6 +13,8 @@ import com.example.test1.model.Comment;
 public interface BoardMapper {
 	
 	List<Board> selectBoardList(HashMap<String, Object> map); //리스트보기
+	
+	int selectBoardListCnt(HashMap<String, Object> map);//게시글 개수 조회
 
 	Board selectBoardInfo(HashMap<String, Object> map);//상세보기
 	
