@@ -109,6 +109,7 @@
             	   alert("변경할 비밀번호랑 비밀번호확인이 맞지 않습니다.");
             	   self.newPassword = "";
                    self.currentPassword = "";
+                   confirmPassword = "";
                    return;
                }
                 // 변경된 비밀번호를 서버로 전송하는 AJAX 요청
