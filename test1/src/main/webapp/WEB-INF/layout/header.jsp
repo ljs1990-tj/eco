@@ -96,7 +96,7 @@
 	                <div class="col-lg-3">
 	                    <div class="header__cart">
 	                        <ul>
-	                            <li><a href="javascript:;" @click="fnFavorite"><i class="fa fa-heart"></i> <span>0</span></a></li>
+	                            <li><a href="javascript:;" @click="fnFavorite"><i class="fa fa-heart"></i> <span>{{favoriteCnt}}</span></a></li>
 	                            <li><a href="javascript:;" @click="fnMoveCart"><i class="fa fa-shopping-bag"></i> <span>{{cartCnt}}</span></a></li>
 	                       		<li v-if="userType == 'A'"><a href="/admin-main.do" ><i class="bi bi-gear-fill"></i></a></li>
 	                        </ul>
@@ -134,7 +134,8 @@
 	    	userId: "${userId}",
 	    	userType: "${userType}", 
 	    	email: "",
-	    	cartCnt: "",
+	    	favoriteCnt: "0",
+	    	cartCnt: "0",
 	    	loginFlg: false
 	    }
 	    , methods: {
@@ -154,6 +155,7 @@
 		                	if(data.result == 'fail') {
 		                		self.email = data.user.email;
 		                		self.cartCnt = data.cartCnt;
+		                		self.favoriteCnt = data.favoriteCnt;
 		                	}
 		                }
 		            });
