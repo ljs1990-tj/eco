@@ -97,10 +97,10 @@ public class ProductController {
 	}
 		
 
-	// cord 분류에 따른 제품 리스트
-	@RequestMapping(value = "/cordList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	// code 분류에 따른 제품 리스트
+	@RequestMapping(value = "/codeList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String cordList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+	public String codeList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = productService.searchCodeList(map);
 		return new Gson().toJson(resultMap);

@@ -78,7 +78,7 @@
 			<div class="login-title" style="margin: 10px;">로그인</div>
 			<div style="margin: 10px;" class="inputBox">
 				<input type="text" class="login-input" v-model="userId"
-					placeholder="아이디를 입력해 주세요" maxlength="20">
+					@keyup.enter="fnLogin" placeholder="아이디를 입력해 주세요" maxlength="20">
 			</div>
 			<div style="margin: 10px;">
 				<input type="password" class="login-input" v-model="userPw"
