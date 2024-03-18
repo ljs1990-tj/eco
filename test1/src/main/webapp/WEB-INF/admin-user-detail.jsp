@@ -6,7 +6,7 @@
 	<meta charset="UTF-8">
 	<script src="js/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<title>첫번째 페이지</title>
+	<title>유저 조회</title>
 </head>
 <style>
  #app {
@@ -56,6 +56,13 @@
             인증 여부: {{ userInfo.authYn }}
         </div>
         <div>
+            총 결제금액 : {{ userInfo.totalPay.toLocaleString('ko-KR') }} 원
+        </div>
+        <div>
+            포인트: {{ userInfo.point.toLocaleString('ko-KR') }} 포인트
+        </div>
+        
+        <div>
             이벤트 참여 여부: {{ userInfo.eventYn }}
         </div>
         <div>
@@ -69,13 +76,15 @@
         <div>
             회원 유형:
             <select v-model="userInfo.userType">
-            	<option value="U">U</option>
-            	<option value="F">F</option>
-            	<option value="A">A</option>
+            	<option value="U">일반유저</option>
+            	<option value="F">판매자</option>
+            	<option value="A">어드민</option>
+            	<option value="D">삭제대기</option>
             </select>
             <button @click="fnUserTypeEdit">변경</button>
         </div>
         <button @click="fnMoveAdminMain">돌아가기</button>
+        
     </div>
 		
 	
@@ -86,6 +95,7 @@
 	    data: {
 	    	userId :"${map.userId}",
 	    	userInfo : {},
+	    	popupFlg : "${map.popupFlg}"
 	    	
 	    }
 	    , methods: {
@@ -105,6 +115,9 @@
 	                		self.userInfo = data.userInfo;
 	                	}else{
 	                		alert("아이디를 확인해주세요.");
+	                		if(self.popupFlg == true){
+	        	        		window.close();
+	        	        	}
 	                		history.back();
 	                	}
 	                	
@@ -112,7 +125,14 @@
 	            });
 	        },
 	        fnMoveAdminMain : function(){
-	        	location.href="admin-main.do";
+	        	var self = this;
+	        	if(self.popupFlg == "yes"){
+	        		window.close();
+	        	}else{
+	        		location.href="AdminUserList.do";
+	        	}
+	        	
+	        	
 	        },
 	        
 	        fnUserTypeEdit: function() {
