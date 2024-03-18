@@ -136,7 +136,7 @@ a {
 		<li>
 			<ul v-if="item.code != 3" v-for="item in boardList"
 				:class="[kind == item.code ? 'select-tab' : 'tab']"
-				@click="fnGetList(item.code); fnResetPage()" style="margin: 10px;">{{item.name}}
+				@click="fnList(item.code); fnResetPage()" style="margin: 10px;">{{item.name}}
 			</ul>
 		</li>
 		<div>

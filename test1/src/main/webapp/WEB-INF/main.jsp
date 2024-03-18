@@ -53,7 +53,7 @@
 	                        <div class="hero__text">
 	                            <span>FRUIT FRESH</span>
 	                            <h2>Vegetable <br />100% Organic</h2>
-	                            <p>무료배송</p>
+	                            <p>1만 원부터 무료배송</p>
 	                            <a href="/productList.do" class="primary-btn">구매하기</a>
 	                        </div>
 	                    </div>
@@ -70,27 +70,27 @@
 	                <div class="categories__slider owl-carousel">
 	                    <div class="col-lg-3">
 	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-1.jpg" style="cursor: pointer;" @click="fnMoveCategory('org')">
-	                            <h5><a href="javascript:;" @click="fnMoveCategory('org')">유기농</a></h5>
+	                            <h5><a href="javascript:;" @click="fnMoveCategory('org')" style="opacity: 0.9">유기농</a></h5>
 	                        </div>
 	                    </div>
 	                    <div class="col-lg-3">
 	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-2.jpg" style="cursor: pointer;" @click="fnMoveCategory('vegan')">
-	                            <h5><a href="javascript:;" @click="fnMoveCategory('vegan')">비건</a></h5>
+	                            <h5><a href="javascript:;" @click="fnMoveCategory('vegan')" style="opacity: 0.9">비건</a></h5>
 	                        </div>
 	                    </div>
 	                    <div class="col-lg-3">
 	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-3.jpg" style="cursor: pointer;" @click="fnMoveCategory('gluten')">
-	                            <h5><a href="javascript:;" @click="fnMoveCategory('gluten')">글루텐-프리</a></h5>
+	                            <h5><a href="javascript:;" @click="fnMoveCategory('gluten')" style="opacity: 0.9">글루텐-프리</a></h5>
 	                        </div>
 	                    </div>
 	                    <div class="col-lg-3">
 	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-4.jpg" style="cursor: pointer;" @click="fnMoveCategory('local')">
-	                            <h5><a href="javascript:;" @click="fnMoveCategory('local')">로컬푸드</a></h5>
+	                            <h5><a href="javascript:;" @click="fnMoveCategory('local')" style="opacity: 0.9">로컬푸드</a></h5>
 	                        </div>
 	                    </div>
  	                  <div class="col-lg-3">
 	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-5.jpg">
-	                            <h5><a href="javascript:;" @click="fnMoveCategory()">모두</a></h5>
+	                            <h5><a href="javascript:;" @click="fnMoveCategory('')" style="opacity: 0.9">모두</a></h5>
 	                        </div>
 	                    </div> 
 	                </div>
@@ -119,7 +119,7 @@
 	                </div>
 	            </div>
 	            <div class="row featured__filter">
-    		        <template v-for="item in list">
+    		        <template v-for="(item, index) in list" v-if="index < 8">
 		            	<template v-for="item2 in fileList" v-if="item.itemNo == item2.itemNo">
 			                <div :class="'col-lg-3 col-md-4 col-sm-6 mix ' + item.code">
 			                    <div class="featured__item">
@@ -131,8 +131,9 @@
 			                            </ul>
 		                        	</div>
 			                        <div class="featured__item__text">
-			                            <h6><a href="javascript:;" @click="fnDetailView(item.itemNo, userId)">{{item.itemName}}</a></h6>
-			                            <h5>₩{{(item.price)*((100-item.sRate)/100)}}</h5>
+			                            <h4><a href="javascript:;" @click="fnDetailView(item.itemNo, userId)" style="color: black; font-weight: bold;">{{item.itemName}}</a></h4>
+			                            <del>₩{{item.price}}</del>
+			                            <h4 style="color: red;">₩{{(item.price)*((100-item.sRate)/100)}}</h4>
 			                        </div>
 			                    </div>
 			                </div>
@@ -168,7 +169,7 @@
 	            <div class="row">
 	                <div class="col-lg-4 col-md-6">
 	                    <div class="latest-product__text">
-	                        <h4>최신 제품</h4>
+	                        <h4>최신 상품</h4>
 	                        <div class="latest-product__slider owl-carousel">
 	                            <div class="latest-prdouct__slider__item">
 	                                <a href="javascript:;" class="latest-product__item">
@@ -233,7 +234,7 @@
 	                </div>
 	                <div class="col-lg-4 col-md-6">
 	                    <div class="latest-product__text">
-	                        <h4>전체 랭킹</h4>
+	                        <h4>최대 판매</h4>
 	                        <div class="latest-product__slider owl-carousel">
 	                            <div class="latest-prdouct__slider__item">
 	                                <a href="javascript:;" class="latest-product__item">
@@ -298,7 +299,7 @@
 	                </div>
 	                <div class="col-lg-4 col-md-6">
 	                    <div class="latest-product__text">
-	                        <h4>리뷰 제품</h4>
+	                        <h4>최다 리뷰</h4>
 	                        <div class="latest-product__slider owl-carousel">
 	                            <div class="latest-prdouct__slider__item">
 	                                <a href="javascript:;" class="latest-product__item">
