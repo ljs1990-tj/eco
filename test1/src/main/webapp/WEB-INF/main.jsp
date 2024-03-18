@@ -123,7 +123,8 @@
 		            	<template v-for="item2 in fileList" v-if="item.itemNo == item2.itemNo">
 			                <div :class="'col-lg-3 col-md-4 col-sm-6 mix ' + item.code">
 			                    <div class="featured__item">
-			                        <div class="featured__item__pic set-bg" :data-setbg="item2.path" :style="{ 'background-image': 'url(' + item2.path + ')' }" @click="fnDetailView(item.itemNo, userId)">
+			                    	<div class="featured__item__pic">
+			                    		<img :data-setbg="item2.path" :alt="item.itemName" :src="item2.path" @click="fnDetailView(item.itemNo, userId)" style="cursor: pointer;">
 			                        	<ul class="featured__item__pic__hover">
 			                                <li><a href="javascript:;"><i class="fa fa-heart"></i></a></li>
 			                                <li><a href="javascript:;" @click="fnAddCart(item.itemNo, userId)"><i class="fa fa-shopping-cart"></i></a></li>
