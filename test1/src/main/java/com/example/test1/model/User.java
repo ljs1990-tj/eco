@@ -12,11 +12,11 @@ public class User {
 	private String email;
 	private String birth;
 	private String userGrade;
-	private String authYn;
+	private String authYn;	//본인인증 Y,N
 	private String eventYn;
 	private int loginCnt;
 	private int point;
-	private int totalP;
+	private int totalPay;
 	private String userType;
 	private String cDateTime;
 	private String uDateTime;
@@ -121,11 +121,11 @@ public class User {
 	public void setPoint(int point) {
 		this.point = point;
 	}
-	public int getTotalP() {
-		return totalP;
+	public int getTotalPay() {
+		return totalPay;
 	}
-	public void setTotalP(int totalP) {
-		this.totalP = totalP;
+	public void setTotalPay(int totalPay) {
+		this.totalPay = totalPay;
 	}
 	public String getUserType() {
 		return userType;

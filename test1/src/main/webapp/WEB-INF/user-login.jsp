@@ -78,7 +78,7 @@
 			<div class="login-title" style="margin: 10px;">로그인</div>
 			<div style="margin: 10px;" class="inputBox">
 				<input type="text" class="login-input" v-model="userId"
-					placeholder="아이디를 입력해 주세요" maxlength="20">
+					@keyup.enter="fnLogin" placeholder="아이디를 입력해 주세요" maxlength="20">
 			</div>
 			<div style="margin: 10px;">
 				<input type="password" class="login-input" v-model="userPw"
@@ -111,7 +111,8 @@ var app = new Vue({
     	userId: "",
     	userPw: "",
     	resultMessage: "",
-    	userType : ""
+    	userType : "",
+    	authYn : ""
     }
     , methods: {
     	fnLogin: function() {
@@ -138,10 +139,15 @@ var app = new Vue({
     	            if (data.result == "success") {
     	                self.resultMessage = "";
     	                self.userType = data.user.userType; // 로그인 후 등급 정보 할당
+    	                self.authYn = data.user.authYn;
     	                if (self.userType === 'D') {
     	                    // 등급이 D인 경우 회원탈퇴상태이므로 복구 페이지로 이동
-    	                    window.location.href = "/user-resumeMain.do";
-    	                } else {
+    	                    window.location.href = "/user-resume.do";
+    	                }else if(self.authYn === 'N'){
+    	                	alert("본인인증 하셔야 이용이 가능합니다");
+    	                	window.location.href = "/user-login-certifyMain.do"
+    	                } 
+    	                else {
     	                    // 등급이 D가 아닌 경우 기존의 로직 수행
     	                   $.pageChange("/header.do", {});
     	                }

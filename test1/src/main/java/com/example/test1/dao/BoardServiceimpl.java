@@ -20,16 +20,16 @@ public class BoardServiceimpl implements BoardService{
 	@Override
 	public HashMap<String, Object> searchBoardList(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> board = new HashMap<String, Object>();
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			List<Board> list= boardMapper.selectBoardList(map);
-			board.put("list", list);
-			board.put("result", "success");
+			resultMap.put("list", list);
+			resultMap.put("result", "success");
 		} catch (Exception e) {
 			// TODO: handle exception
-			board.put("result", "fail");
+			resultMap.put("result", "fail");
 		}
-		return board;
+		return resultMap;
 	
 	}
 

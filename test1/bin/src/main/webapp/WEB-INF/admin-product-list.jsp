@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%@ include file="../layout/header.jsp"%>
+<%@ include file="layout/header.jsp"%>
 <html>
 <head>
 	<meta charset="UTF-8">
@@ -100,7 +100,7 @@
 			  <li @click="fnList('local')">로컬푸드</li>
 			</ul>
 			<div>
-			<input type="text" v-model="keyword"> <button @click="fnList(code)">검색</button>
+			<input type="text" v-model="keyword"> <button @click="fnList()">검색</button>
 			<button @click="fnMoveAddPage">글쓰기</button>
 			</div>
 			
@@ -119,10 +119,7 @@
 				 	<template id="item2.fileNo" @click="fnNext(item2.fileNo)">
 				    <img :src="item2.filePath+item2.fileName" alt="">
 				    </template>
-<<<<<<< HEAD
-=======
 				  </template>
->>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
 				    </template>
 				    <p><a href="javascript:;" @click="fnDetailView(item.itemNo)">{{item.itemName}}</a></p>
 				    <p class="price" v-if="item.sRate!=0"><del>₩{{item.price}}</del><br>할인가₩{{(item.price)*((100-item.sRate)/100)}}<br> 할인율{{item.sRate}}%</p>

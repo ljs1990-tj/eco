@@ -4,15 +4,134 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="../css/team_project_style.css">
 	<script src="js/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<title>회원가입 페이지</title>
 </head>
 <style>
+	ul, li {
+		list-style: none;
+		margin-top: 10px;
+		font-size: 14px;
+	}
+	.container-join {
+		border: none;
+		background-color: white;
+		border-radius: 5px;
+		margin: 200px auto;
+		width: 660px;
+	}
+	
+	.join-text {
+		text-decoration: none;
+		color: #aaa;
+	}
+	
+	.join-text:hover {
+		color: #777;
+	}
+	
+	.join-title {
+		text-align: center;
+		font-size: 20px;
+		font-weight: bold;
+	}
+	
+	
+	
+	.join-divide {
+		width: 105px;
+		float: left;
+	}
+	
+	.join-input {
+		width: 200px;
+		height: 20px;
+		border: 2px solid #ddd;
+		border-radius: 5px;
+	}
+	
+	.login-input {
+		width: 255px;
+		height: 40px;
+		border: 2px solid #ddd;
+		border-radius: 5px;
+		margin-left: 10px;
+	}
+	
+	.login-input::placeholder {
+		font-size: 12px;
+		padding-left: 10px;
+		color: #999;
+	}
+	
+	.zipcode-input {
+		width: 100px;
+	}
+	
+	.addr-btn {
+		background-color: rgb(137, 200, 57);
+		height: 25px;
+		color: white;
+		border-radius: 5px;
+		border: none;
+		cursor: pointer;
+	}
+	
+	.addr-btn:hover {
+		background-color: rgb(107, 170, 27);
+	}
+	
+	.phone-input {
+		width: 52px;
+	}
+	
+	.email-input {
+		width: 130px;
+	}
+	
+	.under-line {
+		border-bottom: 2px solid black;
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
+	
+	.required-star {
+		font-weight: bold;
+		color: red;
+	}
+	
+	.required-input {
+		text-align: right;
+		font-size: 10px;
+	}
+	
+	.join-button {
+		width: 160px;
+		height: 40px;
+		cursor: pointer;
+		border: none;
+		border-radius: 3px;
+		color: white;
+		background-color: rgb(137, 200, 57);
+	}
+	
+	.join-button:hover {
+		background-color: rgb(107, 170, 27);
+	}
+	
+	.text-center {
+		text-align: center;
+	}
+	
+	.margin-bottom-10px {
+		margin-bottom: 10px;
+	}
 </style>
 <body>
+	<!-- header -->
+	<%@ include file="layout/header.jsp"%>
     <div id="app">
         <fieldset class="container-join">
             <div class="join-title">회원가입</div>
@@ -143,6 +262,8 @@
             </div>
         </fieldset>
 	</div>
+	<!-- footer -->
+	<%@ include file="layout/footer.jsp"%>
 </body>
 </html>
 <script type="text/javascript">

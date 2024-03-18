@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,6 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+<link rel="stylesheet" href="css/myPage.css">
 <title>마이 페이지</title>
 <style>
     * {
@@ -18,12 +20,12 @@
 <body style="background-color:white;">
 <div id="app">
     <!-- 전체구역 -->
-    <section style="display: flex;width: 1500px; height: 625px; border: 1px solid black; overflow: hidden; margin: 0 auto;">
+    <section>
         <!-- 왼쪽 구역 -->
-        <div style="overflow: hidden; width: 600px; float: left; border: 1px solid black;">
-            <div style="width: 500px; border: 1px solid red; margin: 20px; ">
-                <div style="height: 500px; border: 1px solid blue; overflow-y: scroll; padding: 10px;">
-                    <ul style="list-style: none; padding-left: 0;">
+        <div class="info-Container">
+            <div class="info-User">
+                <div class="user-Area">
+                    <ul>
                         <li><span>아이디 : </span>{{user.userId}}</li>
                         <li><span>이름 : </span>{{user.name}}</li>
                         <li><span>닉네임 : </span>{{user.nickName}}</li>
@@ -33,22 +35,22 @@
                         <li><span>생년월일 : </span>{{user.birth}}</li>
                     </ul>
                 </div>
-                <div style="height: 40px; border: 1px solid black; padding: 10px; display: flex; justify-content: center; align-items: center;">
+                <div class="point-Area">
                     <div style="margin-right: auto;">내등급 : <span>{{user.userGrade}}</span></div>
                     <div style="margin-left: auto;">포인트 : <span>{{user.point}}</span></div>
                 </div>
-                <div style="height: 40px; border: 1px solid black; padding: 10px; display: flex; justify-content: center; align-items: center;">
+                <div class="check-Area">
                     <div style="margin-right: auto;"><button @click="fnopenPopup()">등급혜택 자세히 보기</button></div>
                     <div style="margin-left: auto;"><button @click="fnUsermodify()" :disabled="isPopupOpen">정보수정</button></div>
                 </div>
             </div>
         </div>
         <!-- 오른쪽 구역 -->
-        <div style="width: 900px; overflow: hidden; float: left;">
-            <div style="width: 800px; border: 1px solid blue; margin: 20px;">
-                <div style="height: 200px; border: 1px solid red; overflow-y: scroll; padding: 10px;">
+        <div class="addr-Container">
+            <div class="addr-Area">
+                <div class="addr-Info">
                     <div v-for="address in addrList">
-                        <div style="border: 1px solid #ccc; padding-left: 10px; padding-right:10px; padding-bottom: 10px; padding-top: 10px; margin: 0px auto;">
+                        <div class="addr-InfoStyle">
                             <div>
                                 <input type="radio" v-model="radio" :value="address.addrNo" :disabled="isPopupOpen">
                             </div>
@@ -69,7 +71,7 @@
                         </div>
                     </div>
                 </div>
-                <div style="height: 45px; border: 2px solid #ccc; padding: 10px; display: flex; justify-content: space-between;">
+                <div class="addr-addArea">
                     <div>
                         <button @click="addDefaultAddress()" :disabled="isPopupOpen">주소추가</button>
                     </div>
@@ -80,14 +82,14 @@
                     </div>
                 </div>
             </div>
-            <div style="width: 500px; border: 1px solid black; margin: 20px;">
-                <div style="height: 100px; border: 1px solid black; padding: 10px; display: flex; justify-content: center; align-items: center;">
+            <div class="recipe-Area">
+                <div class="recipe-AreaStyle">
                     <div style="margin-right: auto;">내가 쓴 레시피</div>
                     <div style="margin-left: auto;"><button :disabled="isPopupOpen">더보기?</button></div>
                 </div>
             </div>
-            <div style="width: 500px; border: 1px solid black; margin: 20px;">
-                <div style="height: 100px; border: 1px solid black; padding: 10px; display: flex; justify-content: center; align-items: center;">
+            <div class="order-Area">
+                <div class="order-AreaStyle">
                     <div style="margin-right: auto;">내주문 내역</div>
                     <div style="margin-left: auto;"><button :disabled="isPopupOpen">더보기?</button></div>
                 </div>
@@ -95,8 +97,7 @@
         </div>
     </section>
     <!-- 등급혜택 창열기 -->
-    <div v-if="isPopupOpen"
-         style=" position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px solid #ccc; background-color:black; padding: 20px; z-index: 9999; text-align: center; color: white;">
+    <div v-if="isPopupOpen" class="popUp">
         <h2>등급혜택 자세히 보기</h2>
         <!-- 등급혜택 창 내용 추가 -->
         <p>팝업 창에 표시할 내용을 여기에 작성하세요.</p>
@@ -254,7 +255,12 @@
 	                        } else {
 	                            alert("다시 시도해주세요");
 	                        }
-			        } 
+			        },
+			        error: function(xhr, status, error) {
+	                    // 에러 발생 시 처리
+	                    // 에러 페이지로 리다이렉션
+	                    window.location.href = "/error-page"; // 에러 페이지의 URL로 리다이렉션
+	                }
 			    });
 			},
 			// 사용자 정보 가져오기
@@ -274,7 +280,12 @@
 		                // 서버로부터 받아온 사용자 정보를 Vue.js 데이터에 할당
 		                console.log(data);
 		                self.user = data.user;
-		            }
+		            },
+		            error: function(xhr, status, error) {
+	                    // 에러 발생 시 처리
+	                    // 에러 페이지로 리다이렉션
+	                    window.location.href = "/error-page"; // 에러 페이지의 URL로 리다이렉션
+	                }
 		        });
 		    },
 		    // 주소록 가져오기
@@ -301,7 +312,12 @@
 		                    var defaultAddress = self.addrList.splice(defaultAddressIndex, 1)[0];
 		                    self.addrList.unshift(defaultAddress);
 		                }
-		            }
+		            },
+		            error: function(xhr, status, error) {
+	                    // 에러 발생 시 처리
+	                    // 에러 페이지로 리다이렉션
+	                    window.opener.location.href = "/error-page"; // 에러 페이지의 URL로 리다이렉션
+	                }
 		        });
 		    }
 		},

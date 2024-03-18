@@ -129,7 +129,7 @@
     	background-color: #5cb85c;
     }
 
-    .dropdown-container {
+    .order-container {
         margin-left: auto; /* 왼쪽 마진 자동으로 주어 오른쪽에 붙임 */
     }
 
@@ -200,13 +200,12 @@
 				<button type="button" :class="[selected == 'gluten' ? 'button-selected' : 'buttons-container']" @click="fnList('gluten')">글루텐프리</button>
 				<button type="button" :class="[selected == 'local' ? 'button-selected' : 'buttons-container']" @click="fnList('local')">로컬푸드</button>
 
-                <div class="dropdown-container">
-                    <!-- 드롭박스를 오른쪽에 배치 -->
+                <div class="order-container">     
                     <select>
+                    	<option>신상품순</option>
+                    	<option>구상품순</option>
                     	<option>높은 가격순</option>
                     	<option>낮은 가격순</option>
-                    	<option>신상품 순</option>
-                    	<option>구상품 순</option>
                     </select>
                 </div>
             </div>
@@ -214,20 +213,20 @@
 
             <div class="product-list">
 		   		<div class="product-item" v-for="item in list" :key="item.id">
-			    	<template  v-for="item2 in filelist" v-if="item.itemNo == item2.itemNo">
+			    	<template v-for="item2 in fileList" v-if="item.itemNo == item2.itemNo">
 						<img :src="item2.filePath+item2.fileName" alt="" @click="fnDetailView(item.itemNo, userId)">
+				    	
+				      	<button type="button" href="javascript:;" @click="fnAddCart(item.itemNo, userId)">장바구니에 담기</button>
+				      	
+				      	<div class="product-info" @click="fnDetailView(item.itemNo)">
+				        	<div class="product-name">{{item.itemName}}</div>
+				        	<div class="product-price">
+				        		<del>₩{{item.price}}</del>
+				        		<br>할인가₩{{(item.price)*((100-item.sRate)/100)}}
+				        		<br> 할인율{{item.sRate}}%
+				        	</div>
+				      	</div>
 				    </template>
-			    	
-			      	<button type="button" href="javascript:;" @click="fnAddCart(item.itemNo, userId)">장바구니에 담기</button>
-			      	
-			      	<div class="product-info" @click="fnDetailView(item.itemNo)">
-			        	<div class="product-name">{{item.itemName}}</div>
-			        	<div class="product-price">
-			        		<del>₩{{item.price}}</del>
-			        		<br>할인가₩{{(item.price)*((100-item.sRate)/100)}}
-			        		<br> 할인율{{item.sRate}}%
-			        	</div>
-			      	</div>
 			    </div>
 			</div> 
 		</div>
@@ -241,12 +240,14 @@ var app = new Vue({
     el: '#app',
     data: {
     	list : [],
-    	filelist : [],
+    	fileList : [],
     	userId : "${userId}",
 		userType : "${userType}",
     	code : "${map.code}",
     	keyword : "",
-    	selected : ""
+    	selected : "",
+    	type: "CDATE",
+        order: "DESC"
     	
     }
     , methods: {
@@ -259,16 +260,17 @@ var app = new Vue({
             self.code = code;
             var nparmap = {
             	code: code,
-            	keyword : self.keyword
+            	keyword : self.keyword,
             };
             $.ajax({
-                url:"cordList.dox",
+                url:"codeList.dox",
                 dataType:"json",
                 type: "POST",
                 data: nparmap,
                 success: function(data) {
+                	console.log(data);
                 	self.list = data.list;
-                	self.filelist = data.filelist;
+                	self.fileList = data.fileList;
      				
                 }
             });
@@ -328,11 +330,13 @@ var app = new Vue({
                 	if(data.result=="success"){
                 		alert("장바구니에 담았습니다.");
                 	}else{
-                		alert("예기지 못한 오류가 발생했습니다. 다시 시도해주세요");
+                		alert("예기치 못한 오류가 발생했습니다. 다시 시도해 주세요.");
                 	}
                 }
             });
         }
+       
+        
     }
     , created: function() {
     	var self = this;

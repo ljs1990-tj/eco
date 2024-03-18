@@ -276,5 +276,19 @@ public class UserServiceimpl implements UserService {
 		}
 		return resultMap;
 	}
+	//로그인시 문자 인증하면 AuthYn 변경
+	@Override
+	public HashMap<String, Object> AuthYnupdateUser(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			userMapper.updateUserAuthYn(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
+		return resultMap;
+	}
 
 }

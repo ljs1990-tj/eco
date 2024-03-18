@@ -12,12 +12,15 @@
 	<div id="app">
 		<div>
 			<div style="margin-bottom: 10px;">
-				<span style="font-weight: bold;">아이디:</span> <input type="text"
-					v-model="userId" @keyup.enter="fnUser"
-					style="padding: 5px; margin-left: 10px;">
-				<button @click="fnUser()"
-					style="padding: 5px; background-color: #4CAF50; color: white; border: none; border-radius: 3px; cursor: pointer;">
-					회원 복구</button>
+				<div>
+					<span style="font-weight: bold;">아이디:</span> 
+					<input type="text" v-model="userId" @keyup.enter="fnUser" style="padding: 5px; margin-left: 10px;">
+				</div>
+				<div>
+				<span style="font-weight: bold;">비밀번호 :</span>
+				<input type="text" v-model="userPw" @keyup.enter="fnUser" style="padding: 5px; margin-left: 10px;">
+				</div>
+				<button @click="fnUser()" style="padding: 5px; background-color: #4CAF50; color: white; border: none; border-radius: 3px; cursor: pointer;">회원 복구</button>
 			</div>
 		</div>
 	</div>
@@ -27,12 +30,17 @@
 	var app = new Vue({
 		el : '#app',
 		data : {
-			userId : ""
+			userId : "",
+			userPw : ""
 		},
 		methods : {
 			fnUser : function() {
 				var self = this;
 				if (self.userId === "") {
+					alert("아이디를 입력해 주세요");
+					return;
+				}
+				if (self.userPw === "") {
 					alert("아이디를 입력해 주세요");
 					return;
 				}
@@ -58,7 +66,13 @@
 						} else {
 							alert("오류 발생");
 						}
-					}
+					},
+					error: function(xhr, status, error) {
+	                    // 에러 발생 시 처리
+	                    // 에러 페이지로 리다이렉션
+	                    window.location.href = "/error-page"; // 에러 페이지의 URL로 리다이렉션
+	                }
+
 				});
 			}
 		},

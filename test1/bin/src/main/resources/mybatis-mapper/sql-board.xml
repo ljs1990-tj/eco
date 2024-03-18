@@ -19,7 +19,7 @@
 	
 	<insert id="writeBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="BOARDNO" keyColumn="BOARDNO">
 		INSERT INTO ECO_BOARD
-		VALUES(null, #{title}, #{contents}, #{userId}, 10, 'N', null, #{kind}, 0, NOW(), NOW(), 2500)
+		VALUES(null, #{title}, #{contents}, #{userId}, 0, 'N', null, #{kind}, 0, NOW(), NOW(), 2500)
 	</insert>
 
 
@@ -27,19 +27,19 @@
 		DELETE FROM ECO_BOARD 
 		WHERE BOARDNO = #{boardNo}
 	</delete>
-
+	
 	<update id="boardEdit" parameterType="hashmap">
-		UPDATE ECO_BOARD SET CONTENTS = #{contents}, TITLE = #{title}, KIND = #{kind} 
+		UPDATE ECO_BOARD SET CONTENTS = #{contents}, TITLE = #{title}, KIND = #{kind}, UDATETIME = NOW()  
 		WHERE BOARDNO = #{boardNo}
 	</update>
 
+	<update id="updateHit" parameterType="hashmap">
+		UPDATE ECO_BOARD SET HITS = HITS + 1 WHERE BOARDNO = #{boardNo}
+	</update>
+
 	<insert id="insertBoardImage" parameterType="hashmap">
-<<<<<<< HEAD
-		INSERT INTO ECO_BOARD_IMAGE 
-		VALUES(null, #{boardNo}, #{path}, #{fileName}, #{orgName}, #{fileSize}, #{etc})
-=======
 		INSERT INTO ECO_BOARD_IMAGE
-		VALUES(null, #{boardNo}, #{filePath}, #{fileName}, #{fileorgName}, #{fileSize}, #{filEtc}, #{kind})
+		VALUES(null, #{boardNo}, #{filePath}, #{fileName}, #{fileorgName}, #{fileSize}, #{fileEtc}, #{kind})
 	</insert>
 
 <!-- 	
@@ -72,7 +72,7 @@
 		UPDATE ECO_BOARD_IMAGE
 		SET BOARDNO = #{boardNo},
 			FILENAME = #{fileName},
-			FILEORGNAME = #{fileOrgName},
+			FILEORGNAME = #{orgName},
 			FILESIZE = #{fileSize},
 			FILEETC = #{fileEtc}
 		WHERE FILENO = #{fileNo}
@@ -87,7 +87,7 @@
 	
 	<select id="selectBoardContentsFileInfo" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
 		SELECT B.*,
-			FILEPATH || FILENAME AS PATH
+			CONCAT(FILEPATH, FILENAME) AS PATH
 		FROM ECO_BOARD_IMAGE B
 		WHERE BOARDNO = #{boardNo}
 	</select>
@@ -95,11 +95,8 @@
 	<insert id="insertBoardFile" parameterType="hashmap">
 		INSERT INTO ECO_BOARD_IMAGE
 		VALUES(NULL, #{boardNo}, #{path}, #{fileName}, #{orgName}, #{fileSize}, #{etc}, 1)
->>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
 	</insert>
 	
-<<<<<<< HEAD
-=======
 	<insert id="insertBoardContentsFile" parameterType="hashmap">
 		INSERT INTO ECO_BOARD_IMAGE
 		VALUES(NULL, #{boardNo}, #{path}, #{fileName}, #{orgName}, #{fileSize}, #{etc}, 2)
@@ -121,14 +118,20 @@
 		FROM ECO_BOARD
 		WHERE USERID = #{userId}
 	</select>
->>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
 	
 	<!--문의 게시판 불러오기  -->
 	<select id="selectCustomerInquiryList" parameterType="hashmap" resultType="com.example.test1.model.Board">
-		SELECT * FROM
-		ECO_BOARD B
-		INNER JOIN ECO_USER U ON B.USERID = U.USERID <!-- ECO_USER에 있는 userType 가져올려고 씀 -->
-		WHERE KIND = 3	
+		SELECT 
+		    B.*, 
+		    U.*, 
+		    C.*, 
+		    DATE_FORMAT(U.UDATETIME, '%Y.%m.%d') AS UDATE
+		FROM
+		    ECO_BOARD B
+		    INNER JOIN ECO_USER U ON B.USERID = U.USERID 
+		    LEFT JOIN ECO_COMMENT C ON B.BOARDNO = C.BOARDNO
+		WHERE
+		    KIND = 3	
 	</select>
 	
 	<!-- 문의 등록  -->
@@ -139,9 +142,14 @@
 	
 	<!-- 등록한 문의 내용 확인 -->
 	<select id="selectInquiryInfo" parameterType="hashmap" resultType="com.example.test1.model.Board">
-		SELECT * 
+		SELECT
+			B.*, 
+		    U.*, 
+		    C.*, 
+		    DATE_FORMAT(U.UDATETIME, '%Y.%m.%d') AS UDATE 
 		FROM ECO_BOARD B 
 		INNER JOIN ECO_USER U ON B.USERID = U.USERID
+		LEFT JOIN ECO_COMMENT C ON B.BOARDNO = C.BOARDNO
 		WHERE B.BOARDNO = #{boardNo}
 	</select>
 	
@@ -164,5 +172,7 @@
 		FROM ECO_COMMENT
 		WHERE BOARDNO = #{boardNo}
 	</select>
+	
+
 	
 </mapper>

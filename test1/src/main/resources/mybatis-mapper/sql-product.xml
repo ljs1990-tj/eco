@@ -16,8 +16,20 @@
 	</select> -->
 	
 	<select id="selectCodeList" parameterType="hashmap" resultType="com.example.test1.model.Product">
-		SELECT * FROM
-		ECO_PRODUCT
+		SELECT 
+			*,
+			<if test="type == 'CDATE' and order == 'DESC'">
+				ROW_NUMBER() OVER(ORDER BY CDATETIME DESC) AS PAGE,
+			</if>
+			<if test="type == 'CDATE' and order == 'ASC'">
+				ROW_NUMBER() OVER(ORDER BY CDATETIME ASC) AS PAGE,
+			</if>
+			<if test="type == 'PRICE' and order == 'DESC'">
+				ROW_NUMBER() OVER(ORDER BY PRICE DESC) AS PAGE,			
+			</if>
+				ROW_NUMBER() OVER(ORDER BY PRICE ASC) AS PAGE
+		FROM
+			ECO_PRODUCT
 		WHERE 1=1
 		<if test="code != '' ">
 		AND CODE = #{code}
@@ -43,7 +55,7 @@
 	<!-- 상품 리스트에 이미지 불러오기  -->
 	<select id="selectProductFileInfo" parameterType="hashmap" resultType="com.example.test1.model.ProductFile">
 		SELECT P.*,
-			FILEPATH || FILENAME AS PATH
+			CONCAT(FILEPATH, FILENAME) AS PATH
 		FROM ECO_PRODUCT_IMAGE P
 		WHERE KIND = 1
 	</select>
@@ -51,7 +63,7 @@
 	<!-- 상품 상세보기에서 이미지 불러오기  -->
 	<select id="selectProductContentsFileInfo" parameterType="hashmap" resultType="com.example.test1.model.ProductFile">
 		SELECT P.*,
-			FILEPATH || FILENAME AS PATH
+			CONCAT(FILEPATH, FILENAME) AS PATH
 		FROM ECO_PRODUCT_IMAGE P
 		WHERE KIND = 2
 		AND ITEMNO = #{itemNo}
@@ -60,7 +72,7 @@
 	<!-- 상품 상세보기 화면에 상품 상세 정보에 보여줄 이미지 불러오기  -->
 	<select id="selectProductDetailFileInfo" parameterType="hashmap" resultType="com.example.test1.model.ProductFile">
 		SELECT P.*,
-			FILEPATH || FILENAME AS PATH
+			CONCAT(FILEPATH, FILENAME) AS PATH
 		FROM ECO_PRODUCT_IMAGE P
 		WHERE KIND = 3
 		AND ITEMNO = #{itemNo}

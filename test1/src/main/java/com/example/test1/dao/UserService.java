@@ -32,4 +32,5 @@ public interface UserService {
 
 	HashMap<String, Object> UserDeletDate(HashMap<String, Object> map);// 회원탈퇴로 인한 회원정보 저장 및 회원정보 수정
 
+	HashMap<String, Object> AuthYnupdateUser(HashMap<String, Object> map);//로그인시 문자 인증하면 AuthYn 변경
 }

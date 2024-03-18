@@ -18,10 +18,11 @@
         border-bottom: 1px solid #fafafa; 
     }
     .product-image {
-        flex-basis: 50%;
+    	flex-basis: 50%;
         display: flex;
         justify-content: center;
-        align-items: center; 
+        align-items: center;
+        flex-direction: column; /* 세로 정렬 */ 
     }
 
     .product-info {
@@ -43,10 +44,16 @@
     }
    
     .product-image img {
-        width: 450px;
-        height: 550px; /* 이미지 영역의 높이를 고정합니다 */
-        border-radius: 8px; /* 이미지 모서리를 둥글게 처리 */
+        width: 300px;
+        height: 350px; 
+        border-radius: 5px;
     }
+    
+    
+    /* 선택적: 기본적으로 첫 번째 이미지만 표시 */
+	.product-image img:first-child {
+	    display: block;
+	}
 
    	.product-info h1, .product-info p {
         margin: 0 0 10px; /* 제목과 단락 사이의 마진 설정 */
@@ -56,7 +63,7 @@
         color: #666; /* 단락 텍스트 색상 */
     }
     .button-container {
-        position: absolute;
+       /*  position: absolute; */
         right: 0;
         bottom: 0;
         margin: 10px;
@@ -71,10 +78,10 @@
         border: none; 
         border-radius: 3px; 
         cursor: pointer;
-        font-size: 16px;
-        font-weight: 700;
+        font-size: 14px;
+        font-weight: 500;
         transition: background-color 0.3s; 
-        width: 180px;
+        width: 160px;
         /* position: absolute; 
         right: 0; 
         bottom: 0;
@@ -85,13 +92,14 @@
         padding: 15px 20px;
         background-color: white; 
         color: #5cb85c;
-        border: 2px solid #5cb85c;
+        border: 1px solid #5cb85c;
         border-radius: 3px;
         cursor: pointer;
-        font-size: 16px;
-        font-weight: 700;
+        font-size: 14px;
+        font-weight: 500;
         transition: background-color 0.3s;
-        width: 180px; 
+        width: 160px; 
+       	
     }
 
     .product-description {
@@ -204,6 +212,11 @@
         text-align: left;
         margin-bottom: 20px;
     }
+    
+    .product-inquiries td img {
+	    float: left; 
+	    margin-right: 10px; 
+	}
 
     .product-inquiries table {
         width: 100%;
@@ -239,22 +252,57 @@
         color: white;
         background-color: #6fc76f;
     }
+    
+    /* 상품 상세정보 썸네일 이미지  */
+    .thumbnail-images {
+        display: flex;
+        justify-content: center;
+        gap: 5px; /* 이미지 사이의 간격 */
+        margin-top: 5px; /* 큰 이미지와의 간격 */
+    }
+
+    .thumbnail-images img {
+        width: 70px; 
+        height: auto; 
+        cursor: pointer; 
+        border: 2px solid transparent; 
+    }
+
+    .thumbnail-images img:hover {
+        border-color: #ddd; /* 호버 시 테두리 색상 변경 */
+    }
+    
+    /* 질문 제목에 마우스 오버 시 호버 효과 */
+    .qaClick:hover {
+    	cursor: pointer;
+    }
+    
 </style>
 <body>
+<!-- Header Section -->
+<%@ include file="layout/header.jsp" %>
     <div id="app">
         <div class="product-detail-top-container">
-            <div class="product-image">
-            	<template v-for="item in fileList">
-			    	<img :src="item.filePath+item.fileName" alt="">
-		        </template>
+            <div class="product-image" >
+            	<!-- <template v-for="item in fileList">
+			    	<img :src="item.filePath+item.fileName" alt="이미지!">
+		        </template> -->
+		        
+		        <img v-if="fileList.length > 0" :src="fileList[ImageIndex].filePath + fileList[ImageIndex].fileName" alt="이미지!" @click="">
+		        
+		        <div class="thumbnail-images">
+			        <img v-for="(item, index) in fileList" :src="item.filePath+item.fileName" :alt="'이미지 ' + index" @click="selectImg(index)">
+			    </div>	
             </div>
 
             <div class="product-info">
               <!-- 상품 정보 영역: 상품의 제목, 가격, 설명 등이 여기!! -->
                 <div>
                     <h1> {{info.itemName}}</h1>
-                    <p>{{info.contents}}</p>
-                    <p>{{info.price}}원</p>
+                    <p v-html="info.contents">{{info.contents}}</p>
+                    <del style="color: #ccc">{{info.price}}원</del>
+                    <p>판매가 : {{(info.price)*((100-info.sRate)/100)}}원</p>
+                    <p style="color: #eb6f1c">{{info.sRate}}%</p>
                 </div>
                 <table>
                     <tr>
@@ -277,7 +325,7 @@
               
                 <div class="button-container">
                     <button class="buy-btn">구매하기</button>
-                    <button class="cart-btn">장바구니에 담기</button>
+                    <button class="cart-btn" @click="fnAddCart(itemNo, userId)">장바구니에 담기</button>
                 </div>
             </div>
         </div>
@@ -305,16 +353,20 @@
         
             <!-- 리뷰 영역 -->
             <div class="product-reviews">
-                <h3>리뷰</h3>
-                <div class="review-item" v-for="" :key="">
-                    <div class="review-content">
-                        <!-- 작성자가 남긴 리뷰 -->
-                        <p class="author-name">작성자 이름</p>
-                        <p>상품 이름</p>
-                        <p>리뷰 내용</p>
-                        <P>날짜</P>
-                    </div>
-                </div>
+                <h3>상품 후기</h3>
+                <template v-if="review.length > 0">
+	                <div class="review-item" v-for="item in review">
+	                    <div class="review-content">
+	                        <!-- 작성자가 남긴 리뷰 -->
+	                        <p class="author-name">{{item.hideName}} 평점 : {{item.score}}</p>
+	                        <p>{{item.rContents}}</p>
+	                        <P>{{item.uDateTimeNew}}</P>
+	                    </div>
+	                </div>
+                </template>
+                <template v-else>
+                	 <p>등록된 후기가 없습니다.</p>
+                </template>
             </div>
             
         
@@ -322,26 +374,50 @@
             <div class="product-inquiries">
                 <h3>상품 문의</h3>
                 <p>상품에 대한 문의를 남기는 공간입니다. 배송관련, 주문(취소/교환/환불) 관련 문의 및 요청사항은 1:1 문의에 남겨주세요.</p>
-                <button>문의하기</button>
+                <button @click="fnCustomer(userId, itemNo)">문의하기</button>
                 <table>
                     <thead>
                         <tr>
-                            <th style="width: 70%;">제목</th>
+                            <th style="width: 60%; text-align: center;">제목</th>
                             <th style="width: 10%;">작성자</th>
                             <th style="width: 10%;">작성일</th>
                             <th style="width: 10%;">답변 상태</th>
+                            <th style="width: 10%;">답변하기</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td style="width: 70%;">배송은 언제 되나요?</td>
-                            <td style="width: 10%;">홍길동</td>
-                            <td style="width: 10%;">2023-03-10</td>
-                            <td style="width: 10%;">답변 대기</td>
-                        </tr>
-                    </tbody>
+						<template v-if="qa.length > 0">
+							<template v-for="(item, index) in qa">
+								<tr>
+									<td @click="toggleContents(index)" style="width: 60%;"
+										class="qaClick">{{item.title}}</td>
+									<td style="width: 10%;">{{item.userId}}</td>
+									<td style="width: 10%;">{{item.qaUdate}}</td>
+									<td style="width: 10%;">
+					                    <span v-if="item.comment" style="color: #5cb85c">답변 완료</span>
+					                    <span v-else style="color: #ccc">답변 대기</span>
+					                </td>
+					                <td style="width: 10%;">
+					                	<button @click="fnAnswer(item.boardNo)">답변하기</button>
+					                </td>
+								</tr>
+								<tr v-if="qaOnOff === index">
+									<td colspan="5" class="qa-contents">
+										<img src="img/question.png" style="width: 30px"> 
+											{{item.qaContents }}
+										<div v-if="item.comment" style="margin-top: 20px;">
+											<img src="img/answer.png" style="width: 30px"> 
+											{{ item.comment }}
+										</div>
+									</td>
+								</tr>
+							</template>
+						</template>
+						<tr v-else>
+							<td colspan="4" style="text-align: center;">등록된 문의가 없습니다.</td>
+						</tr>
+					</tbody>
                 </table>
-               
             </div>
 
             <!-- 배송 내용 영역 -->
@@ -378,6 +454,8 @@
             </div>
         </div>  
     </div>
+<!-- Footer Section -->
+<%@ include file="layout/footer.jsp" %>	
 </body>
 </html>
 <script type="text/javascript">
@@ -385,10 +463,16 @@ var app = new Vue({
     el: '#app',
     data: {
     	itemNo: "${map.itemNo}",
+    	userId: "${map.userId}",
     	info: {},
     	fileList : [],
     	fileDetailList : [],
-    	activeTab: 'details'
+    	review: [], //상품 리뷰
+    	qa: [], // 상품 문의
+    	activeTab: 'details',
+    	ImageIndex: 0, // 이미지 선택 인덱스
+    	qaOnOff: null
+    	
     }
     , methods: {
     	fnView: function() {
@@ -402,18 +486,98 @@ var app = new Vue({
                 type: "POST",
                 data: nparmap,
                 success: function(data) {
+                	console.log(self.itemNo);
+                	console.log(self.userId);
+                	console.log(data.review);
+                	console.log(data.qa);
+                	
                 	self.info = data.info;
                 	self.fileList = data.filelist;
                 	self.fileDetailList = data.fileDetailList;
+                	self.review = data.review;
+                	self.qa = data.qa;
                 }
             });
         },
         
+        fnAddCart: function(itemNo, userId) {
+            var self = this;
+            var nparmap = {
+            		itemNo: self.itemNo,
+    				userId: self.userId	
+            };
+            $.ajax({
+                url:"addCart.dox",
+                dataType:"json",
+                type: "POST",
+                data: nparmap,
+                success: function(data) {
+                	console.log(itemNo);
+                	console.log(userId);
+                	if(data.result=="success"){
+                		alert("장바구니에 담았습니다.");
+                	}else{
+                		alert("예기지 못한 오류가 발생했습니다. 다시 시도해주세요");
+                	}
+                }
+            });
+        },
+        fnCustomer: function(userId, itemNo){
+        	console.log(userId);
+        	console.log(itemNo);
+
+        	 // 팝업 창으로 열 페이지의 URL
+            var url = "/productQuestion.do?userId=" + userId + "&itemNo=" + itemNo;
+            // 팝업 창 옵션 설정
+            var windowOptions = "width=900, height=700";
+            // 팝업 창 열기
+            window.open(url, "ProductQuestion", windowOptions);
+        },
+        fnAnswer: function(boardNo){
+        	var self = this;
+        	console.log(boardNo);
+        	
+            var url = "/productAnswer.do?boardNo=" + boardNo;
+            // 팝업 창 옵션 설정
+            var windowOptions = "width=650, height=550";
+            // 팝업 창 열기
+            window.open(url, "productAnswer", windowOptions);
+        },
         /* 상품정보, 상품평 등.. 선택버튼  */
         scrollToElement: function(selector) {
 	        var element = document.querySelector(selector);
 	        if(element) {
 	            element.scrollIntoView({ behavior: 'smooth' });
+	        }
+	    },
+	    
+	    /* 상품 정보 리스트 이미지  */
+	    /* nextImage: function() {
+	        if(this.ImageIndex < this.fileList.length - 1) {
+	            this.ImageIndex++;
+	        } else {
+	            this.ImageIndex = 0; 
+	        }
+	    },
+	    prevImage: function() {
+	        if(this.ImageIndex > 0) {
+	            this.ImageIndex--;
+	        } else {
+	            this.ImageIndex = this.fileList.length - 1; 
+	        }
+	    }, */
+	    
+	    /* 썸네일 이미지 선택 */
+	    selectImg: function(index) {
+	        this.ImageIndex = index;
+	    },
+	    
+	    /* 문의 토글 기능 */
+	    toggleContents: function(index) {
+	        if(this.qaOnOff === index) {
+	            this.qaOnOff = null;
+	        } else {
+	            this.qaOnOff = index;
 	        }
 	    }
         

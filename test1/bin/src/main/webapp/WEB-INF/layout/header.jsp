@@ -22,19 +22,7 @@
     <link rel="stylesheet" href="css/owl-carousel-min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav-min.css" type="text/css">
     <link rel="stylesheet" href="css/style2.css" type="text/css">
-    
-    <!-- Js Plugins -->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.nice-select.min.js"></script>
-    <script src="js/jquery-ui.min.js"></script>
-    <script src="js/jquery.slicknav.js"></script>
-    <script src="js/mixitup.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/jquery.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
 <body id="HeaderAllTab">
@@ -66,7 +54,7 @@
 	                            </div>
 	                          
 	                            <div class="header__top__right__auth">
-	                                <a v-if="!loginFlg" href="javascript:;" @click="fnLogin"><i class="fa fa-user"></i> 로그인</a>
+	                                <a v-if="!loginFlg" href="/user-login.do" @click="fnLogin"><i class="fa fa-user"></i> 로그인</a>
 	                                <a v-else href="javascript:;" @click="fnLogout"><i class="fa fa-user"></i> 로그아웃</a>
 	                            </div>
 	                        </div>
@@ -78,125 +66,30 @@
 	            <div class="row">
 	                <div class="col-lg-3">
 	                    <div class="header__logo">
-	                        <a href="javascript:;" @click="fnUserPage"><img src="img/logo.png" alt="logo"> MyPage</a>
+	                        <a href="javascript:;" @click="fnUserPage" style="color: #2c9d59;"><img src="img/logo.png" alt="logo"> MyPage</a>
 	                    </div>
 	                </div>
 	                <div class="col-lg-6">
 	                    <nav class="header__menu">
 	                        <ul>
 	                        	<li class="active"><a href="/main.do">Home</a></li>
-<<<<<<< HEAD
-	                            <li>카테고리
-	                              <ul class="header__menu__dropdown">
-	                                  <li><a href="javascript:;">유기농</a></li>
-	                                  <li><a href="javascript:;">비건</a></li>
-	                                  <li><a href="javascript:;">글루텐-프리</a></li>
-	                                  <li><a href="javascript:;">로컬푸드</a></li>
-	                              </ul>
+	                            <li><a href="javascript:;" @click="fnMoveCategory('')">카테고리</a>
+									<ul class="header__menu__dropdown">
+										<li><a href="javascript:;" @click="fnMoveCategory('org')">유기농</a></li>
+										<li><a href="javascript:;" @click="fnMoveCategory('vegan')">비건</a></li>
+										<li><a href="javascript:;" @click="fnMoveCategory('gluten')">글루텐-프리</a></li>
+										<li><a href="javascript:;" @click="fnMoveCategory('local')">로컬푸드</a></li>
+									</ul>
 	                          	</li>
 	                            <li><a href="javascript:;">1:1 매칭</a></li>
 	                            
 	                            <li><a href="javascript:;">식단관리</a></li>
-	                            <li><a href="/boardList.do">커뮤니티</a></li>
-	                        </ul>
-	                    </nav>
-	                </div>
-	                <div class="col-lg-3">
-	                    <div class="header__cart">
-	                        <ul>
-	                            <li><a href="javascript:;" @click="fnFavorite"><i class="fa fa-heart"></i> <span>0</span></a></li>
-	                            <li><a href="javascript:;" @click="fnMoveCart"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
-	                        </ul>
-	                        <div class="header__cart__price"></div>
-	                    </div>
-	                </div>
-	            </div>
-	            <div class="item__open">
-	                <i class="fa fa-bars"></i>
-	            </div>
-	        </div>
-	    </header>
-    </div>
-    <!-- Header Section End -->
-    
-</body>
-</html>
-<script type="text/javascript">
-	var app = new Vue({
-	    el: '#appHeader',
-	    data: {
-	    	userId: "${userId}",
-	    	email: "",
-	    	loginFlg: false
-	    }
-	    , methods: {
-	    	fnList: function() {
-	            var self = this;
-	            var nparmap = {userId: self.userId};
-	            $.ajax({
-	                url:"check.dox",
-	                dataType:"json",
-	                type: "POST",
-	                data: nparmap,
-	                success: function(data) {
-	                	
-	                }
-	            });
-	        },
-	        fnLogin: function() {
-	        	var self = this;
-	        	if(self.userId == "") {
-	        		self.logFlg = false;
-	        	} else {
-	        		self.loginFlg = true;
-	        		var nparmap = {userId: self.userId};
-	        		$.ajax({
-		                url:"check.dox",
-		                dataType:"json",
-		                type: "POST",
-		                data: nparmap,
-		                success: function(data) {
-		                	if(data.result == 'fail') {
-		                		self.email = data.user.email;
-		                	}
-		                }
-		            });
-	        	}
-	        },
-	        fnLogout: function() {
-	        	var self = this;
-	        	if(confirm("정말로 로그아웃하나요?")) {
-	        		self.logFlg = false;
-	        		location.href = "/user-login.do";
-	        	} else {
-	        		return;
-	        	}
-	        },
-	        fnFavorite: function() {
-	        	var self = this;
-	        	if(self.userId != "") {
-	        		//
-	        	} else {
-					alert("로그인 후 입장 가능합니다.");
-	        	}
-	        	
-	        },
-	        fnMoveCart: function() {
-	        	var self = this;
-	        	if(self.userId != "") {
-		        	$.pageChange("/cart/list.do", {userId: self.userId});
-=======
-	                            <li><a>카테고리</a>
-	                              <ul class="header__menu__dropdown">
-	                                  <li><a href="javascript:;">유기농</a></li>
-	                                  <li><a href="javascript:;">비건</a></li>
-	                                  <li><a href="javascript:;">글루텐-프리</a></li>
-	                                  <li><a href="javascript:;">로컬푸드</a></li>
+	                            <li><a href="javascript:;">커뮤니티</a>
+	                            	<ul class="header__menu__dropdown">
+										<li><a href="/boardList.do">공지사항</a></li>
+										<li><a href="/boardList.do">레시피</a></li>
 	                              </ul>
-	                          	</li>
-	                            <li><a href="javascript:;">1:1 매칭</a></li>
-	                            <li><a href="javascript:;">식단관리</a></li>
-	                            <li><a href="/boardList.do">커뮤니티</a></li>
+	                            </li>
 	                        </ul>
 	                    </nav>
 	                </div>
@@ -204,8 +97,10 @@
 	                    <div class="header__cart">
 	                        <ul>
 	                            <li><a href="javascript:;" @click="fnFavorite"><i class="fa fa-heart"></i> <span>0</span></a></li>
-	                            <li><a href="javascript:;" @click="fnMoveCart"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
+	                            <li><a href="javascript:;" @click="fnMoveCart"><i class="fa fa-shopping-bag"></i> <span>{{cartCnt}}</span></a></li>
+	                       		<li v-if="userType == 'A'"><a href="/admin-main.do" ><i class="bi bi-gear-fill"></i></a></li>
 	                        </ul>
+	                       
 	                        <div class="header__cart__price"></div>
 	                    </div>
 	                </div>
@@ -218,6 +113,18 @@
     </div>
     <!-- Header Section End -->
     
+    <!-- Js Plugins -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/jquery.slicknav.js"></script>
+    <script src="js/mixitup.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    
 </body>
 </html>
 <script type="text/javascript">
@@ -225,23 +132,12 @@
 	    el: '#appHeader',
 	    data: {
 	    	userId: "${userId}",
+	    	userType: "${userType}", 
 	    	email: "",
+	    	cartCnt: "",
 	    	loginFlg: false
 	    }
 	    , methods: {
-	    	fnList: function() {
-	            var self = this;
-	            var nparmap = {userId: self.userId};
-	            $.ajax({
-	                url:"check.dox",
-	                dataType:"json",
-	                type: "POST",
-	                data: nparmap,
-	                success: function(data) {
-	                	
-	                }
-	            });
-	        },
 	        fnLogin: function() {
 	        	var self = this;
 	        	if(self.userId == "") {
@@ -257,6 +153,7 @@
 		                success: function(data) {
 		                	if(data.result == 'fail') {
 		                		self.email = data.user.email;
+		                		self.cartCnt = data.cartCnt;
 		                	}
 		                }
 		            });
@@ -284,7 +181,6 @@
 	        	var self = this;
 	        	if(self.userId != "") {
 		        	$.pageChange("/cartList.do", {userId: self.userId});
->>>>>>> branch 'main' of https://github.com/KDH94/teamProject.git
 	        	} else {
 					alert("로그인 후 입장 가능합니다.");
 	        	}
@@ -297,7 +193,10 @@
 				} else {
 					alert("로그인 후 입장 가능합니다.");
 				}
-			}
+			},
+			fnMoveCategory: function(kind) {
+				$.pageChange("/productList.do", {code: kind});
+			},
 	    }
 	    , created: function() {
 	    	var self = this;
