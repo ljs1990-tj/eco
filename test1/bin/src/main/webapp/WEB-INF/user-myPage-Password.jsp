@@ -47,6 +47,7 @@ var app = new Vue({
         		alert("비밀번호를 입력해 주세요.");
         		return;
         	}
+          
             var nparmap = {
             	userId : self.userId,
             	userPw : self.userPw
