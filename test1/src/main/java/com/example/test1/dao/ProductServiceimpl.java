@@ -92,6 +92,7 @@ public class ProductServiceimpl implements ProductService {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
+			System.out.println("프로덕트 서비스단 searchCodeList: "+ map);
 			List<Product> list = productMapper.selectCodeList(map);
 			List<ProductFile> fileList = productMapper.selectProductFileInfo(map);
 			resultMap.put("list", list);
@@ -157,6 +158,28 @@ public class ProductServiceimpl implements ProductService {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			commentMapper.insertAdminComment(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> searchListForMain(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			List<Product> listLatest = productMapper.selectProductListLatest(map);
+			List<Product> listMax = productMapper.selectProductListMax(map);
+			List<Product> listMost = productMapper.selectProductListMost(map);
+			List<ProductFile> fileList = productMapper.selectProductFileInfo(map);
+			resultMap.put("listLatest", listLatest);
+			resultMap.put("listMax", listMax);
+			resultMap.put("listMost", listMost);
+			resultMap.put("fileList", fileList);
 			resultMap.put("result", "success");
 		} catch (Exception e) {
 			// TODO: handle exception

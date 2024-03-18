@@ -271,4 +271,24 @@ public class BoardServiceimpl implements BoardService{
 
 
 	
+	// 메인 페이지용 레시피 게시판 출력
+	@Override
+	public HashMap<String, Object> searchBoardAndFileList(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			List<Board> list= boardMapper.selectBoardList(map);
+			List<BoardFile> fileList = boardMapper.selectBoardFileList(map);
+			resultMap.put("list", list);
+			resultMap.put("fileList", fileList);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+		}
+		
+		return resultMap;
+	}	
+	
 }

@@ -39,11 +39,28 @@
 		</if>
 	</select>
 	
+	<select id="selectProductListLatest" parameterType="hashmap" resultType="com.example.test1.model.Product">
+		SELECT *
+		FROM ECO_PRODUCT
+		ORDER BY CDATETIME DESC
+	</select>
+
+	<select id="selectProductListMax" parameterType="hashmap" resultType="com.example.test1.model.Product">
+		SELECT *
+		FROM ECO_PRODUCT
+		ORDER BY SELLCNT DESC
+	</select>
+
+	<select id="selectProductListMost" parameterType="hashmap" resultType="com.example.test1.model.Product">
+		SELECT *
+		FROM ECO_PRODUCT
+		ORDER BY ITEM_NO DESC
+	</select>
+	
 	<select id="selectProductInfo" parameterType="hashmap" resultType="com.example.test1.model.Product">
 		SELECT *
 		FROM ECO_PRODUCT
 		WHERE ITEM_NO = #{itemNo}
-
 	</select>
 	
 	<delete id="deleteProduct" parameterType="hashmap">
