@@ -35,6 +35,8 @@ public interface UserService {
 	HashMap<String, Object> AuthYnupdateUser(HashMap<String, Object> map);//로그인시 문자 인증하면 AuthYn 변경
 	
 	HashMap<String, Object> PasswordChage(HashMap<String, Object> map);//유저 비밀번호 변경
+								
+	HashMap<String, Object> checkPassword(HashMap<String, Object> map);
 	
 	HashMap<String, Object> CancleupdateUserDelete(HashMap<String, Object> map);//유저 탈퇴 취소하기
 }

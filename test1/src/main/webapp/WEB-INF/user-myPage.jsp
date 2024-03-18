@@ -145,7 +145,7 @@
 				this.isPopupOpen = false;
 				location.reload(true);
 			},
-			 /* 개인정보 수정 페이지 이동 */
+			 /* 개인정보 수정으로 인한 비밀번호 입력 페이지 이동 */
             fnUsermodify: function() {
                 var self = this;
                 // 세션 값이 없을 경우 로그인 페이지로 이동
