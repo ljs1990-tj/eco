@@ -382,8 +382,8 @@
 			},
 			list : [],
 			userId : "${userId}",
-			keywordId :""
-
+			keywordId :"",
+			userType : "${userType}"
 		}
 
 		,
@@ -403,6 +403,10 @@
 	        },
 			fnList : function() {
 				var self = this;
+				if(self.userType != "A"){
+					alert("관리자만 접근 가능한 페이지입니다.");
+					location.href="main.do";
+				}
 				self.fnData();
 				self.fnUserList();
 
