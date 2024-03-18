@@ -340,14 +340,9 @@
             
             <!-- 상품 상세 보기 영역 -->
             <div class="product-details">
-            
             	<template v-for="item in fileDetailList">
 					<img :src="item.filePath+item.fileName" alt="주요 이미지">
 				</template>
-				
-                <img src="/img/TestImg1.jpg" alt="상품 이미지">
-                <img src="/img/TestImg2.jpg" alt="상품 이미지">
-                <img src="/img/TestImg3.jpg" alt="상품 이미지">
             </div>
         
             <!-- 리뷰 영역 -->
