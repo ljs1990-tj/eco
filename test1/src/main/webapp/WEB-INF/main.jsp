@@ -303,7 +303,7 @@
 			                        </div>
 			                        <div class="blog__item__text">
 			                            <ul>
-			                                <li><i class="fa fa-calendar-o"></i> {{}}2024년 1월 2일</li>
+			                                <li><i class="fa fa-calendar-o"></i> {{}}</li>
 			                                <li><i class="fa fa-thumbs-up"></i></i> 114</li>
 			                            </ul>
 			                            <h5><a href="javascript:;">쉽게 요리하는 팁 공유</a></h5>
@@ -397,7 +397,6 @@
 			fnListRecipe: function() {
 				var self = this;
 				var nparmap = {
-						kind: "2",
 				};
 				$.ajax({
 					url : "boardAndFileList.dox",
@@ -407,8 +406,8 @@
 					success : function(data) {
 						if(data.result == 'success') {
 							console.log(data);
-							self.listR = data.list;
-							self.fileListR = data.fileList;
+							self.listR = data.listR;
+							self.fileListR = data.fileListR;
 						}
 					}
 				});				

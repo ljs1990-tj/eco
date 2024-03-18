@@ -58,6 +58,14 @@
 		FROM ECO_CART
 		WHERE USERID = #{userId};
 	</select>
+	
+	<select id="selectFavoriteCnt" parameterType="hashmap" resultType="int">
+		SELECT IFNULL(COUNT(*), 0) AS CARTCNT
+		FROM ECO_CART
+		WHERE
+			USERID = #{userId}
+		AND IS_FAVORITE = "Y"
+	</select>	
 
 	<!-- 비밀번호 찾기 후 비밀번호 업데이트 -->
 	<update id="updateUserPw" parameterType="hashmap">
