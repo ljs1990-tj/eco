@@ -254,6 +254,9 @@
 							self.user.userPw = "";
 							return;
 						}
+					    if (!confirm("회원 정보를 수정하겠습니까?")) {
+							return;
+						}
 						self.user.email = self.email1 + "@" + self.email2;
 						var nparmap = self.user;
 						$.ajax({
@@ -345,6 +348,9 @@
 						if(self.user.userPw != self.userPw2){
 							alert("가입하신 비밀번호랑 다릅니다 다시 입력해주세요");
 							self.user.userPw = "";
+							return;
+						}
+					    if (!confirm("회원탈퇴하시겠습니까?")) {
 							return;
 						}
 						self.user.email = self.email1 + "@" + self.email2;

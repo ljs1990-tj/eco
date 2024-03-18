@@ -112,6 +112,9 @@
                    confirmPassword = "";
                    return;
                }
+               if (!confirm("비밀번호를 수정하겠습니까?")) {
+   				return;
+   				}
                 // 변경된 비밀번호를 서버로 전송하는 AJAX 요청
                 var nparmap = {
                     userId : self.userId,
