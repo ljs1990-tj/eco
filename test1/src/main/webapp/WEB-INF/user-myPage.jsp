@@ -18,12 +18,17 @@
 </style>
 </head>
 <body style="background-color:white;">
+<!-- Header Section -->
+<%@ include file="layout/header.jsp" %>
 <div id="app">
     <!-- 전체구역 -->
-    <section>
+    <section class="section">
         <!-- 왼쪽 구역 -->
         <div class="info-Container">
             <div class="info-User">
+            	<div class="info-User-title">
+	            	개인정보            	
+            	</div>
                 <div class="user-Area">
                     <ul>
                         <li><span>아이디 : </span>{{user.userId}}</li>
@@ -36,11 +41,11 @@
                     </ul>
                 </div>
                 <div class="point-Area">
-                    <div style="margin-right: auto;">내등급 : <span>{{user.userGrade}}</span></div>
+					<div style="margin-right: auto;">내등급 : <span>{{user.userGrade}}</span></div>
                     <div style="margin-left: auto;">포인트 : <span>{{user.point}}</span></div>
                 </div>
                 <div class="check-Area">
-                    <div style="margin-right: auto;"><button @click="fnopenPopup()">등급혜택 자세히 보기</button></div>
+                   <div style="margin-right: auto;"><button @click="fnopenPopup()">등급혜택 자세히 보기</button></div>
                     <div style="margin-left: auto;"><button @click="fnUsermodify()" :disabled="isPopupOpen">정보수정</button></div>
                 </div>
             </div>
@@ -48,6 +53,9 @@
         <!-- 오른쪽 구역 -->
         <div class="addr-Container">
             <div class="addr-Area">
+	        	<div class="addr-Info-title">
+		            	배송지 정보            	
+	            </div>
                 <div class="addr-Info">
                     <div v-for="address in addrList">
                         <div class="addr-InfoStyle">
@@ -56,18 +64,22 @@
                             </div>
 								<div style="font-weight: bold; display: flex; justify-content: space-between;">
 									<span>{{ address.name }}</span> 
-									<span>{{ address.addrName }}</span>
 								</div>
 								<!-- 기본 배송지인 경우에만 아래 내용을 표시 -->
-                            <div v-if="address.isDefault === 'Y'">기본 배송지</div>
+                            <div v-if="address.isDefault === 'Y'" style="font-weight: bold; display: flex; justify-content: space-between; color: blue;">
+							    <span style="margin-right: 10px;">기본 배송지</span>
+							    <span style="font-style:italic; color:black; text-align: right;">{{ address.addrName }}</span>
+							</div>
                             <div>
                                 <span>우편번호: </span> {{ address.zipCode }}
                             </div>
                             <div>
-                                <span>주소: </span>{{ address.addr }},{{ address.addrDetail }}
+                                <span>주소: </span>{{ address.addr }}, {{ address.addrDetail }}
                             </div>
                             <div>{{ address.phone }}</div>
-                            <div>{{ address.addrRequest}}</div>
+                            <div v-if="address.addrRequest">
+							    <span>특이사항 : </span> {{ address.addrRequest }}
+							</div>
                         </div>
                     </div>
                 </div>
@@ -104,6 +116,8 @@
         <button @click="fnclosePopup()">닫기</button>
     </div>
 </div>
+<!-- Footer Section -->
+<%@ include file="layout/footer.jsp" %>	
 </body>
 </html>
 <script type="text/javascript">
@@ -157,6 +171,8 @@
 			/* 주소목록 추가하기 */
 			addDefaultAddress : function() {
 				var self = this;
+				var leftPosition = (window.screen.width - 400) / 2; // 화면의 가로 중앙 위치
+		    	var topPosition = (window.screen.height - 400) / 2; // 화면의 세로 중앙 위치
 				if (self.user.userId == "") {
 					alert("로그인 후 입장 가능합니다.");
 					window.location.href = "/user-login.do";
@@ -169,7 +185,7 @@
 					return;
 				}
 				var popup = window.open('/user-myPage-addrAdd.do',
-						'Certification Popup', 'width=600,height=600');
+						'Certification Popup', 'width=800,height=800,left=' + leftPosition + ',top=' + topPosition);
 
 			},
 			/* 주소 목록 삭제하기 */
@@ -208,6 +224,8 @@
 			// 주소록값 수정하기
 			updateSelectedAddresses : function() {
 				var self = this;
+				var leftPosition = (window.screen.width - 400) / 2; // 화면의 가로 중앙 위치
+		    	var topPosition = (window.screen.height - 400) / 2; // 화면의 세로 중앙 위치
 				if (self.user.userId == "") {
 					alert("로그인 후 입장 가능합니다.");
 					window.location.href = "/user-login.do";
@@ -222,7 +240,7 @@
 				console.log(self.radio);
 				var popup = window.open('/user-myPage-addrUpdate.do?addrNo='
 						+ self.radio, 'addrUpdate Popup',
-						'width=900,height=900');
+						'width=800,height=800,left=' + leftPosition + ',top=' + topPosition);
 			},
 			/* 기본배송지 설정 */
 			fndefault: function() {
@@ -252,9 +270,9 @@
 			        	 if (data.result == "success") {
 	                            alert("기본배송지가 설정되었습니다.");
 	                            location.reload(true);
-	                        } else {
+	                     } else {
 	                            alert("다시 시도해주세요");
-	                        }
+	                       }
 			        },
 			        error: function(xhr, status, error) {
 	                    // 에러 발생 시 처리

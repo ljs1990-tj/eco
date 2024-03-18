@@ -159,4 +159,13 @@ public class ProductController {
 		resultMap = productService.addAdminComment(map);
 		return new Gson().toJson(resultMap);
 	}
+	
+	// 메인 페이지에 쓰일 순서에 따른 제품 리스트
+	@RequestMapping(value = "/productListOrderBy.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String productListOrderBy(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = productService.searchListForMain(map);
+		return new Gson().toJson(resultMap);
+	}
 }

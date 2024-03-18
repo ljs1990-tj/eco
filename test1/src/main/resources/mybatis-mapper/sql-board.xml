@@ -3,184 +3,220 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.test1.mapper.BoardMapper">
-	
-	<select id="selectBoardList" parameterType="hashmap" resultType="com.example.test1.model.Board">
-		SELECT * FROM ECO_BOARD
+
+	<select id="selectBoardList" parameterType="hashmap"
+		resultType="com.example.test1.model.Board">
+		SELECT *
+		FROM ECO_BOARD
 		WHERE KIND =#{kind}
-			<if test="keywordType == 'title'">
-				AND TITLE LIKE '%' || #{keyword} || '%' <!-- '%#{keyword}'와 같은 뜻 -->
-			</if>
-			<if test="keywordType == 'user'">
-				AND USERID LIKE '%' || #{keyword} || '%' 
-			</if>
-			
+		<if test="keywordType == 'title'">
+			AND TITLE LIKE CONCAT('%',#{keyword},'%') <!-- '%#{keyword}'와 같은 뜻 -->
+		</if>
+		<if test="keywordType == 'user'">
+			AND USERID LIKE CONCAT('%',#{keyword},'%')
+		</if>
+		 ORDER BY UDATETIME DESC
+		 LIMIT #{offset}, #{limit}
 	</select>
 	
-	<select id="selectBoardInfo" parameterType="hashmap" resultType="com.example.test1.model.Board">
-		SELECT * FROM ECO_BOARD B INNER JOIN ECO_USER U ON B.USERID = U.USERID
+	<!-- 메인 페이지용 레시피 게시글 단순 셀렉트 -->
+	<select id="selectBoardList2" parameterType="hashmap" resultType="com.example.test1.model.Board">
+		SELECT
+			B.*, DATE_FORMAT(CDATETIME, '%Y년 %c월 %e일') AS CDATE
+		FROM ECO_BOARD B
+		WHERE KIND = 2;
+	</select>	
+
+	<select id="selectBoardListCnt" parameterType="hashmap"
+		resultType="int"><!-- 페이징 -->
+		SELECT COUNT(*)
+		FROM ECO_BOARD B
+		INNER JOIN ECO_USER U ON B.USERID = U.USERID
+		WHERE KIND = #{kind}
+		<if test="keywordType == 'title'">
+			AND TITLE LIKE CONCAT('%',#{keyword},'%') <!-- '%#{keyword}'와 같은 뜻 -->
+		</if>
+		<if test="keywordType == 'user'">
+			AND B.USERID LIKE CONCAT('%',#{keyword},'%')
+		</if>
+	</select>
+
+	<select id="selectBoardInfo" parameterType="hashmap"
+		resultType="com.example.test1.model.Board">
+		SELECT * FROM ECO_BOARD B INNER JOIN ECO_USER U ON B.USERID
+		= U.USERID
 		WHERE BOARDNO = #{boardNo}
 	</select>
 
-<!-- 	<select id="viewList" parameterType="hashmap" resultType="com.example.test1.model.Board">
-		SELECT * FROM ECO_BOARD WHERE BOARDNO = #{boardNo}
-	</select> -->
-	
-	<insert id="writeBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="BOARDNO" keyColumn="BOARDNO">
-		INSERT INTO ECO_BOARD
-		VALUES(null, #{title}, #{contents}, #{userId}, 0, 'N', null, #{kind}, 0, NOW(), NOW(), 2500)
+	<!-- <select id="viewList" parameterType="hashmap" resultType="com.example.test1.model.Board"> 
+		SELECT * FROM ECO_BOARD WHERE BOARDNO = #{boardNo} </select> -->
+
+	<insert id="writeBoard" parameterType="hashmap"
+		useGeneratedKeys="true" keyProperty="BOARDNO" keyColumn="BOARDNO">
+		INSERT INTO
+		ECO_BOARD
+		VALUES(null, #{title}, #{contents}, #{userId}, 0, 'N', null,
+		#{kind}, 0, NOW(), NOW(), 2500)
 	</insert>
 
 
 	<delete id="deleteBoard" parameterType="hashmap">
-		DELETE FROM ECO_BOARD 
+		DELETE FROM ECO_BOARD
 		WHERE BOARDNO = #{boardNo}
 	</delete>
-	
+
 	<update id="boardEdit" parameterType="hashmap">
-		UPDATE ECO_BOARD SET CONTENTS = #{contents}, TITLE = #{title}, KIND = #{kind}, UDATETIME = NOW()  
+		UPDATE ECO_BOARD SET
+		CONTENTS = #{contents}, TITLE = #{title}, KIND = #{kind}, UDATETIME =
+		NOW()
 		WHERE BOARDNO = #{boardNo}
 	</update>
 
 	<update id="updateHit" parameterType="hashmap">
-		UPDATE ECO_BOARD SET HITS = HITS + 1 WHERE BOARDNO = #{boardNo}
+		UPDATE ECO_BOARD SET HITS =
+		HITS + 1 WHERE BOARDNO = #{boardNo}
 	</update>
 
 	<insert id="insertBoardImage" parameterType="hashmap">
-		INSERT INTO ECO_BOARD_IMAGE
-		VALUES(null, #{boardNo}, #{filePath}, #{fileName}, #{fileorgName}, #{fileSize}, #{fileEtc}, #{kind})
+		INSERT INTO
+		ECO_BOARD_IMAGE
+		VALUES(null, #{boardNo}, #{filePath}, #{fileName},
+		#{fileorgName}, #{fileSize}, #{fileEtc}, #{kind})
 	</insert>
 
-<!-- 	
-	<select id="selectBoardFileInfo" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
-		SELECT P.*,
-			FILEPATH || FILENAME AS PATH
-		FROM ECO_PRODUCT_IMAGE P
-		WHERE KIND = 1
-	</select>
-	
-	상품 상세보기에서 이미지 불러오기 
-	<select id="selectBoardContentsFileInfo" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
-		SELECT P.*,
-			FILEPATH || FILENAME AS PATH
-		FROM ECO_PRODUCT_IMAGE P
-		WHERE KIND = 2
-		AND ITEMNO = #{itemNo}
-	</select>
-	
-	상품 상세보기 화면에 상품 상세 정보에 보여줄 이미지 불러오기 
-	<select id="selectBoardDetailFileInfo" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
-		SELECT P.*,
-			FILEPATH || FILENAME AS PATH
-		FROM ECO_PRODUCT_IMAGE P
-		WHERE KIND = 3
-		AND ITEMNO = #{itemNo}
-	</select> -->
-	
+	<!-- <select id="selectBoardFileInfo" parameterType="hashmap" resultType="com.example.test1.model.BoardFile"> 
+		SELECT P.*, FILEPATH || FILENAME AS PATH FROM ECO_PRODUCT_IMAGE P WHERE KIND 
+		= 1 </select> 상품 상세보기에서 이미지 불러오기 <select id="selectBoardContentsFileInfo" 
+		parameterType="hashmap" resultType="com.example.test1.model.BoardFile"> SELECT 
+		P.*, FILEPATH || FILENAME AS PATH FROM ECO_PRODUCT_IMAGE P WHERE KIND = 2 
+		AND ITEMNO = #{itemNo} </select> 상품 상세보기 화면에 상품 상세 정보에 보여줄 이미지 불러오기 <select 
+		id="selectBoardDetailFileInfo" parameterType="hashmap" resultType="com.example.test1.model.BoardFile"> 
+		SELECT P.*, FILEPATH || FILENAME AS PATH FROM ECO_PRODUCT_IMAGE P WHERE KIND 
+		= 3 AND ITEMNO = #{itemNo} </select> -->
+
 	<update id="updateboardMainFile" parameterType="hashmap">
-		UPDATE ECO_BOARD_IMAGE
+		UPDATE
+		ECO_BOARD_IMAGE
 		SET BOARDNO = #{boardNo},
-			FILENAME = #{fileName},
-			FILEORGNAME = #{orgName},
-			FILESIZE = #{fileSize},
-			FILEETC = #{fileEtc}
+		FILENAME = #{fileName},
+		FILEORGNAME = #{orgName},
+		FILESIZE = #{fileSize},
+		FILEETC = #{fileEtc}
 		WHERE FILENO = #{fileNo}
 	</update>
-	
-	<select id="selectBoardFileList" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
+
+	<select id="selectBoardFileList" parameterType="hashmap"
+		resultType="com.example.test1.model.BoardFile">
 		SELECT B.*, CONCAT(FILEPATH, FILENAME) AS PATH
-		FROM ECO_BOARD_IMAGE B
+		FROM
+		ECO_BOARD_IMAGE B
 
 	</select>
-	
-	
-	<select id="selectBoardContentsFileInfo" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
+
+
+	<select id="selectBoardContentsFileInfo" parameterType="hashmap"
+		resultType="com.example.test1.model.BoardFile">
 		SELECT B.*,
-			CONCAT(FILEPATH, FILENAME) AS PATH
+		CONCAT(FILEPATH, FILENAME) AS PATH
 		FROM ECO_BOARD_IMAGE B
 		WHERE BOARDNO = #{boardNo}
 	</select>
-	
+
 	<insert id="insertBoardFile" parameterType="hashmap">
-		INSERT INTO ECO_BOARD_IMAGE
-		VALUES(NULL, #{boardNo}, #{path}, #{fileName}, #{orgName}, #{fileSize}, #{etc}, 1)
+		INSERT INTO
+		ECO_BOARD_IMAGE
+		VALUES(NULL, #{boardNo}, #{path}, #{fileName},
+		#{orgName}, #{fileSize}, #{etc}, 1)
 	</insert>
-	
+
 	<insert id="insertBoardContentsFile" parameterType="hashmap">
-		INSERT INTO ECO_BOARD_IMAGE
-		VALUES(NULL, #{boardNo}, #{path}, #{fileName}, #{orgName}, #{fileSize}, #{etc}, 2)
+		INSERT INTO
+		ECO_BOARD_IMAGE
+		VALUES(NULL, #{boardNo}, #{path}, #{fileName},
+		#{orgName}, #{fileSize}, #{etc}, 2)
 	</insert>
-	
+
 	<delete id="fileDelete" parameterType="hashmap">
-		DELETE FROM ECO_BOARD_IMAGE
+		DELETE FROM
+		ECO_BOARD_IMAGE
 		WHERE BOARDNO = #{boardNo}
 	</delete>
-	
-	<select id="selectUser" parameterType="hashmap" resultType="com.example.test1.model.User">
+
+	<select id="selectUser" parameterType="hashmap"
+		resultType="com.example.test1.model.User">
 		SELECT *
 		FROM ECO_USER
 		WHERE USERID = #{userId}
 	</select>
-	
-	<select id="selectUserWriteList" parameterType="hashmap" resultType="com.example.test1.model.Board">
+
+	<select id="selectUserWriteList" parameterType="hashmap"
+		resultType="com.example.test1.model.Board">
 		SELECT *
 		FROM ECO_BOARD
 		WHERE USERID = #{userId}
 	</select>
-	
-	<!--문의 게시판 불러오기  -->
-	<select id="selectCustomerInquiryList" parameterType="hashmap" resultType="com.example.test1.model.Board">
-		SELECT 
-		    B.*, 
-		    U.*, 
-		    C.*, 
-		    DATE_FORMAT(U.UDATETIME, '%Y.%m.%d') AS UDATE
-		FROM
-		    ECO_BOARD B
-		    INNER JOIN ECO_USER U ON B.USERID = U.USERID 
-		    LEFT JOIN ECO_COMMENT C ON B.BOARDNO = C.BOARDNO
-		WHERE
-		    KIND = 3	
-	</select>
-	
-	<!-- 문의 등록  -->
-	<insert id="insertCustomerInquiry" parameterType="hashmap">
-		INSERT INTO ECO_BOARD
-		VALUES(null, #{title}, #{contents}, #{userId}, 0, 'N', null, #{kind}, 0, NOW(), NOW(), 2500) 
-	</insert>
-	
-	<!-- 등록한 문의 내용 확인 -->
-	<select id="selectInquiryInfo" parameterType="hashmap" resultType="com.example.test1.model.Board">
+
+	<!--문의 게시판 불러오기 -->
+	<select id="selectCustomerInquiryList" parameterType="hashmap"
+		resultType="com.example.test1.model.Board">
 		SELECT
-			B.*, 
-		    U.*, 
-		    C.*, 
-		    DATE_FORMAT(U.UDATETIME, '%Y.%m.%d') AS UDATE 
-		FROM ECO_BOARD B 
+		B.*,
+		U.*,
+		C.*,
+		DATE_FORMAT(U.UDATETIME, '%Y.%m.%d') AS UDATE
+		FROM
+		ECO_BOARD B
 		INNER JOIN ECO_USER U ON B.USERID = U.USERID
 		LEFT JOIN ECO_COMMENT C ON B.BOARDNO = C.BOARDNO
+		WHERE
+		KIND = 3
+	</select>
+
+	<!-- 문의 등록 -->
+	<insert id="insertCustomerInquiry" parameterType="hashmap">
+		INSERT INTO
+		ECO_BOARD
+		VALUES(null, #{title}, #{contents}, #{userId}, 0, 'N', null,
+		#{kind}, 0, NOW(), NOW(), 2500)
+	</insert>
+
+	<!-- 등록한 문의 내용 확인 -->
+	<select id="selectInquiryInfo" parameterType="hashmap"
+		resultType="com.example.test1.model.Board">
+		SELECT
+		B.*,
+		U.*,
+		C.*,
+		DATE_FORMAT(U.UDATETIME, '%Y.%m.%d') AS UDATE
+		FROM ECO_BOARD B
+		INNER JOIN ECO_USER U ON B.USERID = U.USERID
+		LEFT JOIN ECO_COMMENT C ON
+		B.BOARDNO = C.BOARDNO
 		WHERE B.BOARDNO = #{boardNo}
 	</select>
-	
+
 	<!-- 등록한 문의 삭제 -->
 	<delete id="deleteInquiry" parameterType="hashmap">
-		DELETE FROM ECO_BOARD 
+		DELETE FROM ECO_BOARD
 		WHERE BOARDNO = #{boardNo}
 	</delete>
-	
+
 	<!-- 등록한 문의 수정 -->
 	<update id="updateInquiry" parameterType="hashmap">
-		UPDATE ECO_BOARD 
-			SET CONTENTS = #{contents}, TITLE = #{title}, UDATETIME = NOW()
-		WHERE BOARDNO = #{boardNo}
+		UPDATE ECO_BOARD
+		SET CONTENTS = #{contents}, TITLE = #{title}, UDATETIME = NOW()
+		WHERE
+		BOARDNO = #{boardNo}
 	</update>
-	
-	<!-- 관리자 답변 내용 확인  -->
-	<select id="selectAdminComment" parameterType="hashmap" resultType="com.example.test1.model.Comment">
-		SELECT * 
+
+	<!-- 관리자 답변 내용 확인 -->
+	<select id="selectAdminComment" parameterType="hashmap"
+		resultType="com.example.test1.model.Comment">
+		SELECT *
 		FROM ECO_COMMENT
 		WHERE BOARDNO = #{boardNo}
 	</select>
-	
 
-	
+
+
 </mapper>
