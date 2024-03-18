@@ -69,7 +69,7 @@
                             <div>
                                 <span>주소: </span>{{ address.addr }}, {{ address.addrDetail }}
                             </div>
-                            <div>{{ address.phone | formatPhoneNumber }}</div>
+                            <div>전화번호 : {{ address.phone | formatPhoneNumber }}</div>
                             <div v-if="address.addrRequest">
 							    <span>특이사항 : </span> {{ address.addrRequest }}
 							</div>
