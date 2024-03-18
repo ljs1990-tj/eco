@@ -98,24 +98,9 @@
             fnclose : function(){
                 var self = this;
                  window.close();
-            },
-            logout: function() {
-                // 로그아웃 처리 함수
-                $.ajax({
-                    url: "/logout", // 로그아웃을 처리하는 컨트롤러의 URL
-                    type: "POST", // POST 방식 요청
-                    success: function(data) {
-                        // 로그아웃 성공 시 로그인 페이지로 리다이렉션
-                        window.location.href = "/header.do";
-                    },
-                    error: function(xhr, status, error) {
-                        // 에러 발생 시 처리
-                        console.error(error);
-                    }
-                });
-            },
-        }
-        , created: function() {
+            }
+        },
+         created: function() {
             var self = this;
               if(self.userId == ""){
                   alert("로그인 후 입장 가능합니다.");
