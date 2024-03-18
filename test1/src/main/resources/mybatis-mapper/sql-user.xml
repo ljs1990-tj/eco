@@ -20,7 +20,6 @@
 	</insert>
 
 	<!-- 로그인 카운트 증가 -->
-
 	<update id="updateLoginCnt" parameterType="hashmap">
 		UPDATE ECO_USER
 		SET
@@ -29,7 +28,6 @@
 	</update>
 
 	<!-- 로그인 카운트 초기화 -->
-
 	<update id="updateLoginCnt2" parameterType="hashmap">
 		UPDATE ECO_USER
 		SET
@@ -166,4 +164,16 @@
 		AUTHYN = 'Y'
 		WHERE USERID = #{userId}
 	</update>
+	<!-- 회원탈퇴 취소 -->
+	<update id="updateUserDeleteCancle" parameterType="hashmap">
+        UPDATE ECO_USER
+    SET
+        DELETE_DATE = null,
+        USERTYPE = 'U'
+    WHERE USERID = #{userId}
+	</update>
+	<delete id="deleteUserDeleteCancle" parameterType="hashmap">
+		DELETE FROM ECO_USER_DELETE
+		WHERE USERID = #{userId}
+	</delete>
 </mapper>

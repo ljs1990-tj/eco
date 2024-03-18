@@ -30,7 +30,7 @@
                         </div>
                     </li>
                     <li>
-                    	<button @click="">비밀번호 찾기</button>
+                    	<button @click="fnChangePassword()">비밀번호 변경</button>
                     </li>
                     <li>
                         <span>이름: </span>
@@ -158,9 +158,7 @@
 					validatePassword : function(event, field) {
 						var self = this;
 						var regex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
-						self
-								.validateInput(event, field, regex,
-										"비밀번호는 최소 8글자, 최대 16글자이고 하나 이상의 숫자, 영문자 및 특수문자를 각각 포함해야 합니다!");
+						self.validateInput(event, field, regex, "비밀번호는 최소 8글자, 최대 16글자이고 하나 이상의 숫자, 영문자 및 특수문자를 각각 포함해야 합니다!");
 					},
 
 					// 비밀번호 입력 필드 정규식 유효성 검사
@@ -206,22 +204,6 @@
 						// 숫자가 아닌 문자는 제거하고, 최대 8자리까지만 입력되도록 처리
 						this.user.birth = inputValue.replace(/\D/g, '')
 								.substring(0, 8);
-					},
-
-					//비밀번호 체크
-					fnPwdCheck : function() {
-						var self = this;
-						if (self.user.userPw == "") {
-							self.user.userPw = "";
-							alert("비밀번호를 기입해 주세요.");
-							return;
-						}
-						var regex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
-						if (!regex.test(self.user.userPw)) {
-							alert("비밀번호는 최소 8글자, 최대 16글자이고 하나 이상의 숫자, 영문자 및 특수문자를 포함해야 합니다.");
-							self.user.userPw = ""
-							return;
-						}
 					},
 					//정보수정하기
 					fnmodify : function() {
@@ -272,6 +254,9 @@
 							self.user.userPw = "";
 							return;
 						}
+					    if (!confirm("회원 정보를 수정하겠습니까?")) {
+							return;
+						}
 						self.user.email = self.email1 + "@" + self.email2;
 						var nparmap = self.user;
 						$.ajax({
@@ -297,6 +282,24 @@
 							}
 
 						});
+					},
+					//비밀번호 변경하기
+					fnChangePassword : function() {
+						var self = this;
+						var leftPosition = (window.screen.width - 400) / 2; // 화면의 가로 중앙 위치
+				    	var topPosition = (window.screen.height - 400) / 2; // 화면의 세로 중앙 위치
+						// 'width=900,height=900'으로 설정된 부분 수정
+						var popup = window.open('/user-myPage-ChangePassword.do',
+								'Certification Popup', 'width=500,height=500,left=' + leftPosition + ',top=' + topPosition);
+
+						// 주기적으로 팝업 창이 닫혔는지 확인
+						var interval = setInterval(function() {
+							if (popup && popup.closed) {
+								clearInterval(interval); // 인터벌 중단
+								// 팝업 창이 닫혔을 때 부모 창으로 이동
+								window.location.href = '/user-myPageView.do';
+							}
+						}, 1000); // 1초마다 확인
 					},
 					//회원탈퇴
 					fnUserDelete : function() {
@@ -347,6 +350,9 @@
 							self.user.userPw = "";
 							return;
 						}
+					    if (!confirm("회원탈퇴하시겠습니까?")) {
+							return;
+						}
 						self.user.email = self.email1 + "@" + self.email2;
 						nparmap = self.user;
 						$.ajax({
@@ -355,9 +361,10 @@
 							type : "POST",
 							data : nparmap,
 							success : function(data) {
+								console.log(self.user);
 								if (data.result == "success") {
 									alert("사용자 정보가 탈퇴되었습니다.");
-									location.href = "main.do";
+									 window.location.href = "/user-login.do";	// 메인 페이지 URL로 변경
 								} else {
 									alert("관리자에게 문의 바랍니다.");
 									return;
