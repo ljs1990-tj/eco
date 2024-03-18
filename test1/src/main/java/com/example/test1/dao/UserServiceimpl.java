@@ -290,5 +290,33 @@ public class UserServiceimpl implements UserService {
 		}
 		return resultMap;
 	}
-
+	//유저 마이페이지 패스워드 변경
+	@Override
+	public HashMap<String, Object> PasswordChage(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			userMapper.updateUserPw(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
+		return resultMap;
+	}
+	//회원 탈퇴 취소하기
+	@Override
+	public HashMap<String, Object> CancleupdateUserDelete(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			userMapper.updateUserDeleteCancle(map);
+			userMapper.deleteUserDeleteCancle(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
+		return resultMap;
+	}
 }

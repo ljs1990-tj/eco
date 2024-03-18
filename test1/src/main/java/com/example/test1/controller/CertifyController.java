@@ -67,7 +67,7 @@ public class CertifyController {
 		return "/user-myPage-addrAdd";
 	}
 
-	// 유저 회원복구
+	// 유저 탈퇴 취소하기
 	@RequestMapping("/user-resume.do")
 	public String userresume(Model model) throws Exception {
 		
@@ -106,6 +106,13 @@ public class CertifyController {
 	public String userlogincertifySms(Model model) throws Exception {
 
 		return "/user-login-certifySms";
+	}
+
+	// 비밀번호 변경하기
+	@RequestMapping("/user-myPage-ChangePassword.do")
+	public String usermyPageChangePassword(Model model) throws Exception {
+
+		return "/user-myPage-ChangePassword";
 	}
 
 	// 유저정보 가져오기
@@ -203,6 +210,26 @@ public class CertifyController {
 	public String userauthYn(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = userService.AuthYnupdateUser(map);
+		System.out.println(resultMap);
+		return new Gson().toJson(resultMap);
+	}
+
+	// 유저 비밀번호 변경하기
+	@RequestMapping(value = "/changePassword.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String changePassword(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = userService.PasswordChage(map);
+		System.out.println(resultMap);
+		return new Gson().toJson(resultMap);
+	}
+
+	// 유저 탈퇴 취소하기
+	@RequestMapping(value = "/user-resume.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String userresume(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = userService.CancleupdateUserDelete(map);
 		System.out.println(resultMap);
 		return new Gson().toJson(resultMap);
 	}
