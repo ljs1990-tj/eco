@@ -201,12 +201,12 @@
 				<button type="button" :class="[selected == 'local' ? 'button-selected' : 'buttons-container']" @click="fnList('local')">로컬푸드</button>
 
                 <div class="order-container">     
-                    <select>
-                    	<option>신상품순</option>
-                    	<option>구상품순</option>
-                    	<option>높은 가격순</option>
-                    	<option>낮은 가격순</option>
-                    </select>
+                    <select v-model="selectedOption" @change="updateSelected">
+					    <option value="new">신상품 순</option>
+					    <option value="old">구상품 순</option>
+					    <option value="high">높은 가격순</option>
+					    <option value="low">낮은 가격순</option>
+					</select>
                 </div>
             </div>
             
@@ -247,7 +247,8 @@ var app = new Vue({
     	keyword : "",
     	selected : "",
     	type: "CDATE",
-        order: "DESC"
+    	order: "DESC",
+    	selectedOption: 'new'
     	
     }
     , methods: {
@@ -261,6 +262,8 @@ var app = new Vue({
             var nparmap = {
             	code: code,
             	keyword : self.keyword,
+            	type : self.type,
+            	order : self.order
             };
             $.ajax({
                 url:"cordList.dox",
@@ -269,8 +272,7 @@ var app = new Vue({
                 data: nparmap,
                 success: function(data) {
                 	self.list = data.list;
-                	self.filelist = data.filelist;
-     				
+                	self.filelist = data.filelist;		
                 }
             });
         },
@@ -333,6 +335,29 @@ var app = new Vue({
                 	}
                 }
             });
+        },
+        /* 정렬 기능  */
+        updateSelected: function() {
+        	var self = this;
+            switch (self.selectedOption) {
+                case 'new':
+                	self.type = 'CDATE';
+                	self.order = 'DESC';
+                    break;
+                case 'old':
+                	self.type = 'CDATE';
+                	self.order = 'ASC';
+                    break;
+                case 'high':
+                	self.type = 'PRICE';
+                	self.order = 'DESC';
+                    break;
+                case 'low':
+                	self.type = 'PRICE';
+                	self.order = 'ASC';
+                    break;
+            }
+            self.fnList(self.code);
         }
        
         

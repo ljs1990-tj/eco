@@ -205,12 +205,12 @@
                     <template v-if="userType == 'A' ">
                     	<button @click="fnAdd">상품추가</button>
                     </template>
-                    <select>
-                      <option value="option1">높은 가격순</option>
-                      <option value="option2">낮은 가격순</option>
-                      <option value="option3">신상품 순</option>
-                      <option value="option4">구상품 순</option>
-                    </select>
+                    <select v-model="selectedOption" @change="updateSelected">
+					    <option value="new">신상품 순</option>
+					    <option value="old">구상품 순</option>
+					    <option value="high">높은 가격순</option>
+					    <option value="low">낮은 가격순</option>
+					</select>
                 </div>
             </div>
 
@@ -253,7 +253,10 @@ var app = new Vue({
 		userType : "${userType}",
     	code : "${map.code}",
     	keyword : "",
-    	selected : ""
+    	selected : "",
+    	type: "CDATE",
+    	order: "DESC",
+    	selectedOption: 'new'
     	
     }
     , methods: {
@@ -266,7 +269,9 @@ var app = new Vue({
             self.code = code;
             var nparmap = {
             	code: code,
-            	keyword : self.keyword
+            	keyword : self.keyword,
+            	type : self.type,
+            	order : self.order
             };
             $.ajax({
                 url:"cordList.dox",
@@ -339,6 +344,29 @@ var app = new Vue({
                 	}
                 }
             });
+        },
+        /* 정렬 기능  */
+        updateSelected: function() {
+        	var self = this;
+            switch (self.selectedOption) {
+                case 'new':
+                	self.type = 'CDATE';
+                	self.order = 'DESC';
+                    break;
+                case 'old':
+                	self.type = 'CDATE';
+                	self.order = 'ASC';
+                    break;
+                case 'high':
+                	self.type = 'PRICE';
+                	self.order = 'DESC';
+                    break;
+                case 'low':
+                	self.type = 'PRICE';
+                	self.order = 'ASC';
+                    break;
+            }
+            self.fnList(self.code);
         }
     }
     , created: function() {

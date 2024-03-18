@@ -19,6 +19,8 @@
 </head>
 <body style="background-color:white;">
 <div id="app">
+<!-- Header Section -->
+<%@ include file="layout/header.jsp" %>
     <!-- 전체구역 -->
     <section>
         <!-- 왼쪽 구역 -->
@@ -104,6 +106,8 @@
         <button @click="fnclosePopup()">닫기</button>
     </div>
 </div>
+<!-- Footer Section -->
+<%@ include file="layout/footer.jsp" %>
 </body>
 </html>
 <script type="text/javascript">
