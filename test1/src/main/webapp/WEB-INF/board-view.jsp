@@ -64,6 +64,7 @@ button {
 	border: none;
 	border-radius: 4px;
 	transition: background-color 0.3s;
+	
 }
 
 button:hover {
@@ -81,6 +82,12 @@ td {
 a {
 	text-decoration: none;
 }
+.buttons {
+    text-align: center;
+    margin: 30px;
+    font-family: "Orbit", sans-serif;    
+}
+
 </style>
 <body>
 	<%@ include file="layout/header.jsp"%>
@@ -119,8 +126,7 @@ a {
 				</td>
 			</tr>
 		</table>
-		<div class="buttons" style="text-align: center; margin: 30px;"
-			v-if="info.userId == userId || userType == 'A'">
+		<div class="buttons" v-if="info.userId == userId || userType == 'A'">
 			<button @click="fnDelete">삭제</button>
 			<button @click="fnEdit">수정</button>
 			<button @click="fnList(kind)">목록으로 가기</button>
