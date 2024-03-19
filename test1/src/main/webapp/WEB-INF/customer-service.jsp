@@ -267,7 +267,7 @@
 				</div>
 				<div v-if="selectedMenu === 'inquiry'">
 					<h4>문의하기</h4>
-					<p>A조 마켓의 중심은 항상 고객님입니다.</p>
+					<p>ECO 마켓의 중심은 항상 고객님입니다.</p>
 					<!-- 제목 입력란 -->
 					<div class="input-group">
 						<label for="title">제목 <span>*</span></label> <input
@@ -353,6 +353,7 @@
 		methods : {
 			fnList : function() {
 				var self = this;
+				
 				var nparmap = {};
 				$.ajax({
 					url : "customerService.dox",
@@ -367,6 +368,11 @@
 			},
 			fnInsert : function() {
 				var self = this;
+				// 제목과 내용이 모두 입력되었는지 검증
+		        if (!self.title.trim() || !self.contents.trim()) {
+		            alert("제목과 내용을 모두 입력해야 등록이 가능합니다.");
+		            return;
+		        }
 				var nparmap = {
 					userId : self.userId,
 					title : self.title,
