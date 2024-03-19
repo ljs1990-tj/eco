@@ -432,11 +432,10 @@
 
 			},
 			fnMoveProductList : function(code){
-				///AdminProductList.do
-					//수정해야한다 이따
+				
 					var self = this;
-				$.pageChange("/FavoriteList.do", {
-					userId : self.userId
+				$.pageChange("/AdminProductList.do", {
+					code : code
 				});
 			},
 
