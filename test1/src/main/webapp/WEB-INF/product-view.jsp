@@ -289,9 +289,9 @@
 		        </template> -->
 		        <!-- <img v-if="fileList.length > 0" :src="fileList[ImageIndex].filePath + fileList[ImageIndex].fileName" alt="이미지!" @click=""> -->
 		        
-		        <!-- <div class="thumbnail-images">
+		       <!-- <div class="thumbnail-images">
 			        <img v-for="(item, index) in fileList" :src="item.filePath+item.fileName" :alt="'이미지 ' + index" @click="selectImg(index)">
-			    </div>	 -->
+			    </div> -->
             </div>
 
             <div class="product-info">
