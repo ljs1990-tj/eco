@@ -19,16 +19,16 @@
 		SELECT 
 			*
 			<if test="type == 'CDATE' and order == 'DESC'">
-				ROW_NUMBER() OVER(ORDER BY CDATETIME DESC) AS PAGE
+				,ROW_NUMBER() OVER(ORDER BY CDATETIME DESC) AS PAGE
 			</if>
 			<if test="type == 'CDATE' and order == 'ASC'">
-				ROW_NUMBER() OVER(ORDER BY CDATETIME ASC) AS PAGE
+				,ROW_NUMBER() OVER(ORDER BY CDATETIME ASC) AS PAGE
 			</if>
 			<if test="type == 'PRICE' and order == 'DESC'">
-				ROW_NUMBER() OVER(ORDER BY PRICE DESC) AS PAGE			
+				,ROW_NUMBER() OVER(ORDER BY PRICE DESC) AS PAGE			
 			</if>
 			<if test="type == 'PRICE' and order == 'ASC'">
-				ROW_NUMBER() OVER(ORDER BY PRICE ASC) AS PAGE
+				,ROW_NUMBER() OVER(ORDER BY PRICE ASC) AS PAGE
 			</if>
 		FROM
 			ECO_PRODUCT
