@@ -323,6 +323,9 @@
                 </table>
               
                 <div class="button-container">
+                <!-- 상품 찜하기 -->
+                <a @click="fnFavorite" href="#" v-if="FavoriteCheck == 'Y'"><i class="bi bi-heart-fill fa-2x" style="color:red;"></i></a>
+                <a @click="fnFavorite" href="#" v-if="FavoriteCheck == 'N'"><i class="bi bi-heart fa-2x" style="color: rgb(92,184,92);"></i></a>
                     <button class="buy-btn">구매하기</button>
                     <button class="cart-btn" @click="fnAddCart(itemNo, userId)">장바구니에 담기</button>
                 </div>
@@ -465,14 +468,16 @@ var app = new Vue({
     	qa: [], // 상품 문의
     	activeTab: 'details',
     	ImageIndex: 0, // 이미지 선택 인덱스
-    	qaOnOff: null
+    	qaOnOff: null,
+    	FavoriteCheck : ""
     	
     }
     , methods: {
     	fnView: function() {
             var self = this;
             var nparmap = {
-            		itemNo: self.itemNo
+            		itemNo: self.itemNo,
+            		userId :self.userId
             };
             $.ajax({
                 url:"productView.dox",
@@ -480,12 +485,20 @@ var app = new Vue({
                 type: "POST",
                 data: nparmap,
                 success: function(data) {
+                	
                 	self.info = data.info;
                 	self.info.wonPrice = self.info.price.toLocaleString('ko-KR');
                 	self.fileList = data.filelist;
                 	self.fileDetailList = data.fileDetailList;
                 	self.review = data.review;
                 	self.qa = data.qa;
+                	if(data.FavoriteCheck == 1){
+                		self.FavoriteCheck = "Y";
+                	}else{
+                		self.FavoriteCheck = "N";
+                	}
+                	
+                	
                 }
             });
         },
@@ -540,6 +553,28 @@ var app = new Vue({
 	            element.scrollIntoView({ behavior: 'smooth' });
 	        }
 	    },
+	    fnFavorite : function(){
+	    	var self = this;
+	    	if(self.userId ==""){
+	    		alert("로그인후 이용 가능합니다.");
+	    		return;
+	    	}
+            var nparmap = {
+            		itemNo : self.itemNo,
+            		userId : self.userId
+            };
+            $.ajax({
+                url:"FavoriteAdd.dox",
+                dataType:"json",
+                type: "POST",
+                data: nparmap,
+                success: function(data) {
+                	self.fnView();
+                }
+            });
+	    	
+	    },
+	    
 	    
 	    /* 상품 정보 리스트 이미지  */
 	    /* nextImage: function() {

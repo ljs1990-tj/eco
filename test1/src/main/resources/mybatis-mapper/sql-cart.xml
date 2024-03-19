@@ -100,4 +100,21 @@
 		FROM ECO_ADDR
 		WHERE USERID = #{userId}
     </select>
+    
+    <insert id="insertFavorite" parameterType="hashmap">
+      	INSERT INTO ECO_CART
+      	VALUES(NULL, #{userId},#{itemNo},NOW(),'Y',1)
+    </insert>
+    <select id="selectFavoriteCheck" parameterType="hashmap" resultType="int">
+		SELECT COUNT(*)
+		FROM ECO_CART 
+		WHERE ITEM_NO = #{itemNo} AND USERID = #{userId} AND IS_FAVORITE = 'Y'
+	</select>
+    <delete id="removeFavorite" parameterType="hashmap">
+		DELETE
+		FROM ECO_CART
+		WHERE ITEM_NO =#{itemNo} AND USERID = #{userId} AND IS_FAVORITE ='Y'
+	</delete>
+    
+    
 </mapper>

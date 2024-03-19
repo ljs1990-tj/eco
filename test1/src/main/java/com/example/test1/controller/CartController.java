@@ -45,6 +45,14 @@ public class CartController {
 			resultMap = cartService.addCartItem(map);
 			return new Gson().toJson(resultMap);
 		}
+		//찜하기 추가
+		@RequestMapping(value = "FavoriteAdd.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String Favorite(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap<String, Object>();
+			resultMap = cartService.addFavoriteItem(map);
+			return new Gson().toJson(resultMap);
+		}
 		
 		//cart 제거
 		@RequestMapping(value = "/cart/remove.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
