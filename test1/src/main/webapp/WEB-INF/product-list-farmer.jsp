@@ -223,8 +223,8 @@
 			      	<div class="product-info" @click="fnDetailView(item.itemNo)">
 			        	<div class="product-name">{{item.itemName}}</div>
 			        	<div class="product-price">
-			        		<del>₩{{item.price}}</del>
-			        		<br>할인가₩{{(item.price)*((100-item.sRate)/100)}}
+			        		<del>₩{{item.price.toLocaleString('ko-KR')}}</del>
+			        		<br> 할인가₩{{DiscountPrice(item.price, item.sRate)}}
 			        		<br> 할인율{{item.sRate}}%
 			        	</div>
 			      	</div>
@@ -367,6 +367,11 @@ var app = new Vue({
                     break;
             }
             self.fnList(self.code);
+        },
+        /* kr통화 표시 */
+        DiscountPrice: function(price, sRate) {
+            const disPrice = price * ((100 - sRate) / 100);
+            return disPrice.toLocaleString('ko-KR');
         }
     }
     , created: function() {
