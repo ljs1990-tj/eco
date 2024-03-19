@@ -96,8 +96,7 @@
 		GROUP BY USERID
 		) AS
 		user_counts ON ECO_ADDR.USERID = user_counts.USERID
-		WHERE
-		ECO_ADDR.USERID = #{userId}
+		WHERE ECO_ADDR.USERID = #{userId}
 	</select>
 
 	<!-- 유저 마이페이지 주소록 삭제 -->

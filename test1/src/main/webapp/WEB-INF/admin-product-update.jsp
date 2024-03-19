@@ -39,7 +39,7 @@
 		<div>
 		현재 리스트 썸네일 이미지 : 
 		<template v-for="item in mainFile">
-		<img :src="item.filePath+item.fileName" alt="썸네일" style="width: 300px;height: 300px">
+		<img :src="item.filePath+item.fileName" alt="썸네일">
 		<button @click="fnFileDelete(item.fileNo)">◀X</button>
 		</template>
 		
@@ -52,7 +52,7 @@
 		<div>
 		현재 컨텐츠 썸네일 이미지 : 
 		<template v-for="item in contentsFile">
-		<img :src="item.filePath+item.fileName" style="width: 300px;height: 300px">
+		<img :src="item.filePath+item.fileName">
 		<button @click="fnFileDelete(item.fileNo)">◀X</button>
 		</template>
 		

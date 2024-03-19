@@ -233,13 +233,13 @@ body {
 						        } else {
 						            alert("부모 창이 닫혀있거나 유효하지 않습니다.");
 						        }
-						}
-					},
-					error: function(xhr, status, error) {
-	                    // 에러 발생 시 처리
-	                    // 에러 페이지로 리다이렉션
-	                    window.opener.location.href = "/error-page"; // 에러 페이지의 URL로 리다이렉션
-	             }
+						},
+						 error: function(xhr, status, error) {
+			                    // 에러 발생 시 처리
+			                    // 에러 페이지로 리다이렉션
+			                    window.opener.location.href = "/error-page"; // 에러 페이지의 URL로 리다이렉션
+			                }
+					}
 				});
 			},
 			//팝업창 닫기

@@ -20,18 +20,16 @@ public class BoardServiceimpl implements BoardService{
 	@Override
 	public HashMap<String, Object> searchBoardList(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		List<Board> list= boardMapper.selectBoardList(map);
-		int cnt = boardMapper.selectBoardListCnt(map);
+		HashMap<String, Object> board = new HashMap<String, Object>();
 		try {
-			resultMap.put("list", list);
-			resultMap.put("cnt", cnt);
-			resultMap.put("result", "success");
+			List<Board> list= boardMapper.selectBoardList(map);
+			board.put("list", list);
+			board.put("result", "success");
 		} catch (Exception e) {
 			// TODO: handle exception
-			resultMap.put("result", "fail");
+			board.put("result", "fail");
 		}
-		return resultMap;
+		return board;
 	
 	}
 
@@ -268,27 +266,5 @@ public class BoardServiceimpl implements BoardService{
 		
 		return resultMap;
 	}
-
-
-	
-	// 메인 페이지용 레시피 게시글 출력
-	@Override
-	public HashMap<String, Object> searchBoardAndFileList(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		try {
-			List<Board> list= boardMapper.selectBoardList2(map);
-			List<BoardFile> fileList = boardMapper.selectBoardFileList2(map);
-			resultMap.put("listR", list);
-			resultMap.put("fileListR", fileList);
-			resultMap.put("result", "success");
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println(e.getMessage());
-			resultMap.put("result", "fail");
-		}
-		
-		return resultMap;
-	}	
 	
 }
