@@ -33,6 +33,8 @@
 	}
 	
 	.content-area {
+		display: flex;
+    	flex-direction: column;
 		flex: 1; 
 		padding: 10px 50px; 
 		background: #ffffff; /* 배경색 */
@@ -122,8 +124,8 @@
     .content-area {
         display: flex; 
         flex-direction: column; 
-        justify-content: space-between; /* 콘텐츠와 버튼 사이의 공간 분배 */
-        height: 100%;
+        /* justify-content: space-between;  */
+        height: auto;
 		margin-top: 40px; 
     }
 	.content-area h2 {
@@ -183,7 +185,19 @@
     
     .completed {
         color: blue; /* 답변 완료 텍스트의 색상을 파란색으로 지정 */
-    }    
+    }
+    /* 자주묻는 질문 페이징 버튼 영역  */
+    .pagingArea {
+	    display: flex;
+	    justify-content: center; 
+	    align-items: center;
+	    /* margin-top: auto; */
+	} 
+	.pagingArea button{
+		color: #5cb85c;
+		background-color: white;
+	    min-height: 10px; 
+	}   
 </style>
 <body>
 <!-- Header Section -->
@@ -209,20 +223,22 @@
 				            </tr>
 				        </thead>
 				        <tbody>
-				             <template v-for="(faq, index) in pagingFaqs">
-						        <tr @click="toggleDetail(faq.id)" :key="faq.id">
+				             <template v-for="(faq, index) in paginatedData"> 
+						        <tr @click="toggleDetail(index)" :key="faq.id">
 						            <td>{{ index + 1 }}</td>
 						            <td>{{ faq.category }}</td>
 						            <td>{{ faq.title }}</td>
 						        </tr>
-						        <tr v-if="toggleStatus[faq.id]" :key="'details-' + faq.id">
+						        <tr v-if="faq.showDetail" :key="faq.id">
 						            <td colspan="3">{{ faq.detail }}</td>
 						        </tr>
 						    </template>
 				        </tbody>
 				    </table>
-				    <button v-for="page in totalPages" @click="goToPage(page)">{{ page }}</button>
 	            </div>
+				<div class="pagingArea">
+					<button v-for="page in totalPages" @click="goToPage(page)">{{ page }}</button>
+				</div>
 	            <div v-if="selectedMenu === 'history'">
 	                <h4>1:1 문의</h4>
 	                <p>고객님께서 남겨주신 1:1 문의는 여기에 표기됩니다.</p>
@@ -285,10 +301,9 @@
 			kind : 3,
 			title : "${title}",
 			contents : "${contents}",
-			/* 자주묻는 질문 페이징 처리 및 관리 */
+			/* 페이징 처리 및 관리 */
 			currentPage: 1,
-		    itemsPerPage: 10,
-		    toggleStatus: {},
+			itemsPerPage: 10,
 
 			selectedMenu: 'faq',
 			selectedMenuItem: null, // 선택된 메뉴 아이템을 저장하기 위한 속성 추가	        
@@ -311,13 +326,13 @@
 			]
 		},
 		computed: {
-		    pagingFaqs() {
+		    totalPages: function() {
+		        return Math.ceil(this.faqs.length / this.itemsPerPage);
+		    },
+		    paginatedData: function() {
 		        const start = (this.currentPage - 1) * this.itemsPerPage;
 		        const end = start + this.itemsPerPage;
 		        return this.faqs.slice(start, end);
-		    },
-		    totalPages() {
-		        return Math.ceil(this.faqs.length / this.itemsPerPage);
 		    }
 		},
 		methods : {
@@ -372,25 +387,28 @@
 				this.selectedMenu = menu;
 				this.selectedMenuItem = menu;
 			},
-			/* 질문 토글에 기능  */
+			/* 자주묻는 질문에 토글 기능  */
 			toggleDetail: function(index) {
-	            this.faqs[index].showDetail = !this.faqs[index].showDetail;
-	            this.faqs.forEach((faq, i) => {
-	                if(i !== index) {
-	                    faq.showDetail = false;
+				const globalIndex = (this.currentPage - 1) * this.itemsPerPage + index;
+				this.faqs[globalIndex].showDetail = !this.faqs[globalIndex].showDetail;
+			    this.faqs.forEach((faq, i) => {
+			    	if (i !== globalIndex) {
+			        	faq.showDetail = false;
+			        }
+			    });
+	        },
+	        /* 페이징 처리 및 관리  */
+	        goToPage: function(page) {
+	            this.currentPage = page;
+	            const startIndex = (page - 1) * this.itemsPerPage;
+	            const endIndex = startIndex + this.itemsPerPage;
+	            this.faqs.forEach((faq, index) => {
+	                if (index >= startIndex && index < endIndex) {
+	                    faq.showDetail = false; // 현재 페이지의 항목들의 상태를 초기화
 	                }
 	            });
 	        },
-	        /* 페이징 처리 및 관리 부분 */
-	        goToPage(pageNumber) {
-	            this.currentPage = pageNumber;
-	            this.resetToggleState(); // 페이지를 변경 시 토글 상태 초기화
-	        },
-	        resetToggleState() {
-	            this.faqs.forEach(faq => {
-	                faq.showDetail = false; // 모든 FAQ 항목의 토글 상태를 초기화
-	            });
-	        }
+	        
 
 		},
 		created : function() {
