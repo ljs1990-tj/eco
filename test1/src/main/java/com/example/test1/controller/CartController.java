@@ -28,6 +28,12 @@ public class CartController {
 			
 	        return "/cart-list";
 	    }
+		@RequestMapping("FavoriteList.do") 
+	    public String FavoriteList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+			request.setAttribute("map", map);
+			
+	        return "/Favorite-list";
+	    }
 		
 		@RequestMapping("KakaoPaycart.do") 
 	    public String kakaoPay(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{

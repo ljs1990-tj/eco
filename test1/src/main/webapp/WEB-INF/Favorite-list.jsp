@@ -36,10 +36,10 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <h2> 장바구니</h2>
+                        <h2> 찜 목록</h2>
                         <div class="breadcrumb__option">
                             <a href="javascript:;" @click="fnHome">Home</a>
-                            <span>장바구니</span>
+                            <span>찜목록</span>
                         </div>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
                                     <th class="shoping__product">제품</th>
                                     <th>가격</th>
                                     <th>적립금</th>
-                                    <th>수량</th>
+                                    
                                     <th>총 금액</th>
                                     <th></th>
                                 </tr>
@@ -79,19 +79,7 @@
                                     <p style="background-color: red; border-radius: 5px; color:white; width: 80px; height: 20px; padding: 0px; font-size: 15px; display: inline-block; margin-bottom: 0;">{{item.pRate}}%적립</p>
                                        {{(item.price*item.pRate/100).toLocaleString('ko-KR')}}Point
                                     </td>
-                                    
-                                    <td class="shoping__cart__quantity">
-                                        <div class="quantity">
-                                       				
-                                            <div class="pro-qty-me">
-                                            <span class="dec qtybtn" style="cursor: pointer;" @click="ChangSelectCnt(index,item.cartNo,list[index].selectcnt-1)"> - </span>
-                                               <input type="text" v-model="list[index].selectcnt" @keyup="ChangSelectCnt(index,item.cartNo, list[index].selectcnt)">
-                                             <span class="inc qtybtn" style="cursor: pointer;" @click="ChangSelectCnt(index,item.cartNo, list[index].selectcnt+1)"> + </span>
-                                            </div>
-                                            
-                                            
-                                        </div>
-                                    </td>
+                                      
                                     <td class="shoping__cart__total">
                                     <p style="background-color: red; border-radius: 5px; color:white; width: 80px; height: 20px; padding: 0px; font-size: 15px; display: inline-block; margin-bottom: 0;">{{item.sRate}}%할인</p>
                                        <del>{{(item.price*item.selectcnt).toLocaleString('ko-KR')}}원</del>  {{(item.price*(100-item.sRate)/100*item.selectcnt).toLocaleString('ko-KR')}}원
@@ -113,44 +101,12 @@
                     <div class="shoping__cart__btns">
                         <a href="productList.do"  class="primary-btn cart-btn">쇼핑계속하기</a>
                         <a href="javascript:;" @click="fnCartList"  class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
-                           장바구니 새로고침</a>
+                           찜목록 새로고침</a>{{userId}}
                     </div>
                 </div>
-                <div class="col-lg-5">
-                    <div class="shoping__checkout">
-                        <h5>주문자 정보</h5>
-                        <ul>
-                            <li>이름<span>{{user.name}}</span></li>
-                            <li>핸드폰 번호 : <span>{{user.phone1}}-{{user.phone2}}-{{user.phone3}}</span></li>
-                            <li>이메일 : <span>{{user.email}}</span></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-6" v-if="list.length != 0">
-                    <div class="shoping__checkout">
-                        <h5 >총 금액</h5>
-                        <ul>
-                            <li >금액 <span>{{noRatePrice}}원</span></li>
-                            <li >할인된 금액 <span> {{ratePrice}}원</span></li>
-                            <li >적립된 포인트 <span>{{Point}}Point</span></li>
-                            <li >총 금액 <span >{{totalPay}}원</span></li>
-                        </ul>
-                        <a href="javascript:;" @click="fnKakaoPay" class="primary-btn" >계속해서 진행하기</a>
-                        
-                    </div>
-                </div>
-                 <div class="col-lg-6" v-if="list.length == 0">
-                    <div class="shoping__checkout">
-                        <h5 >총 금액</h5>
-                        <ul>
-                        	<li>	
-                        	<span>장바구니에 아무런 상품도 담겨있지 않아요!</span>	
-                        	</li>
-                        </ul>
-                        
-                        
-                    </div>
-                </div>
+               
+               
+               
             </div>
         </div>
     </section>
@@ -190,7 +146,7 @@ var app = new Vue({
             var nparmap = {
             		userId : self.userId,
             		kind : 1,
-            		cartCheck : 1
+            		cartCheck : 0
             		
             };
             $.ajax({
@@ -256,29 +212,6 @@ var app = new Vue({
     			}
     			self.Point = point.toLocaleString('ko-KR');;
     		},
-    		ChangSelectCnt: function(index,cartNo, num) {
-                var self = this;
-               if(self.list[index].cnt < num){
-            	   num = self.list[index].cnt;
-               }
-               
-                var nparmap = {
-                		cartNo : cartNo,
-                		selectCnt : num
-                };
-                 $.ajax({
-                    url: "/cart/ChangSelectCnt.dox",
-                    type: "POST",
-                    data:  nparmap,
-                    success: function(data) {
-                    	
-                    	self.fnCartList(); 
-                    },
-                    error: function(error) {
-                        console.log("Error removing item:", error);
-                    }
-                }); 
-            },
             
     		
 	   	
