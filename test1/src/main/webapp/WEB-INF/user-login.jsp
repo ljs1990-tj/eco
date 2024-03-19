@@ -34,6 +34,10 @@
 	padding-left: 20px;
 }
 
+.login-input:focus {
+	border-color: #2c9d59;
+}
+
 .login-input::placeholder {
 	font-size: 12px;
 	color: #999;
@@ -57,10 +61,19 @@
 	margin-top: 10px;
 }
 
+.login-btn:hover {
+	background-color: #1f814c;
+}
+
 .login-btn-alter {
 	background-color: white;
+	border: 1px solid #2c9d59;
 	color: #2c9d59;
 	margin-bottom: 10px;
+}
+
+.login-btn-alter:hover {
+	background-color: #defcdd;
 }
 
 .login-text {
@@ -78,7 +91,7 @@
 			<div class="login-title" style="margin: 10px;">로그인</div>
 			<div style="margin: 10px;" class="inputBox">
 				<input type="text" class="login-input" v-model="userId"
-					@keyup.enter="fnLogin" placeholder="아이디를 입력해 주세요" maxlength="20">
+					@keyup.enter="fnLogin" placeholder="아이디를 입력해 주세요" maxlength="20" autofocus>
 			</div>
 			<div style="margin: 10px;">
 				<input type="password" class="login-input" v-model="userPw"
