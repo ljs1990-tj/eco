@@ -171,7 +171,7 @@ a {
 					v-html="item.title"></a></td>
 				<td><a href="javascript:;" @click="fnUser(item.userId)">{{item.userId}}</a></td>
 				<td>{{ item.hits }}</td>
-				<td>{{ item.uDateTime }}</td>
+				<td>{{ item.cDate }}</td>
 			</tr>
 		</table>
 		<div v-if="kind==2" style="display: flex; flex-wrap: wrap;">
@@ -188,10 +188,10 @@ a {
 					</div>
 					<div class="blog__item__text">
 						<div>
-							<i class="fa fa-calendar"></i> {{item.uDateTime}}
+							<i class="fa fa-calendar"></i> {{item.cDate}}
 						</div>
 						<div>
-							<i class="fa fa-thumbs-up"></i> {{item.hits}}
+							<i class="fa fa-eye"></i> {{item.hits}}
 						</div>
 						<h5>
 							<a @click="fnView(item.boardNo, kind)" href="javascript:;"
