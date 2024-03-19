@@ -84,10 +84,10 @@ var app = new Vue({
             
         },
         
-        fnData : function(code){
+        fnData : function(){
         	var self = this;
             var nparmap = {
-            			code : code
+            			
             };
             $.ajax({
                 url:"AdminProductChart.dox",
@@ -152,7 +152,7 @@ var app = new Vue({
     }
     , created: function () {
     	var self = this;
-    	self.fnList("org");
+    	self.fnList();
     	
     }
   })

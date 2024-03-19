@@ -16,17 +16,10 @@
 		INSERT INTO ECO_USER
 			(USERID, USERPW, NAME, NICKNAME, GENDER, PHONE1, PHONE2, PHONE3, EMAIL, BIRTH, USER_GRADE, AUTHYN, EVENTYN, LOGINCNT, POINT, TOTALPAY, USERTYPE, CDATETIME, UDATETIME)
 		VALUES
-		(#{userId}, #{userPw}, #{name}, #{nickName}, #{gender},
-		#{phone1}, #{phone2},
-		#{phone3}, #{email}, #{birth}, 'SILVER', 'N',
-		#{eventYn}, 0, 0, 0,
-		'U', NOW(), NOW(), NOW(), DATE_ADD(NOW(), INTERVAL
-		3 MONTH))
-		(#{userId}, #{userPw}, #{name}, #{nickName}, #{gender}, #{phone1}, #{phone2}, #{phone3}, #{email}, #{birth}, 'SILVER', 'N', #{eventYn}, 0, 0, 0, 'U', NOW(), NOW())
+			(#{userId}, #{userPw}, #{name}, #{nickName}, #{gender}, #{phone1}, #{phone2}, #{phone3}, #{email}, #{birth}, 'SILVER', 'N', #{eventYn}, 0, 0, 0, 'U', NOW(), NOW())
 	</insert>
 
 	<!-- 로그인 카운트 증가 -->
-
 	<update id="updateLoginCnt" parameterType="hashmap">
 		UPDATE ECO_USER
 		SET
@@ -35,7 +28,6 @@
 	</update>
 
 	<!-- 로그인 카운트 초기화 -->
-
 	<update id="updateLoginCnt2" parameterType="hashmap">
 		UPDATE ECO_USER
 		SET
@@ -66,6 +58,14 @@
 		FROM ECO_CART
 		WHERE USERID = #{userId};
 	</select>
+	
+	<select id="selectFavoriteCnt" parameterType="hashmap" resultType="int">
+		SELECT IFNULL(COUNT(*), 0) AS CARTCNT
+		FROM ECO_CART
+		WHERE
+			USERID = #{userId}
+		AND IS_FAVORITE = "Y"
+	</select>	
 
 	<!-- 비밀번호 찾기 후 비밀번호 업데이트 -->
 	<update id="updateUserPw" parameterType="hashmap">
@@ -96,8 +96,7 @@
 		GROUP BY USERID
 		) AS
 		user_counts ON ECO_ADDR.USERID = user_counts.USERID
-		WHERE
-		ECO_ADDR.USERID = #{userId}
+		WHERE ECO_ADDR.USERID = #{userId}
 	</select>
 
 	<!-- 유저 마이페이지 주소록 삭제 -->
@@ -153,7 +152,7 @@
 	    VALUES (
 	        #{userId}, #{userPw}, #{name}, #{nickName}, #{gender}, #{phone1}, 
 	        #{phone2}, #{phone3}, #{email}, #{birth}, #{userGrade}, #{authYn}, 
-	        #{eventYn}, #{loginCnt}, #{point}, #{totalP}, #{userType}, #{cDateTime}, 
+	        #{eventYn}, #{loginCnt}, #{point}, #{totalPay}, #{userType}, #{cDateTime}, 
 	        #{uDateTime}, #{StartDate}, #{EndDate}, DATE_ADD(NOW(), INTERVAL 3 MINUTE)
 	    )
 	</insert>
@@ -172,4 +171,16 @@
 		AUTHYN = 'Y'
 		WHERE USERID = #{userId}
 	</update>
+	<!-- 회원탈퇴 취소 -->
+	<update id="updateUserDeleteCancle" parameterType="hashmap">
+        UPDATE ECO_USER
+    SET
+        DELETE_DATE = null,
+        USERTYPE = 'U'
+    WHERE USERID = #{userId}
+	</update>
+	<delete id="deleteUserDeleteCancle" parameterType="hashmap">
+		DELETE FROM ECO_USER_DELETE
+		WHERE USERID = #{userId}
+	</delete>
 </mapper>

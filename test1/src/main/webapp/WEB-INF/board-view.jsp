@@ -4,40 +4,58 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="../css/team_project_style.css">
+<link rel="stylesheet" href="../css/bootstrap-min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Gaegu&display=swap"
+	rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Cute+Font&family=Gaegu&family=IBM+Plex+Sans+KR&family=Orbit&family=Sunflower:wght@300&display=swap"
+	rel="stylesheet">
 <script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <title>첫번째 페이지</title>
 </head>
 <style>
-body {
-	font-family: Arial, sans-serif;
+div#app {
+	text-align: center;
+}
+
+body, button {
+	font-family: "Gaegu", sans-serif;
 }
 
 table {
-	margin: 10px;
 	border-collapse: collapse;
-	width: 100%;
+	width: 80%;
+	margin: 10px auto;
 }
 
 th, td {
-	border: 1px solid #ddd;
+	border-top: none;
+	border-bottom: 1px solid #ddd;
+	border-right: none;
 	padding: 8px;
 	text-align: center;
 	font-size: 14px;
-	font-family: Arial, sans-serif;
-}
-
-th {
-	background-color: #f2f2f2;
+	font-family: "Orbit", sans-serif;
+	font-weight: 400;
+	cursor: default;
 }
 
 tr:hover {
 	background-color: #f5f5f5;
 }
 
+tr {
+	border: top 1px solid black;
+	border-bottom: 1px solid black;
+}
+
 button {
-	margin-top: 10px;
 	padding: 10px 20px;
 	font-size: 16px;
 	cursor: pointer;
@@ -46,82 +64,103 @@ button {
 	border: none;
 	border-radius: 4px;
 	transition: background-color 0.3s;
-	font-family: Arial, sans-serif;
 }
 
 button:hover {
 	background-color: #45a049;
 }
+
+li {
+	display: inline-block;
+}
+
+td {
+	height: 70px;
+}
+
+a {
+	text-decoration: none;
+}
 </style>
 <body>
+	<%@ include file="layout/header.jsp"%>
 	<div id="app">
-		<table>
+		<table style="width: 60%;">
 			<tr>
 				<th width="20%">제목</th>
-				<td width="80%">{{info.title}}</td> 
+				<td width="80%">{{info.title}}</td>
 			</tr>
 			<tr>
 				<th>작성자</th>
 				<td>{{info.nickName}}</td>
 			</tr>
 			<tr>
-				<th>내용</th> 
+				<th>작성날짜</th>
+				<td>{{info.cDateTime}}</td>
+			</tr>
+			<tr>
+				<th>수정날짜</th>
+				<td>{{info.uDateTime}}</td>
+			</tr>
+			<tr>
+				<th>조회수</th>
+				<td>{{info.hits}}</td>
+			</tr>
+			<tr>
+				<th>내용</th>
 				<td>
 					<template v-if="kind == '2'">
-						<template  v-for="item in fileList">
+						<template v-for="item in fileList">
 							<template v-if="item.kind == 2">
-					    		<img :src="item.path" alt="" width="150px">
+								<img :src="item.path" alt="">
 							</template>
 						</template>
-					</template>
-					<span v-html="info.contents">
-						{{info.contents}}
-					</span>
+					</template> <span v-html="info.contents"> {{info.contents}} </span>
 				</td>
 			</tr>
-			
 		</table>
-		<div v-if="info.userId == userId || userType == 'A'">
+		<div class="buttons" style="text-align: center; margin: 30px;"
+			v-if="info.userId == userId || userType == 'A'">
 			<button @click="fnDelete">삭제</button>
 			<button @click="fnEdit">수정</button>
-		</div> 
-		<div>
-			<!-- <button @click="fnDelete">삭제</button> -->
 			<button @click="fnList">목록으로 가기</button>
-			
 		</div>
+
 	</div>
+	<%@ include file="layout/footer.jsp"%>
 </body>
 </html>
 <script type="text/javascript">
-var app = new Vue({ 
-    el: '#app',
-    data: {
-    	boardNo : "${map.boardNo}",
-    	info : {},
-    	userId : "${userId}",
-    	kind: "${map.kind}",
-    	userType : "${userType}",
-    	fileList : []
-    }   
-    , methods: {
-    	fnView : function(){
-            var self = this;
-            var nparmap = {boardNo : self.boardNo};
-            $.ajax({
-                url:"boardView.dox",
-                dataType:"json",	
-                type : "POST", 
-                data : nparmap,
-                success : function(data) { 
-                	console.log(data);
-                	self.info = data.info;
-                	// 3. self.fileList에 data에 있는 fileList를 넣기
-                	self.fileList = data.fileList;
-	                }
-	            }); 
-    	    },
-			fnDelete : function(){
+	var app = new Vue({
+		el : '#app',
+		data : {
+			boardNo : "${map.boardNo}",
+			info : {},
+			userId : "${userId}",
+			kind : "${map.kind}",
+			userType : "${userType}",
+			fileList : []
+		},
+		methods : {
+			fnView : function() {
+				var self = this;
+				var nparmap = {
+					boardNo : self.boardNo
+				};
+				$.ajax({
+					url : "boardView.dox",
+					dataType : "json",
+					type : "POST",
+					data : nparmap,
+					success : function(data) {
+						console.log(data);
+						self.info = data.info;
+						// 3. self.fileList에 data에 있는 fileList를 넣기
+						self.fileList = data.fileList;
+					}
+				});
+			},
+			fnDelete : function() {
 				var self = this;
 				if (!confirm("삭제하실")) {
 					return;
@@ -146,35 +185,40 @@ var app = new Vue({
 					}
 				});
 			},
-			fnList : function(){
+			fnList : function() {
 				var self = this;
-				$.pageChange("/boardList.do", { kind : self.kind });
+				$.pageChange("/boardList.do", {
+					kind : self.kind
+				});
 			},
-			fnEdit : function(){
+			fnEdit : function() {
 				var self = this;
-				$.pageChange("/boardEdit.do", { boardNo : self.boardNo, kind : self.kind });
+				$.pageChange("/boardEdit.do", {
+					boardNo : self.boardNo,
+					kind : self.kind
+				});
 			}
-           /*  fnFileList: function() {
-            	var self = this;
-            	var nparmap = {
-            			kind: self.kind
-                    };
-                    $.ajax({
-                        url: "boardFile.dox",
-                        dataType: "json",
-                        type: "POST",
-                        data: nparmap,
-                        success: function(data) {
-                        	console.log(data);
-                        	self.fileList= data.boardFile;
-                        }
-                    });
-            }, */
-        },
+		/*  fnFileList: function() {
+		 	var self = this;
+		 	var nparmap = {
+		 			kind: self.kind
+		         };
+		         $.ajax({
+		             url: "boardFile.dox",
+		             dataType: "json",
+		             type: "POST",
+		             data: nparmap,
+		             success: function(data) {
+		             	console.log(data);
+		             	self.fileList= data.boardFile;
+		             }
+		         });
+		 }, */
+		},
 		created : function() {
 			var self = this;
 			self.fnView();
-		//	self.fnFileList();
+			//	self.fnFileList();
 		}
-	});	
+	});
 </script>

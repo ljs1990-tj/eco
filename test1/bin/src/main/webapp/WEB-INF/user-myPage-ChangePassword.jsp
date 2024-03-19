@@ -27,10 +27,11 @@
 			</div>
 			<div>
 				<button @click="changePassword"  style="padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer;">변경하기</button>
-				<button @click="closePopup" style="padding: 10px 20px; background-color: #ccc; color: #fff; border: none; border-radius: 4px; cursor: pointer;">창 닫기</button>
 			</div>
 		</div>
-	
+		<div>
+			<button @click="closePopup" style="padding: 10px 20px; background-color: #ccc; color: #fff; border: none; border-radius: 4px; cursor: pointer;">창 닫기</button>
+		</div>
 	</div>
 </body>
 <script type="text/javascript">

@@ -138,10 +138,6 @@
         cursor: pointer;
     }
     
-    .dropdown-container button{
-    	
-    }
-    
     .button-selected {
 	    background-color: #4CAF50; /* 선택된 버튼의 배경색 */
 	    color: white; /* 선택된 버튼의 글자색 */
@@ -190,6 +186,8 @@
               배너 이미지 영역
               <img src="/img/vegetable.jpg" alt="상단 배너 이미지">
             </div> -->
+            
+			{{userId}}, {{userType}}
 			<div class="searchArea">
 				<input type="text" placeholder="검색어를 입력해주세요" v-model="keyword" @keyup.enter="fnList(code)">
 				<img class="search" src="/img/search.jpeg" @click="fnList(code)" style="width: 35px; height: 35px;">
@@ -218,16 +216,16 @@
 
             <div class="product-list">
 		   		<div class="product-item" v-for="item in list" :key="item.id">
-			    	<template  v-for="item2 in filelist" v-if="item.itemNo == item2.itemNo">
+			    	<template  v-for="item2 in fileList" v-if="item.itemNo == item2.itemNo">
 						<img :src="item2.filePath+item2.fileName" alt="" @click="fnDetailView(item.itemNo, userId)">
 				    </template>
 		      	
 			      	<div class="product-info" @click="fnDetailView(item.itemNo)">
 			        	<div class="product-name">{{item.itemName}}</div>
 			        	<div class="product-price">
-			        		<del>₩{{item.price.toLocaleString('ko-KR')}}</del>
-			        		<br>할인가₩{{DiscountPrice(item.price, item.sRate)}}
-			        		<br>할인율{{item.sRate}}%
+			        		<del>₩{{item.price}}</del>
+			        		<br>할인가₩{{(item.price)*((100-item.sRate)/100)}}
+			        		<br> 할인율{{item.sRate}}%
 			        	</div>
 			      	</div>
 			      	
@@ -250,7 +248,7 @@ var app = new Vue({
     el: '#app',
     data: {
     	list : [],
-    	filelist : [],
+    	fileList : [],
     	userId : "${userId}",
 		userType : "${userType}",
     	code : "${map.code}",
@@ -276,13 +274,13 @@ var app = new Vue({
             	order : self.order
             };
             $.ajax({
-                url:"cordList.dox",
+                url:"codeList.dox",
                 dataType:"json",
                 type: "POST",
                 data: nparmap,
                 success: function(data) {
                 	self.list = data.list;
-                	self.filelist = data.filelist;
+                	self.fileList = data.fileList;
      				
                 }
             });
@@ -369,11 +367,6 @@ var app = new Vue({
                     break;
             }
             self.fnList(self.code);
-        },
-        /* kr통화 표시 */
-        DiscountPrice: function(price, sRate) {
-            const disPrice = price * ((100 - sRate) / 100);
-            return disPrice.toLocaleString('ko-KR');
         }
     }
     , created: function() {

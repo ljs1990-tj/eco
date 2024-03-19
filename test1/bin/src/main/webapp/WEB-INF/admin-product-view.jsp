@@ -6,7 +6,6 @@
 	<meta charset="UTF-8">
 	<script src="js/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	
 	<title>상품 상세 페이지</title>
 </head>
 <style>
@@ -107,11 +106,6 @@
 		        <template v-for="item in fileList">
 			        <img :src="item.filePath+item.fileName" alt="GAP 천혜향 주요 이미지">
 		            </template>
-		            <div>
-		            <template v-for="item in detailFileList">
-			        <img :src="item.filePath+item.fileName" alt="GAP 천혜향 주요 이미지">
-		            </template>
-		        </div>
 		        </div>
 		    </div>
 		    
@@ -153,8 +147,7 @@ var app = new Vue({
     data: {
     	itemNo: "${map.itemNo}",
     	info: {},
-    	fileList :[],
-    	detailFileList :[]
+    	fileList :[]
     }
     , methods: {
     	fnView: function() {
@@ -171,16 +164,10 @@ var app = new Vue({
                 	console.log(data.filelist);
                 	self.info = data.item;
                 	var ContentsCnt = 0;
-                	var DetailCnt = 0;
                 	for(var i =0 ; i<data.filelist.length ; i++){
                 		if(data.filelist[i].kind == "2"){
                 			self.fileList[ContentsCnt] = data.filelist[i];
                 			ContentsCnt++;
-                		}
-                	
-                		if(data.filelist[i].kind == "3"){
-                			self.detailFileList[DetailCnt] = data.filelist[i];
-                			DetailCnt++;
                 		}
                 	}
                 	

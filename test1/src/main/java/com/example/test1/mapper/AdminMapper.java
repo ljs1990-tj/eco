@@ -23,6 +23,8 @@ public interface AdminMapper {
 	void insertProductFile(HashMap<String, Object> map);
 
 	void insertProductContentsFile(HashMap<String, Object> map);
+	
+	void insertProductDetailFile(HashMap<String, Object> map);
 
 	List<ProductFile> selectProductFileList(HashMap<String, Object> map);
 
@@ -43,4 +45,6 @@ public interface AdminMapper {
 	void updateUserLoginCntZero(HashMap<String, Object> map);
 
 	int selectUserListCnt(HashMap<String, Object> map);
+	
+	List<User> selectUserListALL(HashMap<String, Object> map);
 }

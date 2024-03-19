@@ -82,8 +82,6 @@ public class AdminServiceinpl implements AdminService {
 		try {
 
 			adminMapper.updateProduct(map);
-			
-			
 			resultMap.put("result", "success");
 
 		} catch (Exception e) {
@@ -128,6 +126,21 @@ public class AdminServiceinpl implements AdminService {
 		return resultMap;
 
 	}
+	
+	@Override
+	public HashMap<String, Object> addProductDetailFile(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			adminMapper.insertProductDetailFile(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
 
 	@Override
 	public HashMap<String, Object> removefile(HashMap<String, Object> map) {
@@ -168,9 +181,11 @@ public class AdminServiceinpl implements AdminService {
 		try {
 			List<User> userList = adminMapper.selectUserList(map);
 			int cnt = adminMapper.selectUserListCnt(map);
+			
 			resultMap.put("userList", userList);
 			resultMap.put("cnt", cnt);
 			resultMap.put("result", "success");
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
@@ -186,8 +201,13 @@ public class AdminServiceinpl implements AdminService {
 		
 		try {
 			User userInfo = adminMapper.selectAdminUserInfo(map);
-			resultMap.put("userInfo", userInfo);
-			resultMap.put("result", "success");
+			if(userInfo == null) {
+				resultMap.put("result", "fail");
+			}else {
+				resultMap.put("userInfo", userInfo);
+				resultMap.put("result", "success");
+			}
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
@@ -226,5 +246,25 @@ public class AdminServiceinpl implements AdminService {
 		}
 		return resultMap;
 	}
+
+	@Override
+	public HashMap<String, Object> searchUserListAll(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			List<User> userListAll = adminMapper.selectUserListALL(map);
+			resultMap.put("userListAll", userListAll);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+			
+		}
+		
+		return resultMap;
+	}
+
+	
 
 }
