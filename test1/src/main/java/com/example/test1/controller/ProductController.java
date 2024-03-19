@@ -101,10 +101,10 @@ public class ProductController {
 	}
 		
 
-	// code 분류에 따른 제품 리스트
-	@RequestMapping(value = "/codeList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	// cord 분류에 따른 제품 리스트
+	@RequestMapping(value = "/cordList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String codeList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+	public String cordList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = productService.searchCodeList(map);
 		return new Gson().toJson(resultMap);
@@ -161,15 +161,6 @@ public class ProductController {
 	public String addAnswer(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = productService.addAdminComment(map);
-		return new Gson().toJson(resultMap);
-	}
-	
-	// 메인 페이지에 쓰일 순서에 따른 제품 리스트
-	@RequestMapping(value = "/productListOrderBy.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public String productListOrderBy(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap = productService.searchListForMain(map);
 		return new Gson().toJson(resultMap);
 	}
 }

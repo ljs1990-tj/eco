@@ -186,8 +186,6 @@
               배너 이미지 영역
               <img src="/img/vegetable.jpg" alt="상단 배너 이미지">
             </div> -->
-            
-			{{userId}}, {{userType}}
 			<div class="searchArea">
 				<input type="text" placeholder="검색어를 입력해주세요" v-model="keyword" @keyup.enter="fnList(code)">
 				<img class="search" src="/img/search.jpeg" @click="fnList(code)" style="width: 35px; height: 35px;">
@@ -213,20 +211,21 @@
 
             <div class="product-list">
 		   		<div class="product-item" v-for="item in list" :key="item.id">
-			    	<template v-for="item2 in fileList" v-if="item.itemNo == item2.itemNo">
+			    	<template  v-for="item2 in filelist" v-if="item.itemNo == item2.itemNo">
 						<img :src="item2.filePath+item2.fileName" alt="" @click="fnDetailView(item.itemNo, userId)">
-				    	
-				      	<button type="button" href="javascript:;" @click="fnAddCart(item.itemNo, userId)">장바구니에 담기</button>
-				      	
-				      	<div class="product-info" @click="fnDetailView(item.itemNo)">
-				        	<div class="product-name">{{item.itemName}}</div>
-				        	<div class="product-price">
-				        		<del>₩{{item.price}}</del>
-				        		<br>할인가₩{{(item.price)*((100-item.sRate)/100)}}
-				        		<br> 할인율{{item.sRate}}%
-				        	</div>
-				      	</div>
 				    </template>
+			    	
+			    	<!-- <i class="bi bi-cart3" type="button" href="javascript:;" @click="fnAddCart(item.itemNo, userId)"></i> -->
+			      	<button type="button" href="javascript:;" @click="fnAddCart(item.itemNo, userId)">장바구니에 담기</button>
+			      	
+			      	<div class="product-info" @click="fnDetailView(item.itemNo)">
+			        	<div class="product-name">{{item.itemName}}</div>
+			        	<div class="product-price">
+			        		<del>₩{{item.price.toLocaleString('ko-KR')}}</del>
+			        		<br> 할인가₩{{DiscountPrice(item.price, item.sRate)}}
+			        		<br> 할인율{{item.sRate}}%
+			        	</div>
+			      	</div>
 			    </div>
 			</div> 
 		</div>
@@ -240,7 +239,7 @@ var app = new Vue({
     el: '#app',
     data: {
     	list : [],
-    	fileList : [],
+    	filelist : [],
     	userId : "${userId}",
 		userType : "${userType}",
     	code : "${map.code}",
@@ -266,14 +265,13 @@ var app = new Vue({
             	order : self.order
             };
             $.ajax({
-                url:"codeList.dox",
+                url:"cordList.dox",
                 dataType:"json",
                 type: "POST",
                 data: nparmap,
                 success: function(data) {
-                	console.log(data);
                 	self.list = data.list;
-                	self.fileList = data.fileList;
+                	self.filelist = data.filelist;		
                 }
             });
         },
@@ -332,7 +330,7 @@ var app = new Vue({
                 	if(data.result=="success"){
                 		alert("장바구니에 담았습니다.");
                 	}else{
-                		alert("예기치 못한 오류가 발생했습니다. 다시 시도해 주세요.");
+                		alert("예기지 못한 오류가 발생했습니다. 다시 시도해주세요");
                 	}
                 }
             });
@@ -359,6 +357,11 @@ var app = new Vue({
                     break;
             }
             self.fnList(self.code);
+        },
+        /* kr통화 표시 */
+        DiscountPrice: function(price, sRate) {
+            const disPrice = price * ((100 - sRate) / 100);
+            return disPrice.toLocaleString('ko-KR');
         }
        
         

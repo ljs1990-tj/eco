@@ -172,10 +172,12 @@ public class ProductServiceimpl implements ProductService {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
+			List<Product> listMain = productMapper.selectProductListMain(map);
 			List<Product> listLatest = productMapper.selectProductListLatest(map);
 			List<Product> listMax = productMapper.selectProductListMax(map);
 			List<Product> listMost = productMapper.selectProductListMost(map);
 			List<ProductFile> fileList = productMapper.selectProductFileInfo(map);
+			resultMap.put("listMain", listMain);
 			resultMap.put("listLatest", listLatest);
 			resultMap.put("listMax", listMax);
 			resultMap.put("listMost", listMost);

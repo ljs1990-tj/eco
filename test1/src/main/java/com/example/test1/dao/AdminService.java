@@ -17,8 +17,6 @@ public interface AdminService {
 	HashMap<String, Object> addProductFile(HashMap<String, Object> map);// 상품 썸네일 이미지 추가
 
 	HashMap<String, Object> addProductContentsFile(HashMap<String, Object> map);// 상품 컨텐츠 이미지 추가
-	
-	HashMap<String, Object> addProductDetailFile(HashMap<String, Object> map);// 상품 컨텐츠 이미지 추가
 
 	HashMap<String, Object> removefile(HashMap<String, Object> map);// 파일 삭제
 
@@ -31,7 +29,5 @@ public interface AdminService {
 	HashMap<String, Object> updateUserType(HashMap<String, Object> map);
 
 	HashMap<String, Object> updateUserLoginCntZero(HashMap<String, Object> map);
-
-	HashMap<String, Object> searchUserListAll(HashMap<String, Object> map);
 
 }

@@ -6,8 +6,8 @@
 
 	<select id="selectBoardList" parameterType="hashmap"
 		resultType="com.example.test1.model.Board">
-		SELECT *
-		FROM ECO_BOARD
+		SELECT B.*, DATE_FORMAT(CDATETIME, '%Y년 %c월 %e일 %H시 %i분') AS CDATE
+		FROM ECO_BOARD B
 		WHERE KIND =#{kind}
 		<if test="keywordType == 'title'">
 			AND TITLE LIKE CONCAT('%',#{keyword},'%') <!-- '%#{keyword}'와 같은 뜻 -->
@@ -15,7 +15,7 @@
 		<if test="keywordType == 'user'">
 			AND USERID LIKE CONCAT('%',#{keyword},'%')
 		</if>
-		 ORDER BY UDATETIME DESC
+		 ORDER BY CDATETIME DESC
 		 LIMIT #{offset}, #{limit}
 	</select>
 	
@@ -24,8 +24,22 @@
 		SELECT
 			B.*, DATE_FORMAT(CDATETIME, '%Y년 %c월 %e일') AS CDATE
 		FROM ECO_BOARD B
-		WHERE KIND = 2;
-	</select>	
+		INNER JOIN ECO_BOARD_IMAGE I ON B.BOARDNO = I.BOARDNO
+		WHERE B.KIND = '2' AND I.KIND = '1'
+		ORDER BY HITS DESC
+		LIMIT 3
+	</select>
+	
+	<!-- 메인 페이지용 레시피 게시글 이미지 단순 셀렉트 -->
+	<select id="selectBoardFileList2" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
+		SELECT
+			I.*, CONCAT(FILEPATH, FILENAME) AS PATH, HITS
+		FROM ECO_BOARD_IMAGE I
+		INNER JOIN ECO_BOARD B ON I.BOARDNO = B.BOARDNO
+		WHERE B.KIND = '2' AND I.KIND = '1'
+		ORDER BY HITS DESC
+		LIMIT 3
+	</select>
 
 	<select id="selectBoardListCnt" parameterType="hashmap"
 		resultType="int"><!-- 페이징 -->
@@ -43,8 +57,9 @@
 
 	<select id="selectBoardInfo" parameterType="hashmap"
 		resultType="com.example.test1.model.Board">
-		SELECT * FROM ECO_BOARD B INNER JOIN ECO_USER U ON B.USERID
-		= U.USERID
+		SELECT *
+		FROM ECO_BOARD B
+		INNER JOIN ECO_USER U ON B.USERID = U.USERID
 		WHERE BOARDNO = #{boardNo}
 	</select>
 
@@ -54,9 +69,8 @@
 	<insert id="writeBoard" parameterType="hashmap"
 		useGeneratedKeys="true" keyProperty="BOARDNO" keyColumn="BOARDNO">
 		INSERT INTO
-		ECO_BOARD
-		VALUES(null, #{title}, #{contents}, #{userId}, 0, 'N', null,
-		#{kind}, 0, NOW(), NOW(), 2500)
+			ECO_BOARD
+		VALUES(null, #{title}, #{contents}, #{userId}, 0, 'N', null, #{kind}, 0, NOW(), NOW(), 2500)
 	</insert>
 
 
@@ -105,19 +119,15 @@
 		WHERE FILENO = #{fileNo}
 	</update>
 
-	<select id="selectBoardFileList" parameterType="hashmap"
-		resultType="com.example.test1.model.BoardFile">
-		SELECT B.*, CONCAT(FILEPATH, FILENAME) AS PATH
-		FROM
-		ECO_BOARD_IMAGE B
-
+	<select id="selectBoardFileList" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
+		SELECT
+			B.*, CONCAT(FILEPATH, FILENAME) AS PATH
+		FROM ECO_BOARD_IMAGE B
 	</select>
 
-
-	<select id="selectBoardContentsFileInfo" parameterType="hashmap"
-		resultType="com.example.test1.model.BoardFile">
-		SELECT B.*,
-		CONCAT(FILEPATH, FILENAME) AS PATH
+	<select id="selectBoardContentsFileInfo" parameterType="hashmap" resultType="com.example.test1.model.BoardFile">
+		SELECT
+			B.*, CONCAT(FILEPATH, FILENAME) AS PATH
 		FROM ECO_BOARD_IMAGE B
 		WHERE BOARDNO = #{boardNo}
 	</select>

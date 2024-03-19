@@ -22,9 +22,6 @@
 		WHERE 1=1
 		<if test="code !=''">
 			AND CODE = #{code}
-			<if test="code == 'All'">
-			OR CODE IN ('org','gluten','vegan','local')
-			</if>
 		</if>
 		<if test="keyword !=''">
 			AND ITEM_NAME LIKE '%' #{keyword} '%'
@@ -63,32 +60,12 @@
 		VALUES(NULL, #{itemNo}, #{path}, #{fileName},
 		#{orgName}, #{fileSize}, #{etc},1)
 	</insert>
-	<update id="updateProduct" parameterType="hashmap">
-		UPDATE ECO_PRODUCT
-		SET
-			ITEM_NAME = #{name},
-			PRICE = #{price},
-			S_RATE = #{Srate},
-			P_RATE = #{Prate},
-			CONTENTS = #{contents},
-			TRANS_INFO =#{trans},
-			SELLYN = #{sellYN},
-			UDATETIME = NOW(),
-			CNT = #{cnt},
-			CODE = #{code}
-		WHERE ITEM_NO = #{itemNo}
-	</update>
+
 	<insert id="insertProductContentsFile" parameterType="hashmap">
 		INSERT INTO
 		ECO_PRODUCT_IMAGE
 		VALUES(NULL, #{itemNo}, #{path}, #{fileName},
 		#{orgName}, #{fileSize}, #{etc},2)
-	</insert>
-	<insert id="insertProductDetailFile" parameterType="hashmap">
-		INSERT INTO
-		ECO_PRODUCT_IMAGE
-		VALUES(NULL, #{itemNo}, #{path}, #{fileName},
-		#{orgName}, #{fileSize}, #{etc},3)
 	</insert>
 
 	<delete id="fileDelete" parameterType="hashmap">
@@ -104,6 +81,7 @@
 		SELECT P.CODE, MONTH, VALUE*(PRICE*(100-S_RATE)/100) AS TOTALPAY
 		FROM ECO_PRODUCT P
 		INNER JOIN ECO_PRODUCT_CHART C ON P.ITEM_NO = C.ITEM_NO
+		WHERE P.CODE =#{code}
 		) AS subquery
 		GROUP BY CODE, MONTH
 		ORDER BY MONTH ASC;
@@ -128,9 +106,6 @@
 		U.USER_GRADE,
 		U.USERTYPE,
 		U.EMAIL,
-		U.TOTALPAY,
-		U.POINT,
-		
 		@row_number:=@row_number + 1 AS PAGE
 		FROM
 		(SELECT @row_number:=0) AS t,
@@ -147,14 +122,6 @@
 		WHERE
 		PAGE BETWEEN #{startNum} AND #{lastNum}
 	</select>
-	
-	<select id="selectUserListALL" parameterType="hashmap"
-		resultType="com.example.test1.model.User">
-		SELECT *
-		FROM ECO_USER
-		</select>
-	
-	
 	<select id="selectUserListCnt" parameterType="hashmap"
 		resultType="int">
 		SELECT COUNT(*)
@@ -189,8 +156,5 @@
 		UDATETIME = NOW()
 		WHERE USERID = #{userId}
 	</update>
-	
-	
-	
-	
+
 </mapper>
