@@ -25,6 +25,13 @@ public class CertifyController {
 	@Autowired
 	HttpSession session;
 
+	// 개인정보처리방침
+	@RequestMapping("/Privacy-Policy.do")
+	public String PrivacyPolicy(Model model) throws Exception {
+
+		return "/Privacy-Policy";
+	}
+
 	// 유저 정보
 	@RequestMapping("/user-myPage.do")
 	public String userMyPage(Model model) throws Exception {
