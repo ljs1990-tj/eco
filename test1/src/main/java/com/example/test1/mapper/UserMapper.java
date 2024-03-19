@@ -41,6 +41,8 @@ public interface UserMapper {
 	void updateLoginCnt2(HashMap<String, Object> map); // 로그인 성공 시 카운트 초기화
 	
 	int selectCartCnt(HashMap<String, Object> map); // 로그인 성공 시 카운트 초기화
+	int selectFavoriteCnt(HashMap<String, Object> map); // 로그인 성공 시 카운트 초기화
+	
 
 	void updateUserDeleteDate(HashMap<String, Object> map); //회원탈퇴로 인한 ECO_USER 회원정보수정
 	
