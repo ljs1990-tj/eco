@@ -78,7 +78,6 @@ button:hover {
 
 li {
 	display: inline-block;
-	
 }
 
 ul {
@@ -89,7 +88,6 @@ ul {
 	display: inline-block;
 	margin-right: 10px;
 	font-size: 30px;
-	
 }
 
 ul:hover {
@@ -118,6 +116,7 @@ a {
 	float: right;
 	margin-right: 190px;
 	font-size: 20px;
+	font-family: "Orbit", sans-serif;
 }
 
 .clear-both {
@@ -183,6 +182,14 @@ a {
 	font-weight: bold;
 	font-family: "Orbit", sans-serif;
 }
+
+.keyword {
+	font-family: "Orbit", sans-serif;
+}
+
+.horizontal-list {
+	cursor: default;
+}
 </style>
 </head>
 <body>
@@ -202,7 +209,8 @@ a {
 					<div class="item_icon">
 						<i class="fas fa-clipboard" style="font-size: 50px;"></i>
 					</div>
-					<p class="large_txt" style="font-family: 'Orbit', sans-serif;">일반 리뷰</p>
+					<p class="large_txt" style="font-family: 'Orbit', sans-serif;">일반
+						리뷰</p>
 					<div class="point_txt">
 						<span class="point">500P 적립</span>
 
@@ -212,7 +220,8 @@ a {
 					<div class="item_icon">
 						<i class="fas fa-camera-retro" style="font-size: 50px;"></i>
 					</div>
-					<p class="large_txt" style="font-family: 'Orbit', sans-serif;">포토 리뷰</p>
+					<p class="large_txt" style="font-family: 'Orbit', sans-serif;">포토
+						리뷰</p>
 					<div class="point_txt">
 						<span class="point">1000P 적립</span>
 
@@ -222,7 +231,8 @@ a {
 					<div class="item_icon">
 						<i class="fas fa-thumbs-up" style="font-size: 50px;"></i>
 					</div>
-					<p class="large_txt" style="font-family: 'Orbit', sans-serif;">베스트 리뷰어</p>
+					<p class="large_txt" style="font-family: 'Orbit', sans-serif;">베스트
+						리뷰어</p>
 					<div class="point_txt">
 						<span class="point">5000P 적립</span>
 
@@ -296,14 +306,15 @@ a {
 				</div> 
 			</div> -->
 		</div>
-		<div>
+		<div class="keyword">
 			<select v-model="keywordType">
 				<option value="title">제목</option>
 				<option value="user">작성자</option>
 			</select> 검색: <input type="text" v-model="keyword" @keyup.enter="fnList(kind)">
 			<button @click="fnList(kind)">검색</button>
-			<!-- <input style="margin-right: 1500px;" type="text" v-model="searchQuery" placeholder="검색어를 입력하세요"> -->
-			<!-- <button @click="search">검색</button> -->
+			<div
+				v-if="list.length === 0 && searchCnt > 0 && keyword.trim() !== ''"
+				style="color: red;">검색 결과가 없습니다.</div>
 		</div>
 
 
@@ -346,13 +357,19 @@ a {
 						</div>
 						<h5>
 							<a @click="fnView(item.boardNo, kind)" href="javascript:;"
-								style="font-size: 30px; color: #2C9D59;">
+								style="font-size: 35px; color: #2C9D59; font-family: 'Orbit', sans-serif;">
 								{{truncateText(item.title, 10)}}</a>
 						</h5>
 						<p>
 							<span v-html="truncateText(item.contents, 50)"
 								style="color: #02662A;"></span>
 						</p>
+						<div>
+							<i class="fa fa-user"></i> <a href="javascript:;"
+								@click="fnUser(item.userId)"
+								style="color: #2C9D59; font-size: 20px; font-weight: bold;">
+								{{item.userId}}</a>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -360,7 +377,7 @@ a {
 		<div v-if="userId != '' && userId != undefined">
 			<button class="write-button" @click="fnWrite"
 				v-if="userType == 'A' || kind != 1">글쓰기</button>
-				
+
 		</div>
 		<div class="pagination" style="display: inline-block;">
 			<template v-for="n in pageCount">
@@ -497,9 +514,7 @@ a {
                 var url = "/boardUser.do?userId=" + userId;
                 window.open(url, "_blank", "width=500,height=600");
             },
-            fnReview: function(){
-            	
-            },
+            
             
             truncateText(text, maxLength) {
                 if (text.length > maxLength) {
