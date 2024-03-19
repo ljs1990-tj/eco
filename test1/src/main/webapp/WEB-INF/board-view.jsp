@@ -123,7 +123,7 @@ a {
 			v-if="info.userId == userId || userType == 'A'">
 			<button @click="fnDelete">삭제</button>
 			<button @click="fnEdit">수정</button>
-			<button @click="fnList">목록으로 가기</button>
+			<button @click="fnList(kind)">목록으로 가기</button>
 		</div>
 
 	</div>
@@ -185,10 +185,9 @@ a {
 					}
 				});
 			},
-			fnList : function() {
-				var self = this;
+			fnList : function(kind) {
 				$.pageChange("/boardList.do", {
-					kind : self.kind
+					code : kind
 				});
 			},
 			fnEdit : function() {
