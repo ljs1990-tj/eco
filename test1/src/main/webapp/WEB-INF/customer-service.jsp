@@ -16,7 +16,7 @@
 		width: 75%;
 		max-width: 1200px;
 		height: 960px;
-		margin: 0 auto;
+		margin: 0 auto 20px;
 		padding: 20px;
 		background: #fff;
 		/* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
@@ -25,9 +25,10 @@
 	.menu-area {
 		width: 25%;
 		padding: 35px;
+		margin-right: 20px; 
 	}
 
-	.menu-area h2 {
+	.menu-area h3 {
 		font-size: 35px;
 		color: #505050;
 	}
@@ -37,6 +38,7 @@
 		padding: 10px; 
 		background: #ffffff; /* 배경색 */
 		border-left: 1px solid #ffffffa2; /* 구분선 */
+		margin-left: 20px;
 	}
 
 	.content-area p{
@@ -203,7 +205,7 @@
 	<div id="app">
 	    <div class="customer-container">
 	        <div class="menu-area">
-				<h2>고객센터</h2>
+				<h3>고객센터</h3>
 				<div class="menu-item" :class="{ 'menu-item-selected': selectedMenuItem === 'faq' }" @click="updateContent('faq')">자주하는 질문 <span class="align-right">></span></div>
 				<div class="menu-item" :class="{ 'menu-item-selected': selectedMenuItem === 'history' }" @click="updateContent('history')">문의 내역 <span class="align-right">></span></div>
 				<div class="menu-item" :class="{ 'menu-item-selected': selectedMenuItem === 'inquiry' }" @click="updateContent('inquiry')">1:1 문의하기 <span class="align-right">></span></div>				
@@ -418,6 +420,10 @@
 	                }
 	            });
 	        },
+	        /* 페이징 관리 */
+	        goToPage: function(page) {
+		        this.currentPage = page;
+		    },
 	        goToPage2: function(page) {
 	            this.currentPage2 = page;
 	            const startIndex = (page - 1) * this.itemsPerPage2;
