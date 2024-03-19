@@ -9,49 +9,95 @@
 	<title>비밀번호 찾기</title>
 </head>
 <style>
+	.find-something {
+		border: 1px solid #ddd;
+		background-color: white;
+		border-radius: 5px;
+		margin: 30px auto;
+		width: 300px;
+	}
+	.find-title {
+		text-align: center;
+		font-size: 15px;
+		font-weight: bold;
+		margin: 25px;
+	}
+	.find-btn {
+		background-color: rgb(137, 200, 57);
+		height: 25px;
+		color: white;
+		border-radius: 5px;
+		border: none;
+		cursor: pointer;
+		margin: 10px 0px 10px 0px;
+	}
+	.find-btn:hover {
+		background-color: rgb(107, 170, 27);
+	}
+	.find-input {
+		width: 120px;
+		height: 20px;
+		border: 2px solid #ddd;
+		border-radius: 5px;
+	}
+	.find-input:focus {
+		border-color: #777;
+	}
+	.close-btn {
+		background-color: red;
+		height: 25px;
+		color: white;
+		font-weight: bold;
+		border-radius: 5px;
+		border: none;
+		cursor: pointer;
+		float: right;
+		margin-top: 10px;
+	}
 </style>
 <body>
 	<div id="app">
-		<div>비밀번호 찾기</div>
-		<div>
-			<input type="text" v-model="inputId" :disabled="checkIdFlg" @keyup.enter="fnSearchId" placeholder="아이디를 입력해 주세요" maxlength="20" autofocus>
-			<button @click="fnSearchId" :disabled="checkIdFlg">확인</button>
-		</div>
-		<div v-if="checkIdFlg">
-			<input type="text" v-model="inputNumber" :disabled="inputFlg" @input="validateInput" @keydown.enter="fnSms" placeholder="폰번호 입력">
-			<button v-if="!phoneAuthFlg" @click="fnSms">인증번호 받기</button>
-			<button v-if="phoneAuthFlg" @click="fnRePhone">폰번호 다시 입력하기</button>
-			<!-- <input type="text" v-model="inputNumber" :disabled="checkArthFlg" placeholder="폰번호 입력"> -->
-			<!-- <button @click="fnSms">전송</button> -->
-		</div>
-		<div v-if="phoneAuthFlg">
-			<h3>인증번호</h3>
-			<input type="text" v-model="inputNumber1" placeholder="숫자 6자리 입력"
-				@input="validateInput1" @keydown.enter="fnAuth()">
-				<span>{{timer}}</span>
+		<fieldset class="find-something">
+			<div class="find-title">비밀번호 찾기</div>
 			<div>
-				<a href="javascript:;" @click="fnSms()">재전송</a>
+				<input type="text" class="find-input" v-model="inputId" :disabled="checkIdFlg" @keyup.enter="fnSearchId" placeholder="아이디를 입력해 주세요" maxlength="20" autofocus>
+				<button class="find-btn" @click="fnSearchId" :disabled="checkIdFlg">확인</button>
 			</div>
-			<!-- <button @click="fnClose">닫기</button> -->
-			<button @click="fnAuth">확인</button>
-		</div>
-		<div v-if="completeFlg">
-			<div>
-				<span>비밀번호: </span><input type="password" v-model="userPw" @keyup="fnCheck('pw1')" maxlength="16">
+			<div v-if="checkIdFlg">
+				<input type="text" class="find-input" v-model="inputNumber" :disabled="inputFlg" @input="validateInput" @keydown.enter="fnSms" placeholder="폰번호 입력">
+				<button class="find-btn" v-if="!phoneAuthFlg" @click="fnSms">인증번호 받기</button>
+				<button class="find-btn" v-if="phoneAuthFlg" @click="fnRePhone">폰번호 다시 입력하기</button>
+				<!-- <input type="text" v-model="inputNumber" :disabled="checkArthFlg" placeholder="폰번호 입력"> -->
+				<!-- <button @click="fnSms">전송</button> -->
 			</div>
-			<div v-if="userPw != ''">
-				<div v-if="!pwCheckFlg" style="color: red; font-weight: bold;">{{alertMessage}}</div>
+			<div v-if="phoneAuthFlg">
+				<h3>인증번호</h3>
+				<input type="text" class="find-input" v-model="inputNumber1" placeholder="숫자 6자리 입력" @input="validateInput1" @keydown.enter="fnAuth">
+					<span>{{timer}}</span>
+					<button class="find-btn" @click="fnSms">재전송</button>
+				<div>
+				<!-- <button @click="fnClose">닫기</button> -->
+				<button class="find-btn" @click="fnAuth">확인</button>
+				</div>
 			</div>
-			<div>----------</div>
-			<div>
-				<span>비밀번호 확인: </span><input type="password" v-model="userPw2" @keyup="fnCheck('pw2')" maxlength="16">
-			</div>
-               <div v-if="userPw2 != ''">
-                   <div v-if="!pwCheckFlg2" style="color: red; font-weight: bold;">{{alertMessage}}</div>
-               </div>
-               <button @click="fnFixPw">비밀번호 수정</button>
-		</div>		
-		<button v-if="!phoneAuthFlg" @click="fnClose">창 닫기</button>
+			<div v-if="completeFlg">
+				<div>
+					<input type="password" class="find-input" v-model="userPw" @keyup="fnCheck('pw1')" maxlength="16" placeholder="비밀번호 입력">
+				</div>
+				<div v-if="userPw != ''">
+					<div v-if="!pwCheckFlg" style="color: red; font-weight: bold;">{{alertMessage}}</div>
+				</div>
+				<div>----------</div>
+				<div>
+					<input type="password" class="find-input" v-model="userPw2" @keyup="fnCheck('pw2')" maxlength="16" placeholder="비밀번호 확인 입력">
+				</div>
+	               <div v-if="userPw2 != ''">
+	                   <div v-if="!pwCheckFlg2" style="color: red; font-weight: bold;">{{alertMessage}}</div>
+	               </div>
+	               <button class="find-btn" @click="fnFixPw">비밀번호 수정</button>
+			</div>		
+			<button class="close-btn" v-if="!phoneAuthFlg" @click="fnClose">창 닫기</button>
+		</fieldset>
 	</div>
 </body>
 </html>
