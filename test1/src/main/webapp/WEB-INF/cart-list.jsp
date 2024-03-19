@@ -226,7 +226,7 @@ var app = new Vue({
         	$.pageChange("/productList.do", {});
         	},
         fnHome: function() {
-        	location.href="header.do";
+        	location.href="main.do";
         	},
         fnKakaoPay: function() {
     	    location.href="KakaoPay.do";

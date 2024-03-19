@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.test1.dao.CartService;
 import com.example.test1.dao.ProductService;
 import com.google.gson.Gson;
 
@@ -20,6 +21,9 @@ public class ProductController {
 
 	@Autowired
 	ProductService productService;
+	
+	@Autowired
+	CartService cartService;
 	
 	// 상품 페이지
 	@RequestMapping("/productList.do")
@@ -138,7 +142,7 @@ public class ProductController {
 	@ResponseBody
 	public String addCart(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap = productService.addCart(map);
+		resultMap = cartService.addCartItem(map);
 		return new Gson().toJson(resultMap);
 	}
 	
