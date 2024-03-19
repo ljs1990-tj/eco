@@ -95,7 +95,7 @@
 	                <div class="col-lg-3">
 	                    <div class="header__cart">
 	                        <ul>
-	                            <li><a href="javascript:;" @click="fnFavorite"><i class="fa fa-heart"></i> <span>{{favoriteCnt}}</span></a></li>
+	                            <li><a href="javascript:;" @click="fnMoveFavorite"><i class="fa fa-heart"></i> <span>{{favoriteCnt}}</span></a></li>
 	                            <li><a href="javascript:;" @click="fnMoveCart"><i class="fa fa-shopping-bag"></i> <span>{{cartCnt}}</span></a></li>
 	                        	<li><a href="javascript:;" @click="fnUserPage" style="color: #2c9d59;"><i class="fa fa-user-circle-o"></i></a></li>
 	                       		<li v-if="userType == 'A'"><a href="/admin-main.do" ><i class="bi bi-gear-fill"></i></a></li>
@@ -153,6 +153,7 @@
 		                data: nparmap,
 		                success: function(data) {
 		                	if(data.result == 'fail') {
+		                		console.log(data);
 		                		self.email = data.user.email;
 		                		self.cartCnt = data.cartCnt;
 		                		self.favoriteCnt = data.favoriteCnt;
@@ -201,6 +202,9 @@
 			},
 			fnMoveCommunity: function(kind) {
 				$.pageChange("/boardList.do", {code: kind});
+			},
+			fnMoveFavorite: function() {
+				$.pageChange("/FavoriteList.do", {userId: this.userId});
 			},
 	    }
 	    , created: function() {
