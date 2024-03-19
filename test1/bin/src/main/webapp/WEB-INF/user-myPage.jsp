@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,6 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+<link rel="stylesheet" href="css/myPage.css">
 <title>마이 페이지</title>
 <style>
     * {
@@ -16,14 +18,19 @@
 </style>
 </head>
 <body style="background-color:white;">
+<!-- Header Section -->
+<%@ include file="layout/header.jsp" %>
 <div id="app">
     <!-- 전체구역 -->
-    <section style="display: flex;width: 1500px; height: 625px; border: 1px solid black; overflow: hidden; margin: 0 auto;">
+    <section class="section">
         <!-- 왼쪽 구역 -->
-        <div style="overflow: hidden; width: 600px; float: left; border: 1px solid black;">
-            <div style="width: 500px; border: 1px solid red; margin: 20px; ">
-                <div style="height: 500px; border: 1px solid blue; overflow-y: scroll; padding: 10px;">
-                    <ul style="list-style: none; padding-left: 0;">
+        <div class="info-Container">
+            <div class="info-User">
+            	<div class="info-User-title">
+	            	개인정보            	
+            	</div>
+                <div class="user-Area">
+                    <ul>
                         <li><span>아이디 : </span>{{user.userId}}</li>
                         <li><span>이름 : </span>{{user.name}}</li>
                         <li><span>닉네임 : </span>{{user.nickName}}</li>
@@ -33,43 +40,50 @@
                         <li><span>생년월일 : </span>{{user.birth}}</li>
                     </ul>
                 </div>
-                <div style="height: 40px; border: 1px solid black; padding: 10px; display: flex; justify-content: center; align-items: center;">
-                    <div style="margin-right: auto;">내등급 : <span>{{user.userGrade}}</span></div>
+                <div class="point-Area">
+					<div style="margin-right: auto;">내등급 : <span>{{user.userGrade}}</span></div>
                     <div style="margin-left: auto;">포인트 : <span>{{user.point}}</span></div>
                 </div>
-                <div style="height: 40px; border: 1px solid black; padding: 10px; display: flex; justify-content: center; align-items: center;">
-                    <div style="margin-right: auto;"><button @click="fnopenPopup()">등급혜택 자세히 보기</button></div>
+                <div class="check-Area">
+                   <div style="margin-right: auto;"><button @click="fnopenPopup()">등급혜택 자세히 보기</button></div>
                     <div style="margin-left: auto;"><button @click="fnUsermodify()" :disabled="isPopupOpen">정보수정</button></div>
                 </div>
             </div>
         </div>
         <!-- 오른쪽 구역 -->
-        <div style="width: 900px; overflow: hidden; float: left;">
-            <div style="width: 800px; border: 1px solid blue; margin: 20px;">
-                <div style="height: 200px; border: 1px solid red; overflow-y: scroll; padding: 10px;">
+        <div class="addr-Container">
+            <div class="addr-Area">
+	        	<div class="addr-Info-title">
+		            	배송지 정보            	
+	            </div>
+                <div class="addr-Info">
                     <div v-for="address in addrList">
-                        <div style="border: 1px solid #ccc; padding-left: 10px; padding-right:10px; padding-bottom: 10px; padding-top: 10px; margin: 0px auto;">
+                        <div class="addr-InfoStyle">
                             <div>
                                 <input type="radio" v-model="radio" :value="address.addrNo" :disabled="isPopupOpen">
                             </div>
 								<div style="font-weight: bold; display: flex; justify-content: space-between;">
 									<span>{{ address.name }}</span> 
-									<span>{{ address.addrName }}</span>
 								</div>
 								<!-- 기본 배송지인 경우에만 아래 내용을 표시 -->
-                            <div v-if="address.isDefault === 'Y'">기본 배송지</div>
+                            <div v-if="address.isDefault === 'Y'" style="font-weight: bold; display: flex; justify-content: space-between; color: blue;">
+							    <span style="margin-right: 10px;">기본 배송지</span>
+							    <span style="font-style:italic; color:black; text-align: right;">{{ address.addrName }}</span>
+							</div>
                             <div>
                                 <span>우편번호: </span> {{ address.zipCode }}
                             </div>
                             <div>
-                                <span>주소: </span>{{ address.addr }},{{ address.addrDetail }}
+                                <span>주소: </span>{{ address.addr }}, {{ address.addrDetail }}
                             </div>
                             <div>{{ address.phone }}</div>
-                            <div>{{ address.addrRequest}}</div>
+                            <div v-if="address.addrRequest">
+							    <span>특이사항 : </span> {{ address.addrRequest }}
+							</div>
                         </div>
                     </div>
                 </div>
-                <div style="height: 45px; border: 2px solid #ccc; padding: 10px; display: flex; justify-content: space-between;">
+                <div class="addr-addArea">
                     <div>
                         <button @click="addDefaultAddress()" :disabled="isPopupOpen">주소추가</button>
                     </div>
@@ -80,14 +94,14 @@
                     </div>
                 </div>
             </div>
-            <div style="width: 500px; border: 1px solid black; margin: 20px;">
-                <div style="height: 100px; border: 1px solid black; padding: 10px; display: flex; justify-content: center; align-items: center;">
+            <div class="recipe-Area">
+                <div class="recipe-AreaStyle">
                     <div style="margin-right: auto;">내가 쓴 레시피</div>
                     <div style="margin-left: auto;"><button :disabled="isPopupOpen">더보기?</button></div>
                 </div>
             </div>
-            <div style="width: 500px; border: 1px solid black; margin: 20px;">
-                <div style="height: 100px; border: 1px solid black; padding: 10px; display: flex; justify-content: center; align-items: center;">
+            <div class="order-Area">
+                <div class="order-AreaStyle">
                     <div style="margin-right: auto;">내주문 내역</div>
                     <div style="margin-left: auto;"><button :disabled="isPopupOpen">더보기?</button></div>
                 </div>
@@ -95,14 +109,15 @@
         </div>
     </section>
     <!-- 등급혜택 창열기 -->
-    <div v-if="isPopupOpen"
-         style=" position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px solid #ccc; background-color:black; padding: 20px; z-index: 9999; text-align: center; color: white;">
+    <div v-if="isPopupOpen" class="popUp">
         <h2>등급혜택 자세히 보기</h2>
         <!-- 등급혜택 창 내용 추가 -->
         <p>팝업 창에 표시할 내용을 여기에 작성하세요.</p>
         <button @click="fnclosePopup()">닫기</button>
     </div>
 </div>
+<!-- Footer Section -->
+<%@ include file="layout/footer.jsp" %>	
 </body>
 </html>
 <script type="text/javascript">
@@ -156,6 +171,8 @@
 			/* 주소목록 추가하기 */
 			addDefaultAddress : function() {
 				var self = this;
+				var leftPosition = (window.screen.width - 400) / 2; // 화면의 가로 중앙 위치
+		    	var topPosition = (window.screen.height - 400) / 2; // 화면의 세로 중앙 위치
 				if (self.user.userId == "") {
 					alert("로그인 후 입장 가능합니다.");
 					window.location.href = "/user-login.do";
@@ -168,7 +185,7 @@
 					return;
 				}
 				var popup = window.open('/user-myPage-addrAdd.do',
-						'Certification Popup', 'width=600,height=600');
+						'Certification Popup', 'width=800,height=800,left=' + leftPosition + ',top=' + topPosition);
 
 			},
 			/* 주소 목록 삭제하기 */
@@ -207,6 +224,8 @@
 			// 주소록값 수정하기
 			updateSelectedAddresses : function() {
 				var self = this;
+				var leftPosition = (window.screen.width - 400) / 2; // 화면의 가로 중앙 위치
+		    	var topPosition = (window.screen.height - 400) / 2; // 화면의 세로 중앙 위치
 				if (self.user.userId == "") {
 					alert("로그인 후 입장 가능합니다.");
 					window.location.href = "/user-login.do";
@@ -221,7 +240,7 @@
 				console.log(self.radio);
 				var popup = window.open('/user-myPage-addrUpdate.do?addrNo='
 						+ self.radio, 'addrUpdate Popup',
-						'width=900,height=900');
+						'width=800,height=800,left=' + leftPosition + ',top=' + topPosition);
 			},
 			/* 기본배송지 설정 */
 			fndefault: function() {
@@ -251,9 +270,9 @@
 			        	 if (data.result == "success") {
 	                            alert("기본배송지가 설정되었습니다.");
 	                            location.reload(true);
-	                        } else {
+	                     } else {
 	                            alert("다시 시도해주세요");
-	                        }
+	                       }
 			        },
 			        error: function(xhr, status, error) {
 	                    // 에러 발생 시 처리

@@ -302,7 +302,7 @@
                     <p v-html="info.contents">{{info.contents}}</p>
                     <del style="color: #ccc">{{info.price}}원</del>
                     <p>판매가 : {{(info.price)*((100-info.sRate)/100)}}원</p>
-                    <p style="color: #eb6f1c">{{info.sRate}}%</p>
+                    <p style="color: #eb6f1c">{{info.sRate}}% 할인</p>
                 </div>
                 <table>
                     <tr>
@@ -341,14 +341,9 @@
             
             <!-- 상품 상세 보기 영역 -->
             <div class="product-details">
-            
             	<template v-for="item in fileDetailList">
 					<img :src="item.filePath+item.fileName" alt="주요 이미지">
-				</template>
-				
-                <img src="/img/TestImg1.jpg" alt="상품 이미지">
-                <img src="/img/TestImg2.jpg" alt="상품 이미지">
-                <img src="/img/TestImg3.jpg" alt="상품 이미지">
+				</template>	
             </div>
         
             <!-- 리뷰 영역 -->
@@ -492,7 +487,7 @@ var app = new Vue({
                 	console.log(data.qa);
                 	
                 	self.info = data.info;
-                	self.fileList = data.filelist;
+                	self.fileList = data.fileList;
                 	self.fileDetailList = data.fileDetailList;
                 	self.review = data.review;
                 	self.qa = data.qa;

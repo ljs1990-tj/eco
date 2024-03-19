@@ -5,6 +5,13 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="../css/team_project_style.css">
+<link href="https://fonts.googleapis.com/css2?family=Gaegu&display=swap"
+	rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Cute+Font&family=Gaegu&family=IBM+Plex+Sans+KR&family=Orbit&family=Sunflower:wght@300&display=swap"
+	rel="stylesheet">
 <script src="js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <title>목록 페이지</title>
@@ -12,14 +19,21 @@
 button {
 	margin-top: 10px;
 	padding: 10px 20px;
-	font-size: 16px;
+	
 	cursor: pointer;
 	background-color: #4CAF50;
 	color: white;
 	border: none;
 	border-radius: 4px;
 	transition: background-color 0.3s;
-	font-family: Arial, sans-serif;
+}
+
+body {
+	font-family: "Gaegu", sans-serif;
+}
+
+li, ul {
+	font-size: 24px;
 }
 
 button:hover {
@@ -36,7 +50,7 @@ button:hover {
 			<li>폰번호: {{user.phone1}} - {{user.phone2}} - {{user.phone3}}</li>
 			<li v-for="item in list">작성한 글 내역 : {{item.title}}</li>
 		</ul>
-		<button @click="fnGetList">목록가기</button>
+		<!-- <button @click="fnGetList">목록가기</button> -->
 	</div>
 </body>
 </html>
@@ -49,7 +63,7 @@ button:hover {
 			list : []
 		},
 		methods : {
-			fnList : function(){
+			fnList : function() {
 				var self = this;
 				var nparmap = {
 					userId : self.userId
@@ -66,11 +80,11 @@ button:hover {
 					}
 				});
 			},
-			fnGetList : function(){
+			fnGetList : function() {
 				var self = this;
 				$.pageChange("/boardList.do", {});
-				}
-			
+			}
+
 		},
 		created : function() {
 			var self = this;

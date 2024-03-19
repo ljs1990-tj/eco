@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%@ include file="layout/header.jsp"%>
 <html>
 <head>
 	<meta charset="UTF-8">
@@ -117,7 +116,7 @@
 				 <div class="product" v-for="item in productlist">
 				 <template  v-for="item2 in filelist" v-if="item.itemNo == item2.itemNo">
 				 	<template id="item2.fileNo" @click="fnNext(item2.fileNo)">
-				    <img :src="item2.filePath+item2.fileName" alt="">
+				    <img :src="item2.filePath+item2.fileName" alt="" style="width: 300px;height: 300px"> 
 				    </template>
 				  </template>
 				    </template>
