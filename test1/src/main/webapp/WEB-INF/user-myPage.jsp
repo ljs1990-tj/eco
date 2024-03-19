@@ -35,7 +35,7 @@
                         <li><span>이름 : </span>{{user.name}}</li>
                         <li><span>닉네임 : </span>{{user.nickName}}</li>
                         <li><span>성별 : </span>{{user.gender}}</li>
-                        <li><span>핸드폰 번호 : </span>{{user.phone1}} - {{user.phone2}} - {{user.phone3}}</li>
+                        <li><span>핸드폰 번호 : </span>{{ user.phone1 + '-' + user.phone2 + '-' + user.phone3 }}</li>
                         <li><span>이메일 : </span>{{user.email}}</li>
                         <!-- 변경된 부분 -->
                         <li><span>생년월일 : </span>{{ user.birth | formatDate }}</li>
@@ -159,6 +159,8 @@
 			 /* 개인정보 수정으로 인한 비밀번호 입력 페이지 이동 */
             fnUsermodify: function() {
                 var self = this;
+                var leftPosition = (window.screen.width - 400) / 2; // 화면의 가로 중앙 위치
+		    	var topPosition = (window.screen.height - 400) / 2; // 화면의 세로 중앙 위치
                 // 세션 값이 없을 경우 로그인 페이지로 이동
                 if (!self.user.userId) {
                     alert("로그인 후 입장 가능합니다.");
@@ -167,7 +169,7 @@
                 }
                 //패스워드 확인하는 팝업창
                 var popup = window.open('user-myPage-Password.do',
-                    'Password Popup', 'width=500,height=500');
+                    'Password Popup', 'width=500,height=500,,left=' + leftPosition + ',top=' + topPosition);
             },
 			/* 주소목록 추가하기 */
 			addDefaultAddress : function() {

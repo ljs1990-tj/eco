@@ -48,8 +48,7 @@
 	<select id="selectUserPhone" parameterType="hashmap" resultType="com.example.test1.model.User">
 		SELECT USERID
 		FROM ECO_USER
-		WHERE
-		PHONE1 = #{phone1} AND PHONE2 = #{phone2} AND PHONE3 = #{phone3}
+		WHERE PHONE1 = #{phone1} AND PHONE2 = #{phone2} AND PHONE3 = #{phone3}
 		WHERE CONCAT(PHONE1, PHONE2, PHONE3) = #{phoneNumber}
 	</select>
 	
