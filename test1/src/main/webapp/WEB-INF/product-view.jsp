@@ -283,16 +283,15 @@
 <%@ include file="layout/header.jsp" %>
     <div id="app">
         <div class="product-detail-top-container">
-            <div class="product-image" >
+       		<div class="product-image" >
             	<!-- <template v-for="item in fileList">
 			    	<img :src="item.filePath+item.fileName" alt="이미지!">
 		        </template> -->
+		        <!-- <img v-if="fileList.length > 0" :src="fileList[ImageIndex].filePath + fileList[ImageIndex].fileName" alt="이미지!" @click=""> -->
 		        
-		        <img v-if="fileList.length > 0" :src="fileList[ImageIndex].filePath + fileList[ImageIndex].fileName" alt="이미지!" @click="">
-		        
-		        <div class="thumbnail-images">
+		        <!-- <div class="thumbnail-images">
 			        <img v-for="(item, index) in fileList" :src="item.filePath+item.fileName" :alt="'이미지 ' + index" @click="selectImg(index)">
-			    </div>	
+			    </div>	 -->
             </div>
 
             <div class="product-info">
@@ -300,8 +299,8 @@
                 <div>
                     <h1> {{info.itemName}}</h1>
                     <p v-html="info.contents">{{info.contents}}</p>
-                    <del style="color: #ccc">{{info.price}}원</del>
-                    <p>판매가 : {{(info.price)*((100-info.sRate)/100)}}원</p>
+                    <del style="color: #ccc">{{info.wonPrice}}원</del> 
+                    <p>판매가 : {{DiscountPrice(info.price, info.sRate)}}원</p>
                     <p style="color: #eb6f1c">{{info.sRate}}% 할인</p>
                 </div>
                 <table>
@@ -481,13 +480,9 @@ var app = new Vue({
                 type: "POST",
                 data: nparmap,
                 success: function(data) {
-                	console.log(self.itemNo);
-                	console.log(self.userId);
-                	console.log(data.review);
-                	console.log(data.qa);
-                	
                 	self.info = data.info;
-                	self.fileList = data.fileList;
+                	self.info.wonPrice = self.info.price.toLocaleString('ko-KR');
+                	self.fileList = data.filelist;
                 	self.fileDetailList = data.fileDetailList;
                 	self.review = data.review;
                 	self.qa = data.qa;
