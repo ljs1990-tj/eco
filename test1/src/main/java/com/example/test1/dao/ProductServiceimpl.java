@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.test1.mapper.CartMapper;
 import com.example.test1.mapper.CommentMapper;
 import com.example.test1.mapper.ProductMapper;
 import com.example.test1.model.Product;
@@ -24,6 +25,9 @@ public class ProductServiceimpl implements ProductService {
 
 	@Autowired
 	HttpSession session;
+	
+	@Autowired
+	CartMapper cartMapper;
 
 	// 제품 리스트
 	@Override
@@ -70,13 +74,13 @@ public class ProductServiceimpl implements ProductService {
 			List<ProductFile> fileDetailList = productMapper.selectProductDetailFileInfo(map);
 			List<Product> review = productMapper.selectReview(map); // 상품 리뷰 불러오기
 			List<Product> qa = productMapper.selectQa(map); //상품 문의 불러오기
-			
+			int FavoriteCheck =  cartMapper.selectFavoriteCheck(map);
 			resultMap.put("info", product);
 			resultMap.put("fileList", fileList);
 			resultMap.put("fileDetailList", fileDetailList);
 			resultMap.put("review", review);
 			resultMap.put("qa", qa);
-			
+			resultMap.put("FavoriteCheck",FavoriteCheck);
 			resultMap.put("result", "success");
 		} catch (Exception e) {
 			// TODO: handle exception
