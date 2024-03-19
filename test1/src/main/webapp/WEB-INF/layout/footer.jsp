@@ -18,10 +18,10 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="footer__about">
                         <div class="footer__about__logo">
-                            <a href="/customerService.do"><img src="img/logo.png" alt="">온라인 고객센터</a>
+                            <a href="/main.do"><img src="img/logo/mainLogo.png" alt="메인 로고" style="width: 150px;"></a>
                         </div>
                         <ul>
-                            <li>고객 전화 문의</li>
+                            <li style="font-weight: bold;">고객 전화 문의</li>
                             <li>1644-1107</li>
                             <li>월-금 오전 10시 - 오후 10시</li>
                         </ul>
@@ -32,13 +32,11 @@
                         <h6>이용약관   개인정보처리방침  이용안내</h6>
                         <ul>
                           <li><a href="javascript:;">회사정보</a></li>
-                          <li><a href="/customerService.do">고객지원</a></li>
                           <li><a href="javascript:;">사업자등록번호</a></li>
                       </ul>
                       <ul>
                           <li><a href="javascript:;">입점문의</a></li>
                           <li><a href="javascript:;">채용문의</a></li>
-                          <li><a href="javascript:;">개인 정보 정책</a></li>
                       </ul>
                     </div>
                 </div>
