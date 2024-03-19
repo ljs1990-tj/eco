@@ -21,4 +21,5 @@ public class Board {
 	private String userType; //user sql꺼
 	private String comment; // commnet sql꺼
 	private String uDate;
+	private String cDate; // 'xxxx년 x월 x일'로 나옴
 }

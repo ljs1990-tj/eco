@@ -29,5 +29,7 @@ public interface BoardService {
 	HashMap<String, Object> removeInquiry(HashMap<String, Object> map); // 등록한 문의 삭제
 
 	HashMap<String, Object> editInquiry(HashMap<String, Object> map); // 등록한 문의 수정
+	
+	HashMap<String, Object> searchBoardAndFileList(HashMap<String, Object> map); //게시글과 파일 목록
 
 }

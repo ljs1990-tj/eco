@@ -4,26 +4,33 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="../css/team_project_style.css">
-
-  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+<link rel="stylesheet" href="../css/bootstrap-min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Gaegu&display=swap"
+	rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Cute+Font&family=Gaegu&family=IBM+Plex+Sans+KR&family=Orbit&family=Sunflower:wght@300&display=swap"
+	rel="stylesheet">
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css"
+	rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 <script src="js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.3/vue.min.js"></script>
 <script src="https://unpkg.com/vue2-editor@2.3.11/dist/index.js"></script>
-<title>boardInsert 페이지</title>
-<style>
-body {
-	font-family: Arial, sans-serif;
-}
 
-table {
-	margin: 10px;
-	border-collapse: collapse;
-	width: 100%;
-}
+<title>boardInsert 페이지</title>
+
+<style>
+
+
 
 th, td {
 	border: 1px solid #ddd;
@@ -33,16 +40,14 @@ th, td {
 	font-family: Arial, sans-serif;
 }
 
-th {
-	background-color: #f2f2f2;
-}
+
 
 tr:hover {
 	background-color: #f5f5f5;
 }
 
 button {
-	margin-top: 10px;
+	margin: 100px;
 	padding: 10px 20px;
 	font-size: 16px;
 	cursor: pointer;
@@ -51,8 +56,9 @@ button {
 	border: none;
 	border-radius: 4px;
 	transition: background-color 0.3s;
-	font-family: Arial, sans-serif;
+		
 }
+
 
 button:hover {
 	background-color: #45a049;
@@ -61,32 +67,31 @@ button:hover {
 </head>
 
 <body>
+	<%@ include file="layout/header.jsp"%>
 	<div id="app">
-	
+
 		<tr>
 			<th>게시판 선택</th>
-			<td>
-				<select v-model="kind">
-					<option value="1" v-if="userType == 'A'">공지사항</option><!-- 어드민만 나오게 -->
-					<option value="2">레시피게시판</option><!-- 글쓰기 누르면 사진뜨게 -->
+			<td><select v-model="kind">
+					<option value="1" v-if="userType == 'A'">공지사항</option>
+					<option value="2">레시피게시판</option>
 					<option value="3">문의게시판</option>
-				</select>
-			</td>
+			</select></td>
 		</tr>
 		<div>
 			제목 : <input type="text" v-model="title">
 		</div>
 		<tr>
-			<td width="30%">메인 이미지 : </td>
-			<td width="70%">
-			<input type="file" id="file1" name="file1" accept=".jpg,.png,.gif"></td>
+			<td width="30%">메인 이미지 :</td>
+			<td width="70%"><input type="file" id="file1" name="file1"
+				accept=".jpg,.png,.gif"></td>
 		</tr>
 		<div>
-		<tr>
-			<td width="30%">설명에 들어갈 이미지 : </td>
-			<td width="70%">
-			<input type="file" id="file2" name="file2" accept=".jpg,.png,.gif" multiple></td>
-		</tr>
+			<tr>
+				<td width="30%">설명에 들어갈 이미지 :</td>
+				<td width="70%"><input type="file" id="file2" name="file2"
+					accept=".jpg,.png,.gif" multiple></td>
+			</tr>
 		</div>
 		<!-- <tr>
 			<th>파일 선택 :</th>
@@ -94,14 +99,14 @@ button:hover {
 		</tr> -->
 		<div>
 			내용 :
-			<!-- <textarea row="30" cols="60" v-model="contents"></textarea> 대신 vue-editor 코드 작성 가능-->
-			 <div id="editor" v-model="contents" style="height: 300px; "></div>
+			<div id="editor" v-model="contents" style="height: 300px;"></div>
 		</div>
+		<div class ="writeButton" style="text-align: center; margin: 20px;">
 		<button @click="fnWrite">작성완료</button>
-	<!-- 	<button @click="fnList">목록으로 가기</button> -->
-		<!-- {{userId}} -->
+		</div>
+		<!-- 	<button @click="fnList">목록으로 가기</button> -->
 	</div>
-	
+	<%@ include file="layout/footer.jsp"%>
 </body>
 </html>
 <script type="text/javascript">

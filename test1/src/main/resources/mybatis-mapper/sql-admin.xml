@@ -60,12 +60,32 @@
 		VALUES(NULL, #{itemNo}, #{path}, #{fileName},
 		#{orgName}, #{fileSize}, #{etc},1)
 	</insert>
-
+	<update id="updateProduct" parameterType="hashmap">
+		UPDATE ECO_PRODUCT
+		SET
+			ITEM_NAME = #{name},
+			PRICE = #{price},
+			S_RATE = #{Srate},
+			P_RATE = #{Prate},
+			CONTENTS = #{contents},
+			TRANS_INFO =#{trans},
+			SELLYN = #{sellYN},
+			UDATETIME = NOW(),
+			CNT = #{cnt},
+			CODE = #{code}
+		WHERE ITEM_NO = #{itemNo}
+	</update>
 	<insert id="insertProductContentsFile" parameterType="hashmap">
 		INSERT INTO
 		ECO_PRODUCT_IMAGE
 		VALUES(NULL, #{itemNo}, #{path}, #{fileName},
 		#{orgName}, #{fileSize}, #{etc},2)
+	</insert>
+	<insert id="insertProductDetailFile" parameterType="hashmap">
+		INSERT INTO
+		ECO_PRODUCT_IMAGE
+		VALUES(NULL, #{itemNo}, #{path}, #{fileName},
+		#{orgName}, #{fileSize}, #{etc},3)
 	</insert>
 
 	<delete id="fileDelete" parameterType="hashmap">

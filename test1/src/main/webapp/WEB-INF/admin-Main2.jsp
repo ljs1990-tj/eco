@@ -179,20 +179,26 @@
 									<i class="fas fa-chart-area"></i>
 								</div> 월 매출 차트
 							</a>
+							<div class="sb-sidenav-menu-heading">결제로그</div>
+							<a class="nav-link" href="tables.html">
+								<div class="sb-nav-link-icon">
+									<i class="bi bi-credit-card"></i>
+								</div> 결제로그
+							</a>
 						</div>
 					</div>
 					<div class="sb-sidenav-footer">
-						<div class="small">Logged in as:</div>
-						Start Bootstrap
+						<div class="small">현재 로그인된 아이디:</div>
+						{{userId}}
 					</div>
 				</nav>
 			</div>
 			<div id="layoutSidenav_content">
 				<main>
 					<div class="container-fluid px-4">
-						<h1 class="mt-4">관리자 페이지</h1>
+						<h1 class="mt-4">관리자 페이지 메인</h1>
 						<ol class="breadcrumb mb-4">
-							<li class="breadcrumb-item active">관리자 페이지</li>
+							<li class="breadcrumb-item active">A조 마켓 대시보드</li>
 						</ol>
 						<div class="row">
 							<div class="col-xl-3 col-md-6">
@@ -200,8 +206,8 @@
 									<div class="card-body">상품관리</div>
 									<div
 										class="card-footer d-flex align-items-center justify-content-between">
-										<a class="small text-white stretched-link" href="#">View
-											Details</a>
+										<a class="small text-white stretched-link" href="AdminProductList.do">자세히보기
+											</a>
 										<div class="small text-white">
 											<i class="fas fa-angle-right"></i>
 										</div>
@@ -213,8 +219,8 @@
 									<div class="card-body">유저관리</div>
 									<div
 										class="card-footer d-flex align-items-center justify-content-between">
-										<a class="small text-white stretched-link" href="#">View
-											Details</a>
+										<a class="small text-white stretched-link" href="AdminUserList.do">자세히보기
+											</a>
 										<div class="small text-white">
 											<i class="fas fa-angle-right"></i>
 										</div>
@@ -226,8 +232,8 @@
 									<div class="card-body">문의관리</div>
 									<div
 										class="card-footer d-flex align-items-center justify-content-between">
-										<a class="small text-white stretched-link" href="#">View
-											Details</a>
+										<a class="small text-white stretched-link" href="#">자세히보기
+											</a>
 										<div class="small text-white">
 											<i class="fas fa-angle-right"></i>
 										</div>
@@ -239,14 +245,15 @@
 									<div class="card-body">결제로그</div>
 									<div
 										class="card-footer d-flex align-items-center justify-content-between">
-										<a class="small text-white stretched-link" href="#">View
-											Details</a>
+										<a class="small text-white stretched-link" href="#">자세히보기
+											</a>
 										<div class="small text-white">
 											<i class="fas fa-angle-right"></i>
 										</div>
 									</div>
 								</div>
 							</div>
+							
 						</div>
 
 						<div class="row">
@@ -277,6 +284,7 @@
 											<th>생일</th>
 											<th>가입일</th>
 											<th>포인트</th>
+											<th>총 결제금액</th>
 											<th>휴대폰 번호</th>
 											<th>권한</th>
 											<th>유저등급</th>
@@ -293,6 +301,7 @@
 											<th>생일</th>
 											<th>가입일</th>
 											<th>포인트</th>
+											<th>총 결제금액</th>
 											<th>휴대폰 번호</th>
 											<th>권한</th>
 											<th>유저등급</th>
@@ -307,9 +316,13 @@
 											<td>{{item.nickName}}</td>
 											<td>{{item.birth}}</td>
 											<td>{{item.cDateTime}}</td>
-											<td>{{item.point}}</td>
+											<td>{{item.point.toLocaleString('ko-KR')}}포인트</td>
+											<td>{{item.totalPay.toLocaleString('ko-KR')}}원</td>
 											<td>{{item.phone1}} - {{item.phone2}} - {{item.phone3}}</td>
-											<td>{{item.userType}}</td>
+											<td v-if="item.userType == 'A'">어드민</td>
+											<td v-if="item.userType == 'U'">일반유저</td>
+											<td v-if="item.userType == 'F'">판매자</td>
+											<td v-if="item.userType == 'D'">삭제대기</td>
 											<td>{{item.userGrade}}</td>
 											<td>{{item.loginCnt}}</td>
 											
@@ -399,7 +412,14 @@
 			},
 			fnMoveUserDetail : function(){
 	        	var self = this;
-	        	$.pageChange("/adminUserDetail.do", { userId : self.keywordId});
+	        	var url = "adminUserDetail.do?userId="+self.keywordId;
+			    
+			    var width = 500;
+			    var height = 550;
+			    var left = (screen.width - width) / 2;
+			    var top = (screen.height - height) / 2;
+			    
+			    window.open(url, "", "width=" + width + ", height=" + height + ", left=" + left + ", top=" + top);
 	        },
 			fnList : function() {
 				var self = this;
@@ -491,7 +511,51 @@
 			},
 			handleFormSubmit : function(){
 				var self = this;
-	        	$.pageChange("/adminUserDetail.do", { userId : self.keywordId});
+				 // 팝업 창을 열고자 하는 페이지 URL
+			    var url = "adminUserDetail.do";
+
+			    // POST 방식으로 전송할 데이터
+			    var postData = {
+			        userId: self.keywordId,
+			        popupFlg : "yes"
+			    };
+
+			    // form 엘리먼트를 동적으로 생성
+			    var form = document.createElement("form");
+			    form.setAttribute("method", "post");
+			    form.setAttribute("action", url);
+			    form.setAttribute("target", "_blank"); // 새 창으로 열기
+
+			    // 데이터를 form에 추가
+			    for (var key in postData) {
+			        if (postData.hasOwnProperty(key)) {
+			            var hiddenField = document.createElement("input");
+			            hiddenField.setAttribute("type", "hidden");
+			            hiddenField.setAttribute("name", key);
+			            hiddenField.setAttribute("value", postData[key]);
+			            form.appendChild(hiddenField);
+			        }
+			    }
+
+			    // body에 form 추가하고 submit
+			    document.body.appendChild(form);
+			    
+			    // 팝업 창 크기 설정
+			    var width = 500;
+			    var height = 600;
+			    var left = (screen.width - width) / 2;
+			    var top = (screen.height - height) / 2;
+			    var options = "width=" + width + ", height=" + height + ", left=" + left + ", top=" + top;
+			    // 새로운 창에 대한 참조 저장
+			    var popupWindow = window.open("", "popup", options);
+			    
+			    // form을 제출하면서 팝업 창에 대한 참조를 반환하도록 수정
+			    form.target = "popup";
+			    form.submit();
+			    
+			   
+			    // form 제거
+			    document.body.removeChild(form);
 			},
 			
 			fnMoveAdminPage : function() {

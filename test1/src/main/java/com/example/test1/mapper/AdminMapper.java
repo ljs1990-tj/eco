@@ -23,6 +23,8 @@ public interface AdminMapper {
 	void insertProductFile(HashMap<String, Object> map);
 
 	void insertProductContentsFile(HashMap<String, Object> map);
+	
+	void insertProductDetailFile(HashMap<String, Object> map);
 
 	List<ProductFile> selectProductFileList(HashMap<String, Object> map);
 

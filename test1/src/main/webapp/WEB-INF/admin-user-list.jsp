@@ -27,7 +27,7 @@ table {
         }
 
         th {
-            background-color: #4285f4;
+            background-color: rgb(247,187,7);
             color: #fff;
             text-align: center;
         }
@@ -59,6 +59,8 @@ table {
                 <th>로그인 실패</th>
                 <th>유저 등급</th>
                 <th>유저 타입</th>
+                <th>총 결제금액</th>
+                <th>포인트</th>
                 <th>상세보기</th>
 			</tr>
 			<tr v-if="list.length ==0">
@@ -75,6 +77,8 @@ table {
 			<td>{{item.loginCnt}}</td>
 			<td>{{item.userGrade}}</td>
 			<td>{{item.userType}}</td>
+			<td>{{item.totalPay.toLocaleString('ko-KR')}}원</td>
+			<td>{{item.point.toLocaleString('ko-KR')}}포인트</td>
 			<td><button @click="fnMoveUserDetail(item.userId)">상세보기</button></td>
 		</tr>
 		
@@ -213,7 +217,7 @@ var app = new Vue({
     	},
         fnMoveUserDetail : function(userId){
         	
-        	$.pageChange("/adminUserDetail.do", { userId : userId });
+        	$.pageChange("/adminUserDetail.do", { userId : userId , popupFlg : "no"});
         },
         fnMoveAdminPage : function(){location.href="/admin-main.do"}
         
