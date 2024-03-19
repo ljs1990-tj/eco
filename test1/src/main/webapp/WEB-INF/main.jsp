@@ -119,7 +119,7 @@
 	                </div>
 	            </div>
 	            <div class="row featured__filter">
-    		        <template v-for="(item, index) in list" v-if="index < 8">
+    		        <template v-for="(item, index) in list">
 		            	<template v-for="item2 in fileList" v-if="item.itemNo == item2.itemNo">
 			                <div :class="'col-lg-3 col-md-4 col-sm-6 mix ' + item.code">
 			                    <div class="featured__item">
@@ -356,11 +356,11 @@
 	    	listMost: [],
 	    	listR: [], 		// 레시피용
 	    	fileListR: [], 	// 레시피용
-			code: "",
-	    	keyword : "",
+			//code: "",
+	    	//keyword : "",
 		},
 		methods : {
-			fnList : function(code) {
+			/* fnList : function(code) {
 				var self = this;
 				var nparmap = {
 					code: code,
@@ -376,7 +376,7 @@
 	                	self.fileList = data.fileList;
 					}
 				});
-			},
+			}, */
 			fnListOrderBy: function() {
 				var self = this;
 				var nparmap = {
@@ -387,9 +387,11 @@
 					type : "POST",
 					data : nparmap,
 					success : function(data) {
-	                	self.listLatest = data.listLatest; // 최근 등록순
-	                	self.listMax = data.listMax; // 최다 판매순
-	                	self.listMost = data.listMost; // 최다 리뷰순
+						console.log(data);
+						self.list = data.listMain; // 이달의 제품 섹터
+	                	self.listLatest = data.listLatest; // 최근 등록 섹터
+	                	self.listMax = data.listMax; // 최다 판매 섹터
+	                	self.listMost = data.listMost; // 최다 리뷰 섹터
 	                	self.fileList = data.fileList; 
 					}
 				});
@@ -464,7 +466,7 @@
 		},
 		created : function() {
 			var self = this;
-			self.fnList(self.code);
+			//self.fnList(self.code);
 			self.fnListOrderBy();
 			self.fnListRecipe();
 		}
