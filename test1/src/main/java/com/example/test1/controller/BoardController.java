@@ -54,7 +54,12 @@ public class BoardController {
 	@ResponseBody
 	public String boardList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		String offset = (String) map.get("offset");
+		String limit = (String) map.get("limit");
+		map.put("offset", Integer.parseInt(offset));
+		map.put("limit", Integer.parseInt(limit));
 		resultMap = boardService.searchBoardList(map);
+		
 		return new Gson().toJson(resultMap);
 	}
 	
@@ -322,6 +327,17 @@ public class BoardController {
 		resultMap = boardService.searchBoardFileList(map); 
 		return new Gson().toJson(resultMap);
 	}
+	
+	// 메인 페이지용 레시피 게시글 출력
+	@RequestMapping(value = "/boardAndFileList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String boardAndFileList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = boardService.searchBoardAndFileList(map); 
+		return new Gson().toJson(resultMap);
+	}
+	
+	// ---------------------------------------------------------
 	
 	//고객 문의 등록
 	@RequestMapping(value = "/customerInquiry.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")

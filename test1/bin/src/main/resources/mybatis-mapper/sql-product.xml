@@ -17,7 +17,7 @@
 	
 	<select id="selectCodeList" parameterType="hashmap" resultType="com.example.test1.model.Product">
 		SELECT 
-			*
+			*,
 			<if test="type == 'CDATE' and order == 'DESC'">
 				ROW_NUMBER() OVER(ORDER BY CDATETIME DESC) AS PAGE
 			</if>

@@ -64,9 +64,11 @@ a {
 			// 팝업 창을 여는 로직을 여기에 작성
 			openCertificationPopup : function() {
 				var self = this;
+				var leftPosition = (window.screen.width - 400) / 2; // 화면의 가로 중앙 위치
+		    	var topPosition = (window.screen.height - 400) / 2; // 화면의 세로 중앙 위치
 				// 'width=900,height=900'으로 설정된 부분 수정
 				var popup = window.open('/user-login-certifySms.do',
-						'Certification Popup', 'width=900,height=900');
+						'Certification Popup', 'width=900,height=900,left=' + leftPosition + ',top=' + topPosition);
 
 				// 주기적으로 팝업 창이 닫혔는지 확인
 				var interval = setInterval(function() {

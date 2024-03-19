@@ -290,5 +290,76 @@ public class UserServiceimpl implements UserService {
 		}
 		return resultMap;
 	}
+	//유저 마이페이지 패스워드 변경
+	@Override
+	public HashMap<String, Object> PasswordChage(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			userMapper.updateUserPw(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
+		return resultMap;
+	}
+	//회원 탈퇴 취소하기
+	@Override
+	public HashMap<String, Object> CancleupdateUserDelete(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			userMapper.updateUserDeleteCancle(map);
+			userMapper.deleteUserDeleteCancle(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
+		return resultMap;
+	}
+	//유저 페이지 상세보기 전 비밀번호 확인
+	@Override
+	public HashMap<String, Object> checkPassword(HashMap<String, Object> map) {
+	    HashMap<String, Object> resultMap = new HashMap<String, Object>();
+	    User user = userMapper.selectUser(map);
 
+	    // 사용자가 존재하지 않는 경우
+	    if (user == null) {
+	        resultMap.put("result", "fail");
+	        resultMap.put("message", "존재하지 않는 아이디입니다!");
+	        return resultMap;
+	    }
+
+	    // 입력된 비밀번호가 일치하는 경우
+	    if (user.getUserPw().equals(map.get("userPw"))) {
+	        if (user.getLoginCnt() >= 5) {
+	            resultMap.put("result", "fail");
+	            resultMap.put("message", "로그인 시도가 5회가 넘어 로그인할 수 없습니다! 관리자에게 직접 문의하여 해결하세요!");
+	        } else {
+	            userMapper.updateLoginCnt2(map);
+	            resultMap.put("user", user);
+	            resultMap.put("result", "success");
+	        }
+	    } else { // 비밀번호가 일치하지 않는 경우
+	        if (!"A".equals(user.getUserType())) {
+	            if (user.getLoginCnt() >= 5) {
+	            	resultMap.put("user", user);
+	                resultMap.put("result", "fail");
+	                resultMap.put("message", "로그인 시도가 5회가 넘어 로그인할 수 없습니다! 관리자에게 직접 문의하여 해결하세요!");
+	            } else {
+	                userMapper.updateLoginCnt(map);
+	                int remainingAttempts = 5 - user.getLoginCnt();
+	                resultMap.put("result", "fail");
+	                resultMap.put("message", "비밀번호를 틀렸습니다! 남은 시도 횟수: " + remainingAttempts);
+	            }
+	        } else {
+	            resultMap.put("result", "fail");
+	            resultMap.put("message", "비밀번호를 틀렸습니다, 관리자님!");
+	        }
+	    }
+	   
+	    return resultMap;
+	}
 }

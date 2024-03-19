@@ -55,6 +55,10 @@
 	    display: block;
 	}
 
+   	.product-info h1, .product-info p {
+        margin: 0 0 10px; /* 제목과 단락 사이의 마진 설정 */
+    }
+
     .product-info p {
         color: #666; /* 단락 텍스트 색상 */
     }
@@ -126,7 +130,7 @@
         line-height: 1.6; /* 줄 간격 */
     }
 
-    .product-description h4 {
+    .product-description h3 {
         margin-top: 20px;
         color: #333;
         font-size: 20px;
@@ -138,24 +142,11 @@
     }
 
     .description-tabs {
-        position: sticky;
-    	top: 0; /* 최상단에 고정 */
+        text-align: center;
         margin-bottom: 20px;
-        background-color: white; /* 스크롤 시 배경색 */
-    	z-index: 1000; /* 다른 요소들 위에 표시 */
         display: flex; /* Flex 컨테이너로 설정 */
         justify-content: center; /* 가운데 정렬 */
         gap: 0; /* 버튼 사이의 간격 제거 */
-    }
-
-    .description-tabs button{
-        text-align: center;
-        font-size: 15px;
-        padding: 20px;
-    }
-    
-    .product-details{
-    	margin-bottom: 200px;
     }
 
     .tab-button {
@@ -196,8 +187,7 @@
     }
 
     .product-reviews {
-        margin-top: 100px;
-        margin-bottom: 100px;
+        margin-top: 20px;
         color: #333;
     }
 
@@ -214,14 +204,13 @@
         border-bottom: 1px solid #d4d4d4;
     }
     
-    h4 {
+    h3 {
         text-align: left;
     }
     
     .product-inquiries {
         text-align: left;
         margin-bottom: 20px;
-        
     }
     
     .product-inquiries td img {
@@ -241,14 +230,12 @@
         border-bottom: 1px solid #ccc; 
         padding: 8px;
         text-align: left; 
-        font-size: 15px;
     }
 
     .product-inquiries td {
         border-bottom: 1px solid #eeeeee;
         padding: 8px;
-        text-align: left;
-        font-size: 15px;
+        text-align: left; 
     }
     
     .product-inquiries button{
@@ -290,37 +277,6 @@
     	cursor: pointer;
     }
     
-    .product-info h3 {
-    	font-family: 'Courier New', Courier, monospace;
-    	margin: 0 0 10px; /* 제목과 단락 사이의 마진 설정 */
-    }
-    
-    .product-details img{
-	    width: 1000px; /* 원하는 너비로 설정 */
-	    height: 700px; /* 원하는 높이로 설정 */
-	    border-radius: 2px;
-	  	object-fit: cover; 
-    }
-    
-    .product-delivery{
-        margin-top: 400px;
-        border-top: 2px solid #6d6d6d;
-        padding: 20px
-    }
-
-    .product-delivery th{
-        font-size: 18px;
-        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    }
-    
-    .product-delivery td{
-        font-size: 15px;
-        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    }
-    
-    .bi bi-cart3{
-    	width:200px;
-    }
 </style>
 <body>
 <!-- Header Section -->
@@ -331,19 +287,21 @@
             	<!-- <template v-for="item in fileList">
 			    	<img :src="item.filePath+item.fileName" alt="이미지!">
 		        </template> -->
+		        
 		        <img v-if="fileList.length > 0" :src="fileList[ImageIndex].filePath + fileList[ImageIndex].fileName" alt="이미지!" @click="">
 		        
 		        <div class="thumbnail-images">
 			        <img v-for="(item, index) in fileList" :src="item.filePath+item.fileName" :alt="'이미지 ' + index" @click="selectImg(index)">
 			    </div>	
             </div>
+
             <div class="product-info">
               <!-- 상품 정보 영역: 상품의 제목, 가격, 설명 등이 여기!! -->
                 <div>
-                    <h4> {{info.itemName}}</h4>
+                    <h1> {{info.itemName}}</h1>
                     <p v-html="info.contents">{{info.contents}}</p>
-                    <del style="color: #ccc">{{info.price.toLocaleString('ko-KR')}}원</del>
-                    <p>판매가 : {{DiscountPrice(info.price, info.sRate)}}원</p>
+                    <del style="color: #ccc">{{info.price}}원</del>
+                    <p>판매가 : {{(info.price)*((100-info.sRate)/100)}}원</p>
                     <p style="color: #eb6f1c">{{info.sRate}}% 할인</p>
                 </div>
                 <table>
@@ -366,12 +324,8 @@
                 </table>
               
                 <div class="button-container">
-                	<i class="bi bi-heart"></i>
-                	<i class="bi bi-heart-fill"></i>
                     <button class="buy-btn">구매하기</button>
-                    <button class="cart-btn" @click="fnAddCart(itemNo, userId)">
-                    	<i class="bi bi-cart3"></i>
-                    </button>
+                    <button class="cart-btn" @click="fnAddCart(itemNo, userId)">장바구니에 담기</button>
                 </div>
             </div>
         </div>
@@ -394,7 +348,7 @@
         
             <!-- 리뷰 영역 -->
             <div class="product-reviews">
-                <h4>상품 후기</h4>
+                <h3>상품 후기</h3>
                 <template v-if="review.length > 0">
 	                <div class="review-item" v-for="item in review">
 	                    <div class="review-content">
@@ -406,14 +360,14 @@
 	                </div>
                 </template>
                 <template v-else>
-                	 <p>따끈한 첫 후기를 기다리고 있어요!</p>
+                	 <p>등록된 후기가 없습니다.</p>
                 </template>
             </div>
             
         
             <!-- 문의 내용 영역 -->
             <div class="product-inquiries">
-                <h4>상품 문의</h4>
+                <h3>상품 문의</h3>
                 <p>상품에 대한 문의를 남기는 공간입니다. 배송관련, 주문(취소/교환/환불) 관련 문의 및 요청사항은 1:1 문의에 남겨주세요.</p>
                 <button @click="fnCustomer(userId, itemNo)">문의하기</button>
                 <table>
@@ -423,7 +377,7 @@
                             <th style="width: 10%;">작성자</th>
                             <th style="width: 10%;">작성일</th>
                             <th style="width: 10%;">답변 상태</th>
-                            <th v-if="userType == 'A' && qa.length > 0" style="width: 10%;">답변하기</th>
+                            <th style="width: 10%;">답변하기</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -439,7 +393,7 @@
 					                    <span v-else style="color: #ccc">답변 대기</span>
 					                </td>
 					                <td style="width: 10%;">
-					                	<button v-if="!item.comment" @click="fnAnswer(item.boardNo)" style="width: 100px; height: 25px;">답변하기</button>
+					                	<button @click="fnAnswer(item.boardNo)">답변하기</button>
 					                </td>
 								</tr>
 								<tr v-if="qaOnOff === index">
@@ -505,7 +459,6 @@ var app = new Vue({
     data: {
     	itemNo: "${map.itemNo}",
     	userId: "${map.userId}",
-    	userType : "${userType}",
     	info: {},
     	fileList : [],
     	fileDetailList : [],
@@ -534,7 +487,7 @@ var app = new Vue({
                 	console.log(data.qa);
                 	
                 	self.info = data.info;
-                	self.fileList = data.filelist;
+                	self.fileList = data.fileList;
                 	self.fileDetailList = data.fileDetailList;
                 	self.review = data.review;
                 	self.qa = data.qa;
@@ -592,7 +545,23 @@ var app = new Vue({
 	            element.scrollIntoView({ behavior: 'smooth' });
 	        }
 	    },
-  
+	    
+	    /* 상품 정보 리스트 이미지  */
+	    /* nextImage: function() {
+	        if(this.ImageIndex < this.fileList.length - 1) {
+	            this.ImageIndex++;
+	        } else {
+	            this.ImageIndex = 0; 
+	        }
+	    },
+	    prevImage: function() {
+	        if(this.ImageIndex > 0) {
+	            this.ImageIndex--;
+	        } else {
+	            this.ImageIndex = this.fileList.length - 1; 
+	        }
+	    }, */
+	    
 	    /* 썸네일 이미지 선택 */
 	    selectImg: function(index) {
 	        this.ImageIndex = index;
@@ -605,12 +574,7 @@ var app = new Vue({
 	        } else {
 	            this.qaOnOff = index;
 	        }
-	    },
-	    /* kr통화 표시 */
-        DiscountPrice: function(price, sRate) {
-            const disPrice = price * ((100 - sRate) / 100);
-            return disPrice.toLocaleString('ko-KR');
-        }
+	    }
         
     }
     , created: function() {

@@ -103,10 +103,10 @@
 							<div class="collapse" id="collapseLayouts"
 								aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 								<nav class="sb-sidenav-menu-nested nav">
-									<a class="nav-link" href="#" @click="fnMoveProductList('gluten')">글루텐프리</a> <a
-										class="nav-link" href="#" @click="fnMoveProductList('local')">로컬</a> <a
-										class="nav-link" href="#" @click="fnMoveProductList('vegan')">비건</a> <a
-										class="nav-link" href="#" @click="fnMoveProductList('org')">유기농</a>
+									<a class="nav-link" href="#" >글루텐프리</a> <a
+										class="nav-link" href="layout-sidenav-light.html">로컬</a> <a
+										class="nav-link" href="layout-sidenav-light.html">비건</a> <a
+										class="nav-link" href="layout-sidenav-light.html">유기농</a>
 
 								</nav>
 							</div>
@@ -166,7 +166,7 @@
 								
 							</div>
 							<div>
-							<a class="nav-link collapsed" href="AdminUserList.do" >
+							<a class="nav-link collapsed" href="#" >
 								<div class="sb-nav-link-icon">
 									<i class="bi bi-people-fill"></i>
 								</div>유저관리
@@ -206,7 +206,7 @@
 									<div class="card-body">상품관리</div>
 									<div
 										class="card-footer d-flex align-items-center justify-content-between">
-										<a class="small text-white stretched-link" href="#" @click="fnMoveProductList('All')">자세히보기
+										<a class="small text-white stretched-link" href="AdminProductList.do">자세히보기
 											</a>
 										<div class="small text-white">
 											<i class="fas fa-angle-right"></i>
@@ -431,11 +431,6 @@
 				self.fnUserList();
 
 			},
-			fnMoveProductList : function(code){
-				$.pageChange("/AdminProductList.do", {
-					code : code
-				});
-			},
 
 			fnData : function() {
 				var self = this;
@@ -581,6 +576,9 @@
 	<script src="js/scripts.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
 		crossorigin="anonymous"></script>
 	<script src="js/datatables-simple-demo.js"></script>
 </html>

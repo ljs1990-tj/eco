@@ -13,6 +13,8 @@ import com.example.test1.model.Comment;
 public interface BoardMapper {
 	
 	List<Board> selectBoardList(HashMap<String, Object> map); //리스트보기
+	
+	int selectBoardListCnt(HashMap<String, Object> map);//게시글 개수 조회
 
 	Board selectBoardInfo(HashMap<String, Object> map);//상세보기
 	
@@ -46,6 +48,9 @@ public interface BoardMapper {
 	
 	void updateInquiry(HashMap<String, Object> map); // 등록한 문의 수정
 	
-	Comment selectAdminComment(HashMap<String, Object> map); // 문의글에 관리자가 남긴 코멘트 출력 
+	Comment selectAdminComment(HashMap<String, Object> map); // 문의글에 관리자가 남긴 코멘트 출력
+	
+	List<Board> selectBoardList2(HashMap<String, Object> map); // 메인 페이지용 레시피 게시글 출력
+	List<BoardFile> selectBoardFileList2(HashMap<String, Object> map); // 메인 페이지용 레시피 게시글 이미지 출력
 }
 

@@ -8,7 +8,7 @@
 		FROM ECO_CART C
 		INNER JOIN ECO_PRODUCT P ON C.ITEM_NO = P.ITEM_NO
 		INNER JOIN ECO_PRODUCT_IMAGE I ON I.ITEMNO = P.ITEM_NO
-		WHERE C.USERID = #{userId} AND KIND = 1
+		WHERE C.USERID = #{userId} AND KIND = 1 AND IS_FAVORITE = 'N'
     </select>
     
     <select id="selectFavoriteList" parameterType="hashmap" resultType="com.example.test1.model.Cart">
