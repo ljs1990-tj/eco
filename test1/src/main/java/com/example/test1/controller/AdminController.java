@@ -47,8 +47,9 @@ public class AdminController {
 	
 	//상품 리스트 페이지
 	@RequestMapping("/AdminProductList.do") 
-	public String productList(Model model) throws Exception{
-
+	public String productList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+		request.setAttribute("map", map);
+		System.out.println(map);
 		return "/admin-product-list";
 	}
 	
@@ -163,16 +164,16 @@ public class AdminController {
             System.out.println("size : " + size);
             System.out.println("saveFileName : " + saveFileName);
             String path2 = System.getProperty("user.dir");
-            System.out.println("Working Directory = " + path2 + "\\src\\webapp\\img\\adminProduct\\"+Today+"\\");
+            System.out.println("Working Directory = " + path2 + "\\src\\webapp\\img\\adminProduct\\"+Today+"\\ListThumbnail\\");
             if(!multi.isEmpty())
             {
-            	 File file = new File(path2 + "\\src\\main\\webapp\\img\\adminProduct\\"+Today+"\\", saveFileName);
+            	 File file = new File(path2 + "\\src\\main\\webapp\\img\\adminProduct\\"+Today+"\\ListThumbnail\\", saveFileName);
                  boolean flg = file.mkdirs(); // 디렉토리 없으면 false 있으면 생성 후 true 리턴
                  multi.transferTo(file);
                 
                 HashMap<String, Object> map = new HashMap<String, Object>();
                 map.put("fileName", saveFileName);
-                map.put("path", "..\\img\\adminProduct\\"+Today+"\\");
+                map.put("path", "..\\img\\adminProduct\\"+Today+"\\ListThumbnail\\");
                 map.put("itemNo", itemNo);
                 map.put("fileSize", size);
                 map.put("etc", extName);
@@ -218,16 +219,16 @@ public class AdminController {
             System.out.println("size : " + size);
             System.out.println("saveFileName : " + saveFileName);
             String path2 = System.getProperty("user.dir");
-            System.out.println("Working Directory = " + path2 + "\\src\\webapp\\img\\adminProduct\\"+Today+"\\");
+            System.out.println("Working Directory = " + path2 + "\\src\\webapp\\img\\adminProduct\\"+Today+"\\ContentsThumbnail\\");
             if(!multi.isEmpty())
             {
-                File file = new File(path2 + "\\src\\main\\webapp\\img\\adminProduct\\"+Today+"\\", saveFileName);
+                File file = new File(path2 + "\\src\\main\\webapp\\img\\adminProduct\\"+Today+"\\ContentsThumbnail\\", saveFileName);
                 boolean flg = file.mkdirs(); // 디렉토리 없으면 false 있으면 생성 후 true 리턴
                 multi.transferTo(file);
                 
                 HashMap<String, Object> map = new HashMap<String, Object>();
                 map.put("fileName", saveFileName);
-                map.put("path", "..\\img\\adminProduct\\"+Today+"\\");
+                map.put("path", "..\\img\\adminProduct\\"+Today+"\\ContentsThumbnail\\");
                 map.put("itemNo", itemNo);
                 map.put("fileSize", size);
                 map.put("etc", extName);
@@ -271,16 +272,16 @@ public class AdminController {
             System.out.println("size : " + size);
             System.out.println("saveFileName : " + saveFileName);
             String path2 = System.getProperty("user.dir");
-            System.out.println("Working Directory = " + path2 + "\\src\\webapp\\img\\adminProduct\\"+Today+"\\");
+            System.out.println("Working Directory = " + path2 + "\\src\\webapp\\img\\adminProduct\\"+Today+"\\ContentsDetail\\");
             if(!multi.isEmpty())
             {
-                File file = new File(path2 + "\\src\\main\\webapp\\img\\adminProduct\\"+Today+"\\", saveFileName);
+                File file = new File(path2 + "\\src\\main\\webapp\\img\\adminProduct\\"+Today+"\\ContentsDetail\\", saveFileName);
                 boolean flg = file.mkdirs(); // 디렉토리 없으면 false 있으면 생성 후 true 리턴
                 multi.transferTo(file);
                 
                 HashMap<String, Object> map = new HashMap<String, Object>();
                 map.put("fileName", saveFileName);
-                map.put("path", "..\\img\\adminProduct\\"+Today+"\\");
+                map.put("path", "..\\img\\adminProduct\\"+Today+"\\ContentsDetail\\");
                 map.put("itemNo", itemNo);
                 map.put("fileSize", size);
                 map.put("etc", extName);

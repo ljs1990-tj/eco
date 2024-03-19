@@ -4,56 +4,92 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="../css/team_project_style.css">
+<link rel="stylesheet" href="../css/bootstrap-min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Gaegu&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Cute+Font&family=Gaegu&family=IBM+Plex+Sans+KR&family=Orbit&family=Sunflower:wght@300&display=swap"
+	rel="stylesheet">
 <script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <title>첫번째 페이지</title>
 </head>
 <style>
-body {
-	font-family: Arial, sans-serif;
-}
+div#app {
+	text-align: center;
+} 
+
+body, button {
+	font-family: "Gaegu", sans-serif;
+	
+} 
 
 table {
-	margin: 10px;
 	border-collapse: collapse;
-	width: 100%;
+	width: 80%;
+	margin: 10px auto;
 }
 
 th, td {
-	border: 1px solid #ddd;
+	border-top: none;
+	border-bottom: 1px solid #ddd;
+	border-right: none;
 	padding: 8px;
 	text-align: center;
 	font-size: 14px;
-	font-family: Arial, sans-serif;
+	font-family: "Orbit", sans-serif;
+	font-weight: 400;
+	cursor: default;
 }
 
-th {
-	background-color: #f2f2f2;
-}
+
 
 tr:hover {
 	background-color: #f5f5f5;
 }
 
+tr {
+	border: top 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+
 button {
-	margin-top: 10px;
 	padding: 10px 20px;
 	font-size: 16px;
 	cursor: pointer;
 	background-color: #4CAF50;
 	color: white;
 	border: none;
-	border-radius: 4px;
+	border-radius: 4px; 
 	transition: background-color 0.3s;
-	font-family: Arial, sans-serif;
+
 }
 
 button:hover {
 	background-color: #45a049;
 }
+
+li {
+	display: inline-block;
+}
+
+
+td {
+	height: 70px;
+}
+
+a {
+	text-decoration: none;
+}
+
+
 </style>
 <body>
+<%@ include file="layout/header.jsp" %>
 	<div id="app">
 		<table>
 			<tr>
@@ -84,13 +120,11 @@ button:hover {
 		<div v-if="info.userId == userId || userType == 'A'">
 			<button @click="fnDelete">삭제</button>
 			<button @click="fnEdit">수정</button>
+			<button @click="fnList">목록으로 가기</button>	
 		</div> 
-		<div>
-			<!-- <button @click="fnDelete">삭제</button> -->
-			<button @click="fnList">목록으로 가기</button>
-			
-		</div>
+		
 	</div>
+	<%@ include file="layout/footer.jsp" %>
 </body>
 </html>
 <script type="text/javascript">

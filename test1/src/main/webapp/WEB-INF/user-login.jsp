@@ -157,8 +157,7 @@ var app = new Vue({
     	                }else if(self.authYn === 'N'){
     	                	alert("본인인증 하셔야 이용이 가능합니다");
     	                	window.location.href = "/user-login-certifyMain.do"
-    	                } 
-    	                else {
+    	                }else {
     	                    // 등급이 D가 아닌 경우 기존의 로직 수행
     	                   $.pageChange("/header.do", {});
     	                }

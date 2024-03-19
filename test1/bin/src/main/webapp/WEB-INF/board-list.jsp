@@ -4,41 +4,32 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="../css/team_project_style.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gaegu&display=swap"
-	rel="stylesheet">
+<link rel="stylesheet" href="../css/bootstrap-min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Gaegu&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link
 	href="https://fonts.googleapis.com/css2?family=Cute+Font&family=Gaegu&family=IBM+Plex+Sans+KR&family=Orbit&family=Sunflower:wght@300&display=swap"
 	rel="stylesheet">
 <script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <title>게시판 목록 페이지</title>
 <style>
+
 div#app {
-    text-align: center;
-    
-}
+	text-align: center;
+} 
 
 body, button {
 	font-family: "Gaegu", sans-serif;
-}
+} 
 
 table {
 	border-collapse: collapse;
 	width: 80%;
 	margin: 10px auto;
-}
-
-caption {
-	font-weight: bold;
-	font-size: 24px;
-	color: #000000;
-	text-align: center;
-	padding: 10px 0;
 }
 
 th, td {
@@ -53,6 +44,8 @@ th, td {
 	font-style: normal;
 	cursor: default;
 }
+
+
 
 tr:hover {
 	background-color: #f5f5f5;
@@ -86,7 +79,6 @@ button:hover {
 
 li {
 	display: inline-block;
-	margin-left: 10px;
 }
 
 ul {
@@ -103,82 +95,117 @@ ul:hover {
 	background-color: #fff;
 }
 
-.page-num {
-	font-weight: bold;
-}
 
 td {
 	height: 70px;
 }
 
+a {
+	text-decoration: none;
+}
+
+div#app .pagination {
+	text-align: center;
+	font-size: 20px;
+}
+
+
+
 .page-num {
 	font-weight: bold;
 	font-size: 30px;
 }
-.pagination{
-	 text-align: center;
-	 font-size: 20px;
-}
+
 .write-button {
-    margin-left: 1000px;
-    font-size: 20px;
+	margin-left: 1000px;
+	font-size: 20px;
+}
+
+.blog__item-box {
+	/* background-color: lightgrey; */
+	padding: 10px;
+	border: 1px solid rgb(179, 211, 179); 
+	width: 400px; /* 원하는 너비 값으로 조정 */
+	margin: 60px; /* 원하는 마진 값으로 조정 */
+	border-radius: 10px;
 }
 
 </style>
 </head>
 <body>
+<%@ include file="layout/header.jsp" %>
 	<div id="app">
 		<li>
-			<ul v-for="item in boardList"
+			<ul v-if="item.code != 3" v-for="item in boardList"
 				:class="[kind == item.code ? 'select-tab' : 'tab']"
-				@click="fnGetList(item.code); fnResetPage()">{{item.name}}
+				@click="fnList(item.code); fnResetPage()" style="margin: 10px;">{{item.name}}
 			</ul>
 		</li>
-		<table>
+		<div>
+			<select v-model="keywordType">
+				<option value="title">제목</option>
+				<option value="user">작성자</option>
+			</select>
+			검색: 
+			<input type="text" v-model="keyword" @keyup.enter="fnList(kind)">
+			<button @click="fnList(kind)">검색</button>
+			<!-- <input style="margin-right: 1500px;" type="text" v-model="searchQuery" placeholder="검색어를 입력하세요"> -->
+			<!-- <button @click="search">검색</button> -->
+		</div>
+		
+		<table v-if="kind==1">
 			<tr>
 				<th>번호</th>
 				<th style="width: 40%;">제목</th>
-				<th v-if="kind == '2'">이미지</th>
 				<th>사용자</th>
 				<th>조회수</th>
 				<th>작성일</th>
-				<th>칼로리</th>
 			</tr>
-			<tr v-for="(item, index) in displayedList">
+			<tr v-for="(item, index) in list">
 				<td>{{ item.boardNo }}</td>
-				<td><a href="javascript:;" @click="fnView(item.boardNo, kind)"
-					v-html="item.title"></a></td>
-				<td v-if="kind == '2'">
-					<template v-for="item2 in fileList"
-						v-if="item.boardNo == item2.boardNo">
-						<template v-if="item2.kind == 1">
-							<img :src="item2.path" alt="" width="100px">
-						</template>
-					</template>
-				</td>
-
-				<td><a href="javascript:;" @click="fnUser(item.userId)">{{item.userId}}</a>
-				</td>
+				<td><a href="javascript:;" @click="fnView(item.boardNo, kind)" v-html="item.title"></a></td>
+				<td><a href="javascript:;" @click="fnUser(item.userId)">{{item.userId}}</a></td>
 				<td>{{ item.hits }}</td>
 				<td>{{ item.uDateTime }}</td>
-				<td>{{ item.kCal }}</td>
 			</tr>
 		</table>
-		<div v-if="userId != '' && userId != undefined">
-			<button class="write-button" @click="fnWrite" v-if="userType == 'A' || kind != 1">글쓰기</button>
+		<div v-if="kind==2" style="display: flex; flex-wrap: wrap;">
+			<div class="col-lg-3 col-md-3 col-sm-3 blog__item-box" v-for="item in list">
+				<div class="blog__item">
+					<div class="blog__item__pic">
+						<template v-for="item2 in fileList" v-if="item.boardNo == item2.boardNo">
+							<template v-if="item2.kind == 1">
+								<img :src="item2.path" alt="" width="350px" height="250px">
+							</template>
+						</template>
+					</div>
+					<div class="blog__item__text">
+						<div><i class="fa fa-calendar"></i> {{item.uDateTime}}</div>
+						<div><i class="fa fa-thumbs-up"></i> {{item.hits}}</div>
+						<h5>
+							<a @click="fnView(item.boardNo, kind)" href="javascript:;" style="font-size: 30px;">
+							{{truncateText(item.title, 10)}}</a>
+						</h5>
+						<p><span v-html="truncateText(item.contents, 50)"></span></p>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="pagination">
-			<a href="#" @click="fnPre">＜</a>
+		<div v-if="userId != '' && userId != undefined">
+			<button class="write-button" @click="fnWrite"
+				v-if="userType == 'A' || kind != 1">글쓰기</button>
+		</div>
+		<div class="pagination" style="text-align: center;">
 			<template v-for="n in pageCount">
-				<a href="#" @click="fnPageList(n)"> <span
+				<a href="javascript:;" @click="fnPageList(n)"> <span
 					:class="[selectPage == n ? 'page-num' : '']">{{n}}</span>
 				</a>
 			</template>
-			<a href="#" @click="fnNext">＞</a>
 		</div>
-		
 	</div>
+<%@ include file="layout/footer.jsp" %>
 </body>
+
 <script type="text/javascript">
     var app = new Vue({
         el: '#app',
@@ -186,47 +213,52 @@ td {
             list: [],
             userId: "${userId}",
             userType : "${userType}",
-            kind: 2,
+			keyword : "",
+			keywordType : "title",
+            kind: "",
             boardList: ${boardList},
-            pageCount: 1,
-            selectPage: 1,
-            itemsPerPage: 10,
-            fileList : []
+			pageCount : 1,
+			selectPage : 1,
+            searchCnt : 10, //디폴트 10으로 설정
+            fileList : [],
+			type : "CDATE",
+			offset: 1, // 페이지 오프셋 초기값
+			limit: 9, 
         },
-        computed: {
-            displayedList() {
-                const start = (this.selectPage - 1) * this.itemsPerPage;
-                const end = start + this.itemsPerPage;
-                return this.list.slice(start, end);
-            }
-        },
+       
         methods: {
+			fnList : function(kind) {
+				var self = this;
+				self.kind = kind;
+				/* self.selectList = []; */
+				var nparmap = {
+						keyword : self.keyword,
+						keywordType : self.keywordType,
+						kind : kind,
+						startNum : 1,
+						lastNum : 10,
+						type : self.type,
+						order : self.order,
+						offset : 0,
+						limit : 9
+				};
+				$.ajax({
+					url : "boardList.dox",
+					dataType : "json",
+					type : "POST",
+					data : nparmap,
+					success : function(data) {
+						console.log(data);
+						self.list = data.list;
+						self.pageCount = Math.ceil(data.cnt/10);//self.pageCount최대값
+
+					}
+				});
+			},
             fnResetPage: function() {
                 this.selectPage = 1;
             },
-            fnGetList: function(kind) {
-                var self = this;
-                self.kind = kind;
-                var nparmap = {
-                    kind: kind
-                };
-                $.ajax({
-                    url: "boardList.dox",
-                    dataType: "json",
-                    type: "POST",
-                    data: nparmap,
-                    success: function(data) {
-                        self.list = data.list.sort(function(a, b) {
-                            return new Date(b.uDateTime) - new Date(a.uDateTime);
-                        });
-                        self.pageCount = Math.ceil(self.list.length / self.itemsPerPage);
-                        if (self.selectPage > self.pageCount) {
-                            self.selectPage = 1;
-                        }
-                    }
-                    
-                });
-            },
+           
             fnFileList: function() {
             	var self = this;
             	var nparmap = {
@@ -274,7 +306,7 @@ td {
                     $.pageChange("/user-login.do", {});
                 }
             },
-            fnPre: function() {
+/*             fnPre: function() {
                 var self = this;
                 if (self.selectPage != 1) {
                     self.selectPage = self.selectPage - 1;
@@ -285,20 +317,52 @@ td {
                 if (self.selectPage != self.pageCount) {
                     self.selectPage = self.selectPage + 1;
                 }
-            },
+            }, */
             fnPageList: function(num) {
                 var self = this;
                 self.selectPage = num;
+                var offset = (num - 1) * self.limit; // 오프셋 계산
+                var nparmap = {
+                    keyword: self.keyword,
+                    keywordType: self.keywordType,
+                    kind: self.kind,
+                    offset: offset, // 오프셋 전달
+                    limit: self.limit, // 리미트 전달
+                    type: self.type,
+                    order: self.order
+                };
+                $.ajax({
+                    url: "boardList.dox",
+                    dataType: "json",
+                    type: "POST",
+                    data: nparmap,
+                    success: function(data) {
+                        console.log(data.cnt);
+                        self.list = data.list;
+                        self.pageCount = Math.ceil(data.cnt / self.limit); // 전체 페이지 수 계산
+                    }
+                });
             },
-			fnUser : function(userId) {
-				$.pageChange("/boardUser.do", {//user 상세보기
-					userId : userId
-				});
-			},
+            fnUser: function(userId) {
+                var url = "/boardUser.do?userId=" + userId;
+                window.open(url, "_blank", "width=500,height=600");
+            },
+            truncateText(text, maxLength) {
+                if (text.length > maxLength) {
+                    return text.slice(0, maxLength) + '...';
+                } else {
+                    return text;
+                }
+            },
         },
         created: function() {
-            this.fnGetList(this.kind);
-            this.fnFileList();
+        	var self = this;
+            /* this.fnGetList(this.kind); */
+            self.fnList(1);
+            self.fnFileList();
+        },
+        updated: function () {
+            window.scrollTo(0, 0); // 페이지 상단으로 스크롤
         }
     });
 </script>

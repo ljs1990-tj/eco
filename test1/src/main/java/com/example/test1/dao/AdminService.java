@@ -31,7 +31,7 @@ public interface AdminService {
 	HashMap<String, Object> updateUserType(HashMap<String, Object> map);
 
 	HashMap<String, Object> updateUserLoginCntZero(HashMap<String, Object> map);
-	
+
 	HashMap<String, Object> searchUserListAll(HashMap<String, Object> map);
 
 }
