@@ -83,10 +83,10 @@
 	                            <li><a href="javascript:;">1:1 매칭</a></li>
 	                            
 	                            <li><a href="/customerService.do">고객센터</a></li>
-	                            <li><a href="javascript:;">커뮤니티</a>
+	                            <li><a href="javascript:;" style="cursor: default;">커뮤니티</a>
 	                            	<ul class="header__menu__dropdown">
-										<li><a href="/boardList.do">공지사항</a></li>
-										<li><a href="/boardList.do">레시피</a></li>
+										<li><a href="javascript:;" @click="fnMoveCommunity('1')">공지사항</a></li>
+										<li><a href="javascript:;" @click="fnMoveCommunity('2')">레시피</a></li>
 	                              </ul>
 	                            </li>
 	                        </ul>
@@ -198,6 +198,9 @@
 			},
 			fnMoveCategory: function(kind) {
 				$.pageChange("/productList.do", {code: kind});
+			},
+			fnMoveCommunity: function(kind) {
+				$.pageChange("/boardList.do", {code: kind});
 			},
 	    }
 	    , created: function() {
