@@ -6,8 +6,8 @@
 
 	<select id="selectBoardList" parameterType="hashmap"
 		resultType="com.example.test1.model.Board">
-		SELECT *
-		FROM ECO_BOARD
+		SELECT B.*, DATE_FORMAT(CDATETIME, '%Y년 %c월 %e일 %H시 %i분') AS CDATE
+		FROM ECO_BOARD B
 		WHERE KIND =#{kind}
 		<if test="keywordType == 'title'">
 			AND TITLE LIKE CONCAT('%',#{keyword},'%') <!-- '%#{keyword}'와 같은 뜻 -->
@@ -15,7 +15,7 @@
 		<if test="keywordType == 'user'">
 			AND USERID LIKE CONCAT('%',#{keyword},'%')
 		</if>
-		 ORDER BY UDATETIME DESC
+		 ORDER BY CDATETIME DESC
 		 LIMIT #{offset}, #{limit}
 	</select>
 	
@@ -24,7 +24,8 @@
 		SELECT
 			B.*, DATE_FORMAT(CDATETIME, '%Y년 %c월 %e일') AS CDATE
 		FROM ECO_BOARD B
-		WHERE KIND = 2
+		INNER JOIN ECO_BOARD_IMAGE I ON B.BOARDNO = I.BOARDNO
+		WHERE B.KIND = '2' AND I.KIND = '1'
 		ORDER BY HITS DESC
 		LIMIT 3
 	</select>

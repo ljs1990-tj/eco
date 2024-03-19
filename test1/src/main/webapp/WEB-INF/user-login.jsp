@@ -159,7 +159,7 @@ var app = new Vue({
     	                	window.location.href = "/user-login-certifyMain.do"
     	                }else {
     	                    // 등급이 D가 아닌 경우 기존의 로직 수행
-    	                   $.pageChange("/header.do", {});
+    	                   $.pageChange("/main.do", {});
     	                }
     	            } else if (data.result == "fail") {
     	                self.resultMessage = data.message;

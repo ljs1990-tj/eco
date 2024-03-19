@@ -405,7 +405,6 @@
 					data : nparmap,
 					success : function(data) {
 						if(data.result == 'success') {
-							console.log(data);
 							self.listR = data.listR;
 							self.fileListR = data.fileListR;
 						}

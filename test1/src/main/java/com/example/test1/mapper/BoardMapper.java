@@ -51,5 +51,6 @@ public interface BoardMapper {
 	Comment selectAdminComment(HashMap<String, Object> map); // 문의글에 관리자가 남긴 코멘트 출력
 	
 	List<Board> selectBoardList2(HashMap<String, Object> map); // 메인 페이지용 레시피 게시글 출력
+	List<BoardFile> selectBoardFileList2(HashMap<String, Object> map); // 메인 페이지용 레시피 게시글 이미지 출력
 }
 
