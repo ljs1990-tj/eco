@@ -171,7 +171,7 @@ a {
 					v-html="item.title"></a></td>
 				<td><a href="javascript:;" @click="fnUser(item.userId)">{{item.userId}}</a></td>
 				<td>{{ item.hits }}</td>
-				<td>{{ item.uDateTime }}</td>
+				<td>{{ item.cDate }}</td>
 			</tr>
 		</table>
 		<div v-if="kind==2" style="display: flex; flex-wrap: wrap;">
