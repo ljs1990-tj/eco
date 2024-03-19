@@ -47,6 +47,7 @@ public class BoardController {
 		
 		request.setAttribute("boardList", new Gson().toJson(codeList));
 		request.setAttribute("map", map);
+		System.out.println("보드리스트 맵: "+map);
 		return "/board-list";
 	}
 
@@ -68,6 +69,7 @@ public class BoardController {
 		// request의 HttpServletRequest
 		
 		request.setAttribute("map", map);
+	
 		return "/board-view";
 	}
 	

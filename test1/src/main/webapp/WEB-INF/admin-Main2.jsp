@@ -432,6 +432,8 @@
 
 			},
 			fnMoveProductList : function(code){
+				
+					var self = this;
 				$.pageChange("/AdminProductList.do", {
 					code : code
 				});

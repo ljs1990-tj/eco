@@ -8,7 +8,14 @@
 		FROM ECO_CART C
 		INNER JOIN ECO_PRODUCT P ON C.ITEM_NO = P.ITEM_NO
 		INNER JOIN ECO_PRODUCT_IMAGE I ON I.ITEMNO = P.ITEM_NO
-		WHERE C.USERID = #{userId} AND KIND = 1 AND IS_FAVORITE = 'N'
+		WHERE 1=1
+		<if test="cartCheck==1">
+		AND C.USERID = #{userId} AND KIND = 1 AND IS_FAVORITE = 'N'
+		</if>
+		<if test="cartCheck==0">
+		AND C.USERID = #{userId} AND KIND = 1 AND IS_FAVORITE = 'Y'
+		</if>
+		
     </select>
     
     <select id="selectFavoriteList" parameterType="hashmap" resultType="com.example.test1.model.Cart">
@@ -100,4 +107,21 @@
 		FROM ECO_ADDR
 		WHERE USERID = #{userId}
     </select>
+    
+    <insert id="insertFavorite" parameterType="hashmap">
+      	INSERT INTO ECO_CART
+      	VALUES(NULL, #{userId},#{itemNo},NOW(),'Y',1)
+    </insert>
+    <select id="selectFavoriteCheck" parameterType="hashmap" resultType="int">
+		SELECT COUNT(*)
+		FROM ECO_CART 
+		WHERE ITEM_NO = #{itemNo} AND USERID = #{userId} AND IS_FAVORITE = 'Y'
+	</select>
+    <delete id="removeFavorite" parameterType="hashmap">
+		DELETE
+		FROM ECO_CART
+		WHERE ITEM_NO =#{itemNo} AND USERID = #{userId} AND IS_FAVORITE ='Y'
+	</delete>
+    
+    
 </mapper>

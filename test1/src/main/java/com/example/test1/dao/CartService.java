@@ -19,4 +19,5 @@ public interface CartService {
 
 	HashMap<String, Object> paymentFinishHistory(HashMap<String, Object> map);
 	
+	HashMap<String, Object> addFavoriteItem(HashMap<String, Object> map);
 }

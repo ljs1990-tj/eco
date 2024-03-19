@@ -36,6 +36,7 @@ public interface ProductMapper {
 	
 	void insertAdminComment(HashMap<String, Object> map); //1:1 문의 및 상품 문의 답변 등록
 	
+	List<Product> selectProductListMain(HashMap<String, Object> map); // 메인 페이지용 이달의 제품 리스트
 	List<Product> selectProductListLatest(HashMap<String, Object> map); // 가장 최근 등록 순으로 정렬된 제품 리스트
 	List<Product> selectProductListMax(HashMap<String, Object> map); // 가장 많은 판매 순으로 정렬된 제품 리스트
 	List<Product> selectProductListMost(HashMap<String, Object> map); // 가장 많은 리뷰 순으로 정렬된 제품 리스트

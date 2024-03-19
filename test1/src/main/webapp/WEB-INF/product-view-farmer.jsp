@@ -204,7 +204,7 @@
         border-bottom: 1px solid #d4d4d4;
     }
     
-    h3 {
+    h4 {
         text-align: left;
     }
     
@@ -288,21 +288,21 @@
 			    	<img :src="item.filePath+item.fileName" alt="이미지!">
 		        </template> -->
 		        
-		        <img v-if="fileList.length > 0" :src="fileList[ImageIndex].filePath + fileList[ImageIndex].fileName" alt="이미지!" @click="">
+		        <!-- <img v-if="fileList.length > 0" :src="fileList[ImageIndex].filePath + fileList[ImageIndex].fileName" alt="이미지!" @click=""> -->
 		        
-		        <div class="thumbnail-images">
+		        <!-- <div class="thumbnail-images">
 			        <img v-for="(item, index) in fileList" :src="item.filePath+item.fileName" :alt="'이미지 ' + index" @click="selectImg(index)">
-			    </div>	
+			    </div> -->	
             </div>
 
             <div class="product-info">
               <!-- 상품 정보 영역: 상품의 제목, 가격, 설명 등이 여기!! -->
                 <div>
-                    <h1> {{info.itemName}}</h1>
+                    <h4> {{info.itemName}}</h4>
                     <p v-html="info.contents">{{info.contents}}</p>
-                    <del style="color: #ccc">{{info.price}}원</del>
-                    <p>판매가 : {{(info.price)*((100-info.sRate)/100)}}원</p>
-                    <p style="color: #eb6f1c">{{info.sRate}}%</p>
+                    <del style="color: #ccc">{{info.wonPrice}}원</del> 
+                    <p>판매가 : {{DiscountPrice(info.price, info.sRate)}}원</p>
+                    <p style="color: #eb6f1c">{{info.sRate}}% 할인</p>
                 </div>
                 <table>
                     <tr>
@@ -347,7 +347,7 @@
         
             <!-- 리뷰 영역 -->
             <div class="product-reviews">
-                <h3>상품 후기</h3>
+                <h4>상품 후기</h4>
                 <template v-if="review.length > 0">
 	                <div class="review-item" v-for="item in review">
 	                    <div class="review-content">
@@ -366,7 +366,7 @@
         
             <!-- 문의 내용 영역 -->
             <div class="product-inquiries">
-                <h3>상품 문의</h3>
+                <h4>상품 문의</h4>
                 <p>상품에 대한 문의를 남기는 공간입니다. 배송관련, 주문(취소/교환/환불) 관련 문의 및 요청사항은 1:1 문의에 남겨주세요.</p>
                 <button @click="fnCustomer(userId, itemNo)">문의하기</button>
                 <table>
@@ -480,12 +480,8 @@ var app = new Vue({
                 type: "POST",
                 data: nparmap,
                 success: function(data) {
-                	console.log(self.itemNo);
-                	console.log(self.userId);
-                	console.log(data.review);
-                	console.log(data.qa);
-                	
                 	self.info = data.info;
+                	self.info.wonPrice = self.info.price.toLocaleString('ko-KR');
                 	self.fileList = data.filelist;
                 	self.fileDetailList = data.fileDetailList;
                 	self.review = data.review;
@@ -573,7 +569,12 @@ var app = new Vue({
 	        } else {
 	            this.qaOnOff = index;
 	        }
-	    }
+	    },
+	    /* kr통화 표시 */
+        DiscountPrice: function(price, sRate) {
+            const disPrice = price * ((100 - sRate) / 100);
+            return disPrice.toLocaleString('ko-KR');
+        }
         
     }
     , created: function() {

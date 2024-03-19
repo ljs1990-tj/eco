@@ -178,6 +178,26 @@ public class CartServiceImpl implements CartService{
 		
 		return resultMap;
 	}
+
+	@Override
+	public HashMap<String, Object> addFavoriteItem(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		try {
+			int check = cartMapper.selectFavoriteCheck(map);
+			if(check == 1) {
+				cartMapper.removeFavorite(map);
+			}else {
+				cartMapper.insertFavorite(map);
+			}
+			resultMap.put("result", "succes");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+		}
+		
+		return resultMap;
+	}
     
 	
 

@@ -28,6 +28,12 @@ public class CartController {
 			
 	        return "/cart-list";
 	    }
+		@RequestMapping("FavoriteList.do") 
+	    public String FavoriteList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+			request.setAttribute("map", map);
+			
+	        return "/Favorite-list";
+	    }
 		
 		@RequestMapping("KakaoPaycart.do") 
 	    public String kakaoPay(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
@@ -43,6 +49,14 @@ public class CartController {
 		public String cartInsert(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 			HashMap<String, Object> resultMap = new HashMap<String, Object>();
 			resultMap = cartService.addCartItem(map);
+			return new Gson().toJson(resultMap);
+		}
+		//찜하기 추가
+		@RequestMapping(value = "FavoriteAdd.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String Favorite(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap<String, Object>();
+			resultMap = cartService.addFavoriteItem(map);
 			return new Gson().toJson(resultMap);
 		}
 		

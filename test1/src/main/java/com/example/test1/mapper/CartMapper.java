@@ -29,5 +29,8 @@ public interface CartMapper {
 	void insertPaymentHistory(HashMap<String, Object> map); // 결제로그 남기기
 	List<Cart> selectFavoriteList(HashMap<String, Object> map); // 찜목록 가져오기
 	List<Addr> selectAddrList(HashMap<String, Object> map);//주소 목록 가져오기
+	void insertFavorite(HashMap<String, Object> map); // 찜목록에 추가
+	int selectFavoriteCheck(HashMap<String, Object> map); //찜목록에 있는지 확인
+	void removeFavorite(HashMap<String, Object> map);//찜목록에서 제거
 	
 }

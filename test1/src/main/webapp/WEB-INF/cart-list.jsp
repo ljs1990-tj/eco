@@ -190,6 +190,7 @@ var app = new Vue({
             var nparmap = {
             		userId : self.userId,
             		kind : 1,
+            		cartCheck : 1
             		
             };
             $.ajax({

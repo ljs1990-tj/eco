@@ -120,7 +120,8 @@
                 <table>
                     <tr>
                         <th style="width: 20%;">제목</th>
-                        <td style="width: 80%;" style="width: 100%; box-sizing: border-box;" >
+                        <td v-show="!isFlg">{{info.title}}</td>
+                       	<td v-show="isFlg" style="width: 80%;" style="width: 100%; box-sizing: border-box;" >
                             <input type="text" v-model="info.title" >
                         </td>
                     </tr>
@@ -149,7 +150,7 @@
             
             <!--관리자 답변-->
             <div class="adminAnswer">
-            	<h4>관리자 답변</h4> 
+            	<h5>관리자 답변</h5> 
             	<textarea v-if="comment" readonly>{{comment.comment}}</textarea>
             </div>
 			
@@ -199,6 +200,7 @@ var app = new Vue({
                 	 */
                 	console.log(data);
                 	self.info = data.info;
+                	self.contents = data.info.contents;
                 	if(data.comment != null){
                 		self.comment = data.comment;	
                 	}
