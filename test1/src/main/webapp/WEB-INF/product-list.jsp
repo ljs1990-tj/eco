@@ -244,7 +244,7 @@ var app = new Vue({
     	userId : "${userId}",
 		userType : "${userType}",
     	code : "${map.code}",
-    	keyword : "",
+    	keyword : "${map.keyword}",
     	selected : "",
     	type: "CDATE",
     	order: "DESC",
