@@ -35,7 +35,7 @@
 		background-color: rgb(107, 170, 27);
 	}
 	.find-input {
-		width: 120px;
+		width: 150px;
 		height: 20px;
 		border: 2px solid #ddd;
 		border-radius: 5px;
