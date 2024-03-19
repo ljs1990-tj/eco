@@ -278,7 +278,7 @@ public class BoardServiceimpl implements BoardService{
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			List<Board> list= boardMapper.selectBoardList2(map);
-			List<BoardFile> fileList = boardMapper.selectBoardFileList(map);
+			List<BoardFile> fileList = boardMapper.selectBoardFileList2(map);
 			resultMap.put("listR", list);
 			resultMap.put("fileListR", fileList);
 			resultMap.put("result", "success");
