@@ -27,7 +27,6 @@ public class Product {
 	private String deleteYn;
 	private String deleteDate;
 	
-	
 	private String name;
 	private String hideName;
 	private String uDateTimeNew; //UDATETIEM YYYY/MM/DD로 불러올려고 씀

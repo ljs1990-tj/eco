@@ -38,6 +38,7 @@ th, td {
 	text-align: center;
 	font-size: 14px;
 	font-family: Arial, sans-serif;
+	margin : 10px;
 }
 
 
@@ -75,7 +76,7 @@ button:hover {
 			<td><select v-model="kind">
 					<option value="1" v-if="userType == 'A'">공지사항</option>
 					<option value="2">레시피게시판</option>
-					<option value="3">문의게시판</option>
+					
 			</select></td>
 		</tr>
 		<div>
@@ -128,6 +129,12 @@ button:hover {
 	            if(self.title == "") {
 	            	alert("제목이 빈칸입니다");
 	            	return;
+	            }else if (self.contents == "") {
+	                alert("내용이 빈칸입니다");
+	                return;
+	            }else if (self.kind == 2 && $("#file1")[0].files.length === 0) {
+	                alert("메인 이미지를 선택해주세요");
+	                return;
 	            }
 				var nparmap = {
 					userId : self.userId,

@@ -5,8 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="../css/bootstrap-min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Gaegu&display=swap" rel="stylesheet">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Gaegu&display=swap"
+	rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link
@@ -17,14 +19,13 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <title>게시판 목록 페이지</title>
 <style>
-
 div#app {
 	text-align: center;
-} 
+}
 
 body, button {
 	font-family: "Gaegu", sans-serif;
-} 
+}
 
 table {
 	border-collapse: collapse;
@@ -44,8 +45,6 @@ th, td {
 	font-style: normal;
 	cursor: default;
 }
-
-
 
 tr:hover {
 	background-color: #f5f5f5;
@@ -95,7 +94,6 @@ ul:hover {
 	background-color: #fff;
 }
 
-
 td {
 	height: 70px;
 }
@@ -104,12 +102,10 @@ a {
 	text-decoration: none;
 }
 
-div#app .pagination {
+.pagination {
 	text-align: center;
 	font-size: 20px;
 }
-
-
 
 .page-num {
 	font-weight: bold;
@@ -117,42 +113,50 @@ div#app .pagination {
 }
 
 .write-button {
-	margin-left: 1000px;
+	float: right;
+	margin-right: 190px;
 	font-size: 20px;
+}
+
+.clear-both {
+	clear: both;
+	margin-bottom: 10px;
 }
 
 .blog__item-box {
 	/* background-color: lightgrey; */
 	padding: 10px;
-	border: 1px solid rgb(179, 211, 179); 
+	border: 1px solid rgb(179, 211, 179);
 	width: 400px; /* 원하는 너비 값으로 조정 */
 	margin: 60px; /* 원하는 마진 값으로 조정 */
 	border-radius: 10px;
 }
-
+.tab-button:focus,
+.tab-button:hover  {
+    color: green; /* 호버 시와 포커스 시 텍스트 색상 변경 */
+}
 </style>
 </head>
 <body>
-<%@ include file="layout/header.jsp" %>
+	<%@ include file="layout/header.jsp"%>
 	<div id="app">
 		<li>
 			<ul v-if="item.code != 3" v-for="item in boardList"
 				:class="[kind == item.code ? 'select-tab' : 'tab']"
-				@click="fnList(item.code); fnResetPage()" style="margin: 10px;">{{item.name}}
+				@click="fnList(item.code); fnResetPage()" style="margin: 10px;"
+				class="tab-button">{{item.name}}
 			</ul>
 		</li>
 		<div>
 			<select v-model="keywordType">
 				<option value="title">제목</option>
 				<option value="user">작성자</option>
-			</select>
-			검색: 
-			<input type="text" v-model="keyword" @keyup.enter="fnList(kind)">
+			</select> 검색: <input type="text" v-model="keyword" @keyup.enter="fnList(kind)">
 			<button @click="fnList(kind)">검색</button>
 			<!-- <input style="margin-right: 1500px;" type="text" v-model="searchQuery" placeholder="검색어를 입력하세요"> -->
 			<!-- <button @click="search">검색</button> -->
 		</div>
-		
+
 		<table v-if="kind==1">
 			<tr>
 				<th>번호</th>
@@ -163,30 +167,39 @@ div#app .pagination {
 			</tr>
 			<tr v-for="(item, index) in list">
 				<td>{{ item.boardNo }}</td>
-				<td><a href="javascript:;" @click="fnView(item.boardNo, kind)" v-html="item.title"></a></td>
+				<td><a href="javascript:;" @click="fnView(item.boardNo, kind)"
+					v-html="item.title"></a></td>
 				<td><a href="javascript:;" @click="fnUser(item.userId)">{{item.userId}}</a></td>
 				<td>{{ item.hits }}</td>
-				<td>{{ item.uDateTime }}</td>
+				<td>{{ item.cDate }}</td>
 			</tr>
 		</table>
 		<div v-if="kind==2" style="display: flex; flex-wrap: wrap;">
-			<div class="col-lg-3 col-md-3 col-sm-3 blog__item-box" v-for="item in list">
+			<div class="col-lg-3 col-md-3 col-sm-3 blog__item-box"
+				v-for="item in list">
 				<div class="blog__item">
 					<div class="blog__item__pic">
-						<template v-for="item2 in fileList" v-if="item.boardNo == item2.boardNo">
+						<template v-for="item2 in fileList"
+							v-if="item.boardNo == item2.boardNo">
 							<template v-if="item2.kind == 1">
 								<img :src="item2.path" alt="" width="350px" height="250px">
 							</template>
 						</template>
 					</div>
 					<div class="blog__item__text">
-						<div><i class="fa fa-calendar"></i> {{item.uDateTime}}</div>
-						<div><i class="fa fa-thumbs-up"></i> {{item.hits}}</div>
+						<div>
+							<i class="fa fa-calendar"></i> {{item.cDate}}
+						</div>
+						<div>
+							<i class="fa fa-eye"></i> {{item.hits}}
+						</div>
 						<h5>
-							<a @click="fnView(item.boardNo, kind)" href="javascript:;" style="font-size: 30px;">
-							{{truncateText(item.title, 10)}}</a>
+							<a @click="fnView(item.boardNo, kind)" href="javascript:;"
+								style="font-size: 30px;"> {{truncateText(item.title, 10)}}</a>
 						</h5>
-						<p><span v-html="truncateText(item.contents, 50)"></span></p>
+						<p>
+							<span v-html="truncateText(item.contents, 50)"></span>
+						</p>
 					</div>
 				</div>
 			</div>
@@ -195,7 +208,7 @@ div#app .pagination {
 			<button class="write-button" @click="fnWrite"
 				v-if="userType == 'A' || kind != 1">글쓰기</button>
 		</div>
-		<div class="pagination" style="text-align: center;">
+		<div class="pagination" style="display: inline-block;">
 			<template v-for="n in pageCount">
 				<a href="javascript:;" @click="fnPageList(n)"> <span
 					:class="[selectPage == n ? 'page-num' : '']">{{n}}</span>
@@ -203,7 +216,8 @@ div#app .pagination {
 			</template>
 		</div>
 	</div>
-<%@ include file="layout/footer.jsp" %>
+	<div class="clear-both"></div>
+	<%@ include file="layout/footer.jsp"%>
 </body>
 
 <script type="text/javascript">
@@ -255,9 +269,12 @@ div#app .pagination {
 					}
 				});
 			},
-            fnResetPage: function() {
-                this.selectPage = 1;
-            },
+			fnResetPage: function() {
+			    var self = this;
+			    this.selectPage = 1;
+			    this.keyword = "";
+			    this.fnList(this.kind); 
+			},
            
             fnFileList: function() {
             	var self = this;

@@ -34,22 +34,21 @@ public class AdminController {
 	@RequestMapping("/admin-main.do") 
     public String main(Model model) throws Exception{		
 
-        return "/admin-Main2"; 
+        return "/admin-Main"; 
     }
 	
 	//상품 추가 페이지
 	@RequestMapping("/productAdd.do") 
 	public String productAdd(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
 		request.setAttribute("map", map);
-		
+		System.out.println(map);
 		return "/product-add";
 	}
 	
 	//상품 리스트 페이지
 	@RequestMapping("/AdminProductList.do") 
-	public String productList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
-		request.setAttribute("map", map);
-		System.out.println(map);
+	public String productList(Model model) throws Exception{
+
 		return "/admin-product-list";
 	}
 	
@@ -70,7 +69,7 @@ public class AdminController {
 		public String AdminProductChart(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
 			request.setAttribute("map", map);
 			
-			return "/admin-product-line";
+			return "/admin-product-chart";
 	}
 		
 	@RequestMapping("/KakaoPay.do") 
@@ -92,7 +91,6 @@ public class AdminController {
 	@RequestMapping("/adminUserDetail.do") 
 	public String adminUserDetail(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
 		request.setAttribute("map", map);
-		System.out.println(map);
 		
 		return "/admin-user-detail";
 	}
@@ -146,11 +144,7 @@ public class AdminController {
         String url = null;
         String path="c:\\img";
         try {
-        	Calendar cal = Calendar.getInstance();
-        	int year = cal.get(Calendar.YEAR);
-            int month = cal.get(Calendar.MONTH) + 1;
-            int date = cal.get(Calendar.DATE);
-            String Today = Integer.toString(year) + Integer.toString(month) + Integer.toString(date);
+ 
             //String uploadpath = request.getServletContext().getRealPath(path);
             String uploadpath = path;
             String originFilename = multi.getOriginalFilename();
@@ -164,16 +158,15 @@ public class AdminController {
             System.out.println("size : " + size);
             System.out.println("saveFileName : " + saveFileName);
             String path2 = System.getProperty("user.dir");
-            System.out.println("Working Directory = " + path2 + "\\src\\webapp\\img\\adminProduct\\"+Today+"\\ListThumbnail\\");
+            System.out.println("Working Directory = " + path2 + "\\src\\webapp\\img");
             if(!multi.isEmpty())
             {
-            	 File file = new File(path2 + "\\src\\main\\webapp\\img\\adminProduct\\"+Today+"\\ListThumbnail\\", saveFileName);
-                 boolean flg = file.mkdirs(); // 디렉토리 없으면 false 있으면 생성 후 true 리턴
-                 multi.transferTo(file);
+                File file = new File(path2 + "\\src\\main\\webapp\\img", saveFileName);
+                multi.transferTo(file);
                 
                 HashMap<String, Object> map = new HashMap<String, Object>();
                 map.put("fileName", saveFileName);
-                map.put("path", "..\\img\\adminProduct\\"+Today+"\\ListThumbnail\\");
+                map.put("path", "..\\img\\");
                 map.put("itemNo", itemNo);
                 map.put("fileSize", size);
                 map.put("etc", extName);
@@ -206,7 +199,12 @@ public class AdminController {
         	int year = cal.get(Calendar.YEAR);
             int month = cal.get(Calendar.MONTH) + 1;
             int date = cal.get(Calendar.DATE);
+            
             String Today = Integer.toString(year) + Integer.toString(month) + Integer.toString(date);
+            
+           
+           
+            
             //String uploadpath = request.getServletContext().getRealPath(path);
             String uploadpath = path;
             String originFilename = multi.getOriginalFilename();
@@ -219,16 +217,16 @@ public class AdminController {
             System.out.println("size : " + size);
             System.out.println("saveFileName : " + saveFileName);
             String path2 = System.getProperty("user.dir");
-            System.out.println("Working Directory = " + path2 + "\\src\\webapp\\img\\adminProduct\\"+Today+"\\ContentsThumbnail\\");
+            System.out.println("Working Directory = " + path2 + "\\src\\webapp\\img\\adminProduct\\"+Today+"\\");
             if(!multi.isEmpty())
             {
-                File file = new File(path2 + "\\src\\main\\webapp\\img\\adminProduct\\"+Today+"\\ContentsThumbnail\\", saveFileName);
+                File file = new File(path2 + "\\src\\main\\webapp\\img\\adminProduct\\"+Today+"\\", saveFileName);
                 boolean flg = file.mkdirs(); // 디렉토리 없으면 false 있으면 생성 후 true 리턴
                 multi.transferTo(file);
                 
                 HashMap<String, Object> map = new HashMap<String, Object>();
                 map.put("fileName", saveFileName);
-                map.put("path", "..\\img\\adminProduct\\"+Today+"\\ContentsThumbnail\\");
+                map.put("path", "..\\img\\adminProduct\\"+Today+"\\");
                 map.put("itemNo", itemNo);
                 map.put("fileSize", size);
                 map.put("etc", extName);
@@ -237,59 +235,6 @@ public class AdminController {
                 // insert 쿼리 실행
                // testService.addBoardImg(map);
                 adminService.addProductContentsFile(map);
-                
-                model.addAttribute("filename", multi.getOriginalFilename());
-                model.addAttribute("uploadPath", file.getAbsolutePath());
-                
-                return "redirect:AdminProductList.do";
-            }
-        }catch(Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return "redirect:AdminProductList.do";
-    }
-	
-	@RequestMapping("/fileUploadDetail.dox")
-    public String result3(@RequestParam("file3") MultipartFile multi, @RequestParam("itemNo") int itemNo, HttpServletRequest request,HttpServletResponse response, Model model)
-    {
-        String url = null;
-        String path="c:\\img";
-        try {
-        	Calendar cal = Calendar.getInstance();
-        	int year = cal.get(Calendar.YEAR);
-            int month = cal.get(Calendar.MONTH) + 1;
-            int date = cal.get(Calendar.DATE);
-            String Today = Integer.toString(year) + Integer.toString(month) + Integer.toString(date);
-            //String uploadpath = request.getServletContext().getRealPath(path);
-            String uploadpath = path;
-            String originFilename = multi.getOriginalFilename();
-            String extName = originFilename.substring(originFilename.lastIndexOf("."),originFilename.length());
-            long size = multi.getSize();
-            String saveFileName = genSaveFileName(extName);
-            System.out.println("uploadpath : " + uploadpath);
-            System.out.println("originFilename : " + originFilename);
-            System.out.println("extensionName : " + extName);
-            System.out.println("size : " + size);
-            System.out.println("saveFileName : " + saveFileName);
-            String path2 = System.getProperty("user.dir");
-            System.out.println("Working Directory = " + path2 + "\\src\\webapp\\img\\adminProduct\\"+Today+"\\ContentsDetail\\");
-            if(!multi.isEmpty())
-            {
-                File file = new File(path2 + "\\src\\main\\webapp\\img\\adminProduct\\"+Today+"\\ContentsDetail\\", saveFileName);
-                boolean flg = file.mkdirs(); // 디렉토리 없으면 false 있으면 생성 후 true 리턴
-                multi.transferTo(file);
-                
-                HashMap<String, Object> map = new HashMap<String, Object>();
-                map.put("fileName", saveFileName);
-                map.put("path", "..\\img\\adminProduct\\"+Today+"\\ContentsDetail\\");
-                map.put("itemNo", itemNo);
-                map.put("fileSize", size);
-                map.put("etc", extName);
-                map.put("orgName",originFilename);
-                
-                // insert 쿼리 실행
-               // testService.addBoardImg(map);
-                adminService.addProductDetailFile(map);
                 
                 model.addAttribute("filename", multi.getOriginalFilename());
                 model.addAttribute("uploadPath", file.getAbsolutePath());
@@ -344,14 +289,6 @@ public class AdminController {
 	public String AdminUserList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = adminService.searchUserList(map);
-		return new Gson().toJson(resultMap);
-	}
-	//전체 유저리스트(메인에서 쓸 데이터)
-	@RequestMapping(value = "/AdminUserListAll.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public String AdminUserListAll(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap = adminService.searchUserListAll(map);
 		return new Gson().toJson(resultMap);
 	}
 	

@@ -37,7 +37,8 @@
                         <li><span>성별 : </span>{{user.gender}}</li>
                         <li><span>핸드폰 번호 : </span>{{user.phone1}} - {{user.phone2}} - {{user.phone3}}</li>
                         <li><span>이메일 : </span>{{user.email}}</li>
-                        <li><span>생년월일 : </span>{{user.birth}}</li>
+                        <!-- 변경된 부분 -->
+                        <li><span>생년월일 : </span>{{ user.birth | formatDate }}</li>
                     </ul>
                 </div>
                 <div class="point-Area">
@@ -76,7 +77,7 @@
                             <div>
                                 <span>주소: </span>{{ address.addr }}, {{ address.addrDetail }}
                             </div>
-                            <div>{{ address.phone }}</div>
+                            <div>전화번호 : {{ address.phone | formatPhoneNumber }}</div>
                             <div v-if="address.addrRequest">
 							    <span>특이사항 : </span> {{ address.addrRequest }}
 							</div>
@@ -155,7 +156,7 @@
 				this.isPopupOpen = false;
 				location.reload(true);
 			},
-			 /* 개인정보 수정 페이지 이동 */
+			 /* 개인정보 수정으로 인한 비밀번호 입력 페이지 이동 */
             fnUsermodify: function() {
                 var self = this;
                 // 세션 값이 없을 경우 로그인 페이지로 이동
@@ -348,6 +349,17 @@
 		    }
 		    self.getUserInfo();
 		    self.getAddress();
-		}
+		},
+	    filters: {
+	        formatDate: function (value) {
+	            if (!value) return '';
+	            return value.substring(0, 4) + "년 " + value.substring(4, 6) + "월 " + value.substring(6, 8) + "일";
+	        },
+	        formatPhoneNumber: function(value) {
+	            if (!value) return '';
+	            return value.replace(/(\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3');
+	        }
+	    }
+		
 	});
 </script>

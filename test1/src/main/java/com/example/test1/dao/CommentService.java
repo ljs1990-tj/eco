@@ -7,6 +7,6 @@ import com.example.test1.model.Code;
 
 public interface CommentService {
 
-	HashMap<String, Object> addAdminComment(HashMap<String, Object> map); // 문의에 관리자 답글 추가
+	HashMap<String, Object> addAdminComment(HashMap<String, Object> map); //문의에 관리자 답글 추가
 
 }

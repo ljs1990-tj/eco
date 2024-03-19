@@ -13,10 +13,11 @@
 <style>
 	.customer-container {
 		display: flex; /* Flexbox 레이아웃 적용 */
-		width: 75%;
+		width: 80%;
 		max-width: 1200px;
+		height: 1200px;
 		margin: 0 auto;
-		padding: 20px;
+		padding: 40px;
 		background: #fff;
 		/* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
 	}
@@ -32,10 +33,13 @@
 	}
 	
 	.content-area {
+		display: flex;
+    	flex-direction: column;
 		flex: 1; 
-		padding: 10px; 
+		padding: 10px 50px; 
 		background: #ffffff; /* 배경색 */
 		border-left: 1px solid #ffffffa2; /* 구분선 */
+		
 	}
 
 	.content-area p{
@@ -120,8 +124,8 @@
     .content-area {
         display: flex; 
         flex-direction: column; 
-        justify-content: space-between; /* 콘텐츠와 버튼 사이의 공간 분배 */
-        height: 100%;
+        /* justify-content: space-between;  */
+        height: auto;
 		margin-top: 40px; 
     }
 	.content-area h2 {
@@ -181,7 +185,19 @@
     
     .completed {
         color: blue; /* 답변 완료 텍스트의 색상을 파란색으로 지정 */
-    }    
+    }
+    /* 자주묻는 질문 페이징 버튼 영역  */
+    .pagingArea {
+	    display: flex;
+	    justify-content: center; 
+	    align-items: center;
+	    /* margin-top: auto; */
+	} 
+	.pagingArea button{
+		color: #5cb85c;
+		background-color: white;
+	    min-height: 10px; 
+	}   
 </style>
 <body>
 <!-- Header Section -->
@@ -189,16 +205,14 @@
 	<div id="app">
 	    <div class="customer-container">
 	        <div class="menu-area">
-				<h2>고객센터</h2>
+				<h3>고객센터</h3>
 				<div class="menu-item" :class="{ 'menu-item-selected': selectedMenuItem === 'faq' }" @click="updateContent('faq')">자주하는 질문 <span class="align-right">></span></div>
 				<div class="menu-item" :class="{ 'menu-item-selected': selectedMenuItem === 'history' }" @click="updateContent('history')">문의 내역 <span class="align-right">></span></div>
 				<div class="menu-item" :class="{ 'menu-item-selected': selectedMenuItem === 'inquiry' }" @click="updateContent('inquiry')">1:1 문의하기 <span class="align-right">></span></div>				
 	        </div>
-	        {{userId}}
-	        {{userType}}
 	        <div class="content-area">
 	            <div v-if="selectedMenu === 'faq'">
-	                <h2>자주하는 질문</h2>
+	                <h4>자주하는 질문</h4>
 	                <p>고객님들께서 가장 자주하는 질문들을 모았습니다.</p>
 	                 <table>
 				        <thead>
@@ -209,7 +223,7 @@
 				            </tr>
 				        </thead>
 				        <tbody>
-				             <template v-for="(faq, index) in faqs">
+				             <template v-for="(faq, index) in paginatedData"> 
 						        <tr @click="toggleDetail(index)" :key="faq.id">
 						            <td>{{ index + 1 }}</td>
 						            <td>{{ faq.category }}</td>
@@ -222,8 +236,11 @@
 				        </tbody>
 				    </table>
 	            </div>
+				<div class="pagingArea">
+					<button v-for="page in totalPages" @click="goToPage(page)">{{ page }}</button>
+				</div>
 	            <div v-if="selectedMenu === 'history'">
-	                <h2>1:1 문의</h2>
+	                <h4>1:1 문의</h4>
 	                <p>고객님께서 남겨주신 1:1 문의는 여기에 표기됩니다.</p>
                     <table>
                         <thead>
@@ -247,18 +264,18 @@
                     </table>
 	            </div>
 	            	<div v-if="selectedMenu === 'inquiry'">
-	                <h2>문의하기</h2>
+	                <h4>문의하기</h4>
 	                <p>A조 마켓의 중심은 항상 고객님입니다.</p>
                      <!-- 제목 입력란 -->
 					<div class="input-group">
 						<label for="title">제목 <span>*</span></label>
-						<input v-model="title" type="text" id="title" name="title" placeholder="제목을 입력해주세요" required>
+						<input v-model="title" type="text" id="title" name="title" placeholder="제목을 입력해주세요">
 					</div>
 
 					<!-- 내용 입력란 -->
 					<div class="input-group">
 						<label for="content">내용 <span>*</span></label>
-						<textarea v-model="contents" id="content" name="content" rows="10" require>
+						<textarea v-model="contents" id="content" name="content" rows="10" placeholder="제목 및 내용을 모두 입력해야 등록이 가능합니다.">
 						</textarea>
 					</div> 
 					<div class="button-container">
@@ -284,8 +301,10 @@
 			kind : 3,
 			title : "${title}",
 			contents : "${contents}",
-			
-			
+			/* 페이징 처리 및 관리 */
+			currentPage: 1,
+			itemsPerPage: 10,
+
 			selectedMenu: 'faq',
 			selectedMenuItem: null, // 선택된 메뉴 아이템을 저장하기 위한 속성 추가	        
 			faqs : [ 
@@ -306,6 +325,16 @@
 	            { id: 15, category: '회원', title: '회원 탈퇴를 하고 싶어요', detail: '▶ 구매하신 상품만 후기 작성이 가능합니다', showDetail: false }
 			]
 		},
+		computed: {
+		    totalPages: function() {
+		        return Math.ceil(this.faqs.length / this.itemsPerPage);
+		    },
+		    paginatedData: function() {
+		        const start = (this.currentPage - 1) * this.itemsPerPage;
+		        const end = start + this.itemsPerPage;
+		        return this.faqs.slice(start, end);
+		    }
+		},
 		methods : {
 			fnList : function() {
 				var self = this;
@@ -323,6 +352,11 @@
 			},
 			fnInsert : function() {
 				var self = this;
+				if (!self.title.trim() || !self.contents.trim()) {
+					alert("제목과 내용을 모두 입력해야 등록이 가능합니다.");
+				    return; 
+				}
+				
 				var nparmap = {
 					userId : self.userId,
 					title : self.title,
@@ -353,16 +387,29 @@
 				this.selectedMenu = menu;
 				this.selectedMenuItem = menu;
 			},
-			/* 질문 토글에 기능  */
+			/* 자주묻는 질문에 토글 기능  */
 			toggleDetail: function(index) {
-	            this.faqs[index].showDetail = !this.faqs[index].showDetail;
-	            this.faqs.forEach((faq, i) => {
-	                if(i !== index) {
-	                    faq.showDetail = false;
+				const globalIndex = (this.currentPage - 1) * this.itemsPerPage + index;
+				this.faqs[globalIndex].showDetail = !this.faqs[globalIndex].showDetail;
+			    this.faqs.forEach((faq, i) => {
+			    	if (i !== globalIndex) {
+			        	faq.showDetail = false;
+			        }
+			    });
+	        },
+	        /* 페이징 처리 및 관리  */
+	        goToPage: function(page) {
+	            this.currentPage = page;
+	            const startIndex = (page - 1) * this.itemsPerPage;
+	            const endIndex = startIndex + this.itemsPerPage;
+	            this.faqs.forEach((faq, index) => {
+	                if (index >= startIndex && index < endIndex) {
+	                    faq.showDetail = false; // 현재 페이지의 항목들의 상태를 초기화
 	                }
 	            });
-	        }
-		
+	        },
+	        
+
 		},
 		created : function() {
 			var self = this;

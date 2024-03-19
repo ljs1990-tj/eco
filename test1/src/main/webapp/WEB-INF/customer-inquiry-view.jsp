@@ -14,7 +14,7 @@
      .customer-container {
 		display: flex;
 		flex-direction: column; /* 요소들을 세로로 나열 */
-		width: 75%;
+		width: 80%;
 		max-width: 1200px;
 		margin: 0 auto;
 		padding: 20px;
@@ -256,6 +256,16 @@ var app = new Vue({
         },
         fnAddComment: function(){
         	var self = this;
+        	if (!self.commentText.trim()) {
+        		alert("답변을 입력해야 등록이 가능합니다.");
+        	    return;
+        	}
+        	
+        	var isConfirmed = confirm("답변을 등록하시겠습니까?");
+        	if (!isConfirmed) {
+        	        return;
+        	}
+
             var nparmap = { 
             	boardNo : self.boardNo,
             	comment : self.commentText,
