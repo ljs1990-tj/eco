@@ -22,6 +22,9 @@
 		WHERE 1=1
 		<if test="code !=''">
 			AND CODE = #{code}
+			<if test="code == 'All'">
+			OR CODE IN ('org','gluten','vegan','local')
+			</if>
 		</if>
 		<if test="keyword !=''">
 			AND ITEM_NAME LIKE '%' #{keyword} '%'

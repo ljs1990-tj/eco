@@ -21,6 +21,7 @@
 		<div>
 			상품 카테고리 : 
 			<select v-model="code">
+				<option value="All">선택</option>
 				<option value="gluten">글루텐프리</option>
 				<option value="local">로컬푸드</option>
 				<option value="org">유기농</option>
@@ -106,6 +107,10 @@ var app = new Vue({
     , methods: {
     	fnAdd: function() {
             var self = this;
+            if(self.code =="All"){
+            	alert("상품 카테고리를 선택해주세요.");
+            	return;
+            }
             var nparmap = {
             		code : self.code,
             		name : self.name,
