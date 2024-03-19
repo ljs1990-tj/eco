@@ -56,16 +56,16 @@
 
 			<div class="checkout__form" style="text-align: center;">
 				<h4>배송정보</h4>
-				<div class="checkout__input__checkbox">
-					<label for="addr"> <span>주소1: <span></span></span> <input
-						type="radio" id="addr"> <span class="checkmark"></span>
-					</label>
+				<div class="checkout__input__checkbox" v-for="item in addrList" style=" display:inline-block;">
+					받는 분 성함 : {{item.name}}<br>
+					<label> 
+					<input type="radio" id="addr" name="chk_info"><span>{{item.addr}}</span> <span style="color: red;">{{item.addrName}}</span>
+					<span class="checkmark"></span>
+					</label><br>
+					기본 배송 요청사항 : <input type="text" :value="item.addrRequest">
+					
 				</div>
-				<div class="checkout__input__checkbox">
-					<label for="diff-addr"> <span>주소2: <span></span></span> <input
-						type="radio" id="diff-addr"> <span class="checkmark"></span>
-					</label>
-				</div>
+				
 			</div>
 		</section>
 		<section class="checkout spad">
@@ -150,7 +150,8 @@
 			paymentPRatePrice : 0,
 			paymentTotalPay :0,
 			paymentNoRatePrice : 0,
-			paymentRatePrice : 0
+			paymentRatePrice : 0,
+			addrList : []
 			
 
 		},
@@ -193,13 +194,14 @@
 						self.list = data.list;
 						self.totalPrice();
 						self.user = data.user;
+						self.addrList = data.addrList;
 
 					}
 				});
 			},
 
 			fnHome : function() {
-				location.href = "header.do";
+				location.href = "main.do";
 			},
 			totalPrice : function() {
 				var self = this

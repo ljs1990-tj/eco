@@ -181,6 +181,7 @@
 		UDATETIME = NOW()
 		WHERE USERID = #{userId}
 	</update>
+	
 	<update id="updateUserLoginCntZero" parameterType="hashmap">
 		UPDATE
 		ECO_USER
@@ -188,6 +189,8 @@
 		UDATETIME = NOW()
 		WHERE USERID = #{userId}
 	</update>
+	
+	
 	
 	
 </mapper>

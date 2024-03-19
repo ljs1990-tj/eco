@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.example.test1.mapper.AdminMapper;
 import com.example.test1.mapper.CartMapper;
 import com.example.test1.mapper.UserMapper;
+import com.example.test1.model.Addr;
 import com.example.test1.model.Cart;
 import com.example.test1.model.Product;
 import com.example.test1.model.ProductFile;
@@ -40,8 +41,10 @@ public class CartServiceImpl implements CartService{
 			
 			List<Cart> list = cartMapper.selectCartList(map);
 			User user = userMapper.selectUser(map);
+			List<Addr> addrList = cartMapper.selectAddrList(map);
 			resultMap.put("list", list);
 			resultMap.put("user", user);
+			resultMap.put("addrList",addrList);
 			resultMap.put("reslut","success");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -56,11 +59,23 @@ public class CartServiceImpl implements CartService{
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
-			cartMapper.insertCart(map);
-			resultMap.put("result", "success");
+			int i = cartMapper.selectCartCheck(map);
+			
+			if( i == 1) {
+				cartMapper.updateCartSelect(map);
+				resultMap.put("result", "Update");
+				resultMap.put("result", "success");
+			}else {
+				cartMapper.insertCart(map);
+				resultMap.put("result", "Insert");
+				resultMap.put("result", "success");
+			}
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+			
 		}
 		return resultMap;
 	}
