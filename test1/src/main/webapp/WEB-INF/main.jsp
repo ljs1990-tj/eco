@@ -306,7 +306,7 @@
 			                                <li><i class="fa fa-calendar-o"></i> {{item.cDate}}</li>
 			                                <li><i class="fa fa-eye"></i> {{item.hits}}</li>
 			                            </ul>
-			                            <h5><a href="javascript:;">{{truncateText(item.title, 10)}}</a></h5>
+			                            <h5><a href="javascript:;" @click="fnView(item.boardNo, 2)">{{truncateText(item.title, 10)}}</a></h5>
 			                            <p><span v-html="truncateText(item.contents, 50)"></span></p>
 			                        </div>
 			                    </div>
@@ -445,6 +445,15 @@
 				var self = this;
 				$.pageChange("/productView.do", {itemNo: itemNo, userId: self.userId});
 			},
+			fnView: function(boardNo, kind) {
+                var self = this;
+                if (self.userId != "") {
+                    $.pageChange("/boardView.do", {boardNo: boardNo, kind: kind});
+                } else {
+                    alert("로그인 후 이용 가능합니다.");
+                    return;
+                }
+            },
             truncateText(text, maxLength) {
                 if (text.length > maxLength) {
                     return text.slice(0, maxLength) + '...';
