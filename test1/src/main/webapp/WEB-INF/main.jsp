@@ -53,7 +53,7 @@
 	                        <div class="hero__text">
 	                            <span>FRUIT FRESH</span>
 	                            <h2>Vegetable <br />100% Organic</h2>
-	                            <p>1만 원부터 무료배송</p>
+	                            <p>무료배송</p>
 	                            <a href="/productList.do" class="primary-btn">구매하기</a>
 	                        </div>
 	                    </div>
@@ -70,27 +70,27 @@
 	                <div class="categories__slider owl-carousel">
 	                    <div class="col-lg-3">
 	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-1.jpg" style="cursor: pointer;" @click="fnMoveCategory('org')">
-	                            <h5><a href="javascript:;" @click="fnMoveCategory('org')" style="opacity: 0.9">유기농</a></h5>
+	                            <h5><a href="javascript:;" @click="fnMoveCategory('org')">유기농</a></h5>
 	                        </div>
 	                    </div>
 	                    <div class="col-lg-3">
 	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-2.jpg" style="cursor: pointer;" @click="fnMoveCategory('vegan')">
-	                            <h5><a href="javascript:;" @click="fnMoveCategory('vegan')" style="opacity: 0.9">비건</a></h5>
+	                            <h5><a href="javascript:;" @click="fnMoveCategory('vegan')">비건</a></h5>
 	                        </div>
 	                    </div>
 	                    <div class="col-lg-3">
 	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-3.jpg" style="cursor: pointer;" @click="fnMoveCategory('gluten')">
-	                            <h5><a href="javascript:;" @click="fnMoveCategory('gluten')" style="opacity: 0.9">글루텐-프리</a></h5>
+	                            <h5><a href="javascript:;" @click="fnMoveCategory('gluten')">글루텐-프리</a></h5>
 	                        </div>
 	                    </div>
 	                    <div class="col-lg-3">
 	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-4.jpg" style="cursor: pointer;" @click="fnMoveCategory('local')">
-	                            <h5><a href="javascript:;" @click="fnMoveCategory('local')" style="opacity: 0.9">로컬푸드</a></h5>
+	                            <h5><a href="javascript:;" @click="fnMoveCategory('local')">로컬푸드</a></h5>
 	                        </div>
 	                    </div>
  	                  <div class="col-lg-3">
 	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-5.jpg">
-	                            <h5><a href="javascript:;" @click="fnMoveCategory('')" style="opacity: 0.9">모두</a></h5>
+	                            <h5><a href="javascript:;" @click="fnMoveCategory()">모두</a></h5>
 	                        </div>
 	                    </div> 
 	                </div>
@@ -110,35 +110,135 @@
 	                    <div class="featured__controls">
 	                        <ul>
 	                            <li class="active" data-filter="*">모두</li>
-	                            <li data-filter=".org">유기농</li>
-	                            <li data-filter=".vegan">비건</li>
-	                            <li data-filter=".gluten">글루텐프리</li>
-	                            <li data-filter=".local">로컬푸드</li>
+	                            <li data-filter=".oranges">유기농</li>
+	                            <li data-filter=".fresh-meat">비건</li>
+	                            <li data-filter=".vegetables">글루텐프리</li>
+	                            <li data-filter=".fastfood">로컬푸드</li>
 	                        </ul>
 	                    </div>
 	                </div>
 	            </div>
 	            <div class="row featured__filter">
-    		        <template v-for="(item, index) in list" v-if="index < 8">
-		            	<template v-for="item2 in fileList" v-if="item.itemNo == item2.itemNo">
-			                <div :class="'col-lg-3 col-md-4 col-sm-6 mix ' + item.code">
-			                    <div class="featured__item">
-			                    	<div class="featured__item__pic">
-			                    		<img :data-setbg="item2.path" :alt="item.itemName" :src="item2.path" @click="fnDetailView(item.itemNo, userId)" style="cursor: pointer;">
-			                        	<ul class="featured__item__pic__hover">
-			                                <li><a href="javascript:;"><i class="fa fa-heart"></i></a></li>
-			                                <li><a href="javascript:;" @click="fnAddCart(item.itemNo, userId)"><i class="fa fa-shopping-cart"></i></a></li>
-			                            </ul>
-		                        	</div>
-			                        <div class="featured__item__text">
-			                            <h4><a href="javascript:;" @click="fnDetailView(item.itemNo, userId)" style="color: black; font-weight: bold;">{{item.itemName}}</a></h4>
-			                            <del>₩{{item.price}}</del>
-			                            <h4 style="color: red;">₩{{(item.price)*((100-item.sRate)/100)}}</h4>
-			                        </div>
-			                    </div>
-			                </div>
-		            	</template>
-		            </template>
+	                <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
+	                    <div class="featured__item">
+	                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-1.jpg">
+	                            <ul class="featured__item__pic__hover">
+	                                <li><a href="javascript:;"><i class="fa fa-heart"></i></a></li>
+	                                <li><a href="javascript:;"><i class="fa fa-retweet"></i></a></li>
+	                                <li><a href="javascript:;"><i class="fa fa-shopping-cart"></i></a></li>
+	                            </ul>
+	                        </div>
+	                        <div class="featured__item__text">
+	                            <h6><a href="javascript:;">제품이름</a></h6>
+	                            <h5>₩30.00</h5>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="col-lg-3 col-md-4 col-sm-6 mix vegetables fastfood">
+	                    <div class="featured__item">
+	                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-2.jpg">
+	                            <ul class="featured__item__pic__hover">
+	                                <li><a href="javascript:;"><i class="fa fa-heart"></i></a></li>
+	                                <li><a href="javascript:;"><i class="fa fa-retweet"></i></a></li>
+	                                <li><a href="javascript:;"><i class="fa fa-shopping-cart"></i></a></li>
+	                            </ul>
+	                        </div>
+	                        <div class="featured__item__text">
+	                            <h6><a href="javascript:;">제품이름</a></h6>
+	                            <h5>₩30.00</h5>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="col-lg-3 col-md-4 col-sm-6 mix vegetables fresh-meat">
+	                    <div class="featured__item">
+	                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-3.jpg">
+	                            <ul class="featured__item__pic__hover">
+	                                <li><a href="javascript:;"><i class="fa fa-heart"></i></a></li>
+	                                <li><a href="javascript:;"><i class="fa fa-retweet"></i></a></li>
+	                                <li><a href="javascript:;"><i class="fa fa-shopping-cart"></i></a></li>
+	                            </ul>
+	                        </div>
+	                        <div class="featured__item__text">
+	                            <h6><a href="javascript:;">제품이름</a></h6>
+	                            <h5>₩30.00</h5>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="col-lg-3 col-md-4 col-sm-6 mix fastfood oranges">
+	                    <div class="featured__item">
+	                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-4.jpg">
+	                            <ul class="featured__item__pic__hover">
+	                                <li><a href="javascript:;"><i class="fa fa-heart"></i></a></li>
+	                                <li><a href="javascript:;"><i class="fa fa-retweet"></i></a></li>
+	                                <li><a href="javascript:;"><i class="fa fa-shopping-cart"></i></a></li>
+	                            </ul>
+	                        </div>
+	                        <div class="featured__item__text">
+	                            <h6><a href="javascript:;">제품이름</a></h6>
+	                            <h5>₩30.00</h5>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
+	                    <div class="featured__item">
+	                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-5.jpg">
+	                            <ul class="featured__item__pic__hover">
+	                                <li><a href="javascript:;"><i class="fa fa-heart"></i></a></li>
+	                                <li><a href="javascript:;"><i class="fa fa-retweet"></i></a></li>
+	                                <li><a href="javascript:;"><i class="fa fa-shopping-cart"></i></a></li>
+	                            </ul>
+	                        </div>
+	                        <div class="featured__item__text">
+	                            <h6><a href="javascript:;">제품이름</a></h6>
+	                            <h5>₩30.00</h5>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fastfood">
+	                    <div class="featured__item">
+	                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-6.jpg">
+	                            <ul class="featured__item__pic__hover">
+	                                <li><a href="javascript:;"><i class="fa fa-heart"></i></a></li>
+	                                <li><a href="javascript:;"><i class="fa fa-retweet"></i></a></li>
+	                                <li><a href="javascript:;"><i class="fa fa-shopping-cart"></i></a></li>
+	                            </ul>
+	                        </div>
+	                        <div class="featured__item__text">
+	                            <h6><a href="javascript:;">제품이름</a></h6>
+	                            <h5>₩30.00</h5>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
+	                    <div class="featured__item">
+	                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-7.jpg">
+	                            <ul class="featured__item__pic__hover">
+	                                <li><a href="javascript:;"><i class="fa fa-heart"></i></a></li>
+	                                <li><a href="javascript:;"><i class="fa fa-retweet"></i></a></li>
+	                                <li><a href="javascript:;"><i class="fa fa-shopping-cart"></i></a></li>
+	                            </ul>
+	                        </div>
+	                        <div class="featured__item__text">
+	                            <h6><a href="javascript:;">제품이름</a></h6>
+	                            <h5>₩30.00</h5>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="col-lg-3 col-md-4 col-sm-6 mix fastfood vegetables">
+	                    <div class="featured__item">
+	                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-8.jpg">
+	                            <ul class="featured__item__pic__hover">
+	                                <li><a href="javascript:;"><i class="fa fa-heart"></i></a></li>
+	                                <li><a href="javascript:;"><i class="fa fa-retweet"></i></a></li>
+	                                <li><a href="javascript:;"><i class="fa fa-shopping-cart"></i></a></li>
+	                            </ul>
+	                        </div>
+	                        <div class="featured__item__text">
+	                            <h6><a href="javascript:;">제품이름</a></h6>
+	                            <h5>₩30.00</h5>
+	                        </div>
+	                    </div>
+	                </div>
 	            </div>
 	        </div>
 	    </section>
@@ -169,53 +269,137 @@
 	            <div class="row">
 	                <div class="col-lg-4 col-md-6">
 	                    <div class="latest-product__text">
-	                        <h4>최근 등록</h4>
+	                        <h4>최신 제품</h4>
 	                        <div class="latest-product__slider owl-carousel">
-	                        	<template v-for="(item, index) in listLatest">
-	                        		<template v-for="item2 in fileList" v-if="item.itemNo == item2.itemNo">
-			                            <div class="latest-prdouct__slider__item" v-if="index < 3">
-			                                <a href="javascript:;" class="latest-product__item" @click="fnDetailView(item.itemNo, userId)">
-			                                    <div class="latest-product__item__pic">
-			                                        <img :alt="item.itemName" :src="item2.path">
-			                                    </div>
-			                                    <div class="latest-product__item__text">
-			                                        <h6>{{item.itemName}}</h6>
-			                                        <del style="color: #aaa;">₩{{item.price}}</del>
-			                                        <span>₩{{(item.price)*((100-item.sRate)/100)}}</span>
-			                                    </div>
-			                                </a>
-			                            </div>
-		                            </template>
-	                            </template>
+	                            <div class="latest-prdouct__slider__item">
+	                                <a href="javascript:;" class="latest-product__item">
+	                                    <div class="latest-product__item__pic">
+	                                        <img src="img/latest-product/lp-1.jpg" alt="">
+	                                    </div>
+	                                    <div class="latest-product__item__text">
+	                                        <h6>제품이름</h6>
+	                                        <span>₩30.00</span>
+	                                    </div>
+	                                </a>
+	                                <a href="javascript:;" class="latest-product__item">
+	                                    <div class="latest-product__item__pic">
+	                                        <img src="img/latest-product/lp-2.jpg" alt="">
+	                                    </div>
+	                                    <div class="latest-product__item__text">
+	                                        <h6>제품이름</h6>
+	                                        <span>₩30.00</span>
+	                                    </div>
+	                                </a>
+	                                <a href="javascript:;" class="latest-product__item">
+	                                    <div class="latest-product__item__pic">
+	                                        <img src="img/latest-product/lp-3.jpg" alt="">
+	                                    </div>
+	                                    <div class="latest-product__item__text">
+	                                        <h6>제품이름</h6>
+	                                        <span>₩30.00</span>
+	                                    </div>
+	                                </a>
+	                            </div>
+	                            <div class="latest-prdouct__slider__item">
+	                                <a href="javascript:;" class="latest-product__item">
+	                                    <div class="latest-product__item__pic">
+	                                        <img src="img/latest-product/lp-1.jpg" alt="">
+	                                    </div>
+	                                    <div class="latest-product__item__text">
+	                                        <h6>제품이름</h6>
+	                                        <span>₩30.00</span>
+	                                    </div>
+	                                </a>
+	                                <a href="javascript:;" class="latest-product__item">
+	                                    <div class="latest-product__item__pic">
+	                                        <img src="img/latest-product/lp-2.jpg" alt="">
+	                                    </div>
+	                                    <div class="latest-product__item__text">
+	                                        <h6>제품이름</h6>
+	                                        <span>₩30.00</span>
+	                                    </div>
+	                                </a>
+	                                <a href="javascript:;" class="latest-product__item">
+	                                    <div class="latest-product__item__pic">
+	                                        <img src="img/latest-product/lp-3.jpg" alt="">
+	                                    </div>
+	                                    <div class="latest-product__item__text">
+	                                        <h6>제품이름</h6>
+	                                        <span>₩30.00</span>
+	                                    </div>
+	                                </a>
+	                            </div>
 	                        </div>
 	                    </div>
 	                </div>
 	                <div class="col-lg-4 col-md-6">
 	                    <div class="latest-product__text">
-	                        <h4>최다 판매</h4>
+	                        <h4>전체 랭킹</h4>
 	                        <div class="latest-product__slider owl-carousel">
-	                        	<template v-for="(item, index) in listMax">
-	                        		<template v-for="item2 in fileList" v-if="item.itemNo == item2.itemNo">
-			                            <div class="latest-prdouct__slider__item" v-if="index < 3">
-			                                <a href="javascript:;" class="latest-product__item" @click="fnDetailView(item.itemNo, userId)">
-			                                    <div class="latest-product__item__pic">
-			                                        <img :alt="item.itemName" :src="item2.path">
-			                                    </div>
-			                                    <div class="latest-product__item__text">
-			                                        <h6>{{item.itemName}}</h6>
-			                                        <del style="color: #aaa;">₩{{item.price}}</del>
-			                                        <span>₩{{(item.price)*((100-item.sRate)/100)}}</span>
-			                                    </div>
-			                                </a>
-			                            </div>
-		                            </template>
-	                            </template>
+	                            <div class="latest-prdouct__slider__item">
+	                                <a href="javascript:;" class="latest-product__item">
+	                                    <div class="latest-product__item__pic">
+	                                        <img src="img/latest-product/lp-1.jpg" alt="">
+	                                    </div>
+	                                    <div class="latest-product__item__text">
+	                                        <h6>제품이름</h6>
+	                                        <span>₩30.00</span>
+	                                    </div>
+	                                </a>
+	                                <a href="javascript:;" class="latest-product__item">
+	                                    <div class="latest-product__item__pic">
+	                                        <img src="img/latest-product/lp-2.jpg" alt="">
+	                                    </div>
+	                                    <div class="latest-product__item__text">
+	                                        <h6>제품이름</h6>
+	                                        <span>₩30.00</span>
+	                                    </div>
+	                                </a>
+	                                <a href="javascript:;" class="latest-product__item">
+	                                    <div class="latest-product__item__pic">
+	                                        <img src="img/latest-product/lp-3.jpg" alt="">
+	                                    </div>
+	                                    <div class="latest-product__item__text">
+	                                        <h6>제품이름</h6>
+	                                        <span>₩30.00</span>
+	                                    </div>
+	                                </a>
+	                            </div>
+	                            <div class="latest-prdouct__slider__item">
+	                                <a href="javascript:;" class="latest-product__item">
+	                                    <div class="latest-product__item__pic">
+	                                        <img src="img/latest-product/lp-1.jpg" alt="">
+	                                    </div>
+	                                    <div class="latest-product__item__text">
+	                                        <h6>제품이름</h6>
+	                                        <span>₩30.00</span>
+	                                    </div>
+	                                </a>
+	                                <a href="javascript:;" class="latest-product__item">
+	                                    <div class="latest-product__item__pic">
+	                                        <img src="img/latest-product/lp-2.jpg" alt="">
+	                                    </div>
+	                                    <div class="latest-product__item__text">
+	                                        <h6>제품이름</h6>
+	                                        <span>₩30.00</span>
+	                                    </div>
+	                                </a>
+	                                <a href="javascript:;" class="latest-product__item">
+	                                    <div class="latest-product__item__pic">
+	                                        <img src="img/latest-product/lp-3.jpg" alt="">
+	                                    </div>
+	                                    <div class="latest-product__item__text">
+	                                        <h6>제품이름</h6>
+	                                        <span>₩30.00</span>
+	                                    </div>
+	                                </a>
+	                            </div>
 	                        </div>
 	                    </div>
 	                </div>
 	                <div class="col-lg-4 col-md-6">
 	                    <div class="latest-product__text">
-	                        <h4>최다 리뷰</h4>
+	                        <h4>리뷰 제품</h4>
 	                        <div class="latest-product__slider owl-carousel">
 	                            <div class="latest-prdouct__slider__item">
 	                                <a href="javascript:;" class="latest-product__item">
@@ -290,36 +474,65 @@
 	                <div class="col-lg-12">
 	                    <div class="section-title from-blog__title">
 	                        <h2>레시피 게시판</h2>
+	                        
 	                    </div>
 	                </div>
 	            </div>
 	            <div class="row">
-	            	<template v-for="(item, index) in listR">
-	            		<template v-for="item2 in fileListR" v-if="item.boardNo == item2.boardNo">
-			                <div class="col-lg-4 col-md-4 col-sm-6">
-			                    <div class="blog__item">
-			                        <div class="blog__item__pic">
-			                            <img :src="item2.path" alt="">
-			                        </div>
-			                        <div class="blog__item__text">
-			                            <ul>
-			                                <li><i class="fa fa-calendar-o"></i> {{item.cDate}}</li>
-			                                <li><i class="fa fa-eye"></i> {{item.hits}}</li>
-			                            </ul>
-			                            <h5><a href="javascript:;">{{truncateText(item.title, 10)}}</a></h5>
-			                            <p><span v-html="truncateText(item.contents, 50)"></span></p>
-			                        </div>
-			                    </div>
-			                </div>
-	            		</template>
-	            	</template>
+	                <div class="col-lg-4 col-md-4 col-sm-6">
+	                    <div class="blog__item">
+	                        <div class="blog__item__pic">
+	                            <img src="img/blog/blog-1.jpg" alt="">
+	                        </div>
+	                        <div class="blog__item__text">
+	                            <ul>
+	                                <li><i class="fa fa-calendar-o"></i> 2024년 1월 2일</li>
+	                                <li><i class="fa fa-comment-o"></i> 4</li>
+	                            </ul>
+	                            <h5><a href="javascript:;">쉽게 유리하는 팁 공유</a></h5>
+	                            <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="col-lg-4 col-md-4 col-sm-6">
+	                    <div class="blog__item">
+	                        <div class="blog__item__pic">
+	                            <img src="img/blog/blog-2.jpg" alt="">
+	                        </div>
+	                        <div class="blog__item__text">
+	                            <ul>
+	                                <li><i class="fa fa-calendar-o"></i> 2024년 1월 2일</li>
+	                                <li><i class="fa fa-comment-o"></i> 5</li>
+	                            </ul>
+	                            <h5><a href="javascript:;">30분 안에 아침 만들기 도전</a></h5>
+	                            <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="col-lg-4 col-md-4 col-sm-6">
+	                    <div class="blog__item">
+	                        <div class="blog__item__pic">
+	                            <img src="img/blog/blog-3.jpg" alt="">
+	                        </div>
+	                        <div class="blog__item__text">
+	                            <ul>
+	                                <li><i class="fa fa-calendar-o"></i> 2024년 1월 2일</li>
+	                                <li><i class="fa fa-comment-o"></i> 5</li>
+	                            </ul>
+	                            <h5><a href="javascript:;">농장 방문 vlog</a></h5>
+	                            <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
+	                        </div>
+	                    </div>
+	                </div>
 	            </div>
-	            <h5><a href="/boardList.do">더보기</a></h5>
+	            <h5><a href="javascript:;">더보기</a></h5>
 	        </div>
 	    </section>
 	</div>
 	    <!-- Blog Section End -->
+	
 <!-- Footer Section -->
+
 	    	
 	<!-- 팝업 창 -->
 <!-- 		<div v-if="isPopupOpen" class="popup">
@@ -349,115 +562,32 @@
 		data : {
 			userId : "${userId}",
 			isPopupOpen : true,
-			list: [],
-			fileList: [],
-	    	listLatest: [],
-	    	listMax: [],
-	    	listMost: [],
-	    	listR: [], 		// 레시피용
-	    	fileListR: [], 	// 레시피용
-			code: "",
-	    	keyword : "",
 		},
 		methods : {
-			fnList : function(code) {
+			fnList : function() {
 				var self = this;
 				var nparmap = {
-					code: code,
-	            	keyword: self.keyword,
+					
 				};
 				$.ajax({
-					url : "codeList.dox",
+					url : "main.dox",
 					dataType : "json",
 					type : "POST",
 					data : nparmap,
 					success : function(data) {
-	                	self.list = data.list;
-	                	self.fileList = data.fileList;
+						
 					}
 				});
-			},
-			fnListOrderBy: function() {
-				var self = this;
-				var nparmap = {
-				};
-				$.ajax({
-					url : "productListOrderBy.dox",
-					dataType : "json",
-					type : "POST",
-					data : nparmap,
-					success : function(data) {
-	                	self.listLatest = data.listLatest; // 최근 등록순
-	                	self.listMax = data.listMax; // 최다 판매순
-	                	self.listMost = data.listMost; // 최다 리뷰순
-	                	self.fileList = data.fileList; 
-					}
-				});
-			},
-			fnListRecipe: function() {
-				var self = this;
-				var nparmap = {
-				};
-				$.ajax({
-					url : "boardAndFileList.dox",
-					dataType : "json",
-					type : "POST",
-					data : nparmap,
-					success : function(data) {
-						if(data.result == 'success') {
-							self.listR = data.listR;
-							self.fileListR = data.fileListR;
-						}
-					}
-				});				
 			},
 			closePopup : function() {
 				this.isPopupOpen = false;
 			},
 			fnMoveCategory: function(kind) {
 				$.pageChange("/productList.do", {code: kind});
-			},
-			fnAddCart: function(itemNo, userId) {
-	            var self = this;
-	            if(self.userId == "") {
-	            	alert("로그인 후 이용 가능합니다.");
-	            	return;
-	            }
-	            var nparmap = {
-					itemNo: itemNo,
-					userId: self.userId
-	            };
-	            $.ajax({
-	                url:"addCart.dox",
-	                dataType:"json",
-	                type: "POST",
-	                data: nparmap,
-	                success: function(data) {
-	                	if(data.result=="success"){
-	                		alert("장바구니에 담았습니다.");
-	                	}else{
-	                		alert("예기치 못한 오류가 발생했습니다. 다시 시도해 주세요.");
-	                	}
-	                }
-	            });
-			},
-	        fnDetailView: function(itemNo, userId) {
-				var self = this;
-				$.pageChange("/productView.do", {itemNo: itemNo, userId: self.userId});
-			},
-            truncateText(text, maxLength) {
-                if (text.length > maxLength) {
-                    return text.slice(0, maxLength) + '...';
-                } else {
-                    return text;
-                }
-            },
+			}
 		},
 		created : function() {
 			var self = this;
-			self.fnList(self.code);
-			self.fnListOrderBy();
-			self.fnListRecipe();
 		}
 	}); 
 </script>

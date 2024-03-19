@@ -72,7 +72,7 @@ public class ProductServiceimpl implements ProductService {
 			List<Product> qa = productMapper.selectQa(map); //상품 문의 불러오기
 			
 			resultMap.put("info", product);
-			resultMap.put("fileList", fileList);
+			resultMap.put("filelist", fileList);
 			resultMap.put("fileDetailList", fileDetailList);
 			resultMap.put("review", review);
 			resultMap.put("qa", qa);
@@ -86,17 +86,16 @@ public class ProductServiceimpl implements ProductService {
 		return resultMap;
 	}
 
-	// code 분류에 따른 제품 리스트
+	// cord 분류에 따른 제품 리스트
 	@Override
 	public HashMap<String, Object> searchCodeList(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
-			System.out.println("프로덕트 서비스단 searchCodeList: "+ map);
 			List<Product> list = productMapper.selectCodeList(map);
 			List<ProductFile> fileList = productMapper.selectProductFileInfo(map);
 			resultMap.put("list", list);
-			resultMap.put("fileList", fileList);
+			resultMap.put("filelist", fileList);
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
@@ -158,28 +157,6 @@ public class ProductServiceimpl implements ProductService {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			commentMapper.insertAdminComment(map);
-			resultMap.put("result", "success");
-		} catch (Exception e) {
-			// TODO: handle exception
-			resultMap.put("result", "fail");
-			System.out.println(e.getMessage());
-		}
-		return resultMap;
-	}
-
-	@Override
-	public HashMap<String, Object> searchListForMain(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		try {
-			List<Product> listLatest = productMapper.selectProductListLatest(map);
-			List<Product> listMax = productMapper.selectProductListMax(map);
-			List<Product> listMost = productMapper.selectProductListMost(map);
-			List<ProductFile> fileList = productMapper.selectProductFileInfo(map);
-			resultMap.put("listLatest", listLatest);
-			resultMap.put("listMax", listMax);
-			resultMap.put("listMost", listMost);
-			resultMap.put("fileList", fileList);
 			resultMap.put("result", "success");
 		} catch (Exception e) {
 			// TODO: handle exception

@@ -78,7 +78,7 @@
 			<div class="login-title" style="margin: 10px;">로그인</div>
 			<div style="margin: 10px;" class="inputBox">
 				<input type="text" class="login-input" v-model="userId"
-					@keyup.enter="fnLogin" placeholder="아이디를 입력해 주세요" maxlength="20">
+					placeholder="아이디를 입력해 주세요" maxlength="20">
 			</div>
 			<div style="margin: 10px;">
 				<input type="password" class="login-input" v-model="userPw"
@@ -117,8 +117,6 @@ var app = new Vue({
     , methods: {
     	fnLogin: function() {
     	    var self = this;
-    	    var leftPosition = (window.screen.width - 400) / 2; // 화면의 가로 중앙 위치
-    	    var topPosition = (window.screen.height - 400) / 2; // 화면의 세로 중앙 위치
     	    if (self.userId == "") {
     	        self.resultMessage = "아이디를 입력해 주세요!";
     	        return;
@@ -143,23 +141,15 @@ var app = new Vue({
     	                self.userType = data.user.userType; // 로그인 후 등급 정보 할당
     	                self.authYn = data.user.authYn;
     	                if (self.userType === 'D') {
-    	                	alert("탈퇴회원이므로 복구해주시길 바랍니다.");
     	                    // 등급이 D인 경우 회원탈퇴상태이므로 복구 페이지로 이동
-    	                   var popup = window.open('/user-resume.do', 'userCancleDelete Popup', 'width=500,height=400,left=' + leftPosition + ',top=' + topPosition);
-							// 주기적으로 팝업 창이 닫혔는지 확인
-							var interval = setInterval(function() {
-								if (popup && popup.closed) {
-									clearInterval(interval); // 인터벌 중단
-									// 팝업 창이 닫혔을 때 부모 창으로 이동
-									window.location.href = '/user-login.do';
-								}
-							}, 1000); // 1초마다 확인
+    	                    window.location.href = "/user-resume.do";
     	                }else if(self.authYn === 'N'){
     	                	alert("본인인증 하셔야 이용이 가능합니다");
     	                	window.location.href = "/user-login-certifyMain.do"
-    	                }else {
+    	                } 
+    	                else {
     	                    // 등급이 D가 아닌 경우 기존의 로직 수행
-    	                   $.pageChange("/main.do", {});
+    	                   $.pageChange("/header.do", {});
     	                }
     	            } else if (data.result == "fail") {
     	                self.resultMessage = data.message;

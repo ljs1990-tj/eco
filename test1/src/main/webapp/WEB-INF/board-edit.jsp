@@ -4,20 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="../css/team_project_style.css">
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 <script src="js/jquery.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<link rel="stylesheet" href="../css/bootstrap-min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Gaegu&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link
-	href="https://fonts.googleapis.com/css2?family=Cute+Font&family=Gaegu&family=IBM+Plex+Sans+KR&family=Orbit&family=Sunflower:wght@300&display=swap"
-	rel="stylesheet">
-<script src="js/jquery.js"></script>
-<script src="js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <title>게시글 수정 페이지</title>
 <style>
@@ -67,7 +57,6 @@ button:hover {
 </head>
 
 <body>
-<%@ include file="layout/header.jsp" %>
 	<div id="app">
 		<tr>
 			<th>게시판 선택</th>
@@ -85,11 +74,9 @@ button:hover {
 			<div id="editor" v-model="contents" style="height: 300px; "></div>
 			<!-- v-model="contents" 이거 안먹힘 -->
 		</div>		
-		<div class ="editButton" style="text-align: center; margin: 20px;">
-			<button @click="fnEdit">수정완료</button>
-		</div>
+		<button @click="fnWrite">수정완료</button>
+		{{kind}}
 	</div>
-<%@ include file="layout/footer.jsp" %>
 </body>
 </html>
 <script type="text/javascript">
@@ -118,7 +105,7 @@ button:hover {
 						}
 					});
 			},
-			fnEdit : function() {
+			fnWrite : function() {
 				var self = this;
 				var nparmap = {
 					title : self.title,

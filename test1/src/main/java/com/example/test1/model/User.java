@@ -16,7 +16,7 @@ public class User {
 	private String eventYn;
 	private int loginCnt;
 	private int point;
-	private int totalPay;
+	private int totalP;
 	private String userType;
 	private String cDateTime;
 	private String uDateTime;
@@ -121,11 +121,11 @@ public class User {
 	public void setPoint(int point) {
 		this.point = point;
 	}
-	public int getTotalPay() {
-		return totalPay;
+	public int getTotalP() {
+		return totalP;
 	}
-	public void setTotalPay(int totalPay) {
-		this.totalPay = totalPay;
+	public void setTotalP(int totalP) {
+		this.totalP = totalP;
 	}
 	public String getUserType() {
 		return userType;

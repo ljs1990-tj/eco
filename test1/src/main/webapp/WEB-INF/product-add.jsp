@@ -21,7 +21,6 @@
 		<div>
 			상품 카테고리 : 
 			<select v-model="code">
-				<option value="All">선택</option>
 				<option value="gluten">글루텐프리</option>
 				<option value="local">로컬푸드</option>
 				<option value="org">유기농</option>
@@ -51,12 +50,6 @@
 			<td width="30%">설명에 들어갈 이미지 : </td>
 			<td width="70%"><input type="file" id="file2" name="file2" accept=".jpg,.png,.gif" multiple></td>
 		</tr>
-		<div>
-		<tr>
-			<td width="30%">상세보기 내용에 들어갈 이미지 : </td>
-			<td width="70%"><input type="file" id="file3" name="file3" accept=".jpg,.png,.gif" multiple></td>
-		</tr>
-		</div>
 		</div>
 		<div>
 			
@@ -107,10 +100,6 @@ var app = new Vue({
     , methods: {
     	fnAdd: function() {
             var self = this;
-            if(self.code =="All"){
-            	alert("상품 카테고리를 선택해주세요.");
-            	return;
-            }
             var nparmap = {
             		code : self.code,
             		name : self.name,
@@ -151,15 +140,6 @@ var app = new Vue({
                         	 formContents.append("itemNo", data.itemNo);
                              self.uploadContents(formContents);
                         }
-                        
-                        var files3 = $("#file3")[0].files;
-                        
-                        for(var z =0 ; z<files3.length;z++){
-                        	var formContents = new FormData();
-                        	 formContents.append("file3",files3[z]);
-                        	 formContents.append("itemNo", data.itemNo);
-                             self.uploadDetailFile(formContents);
-                        }
                        
                        
                         
@@ -169,7 +149,6 @@ var app = new Vue({
                 		alert("등록실패");
                 		var files = $("#file1")[0].files;
                 		var files2 = $("#file2")[0].files;
-                		var files3 = $("#file3")[0].files;
                 		for (var i =0;i<files2.length;i++){
                 			console.log(i+"번째 파일");
                 			console.log(files2[i]);
@@ -199,19 +178,6 @@ var app = new Vue({
     	var self = this;
          $.ajax({
              url : "/fileUploadContents.dox"
-           , type : "POST"
-           , processData : false
-           , contentType : false
-           , data : form
-           , success:function(response) { 
-        	   
-           }	           
-       });
-	},
-	uploadDetailFile : function(form){
-    	var self = this;
-         $.ajax({
-             url : "/fileUploadDetail.dox"
            , type : "POST"
            , processData : false
            , contentType : false

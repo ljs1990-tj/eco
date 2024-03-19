@@ -8,7 +8,7 @@
     <meta name="keywords" content="Ogani, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>메인 헤더</title>
+    <title>헤더</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
@@ -96,7 +96,7 @@
 	                <div class="col-lg-3">
 	                    <div class="header__cart">
 	                        <ul>
-	                            <li><a href="javascript:;" @click="fnFavorite"><i class="fa fa-heart"></i> <span>{{favoriteCnt}}</span></a></li>
+	                            <li><a href="javascript:;" @click="fnFavorite"><i class="fa fa-heart"></i> <span>0</span></a></li>
 	                            <li><a href="javascript:;" @click="fnMoveCart"><i class="fa fa-shopping-bag"></i> <span>{{cartCnt}}</span></a></li>
 	                       		<li v-if="userType == 'A'"><a href="/admin-main.do" ><i class="bi bi-gear-fill"></i></a></li>
 	                        </ul>
@@ -134,8 +134,7 @@
 	    	userId: "${userId}",
 	    	userType: "${userType}", 
 	    	email: "",
-	    	favoriteCnt: "0",
-	    	cartCnt: "0",
+	    	cartCnt: "",
 	    	loginFlg: false
 	    }
 	    , methods: {
@@ -155,7 +154,6 @@
 		                	if(data.result == 'fail') {
 		                		self.email = data.user.email;
 		                		self.cartCnt = data.cartCnt;
-		                		self.favoriteCnt = data.favoriteCnt;
 		                	}
 		                }
 		            });
