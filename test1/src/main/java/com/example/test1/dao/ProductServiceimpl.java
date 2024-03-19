@@ -92,7 +92,7 @@ public class ProductServiceimpl implements ProductService {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
-			System.out.println("프로덕트 서비스단 searchCodeList: "+ map);
+			// System.out.println("프로덕트 서비스단 searchCodeList: "+ map);
 			List<Product> list = productMapper.selectCodeList(map);
 			List<ProductFile> fileList = productMapper.selectProductFileInfo(map);
 			resultMap.put("list", list);
