@@ -258,7 +258,7 @@
 			                <div class="col-lg-4 col-md-4 col-sm-6">
 			                    <div class="blog__item">
 			                        <div class="blog__item__pic">
-			                            <img :src="item2.path" alt="image" @click="fnView(item.boardNo, 2)" style="cursor: pointer;">
+			                            <img :src="item2.path" alt="image" @click="fnView(item.boardNo, 2)" style="cursor: pointer; max-width: 200px; height: 300px;">
 			                        </div>
 			                        <div class="blog__item__text">
 			                            <ul>
