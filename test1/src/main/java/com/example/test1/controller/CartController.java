@@ -97,7 +97,7 @@ public class CartController {
 		}
 		
 		
-		
+		//결제완료 시점 유저페이지 업데이트
 		@RequestMapping(value = "paymentEndUser.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 		@ResponseBody
 		public String paymentEndUser(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -106,7 +106,7 @@ public class CartController {
 			return new Gson().toJson(resultMap);
 		}
 		
-		
+		//결제완료 시점 차트페이지 업데이트
 		@RequestMapping(value = "paymentEndChart.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 		@ResponseBody
 		public String paymentEndChart(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -116,7 +116,7 @@ public class CartController {
 		}
 		
 		
-		
+		//결제완료 시점 결제로그 payment 테이블에 저장
 		@RequestMapping(value = "paymentEndHistorySave.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 		@ResponseBody
 		public String paymentEndHistorySave(Model model, @RequestParam HashMap<String, Object> map) throws Exception {

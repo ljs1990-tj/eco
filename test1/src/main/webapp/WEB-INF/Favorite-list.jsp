@@ -60,7 +60,6 @@
                                     <th class="shoping__product">제품</th>
                                     <th>가격</th>
                                     <th>적립금</th>
-                                    
                                     <th>총 금액</th>
                                     <th></th>
                                 </tr>
@@ -81,8 +80,14 @@
                                     </td>
                                       
                                     <td class="shoping__cart__total">
+                                    <template v-if="item.sRate == 0">
+                                    {{(item.price*item.selectcnt).toLocaleString('ko-KR')}}원
+                                    </template>
+                                    <template v-if="item.sRate > 0">
                                     <p style="background-color: red; border-radius: 5px; color:white; width: 80px; height: 20px; padding: 0px; font-size: 15px; display: inline-block; margin-bottom: 0;">{{item.sRate}}%할인</p>
                                        <del>{{(item.price*item.selectcnt).toLocaleString('ko-KR')}}원</del>  {{(item.price*(100-item.sRate)/100*item.selectcnt).toLocaleString('ko-KR')}}원
+                                    </template>
+                                    
                                         
                                     </td>
                                     <td class="shoping__cart__item__close">
@@ -101,7 +106,7 @@
                     <div class="shoping__cart__btns">
                         <a href="productList.do"  class="primary-btn cart-btn">쇼핑계속하기</a>
                         <a href="javascript:;" @click="fnCartList"  class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
-                           찜목록 새로고침</a>{{userId}}
+                           찜목록 새로고침</a>
                     </div>
                 </div>
                
