@@ -42,15 +42,15 @@
                     </ul>
                 </div>
                 <div class="point-Area">
-					<div style="margin-right: auto;">내등급 : 
+					<div style="margin-right: auto;">내 등급 : 
 						<span>{{user.userGrade}}</span>
 						<i class="bi bi-arrow-clockwise" @click="fnUpdateGrade"></i>
 					</div>
                     <div style="margin-left: auto;">포인트 : <span>{{user.point}}</span></div>
                 </div>
                 <div class="check-Area">
-                   <div style="margin-right: auto;"><button @click="fnopenPopup()">등급혜택 자세히 보기</button></div>
-                    <div style="margin-left: auto;"><button @click="fnUsermodify()" :disabled="isPopupOpen">정보수정</button></div>
+                   <div style="margin-right: auto;"><button @click="fnopenPopup()">등급 혜택 자세히 보기</button></div>
+                    <div style="margin-left: auto;"><button @click="fnUsermodify()" :disabled="isPopupOpen">정보 수정</button></div>
                 </div>
             </div>
         </div>
@@ -117,10 +117,12 @@
     </section>
     <!-- 등급혜택 창열기 -->
     <div v-if="isPopupOpen" class="popUp">
-        <h2>등급혜택 자세히 보기</h2>
+        <h3>등급혜택 자세히 보기</h3>
+        <p></p>
         <!-- 등급혜택 창 내용 추가 -->
-        <p>팝업 창에 표시할 내용을 여기에 작성하세요.</p>
-        <button @click="fnclosePopup()">닫기</button>
+        <p>저희 사이트에서 100만 원 이상 사용 시 GOLD 등급으로,</p>
+        <p>1000만 원 이상 사용 시엔 PLATINUM 등급으로 상향 조정됩니다.</p>
+        <button class="info-Container" @click="fnclosePopup()">닫기</button>
     </div>
 </div>
 <!-- Footer Section -->
