@@ -225,7 +225,7 @@
 							<template v-for="(faq, index) in paginatedData">
 								<tr @click="toggleDetail(faq.id)" :key="faq.id">
 									<td>{{ index + 1 }}</td>
-									<td>{{ faq.category }}</td>
+									<td>{{ faq.category}}</td>
 									<td>{{ faq.title }}</td>
 								</tr>
 								<tr v-if="faq.showDetail" :key="faq.id">
@@ -237,7 +237,7 @@
 				</div>
 				
 				<div class="pagingArea" v-if="selectedMenu === 'faq'">
-					<button v-for="page in totalPages" @click="goToPage(page)">{{page }}</button>
+					<button v-for="page in totalPages" @click="goToPage(page)">{{page}}</button>
 				</div>
 				
 				<div v-if="selectedMenu === 'history'">
@@ -253,21 +253,22 @@
 						</thead>
 						<tbody>
 							<tr v-for="item in historyPage" :key="item.id">
-								<template v-if="item.userId == userId || userType == 'A' ">
+								<template v-if="item.userId == userId || userType == 'A'">
 									<td @click="fnView(item.boardNo)">{{ item.title }}</td>
 									<td>{{ item.uDate }}</td>
-									<td
-										:class="{ 'waiting': !item.comment, 'completed': item.comment }">
-										{{ item.comment ? '답변 완료' : '답변 대기' }}</td>
+									<td :class="{ 'waiting': !item.comment, 'completed': item.comment }">
+										{{ item.comment ? '답변 완료' : '답변 대기' }}
+									</td>
 								</template>
 							</tr>
 						</tbody>
 					</table>
 				</div>
+				
 				<div class="pagingArea" v-if="selectedMenu === 'history'">
-					<button v-for="page in PagesHistory"
-						@click="goToPage2(page)">{{ page }}</button>
+					<button v-for="page in PagesHistory" @click="goToPage2(page)">{{page}}</button>
 				</div>
+				
 				<div v-if="selectedMenu === 'inquiry'">
 					<h4>문의하기</h4>
 					<p>ECO 마켓의 중심은 항상 고객님입니다.</p>
@@ -407,6 +408,7 @@
 				var self = this;
 				$.pageChange("customerInquiryView.do", { boardNo : boardNo , userId : self.userId , userType : self.userType });
 			},
+			
 			/* 선택한 메뉴에 따른 항목 업데이트 함수 */
 			updateContent : function(menu) {
 				this.selectedMenu = menu;
@@ -432,7 +434,7 @@
 				        });
 				    }
 	        },
-	        /* 페이징 관리 */
+	        /* 자주하는 질문 */
 	        goToPage: function(page) {
 		        this.currentPage = page;
 		        
@@ -440,6 +442,7 @@
 		            faq.showDetail = false;
 		        });
 		    },
+		    /* 문의내역  */
 	        goToPage2: function(page) {
 	            this.currentPage2 = page;
 	            const startIndex = (page - 1) * this.itemsPerPage2;
