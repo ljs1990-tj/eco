@@ -182,6 +182,7 @@
 				var nparmap = {
 					userId : self.userId,
 					kind : 1,
+					cartCheck :1
 
 				};
 				$.ajax({
@@ -195,6 +196,7 @@
 						self.totalPrice();
 						self.user = data.user;
 						self.addrList = data.addrList;
+						
 
 					}
 				});
@@ -337,7 +339,6 @@
 	        	var self = this;
 				var nparmap = {
 						userId : self.userId
-					
 				};
 				$.ajax({
 					url : "paymentEndCart.dox",
@@ -399,6 +400,7 @@
 	        				usePoint : self.usePoint,
 	        				rewardPoint : self.paymentPRatePrice,
 	        				sumPrice : self.paymentTotalPay
+	        				
 					};
 					$.ajax({
 						url : "paymentEndHistorySave.dox",

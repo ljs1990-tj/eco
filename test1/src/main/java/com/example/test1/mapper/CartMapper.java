@@ -32,5 +32,6 @@ public interface CartMapper {
 	void insertFavorite(HashMap<String, Object> map); // 찜목록에 추가
 	int selectFavoriteCheck(HashMap<String, Object> map); //찜목록에 있는지 확인
 	void removeFavorite(HashMap<String, Object> map);//찜목록에서 제거
+	void PaymentEndUpdateProduct(HashMap<String,Object> map);// 결제완료후 상품의 cnt와 sellcnt 업데이트
 	
 }
