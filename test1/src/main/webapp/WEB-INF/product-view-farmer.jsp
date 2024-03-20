@@ -201,8 +201,8 @@
 
     .review-item {
         display: block;
-        margin-bottom: 20px; /* 리뷰 아이템 간의 마진 */
-        padding: 10px;
+        margin-bottom: 15px; /* 리뷰 아이템 간의 마진 */
+        padding: 5px;
         background-color: #ffffff; /* 리뷰 배경색 */
     }
 
@@ -385,9 +385,9 @@
 	                <div class="review-item" v-for="item in review">
 	                    <div class="review-content">
 	                        <!-- 작성자가 남긴 리뷰 -->
-	                        <p class="author-name">{{item.hideName}} 평점 : {{item.score}}</p>
-	                        <p>{{item.rContents}}</p>
-	                        <P>{{item.uDateTimeNew}}</P>
+	                        <p style="color: black;">{{item.hideName}}</p>
+	                        <p style="font-size: 15px;">{{item.rContents}}</p>
+	                        <P style="font-size: 14px;">{{item.uDateTimeNew}}</P>
 	                    </div>
 	                </div>
                 </template>

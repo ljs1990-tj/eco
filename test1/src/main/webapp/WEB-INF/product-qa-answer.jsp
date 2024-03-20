@@ -98,7 +98,6 @@
 	<div id="app">
 		<div class="inquiry-form">
 			<h2>답변하기</h2>
-			{{boardNo}}, {{userId}}
 			<div class="form-field">
 				<label for="inquiry">답변 내용</label>
 				<textarea id="inquiry" placeholder="답변하실 내용을 입력해주세요." v-model="comment"></textarea>
