@@ -32,8 +32,8 @@
                     <div class="footer__widget">
                         <h6>사이트 정보</h6>
                         <ul>
-                            <li><a href="javascript:;">이용약관</a></li>
-                            <li><a href="/privacy-policy">개인정보처리방침</a></li>
+                            <li><a href="/Terms-Conditions.do" target="_blank">이용약관</a></li>
+                            <li><a href="/Privacy-Policy.do" target="_blank">개인정보처리방침</a></li>
                             <li><a href="javascript:;">이용안내</a></li>
                             <li><a href="javascript:;">회사정보</a></li>
                             <li><a href="javascript:;">사업자등록번호</a></li>

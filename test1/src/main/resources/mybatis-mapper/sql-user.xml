@@ -85,8 +85,7 @@
 	</update>
 
 	<!-- 유저 마이페이지 주소록 호출 및 개수제한 -->
-	<select id="selectAddr" parameterType="hashmap"
-		resultType="com.example.test1.model.Addr">
+	<select id="selectAddr" parameterType="hashmap" resultType="com.example.test1.model.Addr">
 		SELECT ECO_ADDR.*, user_counts.CNT
 		FROM ECO_ADDR
 		JOIN (
@@ -170,7 +169,7 @@
 		AUTHYN = 'Y'
 		WHERE USERID = #{userId}
 	</update>
-	<!-- 회원탈퇴 취소 -->
+	<!-- 회원탈퇴 취소로 인한 등급변경 -->
 	<update id="updateUserDeleteCancle" parameterType="hashmap">
         UPDATE ECO_USER
     SET
@@ -178,8 +177,16 @@
         USERTYPE = 'U'
     WHERE USERID = #{userId}
 	</update>
+	<!-- 회원탈퇴 취소로 인한 DB삭제 -->
 	<delete id="deleteUserDeleteCancle" parameterType="hashmap">
 		DELETE FROM ECO_USER_DELETE
 		WHERE USERID = #{userId}
 	</delete>
+	<select id="selectUserPaymentHistory" parameterType="hashmap" resultType="com.example.test1.model.Payment">
+	SELECT
+		*
+	FROM ECO_PAYMENT E
+	INNER JOIN ECO_PRODUCT_IMAGE P ON E.ITEM_NO = P.ITEM_NO
+	WHERE USER_ID = #{userId};
+</select>
 </mapper>

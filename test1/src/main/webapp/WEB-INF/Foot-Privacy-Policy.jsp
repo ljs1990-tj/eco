@@ -6,14 +6,14 @@
 <meta charset="UTF-8">
 <script src="js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<title>테스트 페이지</title>
+<title>개인정보처리방침</title>
 </head>
 <style>
 </style>
 <body>
 	<div id="app">
-		<div style="background-color: white; margin: 0px">
-			<div style="width: 500px; height: 950px; overflow-y: scroll; margin: 0 auto; border: 1px black solid;">
+		<div style="background-color:silver; margin: 0px">
+			<div style="width: 500px; height: 950px; background:white; overflow-y: scroll; margin: 0px auto; padding: 0px auto; border: 1px black solid;">
 				<p>개인정보처리방침</p>
 				<p></p>
 				<p>

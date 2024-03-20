@@ -26,10 +26,17 @@ public class CertifyController {
 	HttpSession session;
 
 	// 개인정보처리방침
+	@RequestMapping("/Terms-Conditions.do")
+	public String TermsConditions(Model model) throws Exception {
+
+		return "/Foot-Terms-Conditions";
+	}
+
+	// 개인정보처리방침
 	@RequestMapping("/Privacy-Policy.do")
 	public String PrivacyPolicy(Model model) throws Exception {
 
-		return "/Privacy-Policy";
+		return "/Foot-Privacy-Policy";
 	}
 
 	// 유저 정보
@@ -141,16 +148,6 @@ public class CertifyController {
 		return new Gson().toJson(resultMap);
 	}
 
-	// 유저 주소록 가져오기
-	@RequestMapping(value = "/user-addr.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public String useraddr(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap = userService.getAddr(map);
-		System.out.println(resultMap);
-		return new Gson().toJson(resultMap);
-	}
-
 	// 유저 주소록 삭제하기
 	@RequestMapping(value = "/delete-addresses.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -167,16 +164,6 @@ public class CertifyController {
 	public String useraddradd(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = userService.addAddr(map);
-		System.out.println(resultMap);
-		return new Gson().toJson(resultMap);
-	}
-
-	// 유저 주소록 수정정보 가져오기
-	@RequestMapping(value = "/user-addr-mypage.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public String useraddrmypage(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap = userService.selectAddr(map);
 		System.out.println(resultMap);
 		return new Gson().toJson(resultMap);
 	}
