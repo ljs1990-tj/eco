@@ -10,6 +10,7 @@ import com.example.test1.mapper.AdminMapper;
 import com.example.test1.model.Product;
 import com.example.test1.model.ProductFile;
 import com.example.test1.model.User;
+import com.siot.IamportRestClient.response.Payment;
 
 @Service
 public class AdminServiceinpl implements AdminService {
@@ -262,6 +263,21 @@ public class AdminServiceinpl implements AdminService {
 			
 		}
 		
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> searchPaymentListAll(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			List<Payment> paymentList = adminMapper.selectPaymentList(map);
+			resultMap.put("paymentList", paymentList);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			resultMap.put("result", "fail");
+		}
 		return resultMap;
 	}
 

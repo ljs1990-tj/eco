@@ -90,6 +90,15 @@
 		VALUES(#{itemNo},#{selectCnt},MONTH(NOW()))
 	</insert>
 	
+	<update id="PaymentEndUpdateProduct" parameterType="hashmap">
+		UPDATE ECO_PRODUCT
+		SET
+			CNT = CNT - #{selectCnt},
+			SELLCNT = SELLCNT + #{selectCnt}
+		WHERE ITEM_NO = #{itemNo}
+	</update>
+	
+	
 	<update id="updateProductChart" parameterType="hashmap">
 		UPDATE ECO_PRODUCT_CHART
 		SET
