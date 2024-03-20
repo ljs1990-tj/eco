@@ -154,8 +154,8 @@ button:hover {
     top: 50%; 
     left: 50%; 
     transform: translate(-50%, -50%); 
-    border: 1px solid #ccc; 
-    background-color:black; 
+    border: 1px solid #1abb34; 
+    background-color:white; 
     padding: 20px; z-index: 9999; 
     text-align: center; color: white;
 }
