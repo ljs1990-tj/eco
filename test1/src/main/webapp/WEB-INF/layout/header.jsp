@@ -80,7 +80,7 @@
 										<li><a href="javascript:;" @click="fnMoveCategory('local')">로컬푸드</a></li>
 									</ul>
 	                          	</li>
-	                            <li><a href="javascript:;">1:1 매칭</a></li>
+	                            <li><a href="/productListFarmer.do">1:1 매칭</a></li>
 	                            
 	                            <li><a href="/customerService.do">고객센터</a></li>
 	                            <li><a href="javascript:;" style="cursor: default;">커뮤니티</a>
