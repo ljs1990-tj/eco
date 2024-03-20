@@ -35,18 +35,22 @@
                         <li><span>이름 : </span>{{user.name}}</li>
                         <li><span>닉네임 : </span>{{user.nickName}}</li>
                         <li><span>성별 : </span>{{user.gender}}</li>
-                        <li><span>핸드폰 번호 : </span>{{user.phone1}} - {{user.phone2}} - {{user.phone3}}</li>
+                        <li><span>핸드폰 번호 : </span>{{ user.phone1 + '-' + user.phone2 + '-' + user.phone3 }}</li>
                         <li><span>이메일 : </span>{{user.email}}</li>
-                        <li><span>생년월일 : </span>{{user.birth}}</li>
+                        <!-- 변경된 부분 -->
+                        <li><span>생년월일 : </span>{{ user.birth | formatDate }}</li>
                     </ul>
                 </div>
                 <div class="point-Area">
-					<div style="margin-right: auto;">내등급 : <span>{{user.userGrade}}</span></div>
+					<div style="margin-right: auto;">내 등급 : 
+						<span>{{user.userGrade}}</span>
+						<i class="bi bi-arrow-clockwise" @click="fnUpdateGrade"></i>
+					</div>
                     <div style="margin-left: auto;">포인트 : <span>{{user.point}}</span></div>
                 </div>
                 <div class="check-Area">
-                   <div style="margin-right: auto;"><button @click="fnopenPopup()">등급혜택 자세히 보기</button></div>
-                    <div style="margin-left: auto;"><button @click="fnUsermodify()" :disabled="isPopupOpen">정보수정</button></div>
+                   <div style="margin-right: auto;"><button @click="fnopenPopup()">등급 혜택 자세히 보기</button></div>
+                    <div style="margin-left: auto;"><button @click="fnUsermodify()" :disabled="isPopupOpen">정보 수정</button></div>
                 </div>
             </div>
         </div>
@@ -76,7 +80,7 @@
                             <div>
                                 <span>주소: </span>{{ address.addr }}, {{ address.addrDetail }}
                             </div>
-                            <div>{{ address.phone }}</div>
+                            <div>전화번호 : {{ address.phone | formatPhoneNumber }}</div>
                             <div v-if="address.addrRequest">
 							    <span>특이사항 : </span> {{ address.addrRequest }}
 							</div>
@@ -100,20 +104,25 @@
                     <div style="margin-left: auto;"><button :disabled="isPopupOpen">더보기?</button></div>
                 </div>
             </div>
-            <div class="order-Area">
-                <div class="order-AreaStyle">
-                    <div style="margin-right: auto;">내주문 내역</div>
-                    <div style="margin-left: auto;"><button :disabled="isPopupOpen">더보기?</button></div>
+            
+            <div class="order-Container">
+            	<div class="order-Info-title">주문 목록</div>
+                <div class="order-Area">
+                    <div style="border: 1px black solid ;">
+						
+                    </div>
                 </div>
             </div>
         </div>
     </section>
     <!-- 등급혜택 창열기 -->
     <div v-if="isPopupOpen" class="popUp">
-        <h2>등급혜택 자세히 보기</h2>
+        <h3>등급혜택 자세히 보기</h3>
+        <p></p>
         <!-- 등급혜택 창 내용 추가 -->
-        <p>팝업 창에 표시할 내용을 여기에 작성하세요.</p>
-        <button @click="fnclosePopup()">닫기</button>
+        <p>저희 사이트에서 100만 원 이상 사용 시 GOLD 등급으로,</p>
+        <p>1000만 원 이상 사용 시엔 PLATINUM 등급으로 상향 조정됩니다.</p>
+        <button class="info-Container" @click="fnclosePopup()">닫기</button>
     </div>
 </div>
 <!-- Footer Section -->
@@ -155,9 +164,11 @@
 				this.isPopupOpen = false;
 				location.reload(true);
 			},
-			 /* 개인정보 수정 페이지 이동 */
+			 /* 개인정보 수정으로 인한 비밀번호 입력 페이지 이동 */
             fnUsermodify: function() {
                 var self = this;
+                var leftPosition = (window.screen.width - 400) / 2; // 화면의 가로 중앙 위치
+		    	var topPosition = (window.screen.height - 400) / 2; // 화면의 세로 중앙 위치
                 // 세션 값이 없을 경우 로그인 페이지로 이동
                 if (!self.user.userId) {
                     alert("로그인 후 입장 가능합니다.");
@@ -166,7 +177,7 @@
                 }
                 //패스워드 확인하는 팝업창
                 var popup = window.open('user-myPage-Password.do',
-                    'Password Popup', 'width=500,height=500');
+                    'Password Popup', 'width=500,height=500,,left=' + leftPosition + ',top=' + topPosition);
             },
 			/* 주소목록 추가하기 */
 			addDefaultAddress : function() {
@@ -281,7 +292,7 @@
 	                }
 			    });
 			},
-			// 사용자 정보 가져오기
+			// 사용자 정보 및 주소록 가져오기
 			getUserInfo: function() {
 		        var self = this;
 		        if (self.user.userId == "") {
@@ -298,45 +309,38 @@
 		                // 서버로부터 받아온 사용자 정보를 Vue.js 데이터에 할당
 		                console.log(data);
 		                self.user = data.user;
-		            },
-		            error: function(xhr, status, error) {
-	                    // 에러 발생 시 처리
-	                    // 에러 페이지로 리다이렉션
-	                    window.location.href = "/error-page"; // 에러 페이지의 URL로 리다이렉션
-	                }
-		        });
-		    },
-		    // 주소록 가져오기
-		    getAddress: function() {
-		        var self = this;
-		        if (self.user.userId == "") {
-		            alert("로그인 후 입장 가능합니다.");
-		            window.location.href = "/user-login.do";
-		        }
-		        var nparmap = {
-		            userId: self.user.userId
-		        };
-		        $.ajax({
-		            url: "user-addr.dox",
-		            dataType: "json",
-		            type: "POST",
-		            data: nparmap,
-		            success: function(data) {
-		                // 서버로부터 받아온 주소록을 Vue.js 데이터에 할당
 		                self.addrList = data.addr;
-		                // 기본 배송지가 선택된 주소를 맨 위로 이동시키는 코드
 		                var defaultAddressIndex = self.addrList.findIndex(address => address.isDefault === 'Y');
 		                if (defaultAddressIndex !== -1) {
 		                    var defaultAddress = self.addrList.splice(defaultAddressIndex, 1)[0];
 		                    self.addrList.unshift(defaultAddress);
 		                }
 		            },
-		            error: function(xhr, status, error) {
+		             error: function(xhr, status, error) {
 	                    // 에러 발생 시 처리
 	                    // 에러 페이지로 리다이렉션
-	                    window.opener.location.href = "/error-page"; // 에러 페이지의 URL로 리다이렉션
-	                }
+	                    window.location.href = "/error-page.do"; // 에러 페이지의 URL로 리다이렉션
+	                } 
 		        });
+		    },
+		    fnUpdateGrade: function(){
+		    	var self = this;
+	            var nparmap = {
+	            	userId : self.user.userId
+	            };
+	            $.ajax({
+	                url:"userGradeUpdate.dox",
+	                dataType:"json",
+	                type: "POST",
+	                data: nparmap,
+	                success: function(data) {
+	                	if(data.result == 'success'){
+	                		alert("갱신이 완료됐습니다.");
+	                		location.reload(true);
+	                	}
+	                	console.log(data.result);
+	                }
+	            });
 		    }
 		},
 		created : function() {
@@ -347,7 +351,17 @@
 		        return;
 		    }
 		    self.getUserInfo();
-		    self.getAddress();
-		}
+		},
+	    filters: {
+	        formatDate: function (value) {
+	            if (!value) return '';
+	            return value.substring(0, 4) + "년 " + value.substring(4, 6) + "월 " + value.substring(6, 8) + "일";
+	        },
+	        formatPhoneNumber: function(value) {
+	            if (!value) return '';
+	            return value.replace(/(\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3');
+	        }
+	    }
+		
 	});
 </script>

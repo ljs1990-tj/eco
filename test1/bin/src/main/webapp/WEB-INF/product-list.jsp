@@ -186,8 +186,6 @@
               배너 이미지 영역
               <img src="/img/vegetable.jpg" alt="상단 배너 이미지">
             </div> -->
-            
-			{{userId}}, {{userType}}
 			<div class="searchArea">
 				<input type="text" placeholder="검색어를 입력해주세요" v-model="keyword" @keyup.enter="fnList(code)">
 				<img class="search" src="/img/search.jpeg" @click="fnList(code)" style="width: 35px; height: 35px;">
@@ -221,9 +219,14 @@
 				      	<div class="product-info" @click="fnDetailView(item.itemNo)">
 				        	<div class="product-name">{{item.itemName}}</div>
 				        	<div class="product-price">
-				        		<del>₩{{item.price}}</del>
-				        		<br>할인가₩{{(item.price)*((100-item.sRate)/100)}}
-				        		<br> 할인율{{item.sRate}}%
+				        		<template v-if="item.sRate > 0">
+					        		<del>₩{{item.price.toLocaleString('ko-KR')}}</del>
+					        		<br> 할인가₩{{DiscountPrice(item.price, item.sRate)}}
+					        		<br> 할인율{{item.sRate}}%				        		
+				        		</template>
+				        		<template v-else>
+				        			<br> ₩{{item.price.toLocaleString('ko-KR')}}
+				        		</template>
 				        	</div>
 				      	</div>
 				    </template>
@@ -244,7 +247,7 @@ var app = new Vue({
     	userId : "${userId}",
 		userType : "${userType}",
     	code : "${map.code}",
-    	keyword : "",
+    	keyword : "${map.keyword}",
     	selected : "",
     	type: "CDATE",
     	order: "DESC",
@@ -359,6 +362,11 @@ var app = new Vue({
                     break;
             }
             self.fnList(self.code);
+        },
+        /* kr통화 표시 */
+        DiscountPrice: function(price, sRate) {
+            const disPrice = price * ((100 - sRate) / 100);
+            return disPrice.toLocaleString('ko-KR');
         }
        
         

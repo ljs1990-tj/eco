@@ -48,15 +48,16 @@
 	<select id="selectUserPhone" parameterType="hashmap" resultType="com.example.test1.model.User">
 		SELECT USERID
 		FROM ECO_USER
-		WHERE
-		PHONE1 = #{phone1} AND PHONE2 = #{phone2} AND PHONE3 = #{phone3}
+		WHERE PHONE1 = #{phone1} AND PHONE2 = #{phone2} AND PHONE3 = #{phone3}
 		WHERE CONCAT(PHONE1, PHONE2, PHONE3) = #{phoneNumber}
 	</select>
 	
 	<select id="selectCartCnt" parameterType="hashmap" resultType="int">
 		SELECT IFNULL(COUNT(*), 0) AS CARTCNT
 		FROM ECO_CART
-		WHERE USERID = #{userId};
+		WHERE
+			USERID = #{userId}
+		AND IS_FAVORITE = "N"
 	</select>
 	
 	<select id="selectFavoriteCnt" parameterType="hashmap" resultType="int">
@@ -86,8 +87,7 @@
 	</update>
 
 	<!-- 유저 마이페이지 주소록 호출 및 개수제한 -->
-	<select id="selectAddr" parameterType="hashmap"
-		resultType="com.example.test1.model.Addr">
+	<select id="selectAddr" parameterType="hashmap" resultType="com.example.test1.model.Addr">
 		SELECT ECO_ADDR.*, user_counts.CNT
 		FROM ECO_ADDR
 		JOIN (
@@ -96,8 +96,7 @@
 		GROUP BY USERID
 		) AS
 		user_counts ON ECO_ADDR.USERID = user_counts.USERID
-		WHERE
-		ECO_ADDR.USERID = #{userId}
+		WHERE ECO_ADDR.USERID = #{userId}
 	</select>
 
 	<!-- 유저 마이페이지 주소록 삭제 -->
@@ -172,7 +171,7 @@
 		AUTHYN = 'Y'
 		WHERE USERID = #{userId}
 	</update>
-	<!-- 회원탈퇴 취소 -->
+	<!-- 회원탈퇴 취소로 인한 등급변경 -->
 	<update id="updateUserDeleteCancle" parameterType="hashmap">
         UPDATE ECO_USER
     SET
@@ -180,8 +179,29 @@
         USERTYPE = 'U'
     WHERE USERID = #{userId}
 	</update>
+	<!-- 회원탈퇴 취소로 인한 DB삭제 -->
 	<delete id="deleteUserDeleteCancle" parameterType="hashmap">
 		DELETE FROM ECO_USER_DELETE
 		WHERE USERID = #{userId}
 	</delete>
+	<!-- 유저 등급 갱신  -->
+	<update id="updateUserGrade" parameterType="hashmap">
+		UPDATE ECO_USER
+		SET 
+			USER_GRADE = CASE
+		      WHEN TOTALPAY >= 10000000 THEN 'PLATINUM'
+		      WHEN TOTALPAY >= 1000000 THEN 'GOLD'
+		      WHEN TOTALPAY >= 0 THEN 'SILVER'
+		      END
+		WHERE 
+			TOTALPAY >= 0 AND 
+			USERID = #{userId};
+	</update>
+<!-- <select id="selectUserPaymentHistory" parameterType="hashmap" resultType="com.example.test1.model.Payment">
+	SELECT
+		*
+	FROM ECO_PAYMENT E
+	INNER JOIN ECO_PRODUCT_IMAGE P ON E.ITEM_NO = P.ITEM_NO
+	WHERE USER_ID = #{userId};
+</select> -->
 </mapper>

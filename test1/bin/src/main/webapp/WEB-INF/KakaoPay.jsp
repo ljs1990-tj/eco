@@ -56,16 +56,16 @@
 
 			<div class="checkout__form" style="text-align: center;">
 				<h4>배송정보</h4>
-				<div class="checkout__input__checkbox">
-					<label for="addr"> <span>주소1: <span></span></span> <input
-						type="radio" id="addr"> <span class="checkmark"></span>
-					</label>
+				<div class="checkout__input__checkbox" v-for="item in addrList" style=" display:inline-block;">
+					받는 분 성함 : {{item.name}}<br>
+					<label> 
+					<input type="radio" id="addr" name="chk_info"><span>{{item.addr}}</span> <span style="color: red;">{{item.addrName}}</span>
+					<span class="checkmark"></span>
+					</label><br>
+					기본 배송 요청사항 : <input type="text" :value="item.addrRequest">
+					
 				</div>
-				<div class="checkout__input__checkbox">
-					<label for="diff-addr"> <span>주소2: <span></span></span> <input
-						type="radio" id="diff-addr"> <span class="checkmark"></span>
-					</label>
-				</div>
+				
 			</div>
 		</section>
 		<section class="checkout spad">
@@ -150,7 +150,8 @@
 			paymentPRatePrice : 0,
 			paymentTotalPay :0,
 			paymentNoRatePrice : 0,
-			paymentRatePrice : 0
+			paymentRatePrice : 0,
+			addrList : []
 			
 
 		},
@@ -181,6 +182,7 @@
 				var nparmap = {
 					userId : self.userId,
 					kind : 1,
+					cartCheck :1
 
 				};
 				$.ajax({
@@ -193,13 +195,15 @@
 						self.list = data.list;
 						self.totalPrice();
 						self.user = data.user;
+						self.addrList = data.addrList;
+						
 
 					}
 				});
 			},
 
 			fnHome : function() {
-				location.href = "header.do";
+				location.href = "main.do";
 			},
 			totalPrice : function() {
 				var self = this
@@ -335,7 +339,6 @@
 	        	var self = this;
 				var nparmap = {
 						userId : self.userId
-					
 				};
 				$.ajax({
 					url : "paymentEndCart.dox",
@@ -397,6 +400,7 @@
 	        				usePoint : self.usePoint,
 	        				rewardPoint : self.paymentPRatePrice,
 	        				sumPrice : self.paymentTotalPay
+	        				
 					};
 					$.ajax({
 						url : "paymentEndHistorySave.dox",
@@ -422,26 +426,28 @@
 			self.fnCartList();
 		}
 	});
+</script>
+  <script src="https://nsp.pay.naver.com/sdk/js/naverpay.min.js"></script>
+<script>
+    var oPay = Naver.Pay.create({
+          "mode" : "development", // development or production
+          "payType" : "normal",
+          "clientId": "qTHPO27WBZ6jdZDBxpvc"
+    });
 
-	var oPay = Naver.Pay.create({
-		"mode" : "{#_mode}", // development or production
-		"clientId" : "{#_clientId}", // clientId
-		"chainId" : "{#_chainId}" // chainId
-	});
-	//직접 만드신 네이버페이 결제버튼에 click Event를 할당하세요
-	var elNaverPayBtn = document.getElementById("naverPayBtn");
+    //직접 만드신 네이버페이 결제버튼에 click Event를 할당하세요
+    var elNaverPayBtn = document.getElementById("naverPayBtn");
 
-	elNaverPayBtn.addEventListener("click", function() {
-		oPay.open({
-			"merchantUserKey" : "{#_merchantUserKey}",
-			"merchantPayKey" : "{#_merchantPayKey}",
-			"productName" : "{#_productName}",
-			"totalPayAmount" : "{#_totalPayAmount}",
-			"taxScopeAmount" : "{#_taxScopeAmount}",
-			"taxExScopeAmount" : "{#_taxExScopeAmount}",
-			"returnUrl" : "{#_returnUrl}"
-		});
-	});
+    elNaverPayBtn.addEventListener("click", function() {
+        oPay.open({
+          "merchantUserKey": "1234",
+          "merchantPayKey": "1234",
+          "productName": "상품명을 입력하세요",
+          "totalPayAmount": "1000",
+          "taxScopeAmount": "1000",
+          "taxExScopeAmount": "0",
+          "returnUrl": "사용자 결제 완료 후 결제 결과를 받을 URL"
+        });
+    });
 
-	
 </script>

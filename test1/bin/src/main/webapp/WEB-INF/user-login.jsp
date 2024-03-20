@@ -10,65 +10,77 @@
 <title>로그인 페이지</title>
 </head>
 <style>
-.con-login {
-	border: 1px solid #ddd;
-	background-color: white;
-	border-radius: 5px;
-	margin: 200px auto;
-	width: 300px;
-}
-
-.login-title {
-	text-align: center;
-	font-size: 15px;
-	font-weight: bold;
-	margin: 25px;
-}
-
-.login-input {
-	width: 255px;
-	height: 40px;
-	border: 2px solid #ddd;
-	border-radius: 5px;
-	margin-left: 10px;
-	padding-left: 20px;
-}
-
-.login-input::placeholder {
-	font-size: 12px;
-	color: #999;
-}
-
-.find-align {
-	text-align: right;
-	padding-right: 15px;
-	line-height: 0px;
-}
-
-.login-btn {
-	width: 255px;
-	height: 40px;
-	margin-left: 10px;
-	background-color: #2c9d59;
-	color: white;
-	font-weight: bold;
-	cursor: pointer;
-	border: 1px solid #2c9d59;
-	margin-top: 10px;
-}
-
-.login-btn-alter {
-	background-color: white;
-	color: #2c9d59;
-	margin-bottom: 10px;
-}
-
-.login-text {
-	text-decoration: none;
-	font-size: 11px;
-	color: black;
-	letter-spacing: -1px;
-}
+	.con-login {
+		border: 1px solid #ddd;
+		background-color: white;
+		border-radius: 5px;
+		margin: 200px auto;
+		width: 300px;
+	}
+	
+	.login-title {
+		text-align: center;
+		font-size: 15px;
+		font-weight: bold;
+		margin: 25px;
+	}
+	
+	.login-input {
+		width: 255px;
+		height: 40px;
+		border: 2px solid #ddd;
+		border-radius: 5px;
+		margin-left: 10px;
+		padding-left: 20px;
+	}
+	
+	.login-input:focus {
+		border-color: #2c9d59;
+	}
+	
+	.login-input::placeholder {
+		font-size: 12px;
+		color: #999;
+	}
+	
+	.find-align {
+		text-align: right;
+		padding-right: 15px;
+		line-height: 0px;
+	}
+	
+	.login-btn {
+		width: 255px;
+		height: 40px;
+		margin-left: 10px;
+		background-color: #2c9d59;
+		color: white;
+		font-weight: bold;
+		cursor: pointer;
+		border: 1px solid #2c9d59;
+		margin-top: 10px;
+	}
+	
+	.login-btn:hover {
+		background-color: #1f814c;
+	}
+	
+	.login-btn-alter {
+		background-color: white;
+		color: #2c9d59;
+		margin-bottom: 10px;
+	}
+	
+	.login-btn-alter:hover {
+		background-color: #defcdd;
+	}
+	
+	.login-text {
+		text-decoration: none;
+		font-size: 11px;
+		color: black;
+		letter-spacing: -1px;
+	}
 </style>
 <body>
 	<!-- header -->
@@ -78,7 +90,7 @@
 			<div class="login-title" style="margin: 10px;">로그인</div>
 			<div style="margin: 10px;" class="inputBox">
 				<input type="text" class="login-input" v-model="userId"
-					@keyup.enter="fnLogin" placeholder="아이디를 입력해 주세요" maxlength="20">
+					@keyup.enter="fnLogin" placeholder="아이디를 입력해 주세요" maxlength="20" autofocus>
 			</div>
 			<div style="margin: 10px;">
 				<input type="password" class="login-input" v-model="userPw"
@@ -157,10 +169,9 @@ var app = new Vue({
     	                }else if(self.authYn === 'N'){
     	                	alert("본인인증 하셔야 이용이 가능합니다");
     	                	window.location.href = "/user-login-certifyMain.do"
-    	                } 
-    	                else {
+    	                }else {
     	                    // 등급이 D가 아닌 경우 기존의 로직 수행
-    	                   $.pageChange("/header.do", {});
+    	                   $.pageChange("/main.do", {});
     	                }
     	            } else if (data.result == "fail") {
     	                self.resultMessage = data.message;

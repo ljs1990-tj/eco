@@ -8,21 +8,21 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <title>회원 복구 페이지</title>
 </head>
-<body>
-    <div id="app">
-        <div>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4;">
+    <div id="app" style="max-width: 400px; height: 180px; margin: 0 auto; padding: 20px; background-color: #fff; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <div style="margin-bottom: 20px;">
             <div style="margin-bottom: 10px;">
-                <div>
-                    <span style="font-weight: bold;">아이디:</span> 
-                    <input type="text" v-model="userId" :disabled="userId" @keyup.enter="fnUser" style="padding: 5px; margin-left: 10px;">
+                <div style="margin-bottom: 10px;">
+                    <span style="font-weight: bold; font-size: 16px;">아이디:</span> 
+                    <input type="text" v-model="userId" :disabled="userId" @keyup.enter="fnUser" style="padding: 10px; margin-left: 10px; width: 90%; border: 1px solid #ccc; border-radius: 3px;">
                 </div>
                 <div>
-                <span style="font-weight: bold;">비밀번호 :</span>
-                <input type="password" v-model="userPw" @keyup.enter="fnCancel" style="padding: 5px; margin-left: 10px;" >
+                    <span style="font-weight: bold; font-size: 16px;">비밀번호 :</span>
+                    <input type="password" v-model="userPw" @keyup.enter="fnCancel" style="padding: 10px; margin-left: 10px; width: 90%; border: 1px solid #ccc; border-radius: 3px;">
                 </div>
-                <button @click="fnCancel()" style="padding: 5px; background-color: #4CAF50; color: white; border: none; border-radius: 3px; cursor: pointer;">회원 복구</button>
-                <button @click="fnClose()" style="padding: 5px; background-color: #4CAF50; color: white; border: none; border-radius: 3px; cursor: pointer;">닫기</button>
             </div>
+            <button @click="fnCancel()" style="padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 3px; cursor: pointer; width: 49%; margin-right: 1%; float: left;">회원 복구</button>
+            <button @click="fnClose()" style="padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 3px; cursor: pointer; width: 49%; float: left;">닫기</button>
         </div>
     </div>
 </body>
@@ -79,7 +79,7 @@
                     data : nparmap,
                     success : function(data) {
                         if (data.result === "success") {
-                            alert("회원탈퇴를 취소하셨습니다 다시 로그인을 부탁드립니다.");
+                            alert("회원탈퇴를 철회하셨습니다 다시 로그인을 부탁드립니다.");
                             window.opener.location.href = "/user-login.do";
                             window.close();
                         } else {
@@ -97,7 +97,8 @@
             },
             fnClose : function(){
                 var self = this;
-                window.location.href = "/user-login.do";
+                window.opener.location.href = "/user-login.do";
+                window.close();
             }
         },
         created : function() {
