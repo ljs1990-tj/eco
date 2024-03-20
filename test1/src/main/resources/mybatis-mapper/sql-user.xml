@@ -197,11 +197,11 @@
 			TOTALPAY >= 0 AND 
 			USERID = #{userId};
 	</update>
-<select id="selectUserPaymentHistory" parameterType="hashmap" resultType="com.example.test1.model.Payment">
+<!-- <select id="selectUserPaymentHistory" parameterType="hashmap" resultType="com.example.test1.model.Payment">
 	SELECT
 		*
 	FROM ECO_PAYMENT E
 	INNER JOIN ECO_PRODUCT_IMAGE P ON E.ITEM_NO = P.ITEM_NO
 	WHERE USER_ID = #{userId};
-</select>
+</select> -->
 </mapper>
