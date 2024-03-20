@@ -83,7 +83,8 @@
             </select>
             <button @click="fnUserTypeEdit">변경</button>
         </div>
-        <button @click="fnMoveAdminMain">돌아가기</button>
+        <button v-if="popupFlg=='no'" @click="fnMoveAdminMain">돌아가기</button>
+          <button v-if="popupFlg=='yes'" @click="fnMoveAdminMain">닫기</button>
         
     </div>
 		
@@ -115,10 +116,12 @@
 	                		self.userInfo = data.userInfo;
 	                	}else{
 	                		alert("아이디를 확인해주세요.");
-	                		if(self.popupFlg == true){
+	                		if(self.popupFlg == "yes"){
 	        	        		window.close();
+	        	        	}else{
+	        	        		history.back();
 	        	        	}
-	                		history.back();
+	                		
 	                	}
 	                	
 	                }

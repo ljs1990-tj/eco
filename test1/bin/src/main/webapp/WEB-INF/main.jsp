@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html lang="zxx">
 <head>
+<title>메인 페이지</title>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 <body>
@@ -32,11 +33,11 @@
 	                        <div class="hero__search__form">
 	                            <form action="javascript:;">
 	                                <div class="hero__search__categories">
-	                                    카테고리
-	                                    <span class="arrow_carrot-down"></span>
+	                                    전체 검색
+	                                    <span class="arrow_carrot-right"></span>
 	                                </div>
-	                                <input type="text" placeholder="검색할 제품 입력하세요">
-	                                <button type="submit" class="site-btn">검색</button>
+	                                <input type="text" placeholder="검색할 상품명을 입력해 주세요" v-model="keyword" @keyup.enter="fnSearchList('')">
+	                                <button type="submit" class="site-btn" @click="fnSearchList('')">검색</button>
 	                            </form>
 	                        </div>
 	                        <div class="hero__search__phone">
@@ -89,7 +90,7 @@
 	                        </div>
 	                    </div>
  	                  <div class="col-lg-3">
-	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-5.jpg">
+	                        <div class="categories__item set-bg" data-setbg="img/categories/cat-5.jpg" style="cursor: pointer;" @click="fnMoveCategory('')">
 	                            <h5><a href="javascript:;" @click="fnMoveCategory('')" style="opacity: 0.9">모두</a></h5>
 	                        </div>
 	                    </div> 
@@ -217,64 +218,22 @@
 	                    <div class="latest-product__text">
 	                        <h4>최다 리뷰</h4>
 	                        <div class="latest-product__slider owl-carousel">
-	                            <div class="latest-prdouct__slider__item">
-	                                <a href="javascript:;" class="latest-product__item">
-	                                    <div class="latest-product__item__pic">
-	                                        <img src="img/latest-product/lp-1.jpg" alt="">
-	                                    </div>
-	                                    <div class="latest-product__item__text">
-	                                        <h6>제품이름</h6>
-	                                        <span>₩30.00</span>
-	                                    </div>
-	                                </a>
-	                                <a href="javascript:;" class="latest-product__item">
-	                                    <div class="latest-product__item__pic">
-	                                        <img src="img/latest-product/lp-2.jpg" alt="">
-	                                    </div>
-	                                    <div class="latest-product__item__text">
-	                                        <h6>제품이름</h6>
-	                                        <span>₩30.00</span>
-	                                    </div>
-	                                </a>
-	                                <a href="javascript:;" class="latest-product__item">
-	                                    <div class="latest-product__item__pic">
-	                                        <img src="img/latest-product/lp-3.jpg" alt="">
-	                                    </div>
-	                                    <div class="latest-product__item__text">
-	                                        <h6>제품이름</h6>
-	                                        <span>₩30.00</span>
-	                                    </div>
-	                                </a>
-	                            </div>
-	                            <div class="latest-prdouct__slider__item">
-	                                <a href="javascript:;" class="latest-product__item">
-	                                    <div class="latest-product__item__pic">
-	                                        <img src="img/latest-product/lp-1.jpg" alt="">
-	                                    </div>
-	                                    <div class="latest-product__item__text">
-	                                        <h6>제품이름</h6>
-	                                        <span>₩30.00</span>
-	                                    </div>
-	                                </a>
-	                                <a href="javascript:;" class="latest-product__item">
-	                                    <div class="latest-product__item__pic">
-	                                        <img src="img/latest-product/lp-2.jpg" alt="">
-	                                    </div>
-	                                    <div class="latest-product__item__text">
-	                                        <h6>제품이름</h6>
-	                                        <span>₩30.00</span>
-	                                    </div>
-	                                </a>
-	                                <a href="javascript:;" class="latest-product__item">
-	                                    <div class="latest-product__item__pic">
-	                                        <img src="img/latest-product/lp-3.jpg" alt="">
-	                                    </div>
-	                                    <div class="latest-product__item__text">
-	                                        <h6>제품이름</h6>
-	                                        <span>₩30.00</span>
-	                                    </div>
-	                                </a>
-	                            </div>
+	                        	<template v-for="(item, index) in listMost">
+	                        		<template v-for="item2 in fileList" v-if="item.itemNo == item2.itemNo">
+			                            <div class="latest-prdouct__slider__item" v-if="index < 3">
+			                                <a href="javascript:;" class="latest-product__item" @click="fnDetailView(item.itemNo, userId)">
+			                                    <div class="latest-product__item__pic">
+			                                        <img :alt="item.itemName" :src="item2.path">
+			                                    </div>
+			                                    <div class="latest-product__item__text">
+			                                        <h6>{{item.itemName}}</h6>
+			                                        <del style="color: #aaa;">₩{{item.price}}</del>
+			                                        <span>₩{{(item.price)*((100-item.sRate)/100)}}</span>
+			                                    </div>
+			                                </a>
+			                            </div>
+		                            </template>
+	                            </template>
 	                        </div>
 	                    </div>
 	                </div>
@@ -289,32 +248,31 @@
 	            <div class="row">
 	                <div class="col-lg-12">
 	                    <div class="section-title from-blog__title">
-	                        <h2>레시피 게시판</h2>
+	                        <h2>인기 레시피</h2>
 	                    </div>
 	                </div>
 	            </div>
 	            <div class="row">
-	            	<template v-for="(item, index) in listR" v-if="index < 3">
+	            	<template v-for="(item, index) in listR">
 	            		<template v-for="item2 in fileListR" v-if="item.boardNo == item2.boardNo">
 			                <div class="col-lg-4 col-md-4 col-sm-6">
 			                    <div class="blog__item">
 			                        <div class="blog__item__pic">
-			                            <img :src="item2.path" alt="">
+			                            <img :src="item2.path" alt="image" @click="fnView(item.boardNo, 2)" style="cursor: pointer; max-width: 200px; height: 300px;">
 			                        </div>
 			                        <div class="blog__item__text">
 			                            <ul>
-			                                <li><i class="fa fa-calendar-o"></i> {{}}</li>
-			                                <li><i class="fa fa-thumbs-up"></i></i> 114</li>
+			                                <li><i class="fa fa-calendar-o"></i> {{item.cDate}}</li>
+			                                <li><i class="fa fa-eye"></i> {{item.hits}}</li>
 			                            </ul>
-			                            <h5><a href="javascript:;">쉽게 요리하는 팁 공유</a></h5>
-			                            <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
+			                            <h5><a href="javascript:;" @click="fnView(item.boardNo, 2)">{{truncateText(item.title, 10)}}</a></h5>
+			                            <p><span v-html="truncateText(item.contents, 50)"></span></p>
 			                        </div>
 			                    </div>
 			                </div>
 	            		</template>
 	            	</template>
 	            </div>
-	            <h5><a href="/boardList.do">더보기</a></h5>
 	        </div>
 	    </section>
 	</div>
@@ -330,16 +288,11 @@
  		</div>  -->
  		
 	<!-- Js Plugins -->
- 	<script src="js/jquery-3.3.1.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>  
-	<script src="js/jquery.nice-select.min.js"></script> 
-	<script src="js/jquery-ui.min.js"></script>
 	<script src="js/jquery.slicknav.js"></script> 
-	<script src="js/mixitup.min.js"></script>
 	<script src="js/owl.carousel.min.js"></script>
 	<script src="js/main.js"></script> 
 	<script src="js/jquery.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>   
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>  
 
 </body>
 </html>
@@ -356,27 +309,9 @@
 	    	listMost: [],
 	    	listR: [], 		// 레시피용
 	    	fileListR: [], 	// 레시피용
-			code: "",
-	    	keyword : "",
+	    	keyword: "",
 		},
 		methods : {
-			fnList : function(code) {
-				var self = this;
-				var nparmap = {
-					code: code,
-	            	keyword: self.keyword,
-				};
-				$.ajax({
-					url : "codeList.dox",
-					dataType : "json",
-					type : "POST",
-					data : nparmap,
-					success : function(data) {
-	                	self.list = data.list;
-	                	self.fileList = data.fileList;
-					}
-				});
-			},
 			fnListOrderBy: function() {
 				var self = this;
 				var nparmap = {
@@ -387,6 +322,8 @@
 					type : "POST",
 					data : nparmap,
 					success : function(data) {
+						console.log(data);
+						self.list = data.listMain;
 	                	self.listLatest = data.listLatest; // 최근 등록순
 	                	self.listMax = data.listMax; // 최다 판매순
 	                	self.listMost = data.listMost; // 최다 리뷰순
@@ -405,7 +342,6 @@
 					data : nparmap,
 					success : function(data) {
 						if(data.result == 'success') {
-							console.log(data);
 							self.listR = data.listR;
 							self.fileListR = data.fileListR;
 						}
@@ -446,10 +382,29 @@
 				var self = this;
 				$.pageChange("/productView.do", {itemNo: itemNo, userId: self.userId});
 			},
+			fnView: function(boardNo, kind) {
+                var self = this;
+                if (self.userId != "") {
+                    $.pageChange("/boardView.do", {boardNo: boardNo, kind: kind});
+                } else {
+                    alert("로그인 후 확인 가능합니다.");
+                    return;
+                }
+            },
+            truncateText(text, maxLength) {
+                if (text.length > maxLength) {
+                    return text.slice(0, maxLength) + '...';
+                } else {
+                    return text;
+                }
+            },
+            fnSearchList: function(code) {
+            	var self = this;
+            	$.pageChange("/productList.do", {keyword: self.keyword, code: code});
+            },
 		},
 		created : function() {
 			var self = this;
-			self.fnList(self.code);
 			self.fnListOrderBy();
 			self.fnListRecipe();
 		}

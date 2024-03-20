@@ -103,10 +103,10 @@
 							<div class="collapse" id="collapseLayouts"
 								aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 								<nav class="sb-sidenav-menu-nested nav">
-									<a class="nav-link" href="#" >글루텐프리</a> <a
-										class="nav-link" href="layout-sidenav-light.html">로컬</a> <a
-										class="nav-link" href="layout-sidenav-light.html">비건</a> <a
-										class="nav-link" href="layout-sidenav-light.html">유기농</a>
+									<a class="nav-link" href="#" @click="fnMoveProductList('gluten')">글루텐프리</a> <a
+										class="nav-link" href="#" @click="fnMoveProductList('local')">로컬</a> <a
+										class="nav-link" href="#" @click="fnMoveProductList('vegan')">비건</a> <a
+										class="nav-link" href="#" @click="fnMoveProductList('org')">유기농</a>
 
 								</nav>
 							</div>
@@ -138,9 +138,10 @@
 										aria-labelledby="headingOne"
 										data-bs-parent="#sidenavAccordionPages">
 										<nav class="sb-sidenav-menu-nested nav">
-											<a class="nav-link" href="#">글루텐프리</a> <a class="nav-link"
-												href="">로컬</a> <a class="nav-link" href="#">비건</a> <a
-												class="nav-link" href="#">유기농</a>
+											<a class="nav-link" href="#" @click="handleAddProduct('gluten')">글루텐프리</a> 
+											<a class="nav-link" href="#" @click="handleAddProduct('local')">로컬</a> 
+											<a class="nav-link" href="#" @click="handleAddProduct('vegan')">비건</a> 
+											<a class="nav-link" href="#" @click="handleAddProduct('org')" >유기농</a>
 										</nav>
 									</div>
 									<a class="nav-link collapsed" href="#"
@@ -157,7 +158,6 @@
 										<nav class="sb-sidenav-menu-nested nav">
 											<a class="nav-link" href="#">공지사항 등록</a> <a class="nav-link"
 												href="#">문의글 관리</a> <a class="nav-link" href="#"></a>
-												
 										</nav>
 										
 									</div>
@@ -166,7 +166,7 @@
 								
 							</div>
 							<div>
-							<a class="nav-link collapsed" href="#" >
+							<a class="nav-link collapsed" href="AdminUserList.do" >
 								<div class="sb-nav-link-icon">
 									<i class="bi bi-people-fill"></i>
 								</div>유저관리
@@ -180,7 +180,7 @@
 								</div> 월 매출 차트
 							</a>
 							<div class="sb-sidenav-menu-heading">결제로그</div>
-							<a class="nav-link" href="tables.html">
+							<a class="nav-link" href="AdminPaymentList.do">
 								<div class="sb-nav-link-icon">
 									<i class="bi bi-credit-card"></i>
 								</div> 결제로그
@@ -198,7 +198,7 @@
 					<div class="container-fluid px-4">
 						<h1 class="mt-4">관리자 페이지 메인</h1>
 						<ol class="breadcrumb mb-4">
-							<li class="breadcrumb-item active">A조 마켓 대시보드</li>
+							<li class="breadcrumb-item active">ECO_MARKET 대시보드</li>
 						</ol>
 						<div class="row">
 							<div class="col-xl-3 col-md-6">
@@ -206,7 +206,7 @@
 									<div class="card-body">상품관리</div>
 									<div
 										class="card-footer d-flex align-items-center justify-content-between">
-										<a class="small text-white stretched-link" href="AdminProductList.do">자세히보기
+										<a class="small text-white stretched-link" href="#" @click="fnMoveProductList('All')">자세히보기
 											</a>
 										<div class="small text-white">
 											<i class="fas fa-angle-right"></i>
@@ -245,7 +245,7 @@
 									<div class="card-body">결제로그</div>
 									<div
 										class="card-footer d-flex align-items-center justify-content-between">
-										<a class="small text-white stretched-link" href="#">자세히보기
+										<a class="small text-white stretched-link" href="AdminPaymentList.do">자세히보기
 											</a>
 										<div class="small text-white">
 											<i class="fas fa-angle-right"></i>
@@ -431,6 +431,13 @@
 				self.fnUserList();
 
 			},
+			fnMoveProductList : function(code){
+				
+					var self = this;
+				$.pageChange("/AdminProductList.do", {
+					code : code
+				});
+			},
 
 			fnData : function() {
 				var self = this;
@@ -557,6 +564,54 @@
 			    // form 제거
 			    document.body.removeChild(form);
 			},
+			handleAddProduct : function(code){
+				var self = this;
+				 // 팝업 창을 열고자 하는 페이지 URL
+			    var url = "productAdd.do";
+
+			    // POST 방식으로 전송할 데이터
+			    var postData = {
+			        code : code,
+			        popupFlg : "yes"
+			    };
+
+			    // form 엘리먼트를 동적으로 생성
+			    var form = document.createElement("form");
+			    form.setAttribute("method", "post");
+			    form.setAttribute("action", url);
+			    form.setAttribute("target", "_blank"); // 새 창으로 열기
+
+			    // 데이터를 form에 추가
+			    for (var key in postData) {
+			        if (postData.hasOwnProperty(key)) {
+			            var hiddenField = document.createElement("input");
+			            hiddenField.setAttribute("type", "hidden");
+			            hiddenField.setAttribute("name", key);
+			            hiddenField.setAttribute("value", postData[key]);
+			            form.appendChild(hiddenField);
+			        }
+			    }
+
+			    // body에 form 추가하고 submit
+			    document.body.appendChild(form);
+			    
+			    // 팝업 창 크기 설정
+			    var width = 500;
+			    var height = 600;
+			    var left = (screen.width - width) / 2;
+			    var top = (screen.height - height) / 2;
+			    var options = "width=" + width + ", height=" + height + ", left=" + left + ", top=" + top;
+			    // 새로운 창에 대한 참조 저장
+			    var popupWindow = window.open("", "popup", options);
+			    
+			    // form을 제출하면서 팝업 창에 대한 참조를 반환하도록 수정
+			    form.target = "popup";
+			    form.submit();
+			    
+			   
+			    // form 제거
+			    document.body.removeChild(form);
+			},
 			
 			fnMoveAdminPage : function() {
 				location.href = "/admin-main.do"
@@ -576,9 +631,6 @@
 	<script src="js/scripts.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
 		crossorigin="anonymous"></script>
 	<script src="js/datatables-simple-demo.js"></script>
 </html>

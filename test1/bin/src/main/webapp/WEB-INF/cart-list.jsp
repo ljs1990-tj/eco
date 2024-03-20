@@ -83,10 +83,13 @@
                                     <td class="shoping__cart__quantity">
                                         <div class="quantity">
                                        				
-                                            <div class="pro-qty-me">
+                                            <div class="pro-qty-me" v-if="item.cnt != 0">
                                             <span class="dec qtybtn" style="cursor: pointer;" @click="ChangSelectCnt(index,item.cartNo,list[index].selectcnt-1)"> - </span>
                                                <input type="text" v-model="list[index].selectcnt" @keyup="ChangSelectCnt(index,item.cartNo, list[index].selectcnt)">
                                              <span class="inc qtybtn" style="cursor: pointer;" @click="ChangSelectCnt(index,item.cartNo, list[index].selectcnt+1)"> + </span>
+                                            </div>
+                                            <div class="pro-qty-me" v-if="item.cnt == 0">
+                                            	<span>품절</span>
                                             </div>
                                             
                                             
@@ -190,6 +193,7 @@ var app = new Vue({
             var nparmap = {
             		userId : self.userId,
             		kind : 1,
+            		cartCheck : 1
             		
             };
             $.ajax({
@@ -226,9 +230,17 @@ var app = new Vue({
         	$.pageChange("/productList.do", {});
         	},
         fnHome: function() {
-        	location.href="header.do";
+        	location.href="main.do";
         	},
         fnKakaoPay: function() {
+        	var self = this;
+        	for(var i = 0 ; i < self.list.length ; i++){
+        		if(self.list[i].cnt == 0){
+        			alert("품절된 상품을 제거한뒤 진행해주세요");
+        			return;
+        		}
+        	}
+        	
     	    location.href="KakaoPay.do";
     		},
     		totalPrice : function(){

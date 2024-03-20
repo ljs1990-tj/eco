@@ -74,6 +74,11 @@ button:hover {
     align-items: center
 }
 
+.point-Area i{
+    cursor: pointer;
+    color: #4caf50; 
+}
+
 .check-Area {
     height: 40px;
     /* border: 1px solid rgb(233, 233, 233); */
@@ -97,7 +102,7 @@ button:hover {
 
 .addr-Info {
     height: 200px; 
-    /* overflow-y: scroll; */
+    overflow-y: scroll;
     padding: 10px;
 }
 
@@ -128,17 +133,20 @@ button:hover {
     justify-content: center; 
     align-items: center;
 }
-.order-Area {
-    width: 500px; 
-    border: 1px solid rgb(233, 233, 233);
+.orderContainer {
+    width: 800px;
     margin: 20px;
 }
+.order-Info-title{
+	font-size: 18px;
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace;
+}
+.order-Area{
+	height: 200px; 
+    overflow-y: scroll;
+    padding: 10px;
 
-.order-AreaStyle{
-    height: 100px; 
-    padding: 10px; display: flex; 
-    justify-content: center; 
-    align-items: center;
 }
 
 .popUp {
@@ -146,8 +154,8 @@ button:hover {
     top: 50%; 
     left: 50%; 
     transform: translate(-50%, -50%); 
-    border: 1px solid #ccc; 
-    background-color:black; 
+    border: 1px solid #1abb34; 
+    background-color:white; 
     padding: 20px; z-index: 9999; 
     text-align: center; color: white;
 }

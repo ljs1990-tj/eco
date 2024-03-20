@@ -38,8 +38,6 @@
 		font-weight: bold;
 	}
 	
-	
-	
 	.join-divide {
 		width: 105px;
 		float: left;
@@ -50,6 +48,10 @@
 		height: 20px;
 		border: 2px solid #ddd;
 		border-radius: 5px;
+	}
+	
+	.join-input:focus {
+		border-color: #777;
 	}
 	
 	.login-input {
@@ -128,6 +130,10 @@
 	.margin-bottom-10px {
 		margin-bottom: 10px;
 	}
+	
+	.join-select {
+		border-radius: 5px;
+	}
 </style>
 <body>
 	<!-- header -->
@@ -193,17 +199,17 @@
                 </li>
                 <li>
 					<div class="join-divide">주소<span class="required-star">*</span></div>                
-					<input type="text" class="join-input zipcode-input" v-model="user.zipCode" placeholder="우편번호">
+					<input type="text" class="join-input zipcode-input" v-model="user.zipCode" placeholder="우편번호" readonly>
 					<input type="button" class="addr-btn" @click="execDaumPostcode" value="우편번호 찾기">
                     <div class="margin-bottom-10px"></div>
-					<input type="text" class="join-input" v-model="user.addr" placeholder="주소">
+					<input type="text" class="join-input" style="width: 300px;" v-model="user.addr" placeholder="주소" readonly>
 					<div class="join-divide margin-bottom-10px"></div>
 					<input type="text" class="join-input" v-model="addrDetail1" placeholder="상세주소" ref="addrDetail1">
 					<div style="margin-bottom: 10px;"></div>
                     <div class="join-divide margin-bottom-10px"></div>
-					<input type="text" class="join-input" v-model="addrDetail2" placeholder="참고항목">
+					<input type="text" class="join-input" v-model="addrDetail2" placeholder="참고항목" readonly>
 					<div style="margin-bottom: 10px;"></div>
-					<div style="padding-left: 110px; font-size: 10px;">※└현재 주소는 집 주소로 기본 저장되며, 후에 마이페이지에서 수정이 가능합니다.</div>
+					<div style="padding-left: 110px; font-size: 10px;">※ 현재 주소는 집 주소로 기본 저장되며, 후에 마이페이지에서 수정이 가능합니다.</div>
                 </li>
                 <li>
                     <div class="join-divide">핸드폰 번호<span class="required-star">*</span></div>
@@ -219,7 +225,7 @@
                         <input type="text" class="join-input email-input" v-model="email1" placeholder="이메일 아이디 입력">
                         <span>@</span>
                         <input type="text" class="join-input email-input" v-model="email2" placeholder="직접 입력">
-                        <select v-model="email3" @change="selectEmail">
+                        <select class="join-select" v-model="email3" @change="selectEmail">
                             <option value="" selected>직접 입력</option>
                             <option value="gmail.com">gmail.com</option>
                             <option value="naver.com">naver.com</option>
@@ -443,7 +449,6 @@ var app = new Vue({
 	            var vDateObj = new Date(vDate.substr(0, 4), vDate.substr(4, 2) - 1, vDate.substr(6, 2)); // 8자리로 입력한 날짜 문자열을 날짜 객체로 전환
 	            var currentDate = new Date();
 	            var limitAge = new Date(currentDate.getFullYear() - 14, currentDate.getMonth(), currentDate.getDate());
-	
 	            if (dtMonth < 1 || dtMonth > 12) {
 	            	self.birthCheckFlg = false;
 	            	self.alertMessage = "알맞지 않은 날짜를 입력하셨습니다. 다시 한번 확인해 주세요!";
@@ -462,6 +467,9 @@ var app = new Vue({
 	            } else if(vDateObj > limitAge) {
 	            	self.birthCheckFlg = false;
                 	self.alertMessage = "만 14세 미만은 가입이 불가합니다!";
+	            } else if((vDate.substr(0, 4)) < 1901) {
+	            	self.birthCheckFlg = false;
+	            	self.alertMessage = "알맞지 않은 날짜를 입력하셨습니다. 다시 한번 확인해 주세요!";
 	            } else {
 	            	self.birthCheckFlg = true;
 	            	self.alertMessage = "";

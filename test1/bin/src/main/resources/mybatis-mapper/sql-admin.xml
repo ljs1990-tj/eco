@@ -22,6 +22,9 @@
 		WHERE 1=1
 		<if test="code !=''">
 			AND CODE = #{code}
+			<if test="code == 'All'">
+			OR CODE IN ('org','gluten','vegan','local')
+			</if>
 		</if>
 		<if test="keyword !=''">
 			AND ITEM_NAME LIKE '%' #{keyword} '%'
@@ -51,7 +54,7 @@
 		SELECT P.*,
 		FILEPATH || FILENAME AS PATH
 		FROM ECO_PRODUCT_IMAGE P
-		WHERE ITEMNO = #{itemNo}
+		WHERE ITEM_NO = #{itemNo}
 	</select>
 
 	<insert id="insertProductFile" parameterType="hashmap">
@@ -164,6 +167,7 @@
 			AND NAME LIKE CONCAT('%', #{keyword}, '%')
 		</if>
 	</select>
+	
 	<select id="selectAdminUserInfo" parameterType="hashmap"
 		resultType="com.example.test1.model.User">
 		SELECT *
@@ -178,6 +182,7 @@
 		UDATETIME = NOW()
 		WHERE USERID = #{userId}
 	</update>
+	
 	<update id="updateUserLoginCntZero" parameterType="hashmap">
 		UPDATE
 		ECO_USER
@@ -186,5 +191,8 @@
 		WHERE USERID = #{userId}
 	</update>
 	
-	
+	<select id="selectPaymentList" parameterType="hashmap" resultType="com.example.test1.model.Payment">
+		SELECT *
+		FROM ECO_PAYMENT
+	</select>
 </mapper>

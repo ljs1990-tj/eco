@@ -52,10 +52,9 @@
 	                                <a href="https://www.linkedin.com/"><i class="fa fa-linkedin"></i></a>
 	                                <a href="https://www.pinterest.co.kr/"><i class="fa fa-pinterest-p"></i></a>
 	                            </div>
-	                          
 	                            <div class="header__top__right__auth">
-	                                <a v-if="!loginFlg" href="/user-login.do" @click="fnLogin"><i class="fa fa-user"></i> 로그인</a>
-	                                <a v-else href="javascript:;" @click="fnLogout"><i class="fa fa-user"></i> 로그아웃</a>
+	                                <a v-if="!loginFlg" href="/user-login.do" @click="fnLogin"><i class="fa fa-user-plus"></i> 로그인</a>
+	                                <a v-else href="javascript:;" @click="fnLogout"><i class="fa fa-user-times"></i> 로그아웃</a>
 	                            </div>
 	                        </div>
 	                    </div>
@@ -66,7 +65,7 @@
 	            <div class="row">
 	                <div class="col-lg-3">
 	                    <div class="header__logo">
-	                        <a href="javascript:;" @click="fnUserPage" style="color: #2c9d59;"><img src="img/logo.png" alt="logo"> MyPage</a>
+	                    	<a href="/main.do"><img src="img/logo/mainLogo.png" alt="메인 로고" style="width: 150px; margin-left: 50px;"></a>
 	                    </div>
 	                </div>
 	                <div class="col-lg-6">
@@ -81,13 +80,13 @@
 										<li><a href="javascript:;" @click="fnMoveCategory('local')">로컬푸드</a></li>
 									</ul>
 	                          	</li>
-	                            <li><a href="javascript:;">1:1 매칭</a></li>
+	                            <li><a href="/productListFarmer.do">1:1 매칭</a></li>
 	                            
-	                            <li><a href="javascript:;">식단관리</a></li>
-	                            <li><a href="javascript:;">커뮤니티</a>
+	                            <li><a href="/customerService.do">고객센터</a></li>
+	                            <li><a href="javascript:;" style="cursor: default;">커뮤니티</a>
 	                            	<ul class="header__menu__dropdown">
-										<li><a href="/boardList.do">공지사항</a></li>
-										<li><a href="/boardList.do">레시피</a></li>
+										<li><a href="javascript:;" @click="fnMoveCommunity('1')">공지사항</a></li>
+										<li><a href="javascript:;" @click="fnMoveCommunity('2')">레시피</a></li>
 	                              </ul>
 	                            </li>
 	                        </ul>
@@ -96,8 +95,9 @@
 	                <div class="col-lg-3">
 	                    <div class="header__cart">
 	                        <ul>
-	                            <li><a href="javascript:;" @click="fnFavorite"><i class="fa fa-heart"></i> <span>{{favoriteCnt}}</span></a></li>
+	                            <li><a href="javascript:;" @click="fnMoveFavorite"><i class="fa fa-heart"></i> <span>{{favoriteCnt}}</span></a></li>
 	                            <li><a href="javascript:;" @click="fnMoveCart"><i class="fa fa-shopping-bag"></i> <span>{{cartCnt}}</span></a></li>
+	                        	<li><a href="javascript:;" @click="fnUserPage" style="color: #2c9d59;"><i class="fa fa-user-circle-o"></i></a></li>
 	                       		<li v-if="userType == 'A'"><a href="/admin-main.do" ><i class="bi bi-gear-fill"></i></a></li>
 	                        </ul>
 	                       
@@ -153,6 +153,7 @@
 		                data: nparmap,
 		                success: function(data) {
 		                	if(data.result == 'fail') {
+		                		console.log(data);
 		                		self.email = data.user.email;
 		                		self.cartCnt = data.cartCnt;
 		                		self.favoriteCnt = data.favoriteCnt;
@@ -198,6 +199,12 @@
 			},
 			fnMoveCategory: function(kind) {
 				$.pageChange("/productList.do", {code: kind});
+			},
+			fnMoveCommunity: function(kind) {
+				$.pageChange("/boardList.do", {code: kind});
+			},
+			fnMoveFavorite: function() {
+				$.pageChange("/FavoriteList.do", {userId: this.userId});
 			},
 	    }
 	    , created: function() {
