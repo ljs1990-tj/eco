@@ -42,7 +42,10 @@
                     </ul>
                 </div>
                 <div class="point-Area">
-					<div style="margin-right: auto;">내등급 : <span>{{user.userGrade}}</span></div>
+					<div style="margin-right: auto;">내등급 : 
+						<span>{{user.userGrade}}</span>
+						<i class="bi bi-arrow-clockwise" @click="fnUpdateGrade"></i>
+					</div>
                     <div style="margin-left: auto;">포인트 : <span>{{user.point}}</span></div>
                 </div>
                 <div class="check-Area">
@@ -340,6 +343,25 @@
 	                    window.opener.location.href = "/error-page"; // 에러 페이지의 URL로 리다이렉션
 	                }
 		        });
+		    },
+		    fnUpdateGrade: function(){
+		    	var self = this;
+	            var nparmap = {
+	            	userId : self.user.userId
+	            };
+	            $.ajax({
+	                url:"userGradeUpdate.dox",
+	                dataType:"json",
+	                type: "POST",
+	                data: nparmap,
+	                success: function(data) {
+	                	if(data.result == 'success'){
+	                		alert("갱신이 완료됐습니다.");
+	                		location.reload(true);
+	                	}
+	                	console.log(data.result);
+	                }
+	            });
 		    }
 		},
 		created : function() {

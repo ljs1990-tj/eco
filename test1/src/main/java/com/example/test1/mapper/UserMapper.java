@@ -53,4 +53,6 @@ public interface UserMapper {
 	void updateUserDeleteCancle(HashMap<String, Object> map);//회원 탈퇴 취소하기
 	
 	void deleteUserDeleteCancle(HashMap<String, Object> map);//회원 탈퇴 취소하기
+	
+	void updateUserGrade(HashMap<String, Object> map); // 유저 등급 갱신
 }
