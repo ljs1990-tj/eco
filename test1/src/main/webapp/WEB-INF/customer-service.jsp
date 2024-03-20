@@ -253,7 +253,7 @@
 						</thead>
 						<tbody>
 							<tr v-for="item in historyPage" :key="item.id">
-								<template v-if="item.userId == userId || userType == 'A'">
+								<template>
 									<td @click="fnView(item.boardNo)">{{ item.title }}</td>
 									<td>{{ item.uDate }}</td>
 									<td :class="{ 'waiting': !item.comment, 'completed': item.comment }">
@@ -309,7 +309,6 @@
 			kind : 3,
 			title : "${title}",
 			contents : "${contents}",
-			
 			/* 자주 묻는 질문 페이징 처리 및 관리 */
 			currentPage: 1,
 			itemsPerPage: 10,
@@ -364,7 +363,10 @@
 			fnList : function() {
 				var self = this;
 				
-				var nparmap = {};
+				var nparmap = {
+					userType: self.userType,
+					userId: self.userId
+				};
 				$.ajax({
 					url : "customerService.dox",
 					dataType : "json",
@@ -372,6 +374,8 @@
 					data : nparmap,
 					success : function(data) {
 						console.log(data.list);
+						// console.log(self.accountType);
+						
 						self.list = data.list;
 					}
 				});

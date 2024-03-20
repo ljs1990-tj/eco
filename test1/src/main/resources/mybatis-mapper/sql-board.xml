@@ -167,8 +167,7 @@
 	</select>
 
 	<!-- 고객 센터 문의 게시판 불러오기 -->
-	<select id="selectCustomerInquiryList" parameterType="hashmap"
-		resultType="com.example.test1.model.Board">
+	<select id="selectCustomerInquiryList" parameterType="hashmap" resultType="com.example.test1.model.Board">
 		SELECT
 		B.*,
 		U.*,
@@ -179,6 +178,9 @@
 		INNER JOIN ECO_USER U ON B.USERID = U.USERID
 		LEFT JOIN ECO_COMMENT C ON B.BOARDNO = C.BOARDNO
 		WHERE KIND = 3
+		<if test="userType == 'U'.toString()">
+			AND U.USERID = #{userId}	
+		</if> 
 	</select>
 
 	<!-- 문의 등록 -->
@@ -197,7 +199,8 @@
 		U.*,
 		C.*,
 		DATE_FORMAT(U.UDATETIME, '%Y.%m.%d') AS UDATE
-		FROM ECO_BOARD B
+		FROM 
+			ECO_BOARD B
 		INNER JOIN ECO_USER U ON B.USERID = U.USERID
 		LEFT JOIN ECO_COMMENT C ON
 		B.BOARDNO = C.BOARDNO
