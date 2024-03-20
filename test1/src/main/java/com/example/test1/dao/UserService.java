@@ -18,13 +18,9 @@ public interface UserService {
 
 	HashMap<String, Object> modifyUser(HashMap<String, Object> map); // 유저정보수정
 
-	HashMap<String, Object> getAddr(HashMap<String, Object> map); // 유저 마이페이지 주소록 목록 호출
-
 	HashMap<String, Object> AddrDelete(HashMap<String, Object> map); // 유저 마이페이지 주소록 삭제
 
 	HashMap<String, Object> addAddr(HashMap<String, Object> map); // 유저 마이페이지 주소 추가
-
-	HashMap<String, Object> selectAddr(HashMap<String, Object> map); // 유저 마이페이지 주소록 호출
 
 	HashMap<String, Object> updateAddr(HashMap<String, Object> map); // 유저 마이페이지 주소록 수정하기
 
