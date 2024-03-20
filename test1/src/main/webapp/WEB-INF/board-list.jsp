@@ -394,8 +394,8 @@
             list: [],
             userId: "${userId}",
             userType : "${userType}",
-			keyword : "",
-			keywordType : "title",
+			keyword : "${map.keyword}",
+			keywordType : "${map.keywordType}",
 			kind : "${map.code}",
             boardList: ${boardList},
 			pageCount : 1,
@@ -461,7 +461,7 @@
             fnWrite: function() {
                 var self = this;
                 if (self.userId != "") {
-                    $.pageChange("boardInsert.do", {
+                    $.pageChange("/boardInsert.do", {
                         kind: self.kind
                     });
                 } else {
