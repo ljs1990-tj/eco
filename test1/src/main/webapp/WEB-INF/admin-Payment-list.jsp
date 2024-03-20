@@ -224,8 +224,8 @@
 											<td>{{item.paymentNo}}</td>
 											<td>{{item.userId}}</td>
 											<td>{{item.sumPrice.toLocaleString('ko-KR')}}</td>
-											<td>{{item.usepoint.toLocaleString('ko-KR')}}</td>
-											<td>{{item.rewardpoint.toLocaleString('ko-KR')}}</td>
+											<td>{{item.usePoint.toLocaleString('ko-KR')}}</td>
+											<td>{{item.rewardPoint.toLocaleString('ko-KR')}}</td>
 											<td>{{item.payTime}}</td>
 										</tr>
 									</tbody>
