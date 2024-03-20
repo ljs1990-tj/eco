@@ -116,7 +116,7 @@
 		<div>
 
 			내용 :
-			<div id="editor" style="height: 300px;"></div>
+			<div  style="height: 300px;" type="text" id="editor"></div>
 
 		</div>
 
@@ -231,12 +231,37 @@ var app = new Vue({
                     data: nparmap,
                     success: function(data) {
                     	if(data.result=="success"){
-                    		
                     		alert("등록완료");
+                    		
+                    		var files = $("#file1")[0].files;
+							for (var i = 0; i < files.length; i++) {
+								var formMain = new FormData();
+								formMain.append("file1", files[i]);
+								formMain.append("itemNo", self.itemNo);
+								self.uploadMain(formMain);
+							}
+
+							var files2 = $("#file2")[0].files;
+
+							for (var y = 0; y < files2.length; y++) {
+								var formContents = new FormData();
+								formContents.append("file2", files2[y]);
+								formContents.append("itemNo", self.itemNo);
+								self.uploadContents(formContents);
+							}
+
+							var files3 = $("#file3")[0].files;
+
+							for (var z = 0; z < files3.length; z++) {
+								var formContents = new FormData();
+								formContents.append("file3", files3[z]);
+								formContents.append("itemNo", self.itemNo);
+								self.uploadDetailFile(formContents);
+							}
                     		
                     		/* 이 부분에 이미지를 수정하는 작업을 해줄것임 */
                             
-                            location.href="AdminProductList.do";
+                           /*  location.href="AdminProductList.do"; */
                             
                     	}else{
                     		alert("등록실패");
@@ -245,35 +270,51 @@ var app = new Vue({
                     }
                 });
         }
-        // 파일 업로드
-	    , uploadMain : function(form){
-	    	var self = this;
-	         $.ajax({
-	             url : "/fileUploadMain.dox"
-	           , type : "POST"
-	           , processData : false
-	           , contentType : false
-	           , data : form
-	           , success:function(response) { 
-	        	   
-	           }	           
-	       });
-		},
+       
+	    , //파일 업로드
 		
-		
-		uploadContents : function(form){
-	    	var self = this;
-	         $.ajax({
-	             url : "/fileUploadContents.dox"
-	           , type : "POST"
-	           , processData : false
-	           , contentType : false
-	           , data : form
-	           , success:function(response) { 
-	        	   
-	           }	           
-	       });
+		uploadMain : function(form) {
+			var self = this;
+			$.ajax({
+				url : "/fileUploadMain.dox",
+				type : "POST",
+				processData : false,
+				contentType : false,
+				data : form,
+				success : function(response) {
+						console.log(response);
+				}
+			});
 		},
+
+		uploadContents : function(form) {
+			var self = this;
+			$.ajax({
+				url : "/fileUploadContents.dox",
+				type : "POST",
+				processData : false,
+				contentType : false,
+				data : form,
+				success : function(response) {
+					console.log(response);
+				}
+			});
+		},
+		uploadDetailFile : function(form) {
+			var self = this;
+			$.ajax({
+				url : "/fileUploadDetail.dox",
+				type : "POST",
+				processData : false,
+				contentType : false,
+				data : form,
+				success : function(response) {
+					console.log(response);
+				}
+			});
+		},
+
+	
 		fnFileDelete : function(fileNo){
             var self = this;
             var nparmap = {

@@ -54,7 +54,7 @@
 		SELECT P.*,
 		FILEPATH || FILENAME AS PATH
 		FROM ECO_PRODUCT_IMAGE P
-		WHERE ITEMNO = #{itemNo}
+		WHERE ITEM_NO = #{itemNo}
 	</select>
 
 	<insert id="insertProductFile" parameterType="hashmap">

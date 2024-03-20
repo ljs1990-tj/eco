@@ -127,6 +127,7 @@ public class AdminController {
 	public String productView(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = adminService.searchProductView(map);
+		
 		return new Gson().toJson(resultMap);
 	}
 	
@@ -322,6 +323,7 @@ public class AdminController {
 	public String productUpdate(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = adminService.editProduct(map);
+		System.out.println(map);
 		return new Gson().toJson(resultMap);
 	}
 	
