@@ -30,11 +30,15 @@ public interface BoardMapper {
 	void insertBoardFile(HashMap<String,Object> map);
 	
 	void insertBoardContentsFile (HashMap<String,Object> map);
+	
 	List<BoardFile> selectBoardFileList(HashMap<String, Object> map);
 	
 	List<BoardFile> selectBoardContentsFileInfo(HashMap<String, Object> map);
+	
 	void fileDelete(HashMap<String, Object> map);
-	void updateBoardMainFile(HashMap<String, Object >map );
+	
+	void updateBoardImage(HashMap<String, Object >map);
+	
 	List<Board> selectUserWriteList(HashMap<String, Object> map);
 
 	
