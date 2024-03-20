@@ -1,93 +1,16 @@
+<!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<script src="js/jquery.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
-
-<title>상품관리 페이지</title>
-
-
-</head>
-<style>
-.container {
-	width: 100%;
-	margin: 0 auto;
-	padding: 20px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.title {
-	background-color: rgb(13, 110, 253);
-	color: white;
-	padding: 10px 20px;
-	text-align: center;
-}
-
-.title h1 {
-	margin: 0;
-}
-
-.description {
-	margin: 10px 20px;
-	text-align: center;
-	color: #666;
-}
-
-.nav li {
-	list-style: none;
-	padding: 10px 20px;
-	cursor: pointer;
-	background-color: white;
-}
-
-.nav li:hover {
-	background: #d4d4d4;
-}
-
-.product-grid {
-	display: flex;
-	flex-wrap: wrap;
-	padding: 20px;
-	justify-content: flex-start;
-}
-
-.product {
-	background: #fff;
-	margin: 10px;
-	width: calc(25% - 22px);
-	/* 4개의 상품이 한 줄에 들어가도록 계산 (20px은 마진, 2px은 보더 고려) */
-	box-sizing: border-box; /* 패딩과 보더가 너비에 포함되도록 설정 */
-	text-align: center;
-}
-
-.product img {
-	max-width: 100%;
-	height: auto;
-}
-
-.product p {
-	margin: 10px 0 0;
-	color: #333;
-}
-
-.price {
-	color: #2a8f2a;
-	font-weight: bold;
-}
-
-.filter {
-	float: right;
-	margin: 20px;
-}
-</style>
+<title>Dashboard - SB Admin</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
 	rel="stylesheet" />
@@ -101,9 +24,9 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 	crossorigin="anonymous"></script>
 <script src="js/jquery.js"></script>
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+</head>
 <body class="sb-nav-fixed">
 	<div id="app">
 		<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -118,13 +41,15 @@
 			<form @submit.prevent="handleFormSubmit"
 				class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
 				<div class="input-group">
-
-					<i class="fas fa-search"></i>
+					<input @keyup.enter="fnMoveUserDetail" class="form-control" type="text" placeholder="유저 아이디로 검색..."
+						aria-label="유저 아이디로 검색..." aria-describedby="btnNavbarSearch" v-model="keywordId" autofocus/>
+					<button class="btn btn-primary" id="btnNavbarSearch" type="button" @click="fnMoveUserDetail">
+						<i class="fas fa-search"></i>
 					</button>
 				</div>
 			</form>
-
-
+			
+			
 			<!-- Navbar-->
 			<ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
 				<li class="nav-item dropdown"><a
@@ -133,15 +58,18 @@
 						class="fas fa-user fa-fw"></i></a>
 					<ul class="dropdown-menu dropdown-menu-end"
 						aria-labelledby="navbarDropdown">
-						<li><a class="dropdown-item" href="#">아이디 : {{userId}}</a></li>
+						<li><a class="dropdown-item" href="#">아이디 :
+								{{userId}}</a></li>
 						<li><hr class="dropdown-divider" /></li>
 						<li><a class="dropdown-item" href="#" @click="fnLogout">Logout</a></li>
 					</ul></li>
-				<li><a href="main.do" class="nav-link dropdown"> <i
-						class="bi bi-house-door-fill"></i>
-				</a></li>
+					<li>
+					<a href="main.do" class="nav-link dropdown">
+					<i class="bi bi-house-door-fill"></i>
+					</a>
+					</li>
 			</ul>
-
+			
 		</nav>
 		<div id="layoutSidenav">
 			<div id="layoutSidenav_nav">
@@ -154,7 +82,8 @@
 								<div class="sb-nav-link-icon">
 									<i class="fas fa-tachometer-alt"></i>
 								</div> 관리자 페이지
-							</a> <a class="nav-link" href="/main.do">
+							</a>
+							<a class="nav-link" href="/main.do">
 								<div class="sb-nav-link-icon">
 									<i class="bi bi-house-door-fill"></i>
 								</div> 메인 페이지
@@ -170,7 +99,7 @@
 									<i class="fas fa-angle-down"></i>
 								</div>
 							</a>
-
+							
 							<div class="collapse" id="collapseLayouts"
 								aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 								<nav class="sb-sidenav-menu-nested nav">
@@ -181,7 +110,7 @@
 
 								</nav>
 							</div>
-
+							
 							<a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
 								data-bs-target="#collapsePages" aria-expanded="false"
 								aria-controls="collapsePages">
@@ -192,7 +121,7 @@
 									<i class="fas fa-angle-down"></i>
 								</div>
 							</a>
-
+							
 							<div class="collapse" id="collapsePages"
 								aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
 								<nav class="sb-sidenav-menu-nested nav accordion"
@@ -229,21 +158,19 @@
 										<nav class="sb-sidenav-menu-nested nav">
 											<a class="nav-link" href="#">공지사항 등록</a> <a class="nav-link"
 												href="#">문의글 관리</a> <a class="nav-link" href="#"></a>
-
 										</nav>
-
+										
 									</div>
-
+									
 								</nav>
-
+								
 							</div>
 							<div>
-								<a class="nav-link collapsed" href="AdminUserList.do">
-									<div class="sb-nav-link-icon">
-										<i class="bi bi-people-fill"></i>
-									</div>유저관리
-
-								</a>
+							<a class="nav-link collapsed" href="AdminUserList.do" >
+								<div class="sb-nav-link-icon">
+									<i class="bi bi-people-fill"></i>
+								</div>유저관리
+							</a>
 							</div>
 							<div class="sb-sidenav-menu-heading">차트분석</div>
 							<a class="nav-link" href="tables.html">
@@ -265,126 +192,171 @@
 					</div>
 				</nav>
 			</div>
-
 			<div id="layoutSidenav_content">
-				<main>
-					<div class="container-fluid px-4">
-
-						<div class="container">
-							<div class="title">
-								<h1>상품 리스트</h1>
+				<div class="card mb-4">
+							<div class="card-header">
+								<i class="fas fa-table me-1"></i> 결제로그
 							</div>
-
-							<div class="description">
-								<p>각 카테고리에 맞는 상품을 추가 혹은 삭제와 수정의 기능이 있습니다</p>
+							<div class="card-body">
+								<table id="datatablesSimple">
+									<thead>
+										<tr>
+											<th>paymentNo</th>
+											<th>사용자 아이디</th>
+											<th>총 결제금액</th>
+											<th>결제에 사용한 포인트</th>
+											<th>적립된 포인트</th>
+											<th>결제일</th>
+										</tr>
+									</thead>
+									<tfoot>
+										<tr>
+											<th>paymentNo</th>
+											<th>사용자 아이디</th>
+											<th>총 결제금액</th>
+											<th>결제에 사용한 포인트</th>
+											<th>적립된 포인트</th>
+											<th>결제일</th>
+										</tr>
+									</tfoot>
+									<tbody>
+										<tr v-for="item in list">
+											<td>{{item.paymentNo}}</td>
+											<td>{{item.userId}}</td>
+											<td>{{item.sumPrice.toLocaleString('ko-KR')}}</td>
+											<td>{{item.usepoint.toLocaleString('ko-KR')}}</td>
+											<td>{{item.rewardpoint.toLocaleString('ko-KR')}}</td>
+											<td>{{item.payTime}}</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
-
-							<ul class="nav">
-								<li @click="fnList('All')" v-if="code == 'All'"
-									style="background-color: #d4d4d4;">전체</li>
-								<li @click="fnList('All')" v-if="code != 'All'">전체</li>
-								<li @click="fnList('org')" v-if="code == 'org'"
-									style="background-color: #d4d4d4;">유기농</li>
-								<li @click="fnList('org')" v-if="code != 'org'">유기농</li>
-								<li @click="fnList('vegan')" v-if="code == 'vegan'"
-									style="background-color: #d4d4d4;">비건</li>
-								<li @click="fnList('vegan')" v-if="code != 'vegan'">비건</li>
-								<li @click="fnList('gluten')" v-if="code == 'gluten'"
-									style="background-color: #d4d4d4;">글루텐프리</li>
-								<li @click="fnList('gluten')" v-if="code != 'gluten'">글루텐프리</li>
-								<li @click="fnList('local')" v-if="code == 'local'"
-									style="background-color: #d4d4d4;">로컬푸드</li>
-								<li @click="fnList('local')" v-if="code != 'local'">로컬푸드</li>
-							</ul>
-							<ul class="navselect">
-
-							</ul>
-							<div>
-								<select v-model="code">
-									<option value="All">전체</option>
-									<option value="org">유기농</option>
-									<option value="vegan">비건</option>
-									<option value="gluten">글루텐프리</option>
-									<option value="local">로컬푸드</option>
-								</select> <input type="text" v-model="keyword" @keyup.enter="fnList(code)">
-								<button @click="fnList(code)">검색</button>
-								<button @click="fnMoveAddPage">상품추가</button>
-							</div>
-
-
-
-
-							<div class="product-grid">
-								<div v-if="productlist.length==0">검색된 상품이 없습니다. 상품명을
-									확인해주세요</div>
-								<div class="product" v-for="item in productlist" style="border: 1px solid; box-sizing: border-box;">
-									<template v-for="item2 in filelist"
-										v-if="item.itemNo == item2.itemNo">
-										<template id="item2.fileNo" @click="fnNext(item2.fileNo)">
-											<img :src="item2.filePath+item2.fileName" alt=""
-												style="width: 450px; height: 300px;">
-										</template>
-									</template>
-									</template>
-									<p style="border-bottom: 1px solid; box-sizing: border-box;">
-										<a href="javascript:;" @click="fnDetailView(item.itemNo)" class="nav-link" >{{item.itemName}}</a>
-									</p>
-									<p class="price" v-if="item.sRate!=0">
-										<del>₩{{item.price}}</del>
-										<br>할인가₩{{(item.price)*((100-item.sRate)/100)}}<br>
-										할인율{{item.sRate}}%
-									</p>
-									<p class="price" v-if="item.sRate == 0">₩{{item.price}}</p>
-									<a @click="fnRemove(item.itemNo)" href="#">
-									<i class="bi bi-trash-fill"></i>
-									</a>
-									<a @click="fnEdit(item.itemNo)" href="#">
-									<i class="bi bi-pencil-square"></i>
-									</a>
-								</div>
-							</div>
-							
-
 						</div>
-					</div>
-				</main>
 			</div>
 		</div>
+
 	</div>
+
+	
+
+
+
 </body>
-</html>
 <script type="text/javascript">
 	var app = new Vue({
 		el : '#app',
+		
 		data : {
+			list : [],
 			userId : "${userId}",
-			productlist : [],
-			keyword : "",
-			code : "${map.code}",
-			filelist : []
+			keywordId :"",
+			userType : "${userType}"
+		}
 
-		},
+		,
 		methods : {
-			fnList : function(code) {
+			fnLogout : function(){
 				var self = this;
-				self.code = code;
-				var nparmap = {
-					keyword : self.keyword,
-					code : self.code,
-					kind : "1"
+	        	if(confirm("정말로 로그아웃하나요?")) {
+	        		self.logFlg = false;
+	        		location.href = "/user-login.do";
+	        	} else {
+	        		return;
+	        	}
+			},
+			fnMoveUserDetail : function(){
+	        	var self = this;
+	        	var url = "adminUserDetail.do?userId="+self.keywordId;
+			    
+			    var width = 500;
+			    var height = 550;
+			    var left = (screen.width - width) / 2;
+			    var top = (screen.height - height) / 2;
+			    
+			    window.open(url, "", "width=" + width + ", height=" + height + ", left=" + left + ", top=" + top);
+	        },
+			fnList : function() {
+				var self = this;
+				if(self.userType != "A"){
+					alert("관리자만 접근 가능한 페이지입니다.");
+					location.href="main.do";
+				}
+				self.fnPaymentData();
+				
+				
 
-				};
-				$.ajax({
-					url : "AdminProductList.dox",
-					dataType : "json",
-					type : "POST",
-					data : nparmap,
-					success : function(data) {
-						self.productlist = data.list;
-						self.filelist = data.filelist;
-
-					}
+			},
+			fnPaymentData : function(){
+				var self = this;
+	            var nparmap = {};
+	            $.ajax({
+	                url:"PaymentList.dox",
+	                dataType:"json",
+	                type: "POST",
+	                data: nparmap,
+	                success: function(data) {
+	                	console.log(data);
+	                	self.list = data.paymentList;
+	                }
+	            });
+				
+				
+			},
+			fnMoveProductList : function(code){
+				
+					var self = this;
+				$.pageChange("/AdminProductList.do", {
+					code : code
 				});
+			},
+			
+			handleFormSubmit : function(){
+				var self = this;
+				 // 팝업 창을 열고자 하는 페이지 URL
+			    var url = "adminUserDetail.do";
+
+			    // POST 방식으로 전송할 데이터
+			    var postData = {
+			        userId: self.keywordId,
+			        popupFlg : "yes"
+			    };
+
+			    // form 엘리먼트를 동적으로 생성
+			    var form = document.createElement("form");
+			    form.setAttribute("method", "post");
+			    form.setAttribute("action", url);
+			    form.setAttribute("target", "_blank"); // 새 창으로 열기
+
+			    // 데이터를 form에 추가
+			    for (var key in postData) {
+			        if (postData.hasOwnProperty(key)) {
+			            var hiddenField = document.createElement("input");
+			            hiddenField.setAttribute("type", "hidden");
+			            hiddenField.setAttribute("name", key);
+			            hiddenField.setAttribute("value", postData[key]);
+			            form.appendChild(hiddenField);
+			        }
+			    }
+
+			    // body에 form 추가하고 submit
+			    document.body.appendChild(form);
+			    
+			    // 팝업 창 크기 설정
+			    var width = 500;
+			    var height = 600;
+			    var left = (screen.width - width) / 2;
+			    var top = (screen.height - height) / 2;
+			    var options = "width=" + width + ", height=" + height + ", left=" + left + ", top=" + top;
+			    // 새로운 창에 대한 참조 저장
+			    var popupWindow = window.open("", "popup", options);
+			    
+			    // form을 제출하면서 팝업 창에 대한 참조를 반환하도록 수정
+			    form.target = "popup";
+			    form.submit();
+			    
+			   
+			    // form 제거
+			    document.body.removeChild(form);
 			},
 			handleAddProduct : function(code){
 				var self = this;
@@ -435,70 +407,24 @@
 			    document.body.removeChild(form);
 			},
 			
-			/* 제품 삭제 실행 */
-			fnRemove : function(itemNo) {
-				var self = this;
-				if (confirm("정말 삭제할까요?")) {
-					var nparmap = {
-						itemNo : itemNo
-					};
-					$.ajax({
-						url : "productRemove.dox",
-						dataType : "json",
-						type : "POST",
-						data : nparmap,
-						success : function(data) {
-							if (data.result == "success") {
-								alert("삭제되었습니다!");
-								self.fnList(self.code);
-							} else {
-								alert("삭제 실패 오류 발생!");
-							}
-						}
-					});
-				} else {
-					return;
-				}
-			},
-			fnLogout : function() {
-				var self = this;
-				if (confirm("정말로 로그아웃하나요?")) {
-					self.logFlg = false;
-					location.href = "/user-login.do";
-				} else {
-					return;
-				}
-			},
-			fnEdit : function(itemNo) {
-				$.pageChange("/AdminProductUpdate.do", {
-					itemNo : itemNo
-				});
-			},
-			
-			fnMoveProductList : function(code){
-				$.pageChange("/AdminProductList.do", {
-					code : code
-				});
-			},
 			fnMoveAdminPage : function() {
 				location.href = "/admin-main.do"
-			},
-			fnMoveAddPage : function() {
-				var self = this;
-				$.pageChange("/productAdd.do", {
-					code : self.code
-				});
-			},
-			fnDetailView : function(itemNo) {
-				var self = this
-				$.pageChange("/AdminProductView.do", {
-					itemNo : itemNo
-				});
 			}
+
 		},
 		created : function() {
 			var self = this;
-			self.fnList("${map.code}");
+			self.fnList();
+
 		}
-	});
+	})
 </script>
+<script
+		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+		crossorigin="anonymous"></script>
+	<script src="js/scripts.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
+		crossorigin="anonymous"></script>
+	<script src="js/datatables-simple-demo.js"></script>
+</html>

@@ -115,6 +115,7 @@ public class CartServiceImpl implements CartService{
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			cartMapper.paymentEnd(map);
+			
 			resultMap.put("result", "success");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -145,7 +146,7 @@ public class CartServiceImpl implements CartService{
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			int check = cartMapper.selectChartCheck(map);
-			
+			cartMapper.PaymentEndUpdateProduct(map);
 			if(check == 1) {
 				//update
 				cartMapper.updateProductChart(map);

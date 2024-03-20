@@ -166,7 +166,7 @@
 		WHERE USERID = #{userId}
 	</select>
 
-	<!--문의 게시판 불러오기 -->
+	<!-- 고객 센터 문의 게시판 불러오기 -->
 	<select id="selectCustomerInquiryList" parameterType="hashmap"
 		resultType="com.example.test1.model.Board">
 		SELECT
@@ -175,11 +175,10 @@
 		C.*,
 		DATE_FORMAT(U.UDATETIME, '%Y.%m.%d') AS UDATE
 		FROM
-		ECO_BOARD B
+			ECO_BOARD B
 		INNER JOIN ECO_USER U ON B.USERID = U.USERID
 		LEFT JOIN ECO_COMMENT C ON B.BOARDNO = C.BOARDNO
-		WHERE
-		KIND = 3
+		WHERE KIND = 3
 	</select>
 
 	<!-- 문의 등록 -->

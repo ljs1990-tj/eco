@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.example.test1.model.Product;
 import com.example.test1.model.ProductFile;
 import com.example.test1.model.User;
+import com.siot.IamportRestClient.response.Payment;
 
 @Mapper
 public interface AdminMapper {
@@ -47,4 +48,6 @@ public interface AdminMapper {
 	int selectUserListCnt(HashMap<String, Object> map);
 	
 	List<User> selectUserListALL(HashMap<String, Object> map);
+	
+	List<Payment> selectPaymentList(HashMap<String, Object> map);
 }

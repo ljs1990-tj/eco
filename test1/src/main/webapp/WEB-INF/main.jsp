@@ -218,64 +218,22 @@
 	                    <div class="latest-product__text">
 	                        <h4>최다 리뷰</h4>
 	                        <div class="latest-product__slider owl-carousel">
-	                            <div class="latest-prdouct__slider__item">
-	                                <a href="javascript:;" class="latest-product__item">
-	                                    <div class="latest-product__item__pic">
-	                                        <img src="img/latest-product/lp-1.jpg" alt="">
-	                                    </div>
-	                                    <div class="latest-product__item__text">
-	                                        <h6>제품이름</h6>
-	                                        <span>₩30.00</span>
-	                                    </div>
-	                                </a>
-	                                <a href="javascript:;" class="latest-product__item">
-	                                    <div class="latest-product__item__pic">
-	                                        <img src="img/latest-product/lp-2.jpg" alt="">
-	                                    </div>
-	                                    <div class="latest-product__item__text">
-	                                        <h6>제품이름</h6>
-	                                        <span>₩30.00</span>
-	                                    </div>
-	                                </a>
-	                                <a href="javascript:;" class="latest-product__item">
-	                                    <div class="latest-product__item__pic">
-	                                        <img src="img/latest-product/lp-3.jpg" alt="">
-	                                    </div>
-	                                    <div class="latest-product__item__text">
-	                                        <h6>제품이름</h6>
-	                                        <span>₩30.00</span>
-	                                    </div>
-	                                </a>
-	                            </div>
-	                            <div class="latest-prdouct__slider__item">
-	                                <a href="javascript:;" class="latest-product__item">
-	                                    <div class="latest-product__item__pic">
-	                                        <img src="img/latest-product/lp-1.jpg" alt="">
-	                                    </div>
-	                                    <div class="latest-product__item__text">
-	                                        <h6>제품이름</h6>
-	                                        <span>₩30.00</span>
-	                                    </div>
-	                                </a>
-	                                <a href="javascript:;" class="latest-product__item">
-	                                    <div class="latest-product__item__pic">
-	                                        <img src="img/latest-product/lp-2.jpg" alt="">
-	                                    </div>
-	                                    <div class="latest-product__item__text">
-	                                        <h6>제품이름</h6>
-	                                        <span>₩30.00</span>
-	                                    </div>
-	                                </a>
-	                                <a href="javascript:;" class="latest-product__item">
-	                                    <div class="latest-product__item__pic">
-	                                        <img src="img/latest-product/lp-3.jpg" alt="">
-	                                    </div>
-	                                    <div class="latest-product__item__text">
-	                                        <h6>제품이름</h6>
-	                                        <span>₩30.00</span>
-	                                    </div>
-	                                </a>
-	                            </div>
+	                        	<template v-for="(item, index) in listMost">
+	                        		<template v-for="item2 in fileList" v-if="item.itemNo == item2.itemNo">
+			                            <div class="latest-prdouct__slider__item" v-if="index < 3">
+			                                <a href="javascript:;" class="latest-product__item" @click="fnDetailView(item.itemNo, userId)">
+			                                    <div class="latest-product__item__pic">
+			                                        <img :alt="item.itemName" :src="item2.path">
+			                                    </div>
+			                                    <div class="latest-product__item__text">
+			                                        <h6>{{item.itemName}}</h6>
+			                                        <del style="color: #aaa;">₩{{item.price}}</del>
+			                                        <span>₩{{(item.price)*((100-item.sRate)/100)}}</span>
+			                                    </div>
+			                                </a>
+			                            </div>
+		                            </template>
+	                            </template>
 	                        </div>
 	                    </div>
 	                </div>
@@ -300,7 +258,7 @@
 			                <div class="col-lg-4 col-md-4 col-sm-6">
 			                    <div class="blog__item">
 			                        <div class="blog__item__pic">
-			                            <img :src="item2.path" alt="image" @click="fnView(item.boardNo, 2)" style="cursor: pointer;">
+			                            <img :src="item2.path" alt="image" @click="fnView(item.boardNo, 2)" style="cursor: pointer; max-width: 200px; height: 300px;">
 			                        </div>
 			                        <div class="blog__item__text">
 			                            <ul>

@@ -45,11 +45,17 @@ public class AdminController {
 		return "/product-add";
 	}
 	
+	@RequestMapping("/AdminPaymentList.do") 
+	public String AdminPaymentList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+		request.setAttribute("map", map);
+		
+		return "/admin-Payment-list";
+	}
 	//상품 리스트 페이지
 	@RequestMapping("/AdminProductList.do") 
 	public String productList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
 		request.setAttribute("map", map);
-		System.out.println(map);
+		
 		return "/admin-product-list";
 	}
 	
@@ -383,6 +389,13 @@ public class AdminController {
 	}
 	
 	
+	@RequestMapping(value = "/PaymentList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String PaymentList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = adminService.searchPaymentListAll(map);
+		return new Gson().toJson(resultMap);
+	}
 	
 	
 }
