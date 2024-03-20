@@ -55,7 +55,9 @@
 	<select id="selectCartCnt" parameterType="hashmap" resultType="int">
 		SELECT IFNULL(COUNT(*), 0) AS CARTCNT
 		FROM ECO_CART
-		WHERE USERID = #{userId};
+		WHERE
+			USERID = #{userId}
+		AND IS_FAVORITE = "N"
 	</select>
 	
 	<select id="selectFavoriteCnt" parameterType="hashmap" resultType="int">

@@ -96,7 +96,7 @@
 			CONCAT(FILEPATH, FILENAME) AS PATH
 		FROM ECO_PRODUCT_IMAGE P
 		WHERE KIND = 2
-		AND ITEMNO = #{itemNo}
+		AND ITEM_NO = #{itemNo}
 	</select>
 	
 	<!-- 상품 상세보기 화면에 상품 상세 정보에 보여줄 이미지 불러오기  -->
@@ -105,7 +105,7 @@
 			CONCAT(FILEPATH, FILENAME) AS PATH
 		FROM ECO_PRODUCT_IMAGE P
 		WHERE KIND = 3
-		AND ITEMNO = #{itemNo}
+		AND ITEM_NO = #{itemNo}
 	</select>
 	
 	<!-- 판매자 상품 추가  -->
