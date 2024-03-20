@@ -66,13 +66,13 @@ public class UserServiceimpl implements UserService {
 	@Override
 	public HashMap<String, Object> getUser(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		List<Cart> Userlist = userMapper.selectUserPaymentHistory(map);
+		//List<Cart> Userlist = userMapper.selectUserPaymentHistory(map);
 		User user = userMapper.selectUser(map);
 		List<Addr> addr = userMapper.selectAddr(map);
 		try {
 			resultMap.put("user", user);
 			resultMap.put("addr", addr);
-			resultMap.put("list", Userlist);
+			//resultMap.put("list", Userlist);
 			resultMap.put("result", "success");
 		} catch (Exception e) {
 			resultMap.put("result", "fail");
