@@ -30,6 +30,7 @@ button {
 
 body {
     font-family: "Orbit", sans-serif;
+    
 }
 
 li, ul {
@@ -40,17 +41,61 @@ li, ul {
 button:hover {
     background-color: #45a049;
 }
+
+.info-table {
+    border-collapse: collapse;
+    width: 80%;
+    
+}
+
+.info-table th, .info-table td {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+}
+
+.info-table th {
+    background-color: #4CAF50;
+    color: white;
+}
+
 </style>
 </head>
 <body>
     <div id="app">
-        <ul>
-            <li>이름: {{user.name}}</li>
-            <li>아이디: {{user.userId}}</li>
-            <li>성별: {{user.gender}}</li>
-            <li>폰번호: {{user.phone1}} - {{user.phone2}} - {{user.phone3}}</li>
-            <div v-for="(item, index) in list"> {{index + 1}}번째 작성한 글 : {{item.title}}</div>
-        </ul>
+        <table class="info-table">
+            <tr>
+                <th>항목</th>
+                <th>정보</th>
+            </tr>
+            <tr>
+                <td>이름</td>
+                <td>{{user.name}}</td>
+            </tr>
+            <tr>
+                <td>아이디</td>
+                <td>{{user.userId}}</td>
+            </tr>
+            <tr>
+                <td>성별</td>
+                <td>{{user.gender}}</td>
+            </tr>
+            <tr>
+                <td>폰번호</td>
+                <td>{{user.phone1}} - {{user.phone2}} - {{user.phone3}}</td>
+            </tr>
+        </table>
+        <h2>작성한 글 목록</h2>
+        <table class="info-table">
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+            </tr>
+            <tr v-for="(item, index) in list">
+                <td>{{index + 1}}</td>
+                <td>{{item.title}}</td>
+            </tr>
+        </table>
         <!-- <button @click="fnGetList">목록가기</button> -->
     </div>
 </body>

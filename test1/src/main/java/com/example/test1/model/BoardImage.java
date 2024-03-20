@@ -11,4 +11,5 @@ public class BoardImage {
 	String fileOrgName;
 	String fileSize;
 	String fileEtc;
+	String kind;
 }
