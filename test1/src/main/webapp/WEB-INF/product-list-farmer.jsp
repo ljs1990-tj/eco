@@ -132,10 +132,23 @@
     .dropdown-container {
         margin-left: auto; /* 왼쪽 마진 자동으로 주어 오른쪽에 붙임 */
     }
-
-    .dropdown-container select {
-        padding: 5px;
+    
+     .dropdown-container button {
+        padding: 2px;
         cursor: pointer;
+        color: #5cb85c;
+        border: 1px solid #5cb85c;
+        background-color: white;
+        border-radius: 5px; 
+    }
+    
+     .dropdown-container button:hover {
+        padding: 2px;
+        cursor: pointer;
+        color: white;
+        border: 1px solid #5cb85c;
+        background-color: #5cb85c;
+        border-radius: 5px; 
     }
     
     .button-selected {
@@ -186,8 +199,6 @@
               배너 이미지 영역
               <img src="/img/vegetable.jpg" alt="상단 배너 이미지">
             </div> -->
-            
-			{{userId}}, {{userType}}
 			<div class="searchArea">
 				<input type="text" placeholder="검색어를 입력해주세요" v-model="keyword" @keyup.enter="fnList(code)">
 				<img class="search" src="/img/search.jpeg" @click="fnList(code)" style="width: 35px; height: 35px;">
@@ -223,10 +234,15 @@
 			      	<div class="product-info" @click="fnDetailView(item.itemNo)">
 			        	<div class="product-name">{{item.itemName}}</div>
 			        	<div class="product-price">
-			        		<del>₩{{item.price.toLocaleString('ko-KR')}}</del>
-			        		<br> 할인가₩{{DiscountPrice(item.price, item.sRate)}}
-			        		<br> 할인율{{item.sRate}}%
-			        	</div>
+							<template v-if="item.sRate > 0">
+								<del>₩{{item.price.toLocaleString('ko-KR')}}</del>
+								<br> 할인가₩{{DiscountPrice(item.price, item.sRate)}} <br>
+								할인율{{item.sRate}}%
+							</template>
+							<template v-else>
+								<br> ₩{{item.price.toLocaleString('ko-KR')}}
+							</template>
+						</div>
 			      	</div>
 			      	
 			      	<div class="admin-btn">

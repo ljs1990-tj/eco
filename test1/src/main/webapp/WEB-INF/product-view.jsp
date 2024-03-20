@@ -312,15 +312,14 @@
     <div id="app">
         <div class="product-detail-top-container">
        		<div class="product-image" >
-            	<template v-for="item in fileList">
-			    	<img :src="item.filePath+item.fileName" alt="이미지~~">
-		        </template>
-		        
-		     	<!-- <img v-if="fileList.length > 0" :src="fileList[ImageIndex].filePath + fileList[ImageIndex].fileName" alt="이미지!" @click="">
-		        
+            	<!-- <template v-for="item in fileList">
+			    	<img :src="item.path" alt="이미지~~">
+		        </template> -->
+		     	<img v-if="fileList.length > 0" :src="fileList[ImageIndex].filePath + fileList[ImageIndex].fileName" alt="이미지!" @click="">
+		     	
 		        <div class="thumbnail-images">
 			        <img v-for="(item, index) in fileList" :src="item.filePath+item.fileName" :alt="'이미지 ' + index" @click="selectImg(index)">
-			    </div> -->
+			    </div>
             </div>
 
             <div class="product-info">
@@ -345,7 +344,7 @@
                     <tr>
                         <th>배송 종류 </th>
                         <td>
-                            핵빠른 배송<br>
+                            ECO 퀵 배송<br>
                             23시 전 주문 시 내일 12시 이전에 도착<br>
                             제주도, 울릉도 핵빠른 배송 별도 확인 필요
                         </td>
@@ -432,7 +431,7 @@
 					                </td>
 					                <td v-if="userType == 'A'">
 				                        <template v-if="item.comment">
-				                            답변 완료
+				                            문의 처리
 				                        </template>
 				                        <template v-else>
 				                            <button @click="fnAnswer(item.boardNo)">답변하기</button>
@@ -468,8 +467,8 @@
                     <tr>
                         <th>배송 안내</th>
                         <td>  
-                            A물류 택배사를 사용하고 있습니다.<br>
-                            A조 마켓은 빠른 배송을 위해 주문 마감시간을 1차, 2차 총 2번에 나눠 진행합니다. (1차는 오전 9시, 2차는 오후 2시입니다.) <br>
+                            ECO 물류 택배사를 사용하고 있습니다.<br>
+                            ECO 마켓은 빠른 배송을 위해 주문 마감시간을 1차, 2차 총 2번에 나눠 진행합니다. (1차는 오전 9시, 2차는 오후 2시입니다.) <br>
                             * 사정에 따라 출고가 지연될 수 있는 점 양해 부탁드립니다.<br>
                             수령하고 싶은 날짜를 별도로 지정한 예약 배송은 불가합니다.
                         </td>
@@ -527,10 +526,10 @@ var app = new Vue({
                 type: "POST",
                 data: nparmap,
                 success: function(data) {
-                	console.log(data.fileList);
+                	console.log("fileList ==> ", data.fileList);
                 	self.info = data.info;
                 	self.info.wonPrice = self.info.price.toLocaleString('ko-KR');
-                	self.fileList = data.filelist;
+                	self.fileList = data.fileList;
                 	self.fileDetailList = data.fileDetailList;
                 	self.review = data.review;
                 	self.qa = data.qa;

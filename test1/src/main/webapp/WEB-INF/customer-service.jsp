@@ -205,7 +205,6 @@
 	<div id="app">
 	    <div class="customer-container">
 	        <div class="menu-area">
-				<h3>고객센터</h3>
 				<div class="menu-item" :class="{ 'menu-item-selected': selectedMenuItem === 'faq' }" @click="updateContent('faq')">자주하는 질문 <span class="align-right">></span></div>
 				<div class="menu-item" :class="{ 'menu-item-selected': selectedMenuItem === 'history' }" @click="updateContent('history')">문의 내역 <span class="align-right">></span></div>
 				<div class="menu-item" :class="{ 'menu-item-selected': selectedMenuItem === 'inquiry' }" @click="updateContent('inquiry')">1:1 문의하기 <span class="align-right">></span></div>				
@@ -224,7 +223,7 @@
 						</thead>
 						<tbody>
 							<template v-for="(faq, index) in paginatedData">
-								<tr @click="toggleDetail(index)" :key="faq.id">
+								<tr @click="toggleDetail(faq.id)" :key="faq.id">
 									<td>{{ index + 1 }}</td>
 									<td>{{ faq.category }}</td>
 									<td>{{ faq.title }}</td>
@@ -236,9 +235,11 @@
 						</tbody>
 					</table>
 				</div>
+				
 				<div class="pagingArea" v-if="selectedMenu === 'faq'">
 					<button v-for="page in totalPages" @click="goToPage(page)">{{page }}</button>
 				</div>
+				
 				<div v-if="selectedMenu === 'history'">
 					<h4>문의 내역</h4>
 					<p>고객님께서 남겨주신 1:1 문의는 여기에 표기됩니다.</p>
@@ -307,12 +308,16 @@
 			kind : 3,
 			title : "${title}",
 			contents : "${contents}",
+			
 			/* 자주 묻는 질문 페이징 처리 및 관리 */
 			currentPage: 1,
 			itemsPerPage: 10,
+			
 			/* 문의 내역 페이징 처리 및 관리 */
 			currentPage2: 1,
 			itemsPerPage2: 10,
+			
+			
 			selectedMenu: 'faq',
 			selectedMenuItem: null, // 선택된 메뉴 아이템을 저장하기 위한 속성 추가	        
 			faqs : [ 
@@ -343,11 +348,13 @@
 		        return Math.ceil(this.faqs.length / this.itemsPerPage);
 		    },
 		    
+		    
 		    historyPage: function() {
-		        const start = (this.currentPage2 - 1) * this.itemsPerPage2;
+		    	const start = (this.currentPage2 - 1) * this.itemsPerPage2;
 		        const end = start + this.itemsPerPage2;
 		        return this.list.slice(start, end);
 		    },
+		    
 		    PagesHistory: function() {
 		        return Math.ceil(this.list.length / this.itemsPerPage2);
 		    }
@@ -405,6 +412,8 @@
 				this.selectedMenu = menu;
 				this.selectedMenuItem = menu;
 				
+				this.faqs.forEach(faq => faq.showDetail = false);
+				
 				if (menu === 'faq') {
 			        this.currentPage = 1; // 자주하는 질문의 페이지 번호를 1로 초기화
 			    } else if (menu === 'history') {
@@ -412,17 +421,24 @@
 			    }
 			},
 			/* 질문 토글에 기능  */
-			toggleDetail: function(index) {
-	            this.faqs[index].showDetail = !this.faqs[index].showDetail;
-	            this.faqs.forEach((faq, i) => {
-	                if(i !== index) {
-	                    faq.showDetail = false;
-	                }
-	            });
+			toggleDetail: function(faqId) {
+				 const faqIndex = this.faqs.findIndex(faq => faq.id === faqId);
+				    if(faqIndex !== -1) {
+				        this.faqs[faqIndex].showDetail = !this.faqs[faqIndex].showDetail;
+				        this.faqs.forEach((faq, i) => {
+				            if(i !== faqIndex) {
+				                faq.showDetail = false;
+				            }
+				        });
+				    }
 	        },
 	        /* 페이징 관리 */
 	        goToPage: function(page) {
 		        this.currentPage = page;
+		        
+		        this.faqs.forEach(faq => {
+		            faq.showDetail = false;
+		        });
 		    },
 	        goToPage2: function(page) {
 	            this.currentPage2 = page;
