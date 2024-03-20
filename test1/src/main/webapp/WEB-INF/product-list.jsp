@@ -219,9 +219,14 @@
 				      	<div class="product-info" @click="fnDetailView(item.itemNo)">
 				        	<div class="product-name">{{item.itemName}}</div>
 				        	<div class="product-price">
-				        		<del>₩{{item.price.toLocaleString('ko-KR')}}</del>
-				        		<br> 할인가₩{{DiscountPrice(item.price, item.sRate)}}
-				        		<br> 할인율{{item.sRate}}%
+				        		<template v-if="item.sRate > 0">
+					        		<del>₩{{item.price.toLocaleString('ko-KR')}}</del>
+					        		<br> 할인가₩{{DiscountPrice(item.price, item.sRate)}}
+					        		<br> 할인율{{item.sRate}}%				        		
+				        		</template>
+				        		<template v-else>
+				        			<br> ₩{{item.price.toLocaleString('ko-KR')}}
+				        		</template>
 				        	</div>
 				      	</div>
 				    </template>

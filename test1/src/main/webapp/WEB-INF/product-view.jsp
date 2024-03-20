@@ -105,11 +105,12 @@
     .product-description {
         max-width: 1200px; 
         margin: 20px auto; /* 상단 컨테이너와의 간격을 주기 위해 마진 사용 */
-        padding: 20px; 
+        padding: 15px; 
         background-color: #ffffff; /* 배경색 설정 */
         border: 1px solid #fafafa; /* 경계선 설정 */
         border-radius: 8px; 
         text-align: center;
+        
     }
 
     .product-description img {
@@ -147,10 +148,16 @@
         display: flex; /* Flex 컨테이너로 설정 */
         justify-content: center; /* 가운데 정렬 */
         gap: 0; /* 버튼 사이의 간격 제거 */
+        
+        position: sticky;
+	    top: 0; 
+	    background-color: #fff; 
+	    z-index: 1000; 
+	 
     }
 
     .tab-button {
-        padding: 25px 10px;
+        padding: 15px 10px;
         background-color: #ffffff;
         border-top: solid 3px black;
         border-bottom: solid 1px rgb(179, 179, 179);
@@ -187,7 +194,8 @@
     }
 
     .product-reviews {
-        margin-top: 20px;
+        margin-top: 200px;
+        margin-bottom: 200px;
         color: #333;
     }
 
@@ -230,12 +238,14 @@
         border-bottom: 1px solid #ccc; 
         padding: 8px;
         text-align: left; 
+        font-size: 15px;
     }
 
     .product-inquiries td {
         border-bottom: 1px solid #eeeeee;
         padding: 8px;
         text-align: left; 
+        font-size: 14px;
     }
     
     .product-inquiries button{
@@ -245,7 +255,8 @@
         border-radius: 5px;
         cursor: pointer;
         width: 120px;
-        height: 40px;
+        height: 25px;
+        text-align: center;
     }
 
     .product-inquiries button:hover{
@@ -277,6 +288,23 @@
     	cursor: pointer;
     }
     
+    .product-delivery{
+    	border-top:1px solid #ccc; 
+    	margin-top: 100px;
+    }
+    
+    .product-delivery th{
+    	font-size: 16px;
+    }
+    
+    .product-delivery td{
+    	font-size: 14px;
+    }
+    .product-details img{
+    	width: 800px;
+    	height: 750px;
+    }
+    
 </style>
 <body>
 <!-- Header Section -->
@@ -284,12 +312,13 @@
     <div id="app">
         <div class="product-detail-top-container">
        		<div class="product-image" >
-            	<!-- <template v-for="item in fileList">
-			    	<img :src="item.filePath+item.fileName" alt="이미지!">
-		        </template> -->
-		        <!-- <img v-if="fileList.length > 0" :src="fileList[ImageIndex].filePath + fileList[ImageIndex].fileName" alt="이미지!" @click=""> -->
+            	<template v-for="item in fileList">
+			    	<img :src="item.filePath+item.fileName" alt="이미지~~">
+		        </template>
 		        
-		       <!-- <div class="thumbnail-images">
+		     	<!-- <img v-if="fileList.length > 0" :src="fileList[ImageIndex].filePath + fileList[ImageIndex].fileName" alt="이미지!" @click="">
+		        
+		        <div class="thumbnail-images">
 			        <img v-for="(item, index) in fileList" :src="item.filePath+item.fileName" :alt="'이미지 ' + index" @click="selectImg(index)">
 			    </div> -->
             </div>
@@ -299,9 +328,14 @@
                 <div>
                     <h4> {{info.itemName}}</h4>
                     <p v-html="info.contents">{{info.contents}}</p>
-                    <del style="color: #ccc">{{info.wonPrice}}원</del> 
-                    <p>판매가 : {{DiscountPrice(info.price, info.sRate)}}원</p>
-                    <p style="color: #eb6f1c">{{info.sRate}}% 할인</p>
+                    <template v-if="info.sRate > 0">
+	                    <del style="color: #ccc">{{info.wonPrice}}원</del> 
+	                    <p>판매가 : {{DiscountPrice(info.price, info.sRate)}}원</p>
+	                    <p style="color: #eb6f1c">{{info.sRate}}% 할인</p>
+                    </template>
+                    <template v-else>
+	                    <p>판매가 : {{info.wonPrice}}원</p>
+                    </template>
                 </div>
                 <table>
                     <tr>
@@ -379,7 +413,9 @@
                             <th style="width: 10%;">작성자</th>
                             <th style="width: 10%;">작성일</th>
                             <th style="width: 10%;">답변 상태</th>
-                            <th style="width: 10%;">답변하기</th>
+                            <template v-if="userType == 'A' && qa.length > 0">
+	                            <th style="width: 10%;">답변하기</th>                            
+                            </template>
                         </tr>
                     </thead>
                     <tbody>
@@ -394,9 +430,14 @@
 					                    <span v-if="item.comment" style="color: #5cb85c">답변 완료</span>
 					                    <span v-else style="color: #ccc">답변 대기</span>
 					                </td>
-					                <td style="width: 10%;">
-					                	<button @click="fnAnswer(item.boardNo)">답변하기</button>
-					                </td>
+					                <td v-if="userType == 'A'">
+				                        <template v-if="item.comment">
+				                            답변 완료
+				                        </template>
+				                        <template v-else>
+				                            <button @click="fnAnswer(item.boardNo)">답변하기</button>
+				                        </template>
+				                    </td>
 								</tr>
 								<tr v-if="qaOnOff === index">
 									<td colspan="5" class="qa-contents">
@@ -461,6 +502,7 @@ var app = new Vue({
     data: {
     	itemNo: "${map.itemNo}",
     	userId: "${map.userId}",
+    	userType : "${userType}",
     	info: {},
     	fileList : [],
     	fileDetailList : [],
@@ -485,7 +527,7 @@ var app = new Vue({
                 type: "POST",
                 data: nparmap,
                 success: function(data) {
-                	
+                	console.log(data.fileList);
                 	self.info = data.info;
                 	self.info.wonPrice = self.info.price.toLocaleString('ko-KR');
                 	self.fileList = data.filelist;
