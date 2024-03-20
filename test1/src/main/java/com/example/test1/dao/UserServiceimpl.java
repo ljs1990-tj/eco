@@ -12,6 +12,7 @@ import com.example.test1.mapper.BoardMapper;
 import com.example.test1.mapper.UserMapper;
 import com.example.test1.model.Addr;
 import com.example.test1.model.Board;
+import com.example.test1.model.Cart;
 import com.example.test1.model.User;
 
 @Service
@@ -56,7 +57,7 @@ public class UserServiceimpl implements UserService {
 			resultMap.put("result", "fail");
 			resultMap.put("user", user); // 비밀번호 찾기용 유저 정보 담기
 			resultMap.put("cartCnt", cartCnt); // 장바구니 개수 확인용
-			
+
 		}
 		return resultMap;
 	}
@@ -65,12 +66,14 @@ public class UserServiceimpl implements UserService {
 	@Override
 	public HashMap<String, Object> getUser(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		List<Cart> Userlist = userMapper.selectUserPaymentHistory(map);
+		User user = userMapper.selectUser(map);
+		List<Addr> addr = userMapper.selectAddr(map);
 		try {
-			User user = userMapper.selectUser(map);
 			resultMap.put("user", user);
+			resultMap.put("addr", addr);
+			resultMap.put("list", Userlist);
 			resultMap.put("result", "success");
-			List<Board> list = boardMapper.selectUserWriteList(map);
-			resultMap.put("list", list);
 		} catch (Exception e) {
 			resultMap.put("result", "fail");
 			System.out.println(e.getMessage());
@@ -88,21 +91,6 @@ public class UserServiceimpl implements UserService {
 			resultMap.put("result", "success");
 		} catch (Exception e) {
 			// TODO: handle exception
-			resultMap.put("result", "fail");
-			System.out.println(e.getMessage());
-		}
-		return resultMap;
-	}
-
-	// 유저 주소록 가져오기
-	@Override
-	public HashMap<String, Object> getAddr(HashMap<String, Object> map) {
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		try {
-			List<Addr> addr = userMapper.selectAddr(map);
-			resultMap.put("addr", addr);
-			resultMap.put("result", "success");
-		} catch (Exception e) {
 			resultMap.put("result", "fail");
 			System.out.println(e.getMessage());
 		}
@@ -130,7 +118,7 @@ public class UserServiceimpl implements UserService {
 		// TODO Auto-generated method stub
 		User user = userMapper.selectUser(map);
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		
+
 		if (user == null) { // 아이디가 없는 경우
 			resultMap.put("result", "fail");
 			resultMap.put("message", "존재하지 않는 아이디입니다!");
@@ -142,7 +130,7 @@ public class UserServiceimpl implements UserService {
 					resultMap.put("message", "로그인 시도가 5회가 넘어 로그인할 수 없습니다! 관리자에게 직접 문의하여 해결하세요!");
 				} else {
 					userMapper.updateLoginCnt2(map); // 로그인 성공 시 카운트 초기화
-					resultMap.put("user", user );
+					resultMap.put("user", user);
 					resultMap.put("result", "success");
 					resultMap.put("message", user.getName() + "님 환영합니다!");
 					// ↓ 세션 설정
@@ -176,21 +164,6 @@ public class UserServiceimpl implements UserService {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			userMapper.insertMyPageAddrAdd(map);
-			resultMap.put("result", "success");
-		} catch (Exception e) {
-			resultMap.put("result", "fail");
-			System.out.println(e.getMessage());
-		}
-		return resultMap;
-	}
-
-	// 유저 마이페이지 주소록 호출
-	@Override
-	public HashMap<String, Object> selectAddr(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		try {
-			resultMap.put("info", userMapper.selectAddrAddNo(map));
 			resultMap.put("result", "success");
 		} catch (Exception e) {
 			resultMap.put("result", "fail");
@@ -244,7 +217,7 @@ public class UserServiceimpl implements UserService {
 		}
 		return resultMap;
 	}
-	
+
 	// 폰 번호로 아이디 찾기
 	@Override
 	public HashMap<String, Object> checkUserPhone(HashMap<String, Object> map) {
@@ -276,7 +249,8 @@ public class UserServiceimpl implements UserService {
 		}
 		return resultMap;
 	}
-	//로그인시 문자 인증하면 AuthYn 변경
+
+	// 로그인시 문자 인증하면 AuthYn 변경
 	@Override
 	public HashMap<String, Object> AuthYnupdateUser(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
@@ -290,7 +264,8 @@ public class UserServiceimpl implements UserService {
 		}
 		return resultMap;
 	}
-	//유저 마이페이지 패스워드 변경
+
+	// 유저 마이페이지 패스워드 변경
 	@Override
 	public HashMap<String, Object> PasswordChage(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
@@ -304,7 +279,8 @@ public class UserServiceimpl implements UserService {
 		}
 		return resultMap;
 	}
-	//회원 탈퇴 취소하기
+
+	// 회원 탈퇴 취소하기
 	@Override
 	public HashMap<String, Object> CancleupdateUserDelete(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
@@ -319,47 +295,49 @@ public class UserServiceimpl implements UserService {
 		}
 		return resultMap;
 	}
-	//유저 페이지 상세보기 전 비밀번호 확인
+
+	// 유저 페이지 상세보기 전 비밀번호 확인
 	@Override
 	public HashMap<String, Object> checkPassword(HashMap<String, Object> map) {
-	    HashMap<String, Object> resultMap = new HashMap<String, Object>();
-	    User user = userMapper.selectUser(map);
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		User user = userMapper.selectUser(map);
 
-	    // 사용자가 존재하지 않는 경우
-	    if (user == null) {
-	        resultMap.put("result", "fail");
-	        resultMap.put("message", "존재하지 않는 아이디입니다!");
-	        return resultMap;
-	    }
+		// 사용자가 존재하지 않는 경우
+		if (user == null) {
+			resultMap.put("result", "fail");
+			resultMap.put("message", "존재하지 않는 아이디입니다!");
+			return resultMap;
+		}
 
-	    // 입력된 비밀번호가 일치하는 경우
-	    if (user.getUserPw().equals(map.get("userPw"))) {
-	        if (user.getLoginCnt() >= 5) {
-	            resultMap.put("result", "fail");
-	            resultMap.put("message", "로그인 시도가 5회가 넘어 로그인할 수 없습니다! 관리자에게 직접 문의하여 해결하세요!");
-	        } else {
-	            userMapper.updateLoginCnt2(map);
-	            resultMap.put("user", user);
-	            resultMap.put("result", "success");
-	        }
-	    } else { // 비밀번호가 일치하지 않는 경우
-	        if (!"A".equals(user.getUserType())) {
-	            if (user.getLoginCnt() >= 5) {
-	            	resultMap.put("user", user);
-	                resultMap.put("result", "fail");
-	                resultMap.put("message", "로그인 시도가 5회가 넘어 로그인할 수 없습니다! 관리자에게 직접 문의하여 해결하세요!");
-	            } else {
-	                userMapper.updateLoginCnt(map);
-	                int remainingAttempts = 5 - user.getLoginCnt();
-	                resultMap.put("result", "fail");
-	                resultMap.put("message", "비밀번호를 틀렸습니다! 남은 시도 횟수: " + remainingAttempts);
-	            }
-	        } else {
-	            resultMap.put("result", "fail");
-	            resultMap.put("message", "비밀번호를 틀렸습니다, 관리자님!");
-	        }
-	    }
-	   
-	    return resultMap;
+		// 입력된 비밀번호가 일치하는 경우
+		if (user.getUserPw().equals(map.get("userPw"))) {
+			if (user.getLoginCnt() >= 5) {
+				resultMap.put("result", "fail");
+				resultMap.put("message", "로그인 시도가 5회가 넘어 로그인할 수 없습니다! 관리자에게 직접 문의하여 해결하세요!");
+			} else {
+				userMapper.updateLoginCnt2(map);
+				resultMap.put("user", user);
+				resultMap.put("result", "success");
+			}
+		} else { // 비밀번호가 일치하지 않는 경우
+			if (!"A".equals(user.getUserType())) {
+				if (user.getLoginCnt() >= 5) {
+					resultMap.put("user", user);
+					resultMap.put("result", "fail");
+					resultMap.put("message", "로그인 시도가 5회가 넘어 로그인할 수 없습니다! 관리자에게 직접 문의하여 해결하세요!");
+				} else {
+					userMapper.updateLoginCnt(map);
+					int remainingAttempts = 5 - user.getLoginCnt();
+					resultMap.put("result", "fail");
+					resultMap.put("message", "비밀번호를 틀렸습니다! 남은 시도 횟수: " + remainingAttempts);
+				}
+			} else {
+				resultMap.put("result", "fail");
+				resultMap.put("message", "비밀번호를 틀렸습니다, 관리자님!");
+			}
+		}
+
+		return resultMap;
 	}
+
 }
