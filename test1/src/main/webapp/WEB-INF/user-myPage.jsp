@@ -101,10 +101,13 @@
                     <div style="margin-left: auto;"><button :disabled="isPopupOpen">더보기?</button></div>
                 </div>
             </div>
-            <div class="order-Area">
-                <div class="order-AreaStyle">
-                    <div style="margin-right: auto;">내주문 내역</div>
-                    <div style="margin-left: auto;"><button :disabled="isPopupOpen">더보기?</button></div>
+            
+            <div class="order-Container">
+            	<div class="order-Info-title">주문 목록</div>
+                <div class="order-Area">
+                    <div style="border: 1px black solid ;">
+						
+                    </div>
                 </div>
             </div>
         </div>
@@ -284,7 +287,7 @@
 	                }
 			    });
 			},
-			// 사용자 정보 가져오기
+			// 사용자 정보 및 주소록 가져오기
 			getUserInfo: function() {
 		        var self = this;
 		        if (self.user.userId == "") {
@@ -301,44 +304,18 @@
 		                // 서버로부터 받아온 사용자 정보를 Vue.js 데이터에 할당
 		                console.log(data);
 		                self.user = data.user;
-		            },
-		            error: function(xhr, status, error) {
-	                    // 에러 발생 시 처리
-	                    // 에러 페이지로 리다이렉션
-	                    window.location.href = "/error-page"; // 에러 페이지의 URL로 리다이렉션
-	                }
-		        });
-		    },
-		    // 주소록 가져오기
-		    getAddress: function() {
-		        var self = this;
-		        if (self.user.userId == "") {
-		            alert("로그인 후 입장 가능합니다.");
-		            window.location.href = "/user-login.do";
-		        }
-		        var nparmap = {
-		            userId: self.user.userId
-		        };
-		        $.ajax({
-		            url: "user-addr.dox",
-		            dataType: "json",
-		            type: "POST",
-		            data: nparmap,
-		            success: function(data) {
-		                // 서버로부터 받아온 주소록을 Vue.js 데이터에 할당
 		                self.addrList = data.addr;
-		                // 기본 배송지가 선택된 주소를 맨 위로 이동시키는 코드
 		                var defaultAddressIndex = self.addrList.findIndex(address => address.isDefault === 'Y');
 		                if (defaultAddressIndex !== -1) {
 		                    var defaultAddress = self.addrList.splice(defaultAddressIndex, 1)[0];
 		                    self.addrList.unshift(defaultAddress);
 		                }
 		            },
-		            error: function(xhr, status, error) {
+		             error: function(xhr, status, error) {
 	                    // 에러 발생 시 처리
 	                    // 에러 페이지로 리다이렉션
-	                    window.opener.location.href = "/error-page"; // 에러 페이지의 URL로 리다이렉션
-	                }
+	                    window.location.href = "/error-page.do"; // 에러 페이지의 URL로 리다이렉션
+	                } 
 		        });
 		    }
 		},
@@ -350,7 +327,6 @@
 		        return;
 		    }
 		    self.getUserInfo();
-		    self.getAddress();
 		},
 	    filters: {
 	        formatDate: function (value) {

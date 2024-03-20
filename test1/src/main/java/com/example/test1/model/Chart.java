@@ -10,11 +10,11 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Chart {
-    private int itemNo;
-    private String itemName;
-    private int value;
-    private int month;
-    private int totalPay;
-    private int price;
-    private String code;
+	private int itemNo;
+	private String itemName;
+	private int value;
+	private int month;
+	private int totalPay;
+	private int price;
+	private String code;
 }
