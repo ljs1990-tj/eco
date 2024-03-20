@@ -101,6 +101,15 @@ public class UserController {
 		resultMap = userService.checkUserPhone(map);
 		return new Gson().toJson(resultMap);
 	}
+	//유저 등급 갱신
+	@RequestMapping(value = "/userGradeUpdate.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String userGradeUpdate(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = userService.editUserGrade(map);
+		return new Gson().toJson(resultMap);
+	}
+	
 	
 
 }
