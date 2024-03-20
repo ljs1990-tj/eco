@@ -9,6 +9,46 @@
 	<title>상품 등록</title>
 </head>
 <style>
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* Form group styling */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* Label styling */
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Form control styling */
+.form-control {
+    padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Button styling */
+.btn-submit {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-submit:hover {
+    background-color: #0056b3;
+}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.3/vue.min.js"></script>
 	
@@ -17,47 +57,54 @@
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
     
 <body>
-	<div id="app">
-		<div>
-			상품 카테고리 : 
-			<select v-model="code">
-				<option value="All">선택</option>
-				<option value="gluten">글루텐프리</option>
-				<option value="local">로컬푸드</option>
-				<option value="org">유기농</option>
-				<option value="vegan">비건</option>
-			</select>
-			
-		</div>
+	<div id="app"  class="form-container">
+		 <div class="form-group">
+        <label for="category">상품 카테고리:</label>
+        <select id="category" class="form-control" v-model="code">
+            <option value="All">선택</option>
+            <option value="gluten">글루텐프리</option>
+            <option value="local">로컬푸드</option>
+            <option value="org">유기농</option>
+            <option value="vegan">비건</option>
+        </select>
+    </div>
 	
-		<div>
-			상품명 : <input type="text" v-model="name">
-		</div>
-		<div>
-			가격 : <input type="text" v-model="price">
-		</div>
-		<div>
-			할인율 : <input type="text" v-model="Srate">
-		</div>
-		<div>
-			적립율 : <input type="text" v-model="Prate">
-		</div>
+		<div class="form-group">
+        <label for="productName">상품명:</label>
+        <input type="text" id="productName" class="form-control" v-model="name">
+  	  	</div>
+  	  	<div class="form-group">
+        <label for="productName">가격 :</label>
+        <input type="text" id="productName" class="form-control" v-model="price">
+    </div>
+    <div class="form-group">
+        <label for="productName">할인율 :</label>
+        <input type="text" id="productName" class="form-control" v-model="Srate">
+    </div>
+    <div class="form-group">
+        <label for="productName">적립율 :</label>
+        <input type="text" id="productName" class="form-control" v-model="Prate">
+    </div>
+		
+	
 		<tr>
-			<td width="30%">메인 이미지 : </td>
-			<td width="70%"><input type="file" id="file1" name="file1" accept=".jpg,.png,.gif" multiple></td>
+			<td width="30%">메인 이미지<span style="color:red;">(*리스트에서 썸네일에서 보일 이미지를 넣어주세요)</span> : </td>
+			<td width="70%"><input type="file" id="file1" name="file1" accept=".jpg,.png,.gif"></td>
 		</tr>
 		<div>
+		
 		<tr>
-			<td width="30%">설명에 들어갈 이미지 : </td>
+			<td width="30%">상세보기 제품 이미지<span style="color:red;">(*상세보기 제품 이미지)</span><br> : </td>
 			<td width="70%"><input type="file" id="file2" name="file2" accept=".jpg,.png,.gif" multiple></td>
 		</tr>
 		<div>
 		<tr>
-			<td width="30%">상세보기 내용에 들어갈 이미지 : </td>
+			<td width="30%">상세보기 설명란에 들어갈 이미지<span style="color:red;">(*하단 설명에 보일 이미지를 넣어주세요)</span> : </td>
 			<td width="70%"><input type="file" id="file3" name="file3" accept=".jpg,.png,.gif" multiple></td>
 		</tr>
 		</div>
 		</div>
+		
 		<div>
 			
 			내용 :  <div id="editor" style="height: 300px;"></div>
