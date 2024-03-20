@@ -184,7 +184,20 @@
 		DELETE FROM ECO_USER_DELETE
 		WHERE USERID = #{userId}
 	</delete>
-	<select id="selectUserPaymentHistory" parameterType="hashmap" resultType="com.example.test1.model.Payment">
+	<!-- 유저 등급 갱신  -->
+	<update id="updateUserGrade" parameterType="hashmap">
+		UPDATE ECO_USER
+		SET 
+			USER_GRADE = CASE
+		      WHEN TOTALPAY >= 10000000 THEN 'PLATINUM'
+		      WHEN TOTALPAY >= 1000000 THEN 'GOLD'
+		      WHEN TOTALPAY >= 0 THEN 'SILVER'
+		      END
+		WHERE 
+			TOTALPAY >= 0 AND 
+			USERID = #{userId};
+	</update>
+<select id="selectUserPaymentHistory" parameterType="hashmap" resultType="com.example.test1.model.Payment">
 	SELECT
 		*
 	FROM ECO_PAYMENT E

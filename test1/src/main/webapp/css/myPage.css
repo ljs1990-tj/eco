@@ -74,6 +74,11 @@ button:hover {
     align-items: center
 }
 
+.point-Area i{
+    cursor: pointer;
+    color: #4caf50; 
+}
+
 .check-Area {
     height: 40px;
     /* border: 1px solid rgb(233, 233, 233); */
