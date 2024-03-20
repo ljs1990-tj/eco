@@ -170,7 +170,6 @@
 								<div class="sb-nav-link-icon">
 									<i class="bi bi-people-fill"></i>
 								</div>유저관리
-								
 							</a>
 							</div>
 							<div class="sb-sidenav-menu-heading">차트분석</div>
@@ -224,9 +223,9 @@
 										<tr v-for="item in list">
 											<td>{{item.paymentNo}}</td>
 											<td>{{item.userId}}</td>
-											<td>{{item.sumPrice}}</td>
-											<td>{{item.usepoint}}</td>
-											<td>{{item.rewardpoint}}</td>
+											<td>{{item.sumPrice.toLocaleString('ko-KR')}}</td>
+											<td>{{item.usepoint.toLocaleString('ko-KR')}}</td>
+											<td>{{item.rewardpoint.toLocaleString('ko-KR')}}</td>
 											<td>{{item.payTime}}</td>
 										</tr>
 									</tbody>

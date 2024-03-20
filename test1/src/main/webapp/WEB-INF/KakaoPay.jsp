@@ -400,6 +400,7 @@
 	        				usePoint : self.usePoint,
 	        				rewardPoint : self.paymentPRatePrice,
 	        				sumPrice : self.paymentTotalPay
+	        				
 					};
 					$.ajax({
 						url : "paymentEndHistorySave.dox",
