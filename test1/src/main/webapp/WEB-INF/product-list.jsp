@@ -408,6 +408,7 @@ var app = new Vue({
                 	
                 	if(data.result=="success"){
                 		alert("장바구니에 담았습니다.");
+                		appHeader.fnLogin();
                 	}else{
                 		alert("예기치 못한 오류가 발생했습니다. 다시 시도해 주세요.");
                 	}
