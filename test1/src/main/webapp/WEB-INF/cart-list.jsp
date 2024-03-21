@@ -231,10 +231,12 @@ var app = new Vue({
             });
         },
         fnMoveProductView :function(itemNo){
-        	$.pageChange("/productView.do", {itemNo : itemNo});
+        	var self = this;
+        	$.pageChange("/productView.do", {itemNo : itemNo , userId : self.userId});
         },
         fnProductList: function() {
-        	$.pageChange("/productList.do", {});
+        	var self = this;
+        	$.pageChange("/productList.do", {userId : self.userId});
         	},
         fnHome: function() {
         	location.href="main.do";
@@ -278,6 +280,9 @@ var app = new Vue({
                 var self = this;
                if(self.list[index].cnt < num){
             	   num = self.list[index].cnt;
+               }
+               if(num <0){
+            	   num = 0;
                }
                
                 var nparmap = {
