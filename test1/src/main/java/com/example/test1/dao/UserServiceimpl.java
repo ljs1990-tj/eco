@@ -27,7 +27,7 @@ public class UserServiceimpl implements UserService {
 	@Autowired
 	HttpSession session;
 
-	// 유저 주소록 추가
+	// 유저 회원가입
 	@Override
 	public HashMap<String, Object> addUser(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
@@ -235,7 +235,7 @@ public class UserServiceimpl implements UserService {
 		return resultMap;
 	}
 
-	// 회원탈퇴하여 다른 테이블에 저장 기간 3달
+	// 회원탈퇴하여 다른 테이블에 저장 기간 6달
 	@Override
 	public HashMap<String, Object> UserDeletDate(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
