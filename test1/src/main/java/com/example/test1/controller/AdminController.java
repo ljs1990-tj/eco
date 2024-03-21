@@ -76,7 +76,7 @@ public class AdminController {
 		public String AdminProductChart(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
 			request.setAttribute("map", map);
 			
-			return "/admin-product-line";
+			return "/admin-product-chart";
 	}
 		
 	@RequestMapping("/KakaoPay.do") 

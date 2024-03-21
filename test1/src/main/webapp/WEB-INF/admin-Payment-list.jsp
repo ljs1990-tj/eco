@@ -156,8 +156,9 @@
 										aria-labelledby="headingOne"
 										data-bs-parent="#sidenavAccordionPages">
 										<nav class="sb-sidenav-menu-nested nav">
-											<a class="nav-link" href="#">공지사항 등록</a> <a class="nav-link"
-												href="#">문의글 관리</a> <a class="nav-link" href="#"></a>
+											<a class="nav-link" href="javascript:;" @click="fnMoveBoardList(1)">공지게시판 이동</a>
+											 <a class="nav-link" href="javascript:;" @click="fnMoveBoardList(2)">레시피게시판 이동</a>
+
 										</nav>
 										
 									</div>
@@ -173,7 +174,7 @@
 							</a>
 							</div>
 							<div class="sb-sidenav-menu-heading">차트분석</div>
-							<a class="nav-link" href="tables.html">
+							<a class="nav-link" href="/AdminProductChart.do">
 								<div class="sb-nav-link-icon">
 									<i class="fas fa-chart-area"></i>
 								</div> 월 매출 차트
@@ -308,6 +309,10 @@
 				$.pageChange("/AdminProductList.do", {
 					code : code
 				});
+			},fnMoveBoardList : function(code){
+					var self = this;
+				$.pageChange("/boardList.do", {
+					code : code});
 			},
 			
 			handleFormSubmit : function(){
@@ -337,6 +342,7 @@
 			            form.appendChild(hiddenField);
 			        }
 			    }
+			    
 
 			    // body에 form 추가하고 submit
 			    document.body.appendChild(form);
