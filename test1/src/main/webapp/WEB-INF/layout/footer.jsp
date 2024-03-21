@@ -32,8 +32,8 @@
                     <div class="footer__widget">
                         <h6>사이트 정보</h6>
                         <ul>
-                            <li><a href="/Terms-Conditions.do" target="_blank">이용약관</a></li>
-                            <li><a href="/Privacy-Policy.do" target="_blank">개인정보처리방침</a></li>
+                            <li><a href="/Terms-Conditions.do" target="_blank" onclick="window.open('/Terms-Conditions.do', 'TermsPopup', 'width=500,height=900'); return false;">이용약관</a></li>
+                            <li><a href="/Privacy-Policy.do" target="_blank" onclick="window.open('/Privacy-Policy.do', 'TermsPopup', 'width=500,height=900'); return false;">개인정보처리방침</a></li>
                             <li><a href="javascript:;">이용안내</a></li>
                             <li><a href="javascript:;">회사정보</a></li>
                             <li><a href="javascript:;">사업자등록번호</a></li>
@@ -52,8 +52,8 @@
                         </form>
                         <div class="footer__widget__social">
                             <a href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a>
-                            <a href="https://twitter.com/"><i class="fa fa-instagram"></i></a>
-                            <a href="https://www.linkedin.com/"><i class="fa fa-twitter"></i></a>
+                            <a href="https://www.instagram.com/"><i class="fa fa-instagram"></i></a>
+                            <a href="https://twitter.com/"><i class="fa fa-twitter"></i></a>
                             <a href="https://www.pinterest.co.kr/"><i class="fa fa-pinterest"></i></a>
                         </div>
                     </div>

@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <script src="js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<title>개인정보처리방침</title>
+<title>개인정보 처리방침</title>
 </head>
 <style>
 </style>

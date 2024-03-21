@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <script src="js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<title>테스트 페이지</title>
+<title>이용약관 안내</title>
 </head>
 <style>
 </style>
