@@ -362,7 +362,7 @@
                 <a @click="fnFavorite" href="#" v-if="FavoriteCheck == 'Y'"><i class="bi bi-heart-fill fa-2x" style="color:red;"></i></a>
                 <a @click="fnFavorite" href="#" v-if="FavoriteCheck == 'N'"><i class="bi bi-heart fa-2x" style="color: rgb(92,184,92);"></i></a>
                     <button class="buy-btn">구매하기</button>
-                    <button class="cart-btn" @click="fnAddCart(itemNo, userId)">장바구니에 담기</button>
+                    <button class="cart-btn" @click="fnAddCart(itemNo)">장바구니에 담기</button>
                 </div>
             </div>
         </div>
@@ -546,8 +546,12 @@ var app = new Vue({
             });
         },
         
-        fnAddCart: function(itemNo, userId) {
+        fnAddCart: function(itemNo) {
             var self = this;
+            if(self.userId==""){
+            	alert("로그인 후 이용 가능합니다.");
+            	return;
+            }
             var nparmap = {
             		itemNo: self.itemNo,
     				userId: self.userId	
