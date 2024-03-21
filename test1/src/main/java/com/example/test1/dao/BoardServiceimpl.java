@@ -40,7 +40,6 @@ public class BoardServiceimpl implements BoardService{
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
-			boardMapper.writeBoard(map);
 		//	boardMapper.insertBoardFile(map);
 			resultMap.put("boardNo", map.get("BOARDNO"));
 			resultMap.put("result", "success");

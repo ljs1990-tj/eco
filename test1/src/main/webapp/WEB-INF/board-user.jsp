@@ -120,7 +120,7 @@ button:hover {
                     type : "POST",
                     data : nparmap,
                     success : function(data) {
-                        console.log(data);
+                        console.log(data.list);
                         self.user = data.user;
                         self.list = data.list;
                     }
