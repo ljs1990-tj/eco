@@ -264,11 +264,11 @@
 			
             <div class="control-wrapper">
             	<div class="buttonArea">
-	            	<a :class="[selected == '' ? 'button-selected' : 'buttons-container']" @click="fnList('')"><img src="img/all_food.jpg"></a>
-	                <a :class="[selected == 'org' ? 'button-selected' : 'buttons-container']" @click="fnList('org')"><img src="img/organic.jpg"></a>
-					<a :class="[selected == 'vegan' ? 'button-selected' : 'buttons-container']" @click="fnList('vegan')"><img src="img/began.jpg"></a>
-					<a :class="[selected == 'gluten' ? 'button-selected' : 'buttons-container']" @click="fnList('gluten')"><img src="img/glu_free.jpg"></a>
-					<a :class="[selected == 'local' ? 'button-selected' : 'buttons-container']" @click="fnList('local')"><img src="img/local.png"></a>          	
+	            	<a :class="[selected == '' ? 'button-selected' : 'buttons-container']" @click="fnList('')"><img src="img/categories/cat-5.jpg"></a>
+	                <a :class="[selected == 'org' ? 'button-selected' : 'buttons-container']" @click="fnList('org')"><img src="img/categories/cat-1.jpg"></a>
+					<a :class="[selected == 'vegan' ? 'button-selected' : 'buttons-container']" @click="fnList('vegan')"><img src="img/categories/cat-2.jpg"></a>
+					<a :class="[selected == 'gluten' ? 'button-selected' : 'buttons-container']" @click="fnList('gluten')"><img src="img/categories/cat-3.jpg"></a>
+					<a :class="[selected == 'local' ? 'button-selected' : 'buttons-container']" @click="fnList('local')"><img src="img/categories/cat-4.jpg"></a>               	
             	</div>
             
             	<!-- <button type="button" :class="[selected == '' ? 'button-selected' : 'buttons-container']" @click="fnList('')">전체</button>
