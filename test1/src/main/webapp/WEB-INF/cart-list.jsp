@@ -67,9 +67,9 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(item, index) in list">
-                                    <td class="shoping__cart__item">
+                                    <td class="shoping__cart__item" >
                                         <img :src="item.filePath + item.fileName" alt="" style="width: 150px; height: 150px;">
-                                        <a href="#">{{item.itemName}}</a>
+                                        <a href="#" @click="fnMoveProductView(item.itemNo)">{{item.itemName}}</a>
                                         <h5></h5>
                                     </td>
                                     <td class="shoping__cart__price">
@@ -163,7 +163,7 @@
 	
 </div>
 	<!-- Js Plugins -->
-    <script src="../js/jquery-3.3.1.min.js"></script>
+    
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/jquery.nice-select.min.js"></script>
     <script src="../js/jquery-ui.min.js"></script>
@@ -225,6 +225,9 @@ var app = new Vue({
                 	self.fnCartList();
                 }
             });
+        },
+        fnMoveProductView :function(itemNo){
+        	$.pageChange("/productView.do", {itemNo : itemNo});
         },
         fnProductList: function() {
         	$.pageChange("/productList.do", {});
