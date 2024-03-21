@@ -235,7 +235,8 @@ var app = new Vue({
         	$.pageChange("/productView.do", {itemNo : itemNo , userId : self.userId});
         },
         fnProductList: function() {
-        	$.pageChange("/productList.do", {});
+        	var self = this;
+        	$.pageChange("/productList.do", {userId : self.userId});
         	},
         fnHome: function() {
         	location.href="main.do";

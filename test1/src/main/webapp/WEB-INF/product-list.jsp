@@ -405,8 +405,7 @@ var app = new Vue({
                 type: "POST",
                 data: nparmap,
                 success: function(data) {
-                	console.log(itemNo);
-                	console.log(userId);
+                	
                 	if(data.result=="success"){
                 		alert("장바구니에 담았습니다.");
                 	}else{

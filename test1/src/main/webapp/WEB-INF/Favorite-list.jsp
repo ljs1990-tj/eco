@@ -189,7 +189,7 @@ var app = new Vue({
             });
         },
         fnProductList: function() {
-        	$.pageChange("/productList.do", {});
+        	$.pageChange("/productList.do", {userId = this.userId});
         	},
         fnHome: function() {
         	location.href="main.do";
