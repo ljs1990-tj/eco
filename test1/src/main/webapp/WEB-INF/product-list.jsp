@@ -117,8 +117,15 @@
     }
 
     .buttons-container {
+    	display: flex;
+    	align-items: center;
+	    justify-content: center;
+	    gap: 0.5px;
+	    width: 100%;
+	    margin: auto;
+    
         /* display: flex; */
-        margin-bottom: 30px;
+       /*  margin-bottom: 30px;
         margin-right: 5px;
         color: #5cb85c;
         border: 1px solid #5cb85c;
@@ -126,8 +133,15 @@
         border-radius: 5px;
         width: 100px;
         height: 30px;
-        cursor: pointer;
+        cursor: pointer; */
     }
+    
+    .buttons-container img{
+    	width: 120px; 
+   		height: 120px; 
+    	cursor: pointer;   	
+    }
+    
 
     .buttons-container button:hover {
     	color : white;
@@ -144,15 +158,27 @@
     }
     
     .button-selected {
-	    background-color: #4CAF50; /* 선택된 버튼의 배경색 */
-	    color: white; /* 선택된 버튼의 글자색 */
+    	display: flex;
+    	align-items: center;
+	    justify-content: center; 
+	    gap: 0.5px;
+	    width: 100%;
+	    margin: auto;
+	   /* 	background-color: #4CAF50;
+	    color: white; 
 	    margin-bottom: 30px;
 	    margin-right: 5px;
         border: 1px solid #5cb85c;
         border-radius: 5px;
         width: 100px;
         height: 30px;
-        cursor: pointer;  
+        cursor: pointer; */
+	}
+	
+	.button-selected img{
+		width: 150px; 
+   		height: 150px; 
+    	cursor: pointer;
 	}
 	
 	.searchArea {
@@ -199,6 +225,7 @@
 	    justify-content: center; /* 내용을 중앙에 배치 */
 	    align-items: center; /* 항목들을 가운데 정렬 */
 	}
+	
 
 </style>
 <body>
@@ -216,11 +243,17 @@
 			</div>
 			
             <div class="control-wrapper">
-            	<button type="button" :class="[selected == '' ? 'button-selected' : 'buttons-container']" @click="fnList('')">전체</button>
+            	<a :class="[selected == '' ? 'button-selected' : 'buttons-container']" @click="fnList('')"><img src="img/all_food.jpg"></a>
+                <a :class="[selected == 'org' ? 'button-selected' : 'buttons-container']" @click="fnList('org')"><img src="img/organic.jpg"></a>
+				<a :class="[selected == 'vegan' ? 'button-selected' : 'buttons-container']" @click="fnList('vegan')"><img src="img/began.jpg"></a>
+				<a :class="[selected == 'gluten' ? 'button-selected' : 'buttons-container']" @click="fnList('gluten')"><img src="img/glu_free.jpg"></a>
+				<a :class="[selected == 'local' ? 'button-selected' : 'buttons-container']" @click="fnList('local')"><img src="img/local.png"></a>
+            	
+            	<!-- <button type="button" :class="[selected == '' ? 'button-selected' : 'buttons-container']" @click="fnList('')">전체</button>
                 <button type="button" :class="[selected == 'org' ? 'button-selected' : 'buttons-container']" @click="fnList('org')">유기농</button>
 				<button type="button" :class="[selected == 'vegan' ? 'button-selected' : 'buttons-container']" @click="fnList('vegan')">비건</button>
 				<button type="button" :class="[selected == 'gluten' ? 'button-selected' : 'buttons-container']" @click="fnList('gluten')">글루텐프리</button>
-				<button type="button" :class="[selected == 'local' ? 'button-selected' : 'buttons-container']" @click="fnList('local')">로컬푸드</button>
+				<button type="button" :class="[selected == 'local' ? 'button-selected' : 'buttons-container']" @click="fnList('local')">로컬푸드</button> -->
 
                 <div class="order-container">     
                     <select v-model="selectedOption" @change="updateSelected">
@@ -238,7 +271,7 @@
 			    	<template v-for="item2 in fileList" v-if="item.itemNo == item2.itemNo">
 						<img :src="item2.filePath+item2.fileName" alt="" @click="fnDetailView(item.itemNo, userId)">
 				    	
-				      	<button type="button" href="javascript:;" @click="fnAddCart(item.itemNo, userId)">장바구니에 담기</button>
+				      	<button type="button" href="javascript:;" @click="fnAddCart(item.itemNo)">장바구니에 담기</button>
 				      	
 				      	<div class="product-info" @click="fnDetailView(item.itemNo)">
 				        	<div class="product-name">{{item.itemName}}</div>
@@ -346,8 +379,12 @@ var app = new Vue({
         	$.pageChange("/ProductUpdate.do", {itemNo : itemNo});
         },
         /* 상품 장바구니 추가  */
-		fnAddCart: function(itemNo, userId) {
+		fnAddCart: function(itemNo) {
             var self = this;
+            if(self.userId == ""){
+            	alert("로그인 후 이용 가능합니다.");
+            	return;
+            }
             var nparmap = {
 				itemNo: itemNo,
 				userId: self.userId
