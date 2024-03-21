@@ -256,7 +256,11 @@ var app = new Vue({
     			var self = this
     			var noRatePay = 0;
     			for(var i = 0 ; i <self.list.length ; i++){
+    				if(self.list[i].cnt == 0){
+    					self.list[i].selectcnt = 0;
+    				}
     				noRatePay += self.list[i].price * self.list[i].selectcnt;
+    				
     			}
     			self.noRatePrice = noRatePay.toLocaleString('ko-KR');
     			var pay = 0;
