@@ -310,6 +310,7 @@
 	    	listR: [], 		// 레시피용
 	    	fileListR: [], 	// 레시피용
 	    	keyword: "",
+	    	kind: 1
 		},
 		methods: {
 			fnListOrderBy: function() {
@@ -372,6 +373,7 @@
 		                success: function(data) {
 		                	if(data.result == "success") {
 		                		alert("장바구니에 담았습니다.");
+		                		appHeader.fnLogin();
 		                	} else {
 		                		alert("예기치 못한 오류가 발생했습니다. 다시 시도해 주세요.");
 		                	}
@@ -398,8 +400,10 @@
 	                	console.log(data);
 	                	if(data.result == "insert") {
 	                		alert("찜 목록에 담았습니다.");
+	                		appHeader.fnLogin();
 	                	} else if(data.result == "remove") {
 	                		alert("찜 목록에서 뺐습니다.");
+	                		appHeader.fnLogin();
 	                	} else {
 	                		alert("예기치 못한 오류가 발생했습니다. 다시 시도해 주세요.");
 	                	}

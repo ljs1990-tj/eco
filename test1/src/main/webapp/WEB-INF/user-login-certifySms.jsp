@@ -222,10 +222,10 @@ body {
 					success : function(data) {
 						console.log(data);
 						if(data.result == "success"){
-						        alert("인증되었습니다. 다시 로그인 부탁드립니다");						       
+						        alert("인증되었습니다. 다시 로그인 부탁드립니다");	
 						        if (window.opener && !window.opener.closed) {
 						            try {
-						                window.opener.fnClose();
+						            	window.opener.location.href = '/user-login.do';
 						                window.close();
 						            } catch (error) {                
 						                console.error("부모 창을 열 수 없습니다:", error);
