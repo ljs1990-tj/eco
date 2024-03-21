@@ -104,15 +104,6 @@
                     <div style="margin-left: auto;"><button :disabled="isPopupOpen" @click="fnSearhUserRecipe">더보기</button></div>
                 </div>
             </div>
-            
-            <div class="order-Container">
-            	<div class="order-Info-title">주문 목록</div>
-                <div class="order-Area">
-                    <div style="border: 1px black solid ;">
-						
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
     <!-- 등급혜택 창열기 -->

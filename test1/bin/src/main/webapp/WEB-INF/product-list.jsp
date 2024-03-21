@@ -50,7 +50,7 @@
     }
 
     .product-item:hover {
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+        box-shadow: 0 2px 4px rgba(0,0,0,0.5); 
     }
 
     .product-item img {
@@ -89,13 +89,18 @@
     }
 
     .product-name {
-        margin: 10px 0;
+        margin: 1px 10px;
         font-weight: bold;
+        font-size: 15px;
     }
 
     .product-price {
         color: #E44D26;
         font-weight: bold;
+        font-size: 14px;
+    }
+    .product-price del{
+        font-size: 12px; 
     }
     
     .admin-btn {
@@ -175,6 +180,25 @@
 		cursor: pointer;
 		/* text-align: center; */
 	}
+	
+	.message-container {
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    width: 100%;
+	    height: 100px; /* 메시지 영역의 높이. 필요에 따라 조절합니다. */
+	}
+	
+	.no-results-message {
+	    text-align: center;
+	    margin-top: 20px;
+	    font-size: 20px;
+	    color: #888;
+	    width: 100%; /* 너비를 100%로 설정하여 부모 컨테이너의 전체 너비를 차지하도록 합니다. */
+	    display: flex; /* Flexbox 모델 적용 */
+	    justify-content: center; /* 내용을 중앙에 배치 */
+	    align-items: center; /* 항목들을 가운데 정렬 */
+	}
 
 </style>
 <body>
@@ -220,17 +244,21 @@
 				        	<div class="product-name">{{item.itemName}}</div>
 				        	<div class="product-price">
 				        		<template v-if="item.sRate > 0">
-					        		<del>₩{{item.price.toLocaleString('ko-KR')}}</del>
-					        		<br> 할인가₩{{DiscountPrice(item.price, item.sRate)}}
-					        		<br> 할인율{{item.sRate}}%				        		
+					        		<del>{{item.price.toLocaleString('ko-KR')}}원</del>
+					        		<br>{{item.sRate}}% {{DiscountPrice(item.price, item.sRate)}}원		        		
 				        		</template>
 				        		<template v-else>
-				        			<br> ₩{{item.price.toLocaleString('ko-KR')}}
+				        			<br>{{item.price.toLocaleString('ko-KR')}}원
 				        		</template>
 				        	</div>
 				      	</div>
 				    </template>
 			    </div>
+			    <div class="message-container" v-if="list.length === 0">
+				    <div class="no-results-message">
+				        등록된 상품이 없습니다. 다시 검색해 주세요.
+				    </div>
+				</div>
 			</div> 
 		</div>
 	</div>

@@ -19,144 +19,146 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <title>게시판 목록 페이지</title>
 <style>
-	.temp div {
-		text-align: center;
-	}
-	
-	.temp table {
-		border-collapse: collapse;
-		width: 80%;
-		margin: 10px auto;
-	}
-	
-	.temp th, td {
-		border-top: none;
-		border-bottom: 1px solid #ddd;
-		border-right: none;
-		padding: 8px;
-		text-align: center;
-		font-size: 14px;
-		font-family: "Orbit", sans-serif;
-		font-weight: 400;
-		font-style: normal;
-		cursor: default;
-	}
-	
-	.temp tr:hover {
-		background-color: #f5f5f5;
-	}
-	
-	.temp tr {
-		border: top 1px solid black;
-		border-bottom: 1px solid black;
-	}
-	
-	.temp th {
-		background-color: #f2f2f2;
-	}
-	
-	.temp button {
-		margin-top: 10px;
-		padding: 10px 20px;
-		font-size: 16px;
-		cursor: pointer;
-		background-color: #4CAF50;
-		color: white;
-		border: none;
-		border-radius: 4px;
-		transition: background-color 0.3s;
-		display: inline-block;
-	}
-	
-	.temp button:hover {
-		background-color: #45a049;
-	}
-	
-	.temp li {
-		display: inline-block;
-	}
-	
-	.temp ul {
-		padding: 5px 10px;
-		cursor: default;
-		color: black;
-		border-radius: 4px;
-		display: inline-block;
-		margin-right: 10px;
-		font-size: 30px;
-	}
-	
-	/* ul:hover {
-		background-color: #fff;
-	} */
-	
-	.temp td {
-		height: 70px;
-	}
-	
-	.temp a {
-		text-decoration: none;
-	}
-	
-	.pagination {
-		text-align: center;
-		font-size: 20px;
-	}
-	
-	.page-num {
-		font-weight: bold;
-		font-size: 30px;
-	}
-	
-	.write-button {
-		float: right;
-		margin-right: 190px;
-		font-size: 20px;
-		font-family: "Orbit", sans-serif;
-	}
-	
-	.clear-both {
-		clear: both;
-		margin-bottom: 10px;
-	}
-	
-	.blog__item-box {
-		/* background-color: lightgrey; */
-		padding: 10px;
-		border: 1px solid rgb(179, 211, 179);
-		width: 400px; /* 원하는 너비 값으로 조정 */
-		margin: 60px; /* 원하는 마진 값으로 조정 */
-		border-radius: 10px;
-		color: #02662A;
-	}
-	
-	.tab-button:focus, .tab-button:hover {
-		color: green;
-	}
-	
-	.box {
-		width: 100%;
-		height: 40%;
-		/* background-color: #cccccc; */
-		text-align: center;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		flex-direction: column;
-	}
-	
-	.box .horizontal-list {
-		display: inline-block;
-		list-style: none;
-		padding: 0;
-	}
-	
-	.box .horizontal-list li {
-		display: inline-block;
-		margin: 0 100px;
-	}
-	
-	/* .accordion_body {
+.temp div {
+	text-align: center;
+}
+
+.temp table {
+	border-collapse: collapse;
+	width: 80%;
+	margin: 10px auto;
+}
+
+.temp th, td {
+	border-top: none;
+	border-bottom: 1px solid #ddd;
+	border-right: none;
+	padding: 8px;
+	text-align: center;
+	font-size: 14px;
+	font-family: "Orbit", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+	cursor: default;
+}
+
+.temp tr:hover {
+	background-color: #f5f5f5;
+}
+
+.temp tr {
+	border: top 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+.temp th {
+	background-color: #f2f2f2;
+}
+
+.temp button {
+	margin-top: 10px;
+	padding: 10px 20px;
+	font-size: 16px;
+	cursor: pointer;
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	transition: background-color 0.3s;
+	display: inline-block;
+}
+
+.temp button:hover {
+	background-color: #45a049;
+}
+
+.temp li {
+	display: inline-block;
+}
+
+.temp ul {
+	padding: 5px 10px;
+	cursor: default;
+	color: black;
+	border-radius: 4px;
+	display: inline-block;
+	margin-right: 10px;
+	font-size: 30px;
+}
+
+
+.temp td {
+	height: 70px;
+}
+
+.temp a {
+	text-decoration: none;
+}
+
+.pagination {
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination a {
+    margin: 0 5px; /* 페이지 링크 간격 조절 */
+}
+
+.page-num {
+	font-weight: bold;
+	font-size: 30px;
+}
+
+.write-button {
+	float: right;
+	margin-right: 190px;
+	font-size: 20px;
+	font-family: "Orbit", sans-serif;
+}
+
+.clear-both {
+	clear: both;
+	margin-bottom: 10px;
+}
+
+.blog__item-box {
+	/* background-color: lightgrey; */
+	padding: 10px;
+	border: 1px solid rgb(179, 211, 179);
+	width: 400px; /* 원하는 너비 값으로 조정 */
+	margin: 60px; /* 원하는 마진 값으로 조정 */
+	border-radius: 10px;
+	color: #02662A;
+}
+
+.tab-button:focus, .tab-button:hover {
+	color: green;
+}
+
+.box {
+	width: 100%;
+	height: 40%;
+	/* background-color: #cccccc; */
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.box .horizontal-list {
+	display: inline-block;
+	list-style: none;
+	padding: 0;
+}
+
+.box .horizontal-list li {
+	display: inline-block;
+	margin: 0 100px;
+}
+
+/* .accordion_body {
 		display: none;
 	}
 	
@@ -168,24 +170,24 @@
 		list-style-type: none;
 		padding: 0;
 	} */
-	.point {
-		font-size: 20px;
-		font-family: "Orbit", sans-serif;
-	}
-	
-	.select-tab {
-		color: green;
-		font-weight: bold;
-		font-family: "Orbit", sans-serif;
-	}
-	
-	.keyword {
-		font-family: "Orbit", sans-serif;
-	}
-	
-	.horizontal-list {
-		cursor: default;
-	}
+.point {
+	font-size: 20px;
+	font-family: "Orbit", sans-serif;
+}
+
+.select-tab {
+	color: green;
+	font-weight: bold;
+	font-family: "Orbit", sans-serif;
+}
+
+.keyword {
+	font-family: "Orbit", sans-serif;
+}
+
+.horizontal-list {
+	cursor: default;
+}
 </style>
 </head>
 <body>
@@ -219,7 +221,7 @@
 							리뷰</p>
 						<div class="point_txt">
 							<span class="point">1000P 적립</span>
-	
+
 						</div>
 					</li>
 					<li class="review_event_item">
@@ -230,11 +232,11 @@
 							리뷰어</p>
 						<div class="point_txt">
 							<span class="point">5000P 적립</span>
-	
+
 						</div>
 					</li>
 				</ul>
-	
+
 				<!--		<div class="accordion_container">
 					<div class="accordion_header">
 						<a href="javascript:;" @click="fnReview()" style="width: 250px;">리뷰 가이드 보기</a>					
@@ -305,7 +307,9 @@
 				<select v-model="keywordType">
 					<option value="title">제목</option>
 					<option value="user">작성자</option>
-				</select> 검색: <input type="text" v-model="keyword" @keyup.enter="fnList(kind)">
+				</select> 
+				검색: <input type="text" v-model="keyword"
+					@keyup.enter="fnList(kind)">
 				<button @click="fnList(kind)">검색</button>
 			</div>
 
@@ -332,8 +336,10 @@
 				</tr>
 			</table>
 			<div v-if="kind==2" style="display: flex; flex-wrap: wrap;">
-				<div v-if="list.length == 0" class="box" style="font-weight: bold; margin-top: 10px;"> 검색 결과가 없습니다.</div>
-				<div class="col-lg-3 col-md-3 col-sm-3 blog__item-box" v-for="item in list" style="color: #02662A;">
+				<div v-if="list.length == 0" class="box"
+					style="font-weight: bold; margin-top: 10px;">검색 결과가 없습니다.</div>
+				<div class="col-lg-3 col-md-3 col-sm-3 blog__item-box"
+					v-for="item in list" style="color: #02662A;">
 					<div class="blog__item">
 						<div class="blog__item__pic">
 							<template v-for="item2 in fileList"
@@ -372,9 +378,9 @@
 			<div v-if="userId != '' && userId != undefined">
 				<button class="write-button" @click="fnWrite"
 					v-if="userType == 'A' || kind != 1">글쓰기</button>
-	
+
 			</div>
-			<div class="pagination" style="display: inline-block;">
+			<div class="pagination">
 				<template v-for="n in pageCount">
 					<a href="javascript:;" @click="fnPageList(n)"> <span
 						:class="[selectPage == n ? 'page-num' : '']">{{n}}</span>
@@ -394,8 +400,8 @@
             list: [],
             userId: "${userId}",
             userType : "${userType}",
-			keyword : "",
-			keywordType : "title",
+			keyword : "${map.keyword}",
+			keywordType : "${map.keywordType}",
 			kind : "${map.code}",
             boardList: ${boardList},
 			pageCount : 1,
@@ -461,7 +467,7 @@
             fnWrite: function() {
                 var self = this;
                 if (self.userId != "") {
-                    $.pageChange("boardInsert.do", {
+                    $.pageChange("/boardInsert.do", {
                         kind: self.kind
                     });
                 } else {

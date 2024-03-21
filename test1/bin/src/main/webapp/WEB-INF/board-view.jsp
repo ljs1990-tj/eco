@@ -168,7 +168,7 @@ a {
 			},
 			fnDelete : function() {
 				var self = this;
-				if (!confirm("삭제하실")) {
+				if (!confirm("삭제하겠습니까")) {
 					return;
 				}
 				var nparmap = {
@@ -203,27 +203,11 @@ a {
 					kind : self.kind
 				});
 			}
-		/*  fnFileList: function() {
-		 	var self = this;
-		 	var nparmap = {
-		 			kind: self.kind
-		         };
-		         $.ajax({
-		             url: "boardFile.dox",
-		             dataType: "json",
-		             type: "POST",
-		             data: nparmap,
-		             success: function(data) {
-		             	console.log(data);
-		             	self.fileList= data.boardFile;
-		             }
-		         });
-		 }, */
+		
 		},
 		created : function() {
 			var self = this;
 			self.fnView();
-			//	self.fnFileList();
 		}
 	});
 </script>

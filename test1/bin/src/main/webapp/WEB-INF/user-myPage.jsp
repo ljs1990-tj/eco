@@ -31,22 +31,22 @@
             	</div>
                 <div class="user-Area">
                     <ul>
-                        <li><span>아이디 : </span>{{user.userId}}</li>
-                        <li><span>이름 : </span>{{user.name}}</li>
-                        <li><span>닉네임 : </span>{{user.nickName}}</li>
-                        <li><span>성별 : </span>{{user.gender}}</li>
-                        <li><span>핸드폰 번호 : </span>{{ user.phone1 + '-' + user.phone2 + '-' + user.phone3 }}</li>
-                        <li><span>이메일 : </span>{{user.email}}</li>
+                        <li><span>아이디: </span>{{user.userId}}</li>
+                        <li><span>이름: </span>{{user.name}}</li>
+                        <li><span>닉네임: </span>{{user.nickName}}</li>
+                        <li><span>성별: </span>{{user.gender}}</li>
+                        <li><span>핸드폰 번호: </span>{{ user.phone1 + '-' + user.phone2 + '-' + user.phone3 }}</li>
+                        <li><span>이메일: </span>{{user.email}}</li>
                         <!-- 변경된 부분 -->
-                        <li><span>생년월일 : </span>{{ user.birth | formatDate }}</li>
+                        <li><span>생년월일: </span>{{ user.birth | formatDate }}</li>
                     </ul>
                 </div>
                 <div class="point-Area">
-					<div style="margin-right: auto;">내 등급 : 
+					<div style="margin-right: auto;">내 등급: 
 						<span>{{user.userGrade}}</span>
 						<i class="bi bi-arrow-clockwise" @click="fnUpdateGrade"></i>
 					</div>
-                    <div style="margin-left: auto;">포인트 : <span>{{user.point}}</span></div>
+                    <div style="margin-left: auto;">포인트: <span>{{user.point}}</span></div>
                 </div>
                 <div class="check-Area">
                    <div style="margin-right: auto;"><button @click="fnopenPopup()">등급 혜택 자세히 보기</button></div>
@@ -80,28 +80,28 @@
                             <div>
                                 <span>주소: </span>{{ address.addr }}, {{ address.addrDetail }}
                             </div>
-                            <div>전화번호 : {{ address.phone | formatPhoneNumber }}</div>
+                            <div>전화번호: {{ address.phone | formatPhoneNumber }}</div>
                             <div v-if="address.addrRequest">
-							    <span>특이사항 : </span> {{ address.addrRequest }}
+							    <span>특이사항: </span> {{ address.addrRequest }}
 							</div>
                         </div>
                     </div>
                 </div>
                 <div class="addr-addArea">
                     <div>
-                        <button @click="addDefaultAddress()" :disabled="isPopupOpen">주소추가</button>
+                        <button @click="addDefaultAddress()" :disabled="isPopupOpen">주소 추가</button>
                     </div>
                     <div>
-                        <button @click="fndefault()" :disabled="isPopupOpen">기본 배송지</button>
-                        <button @click="updateSelectedAddresses()" :disabled="isPopupOpen">주소수정</button>
-                        <button @click="deleteSelectedAddresses" :disabled="isPopupOpen">주소삭제</button>
+                        <button @click="fnDefault" :disabled="isPopupOpen">기본 배송지</button>
+                        <button @click="updateSelectedAddresses" :disabled="isPopupOpen">주소 수정</button>
+                        <button @click="deleteSelectedAddresses" :disabled="isPopupOpen">주소 삭제</button>
                     </div>
                 </div>
             </div>
             <div class="recipe-Area">
                 <div class="recipe-AreaStyle">
                     <div style="margin-right: auto;">내가 쓴 레시피</div>
-                    <div style="margin-left: auto;"><button :disabled="isPopupOpen">더보기?</button></div>
+                    <div style="margin-left: auto;"><button :disabled="isPopupOpen" @click="fnSearhUserRecipe">더보기</button></div>
                 </div>
             </div>
             
@@ -131,36 +131,36 @@
 </html>
 <script type="text/javascript">
 	var app = new Vue({
-		el : '#app',
-		data : {
-			user : {
-				userId : "${userId}",
-				userPw : "",
-				userPw2 : "",
-				name : "",
-				nickName : "",
-				gender : "",
-				phone1 : "",
-				phone2 : "",
-				phone3 : "",
-				email : "",
-				birth : "",
-				userGrade : "",
-				point : ""
+		el: '#app',
+		data: {
+			user: {
+				userId: "${userId}",
+				userPw: "",
+				userPw2: "",
+				name: "",
+				nickName: "",
+				gender: "",
+				phone1: "",
+				phone2: "",
+				phone3: "",
+				email: "",
+				birth: "",
+				userGrade: "",
+				point: ""
 			},
-			isPopupOpen : false,
-			addrDefault : false,
-			addrList : [],
-			radio : "",
-			cnt : ""
+			isPopupOpen: false,
+			addrDefault: false,
+			addrList: [],
+			radio: "",
+			cnt: ""
 		},
-		methods : {
+		methods: {
 			/* 등급혜택 창 열기 */
-			fnopenPopup : function() {
+			fnopenPopup: function() {
 				this.isPopupOpen = !this.isPopupOpen;
 			},
 			/* 등급혜택 창 닫기 */
-			fnclosePopup : function() {
+			fnclosePopup: function() {
 				this.isPopupOpen = false;
 				location.reload(true);
 			},
@@ -180,7 +180,7 @@
                     'Password Popup', 'width=500,height=500,,left=' + leftPosition + ',top=' + topPosition);
             },
 			/* 주소목록 추가하기 */
-			addDefaultAddress : function() {
+			addDefaultAddress: function() {
 				var self = this;
 				var leftPosition = (window.screen.width - 400) / 2; // 화면의 가로 중앙 위치
 		    	var topPosition = (window.screen.height - 400) / 2; // 화면의 세로 중앙 위치
@@ -200,7 +200,7 @@
 
 			},
 			/* 주소 목록 삭제하기 */
-			deleteSelectedAddresses : function() {
+			deleteSelectedAddresses: function() {
 				var self = this;
 				if (self.user.userId == "") {
 					alert("로그인 후 입장 가능합니다.");
@@ -214,13 +214,13 @@
 					return;
 				}
 				$.ajax({
-					url : "delete-addresses.dox",
-					dataType : "json",
-					type : "POST",
-					data : {
-						addrNo : self.radio
+					url: "delete-addresses.dox",
+					dataType: "json",
+					type: "POST",
+					data: {
+						addrNo: self.radio
 					},
-					success : function(data) {
+					success: function(data) {
 						// 성공시 부모창 새로고침후 팝업창 닫기
 						if (data.result == "success") {
 							location.reload(true);
@@ -233,7 +233,7 @@
 			},
 	
 			// 주소록값 수정하기
-			updateSelectedAddresses : function() {
+			updateSelectedAddresses: function() {
 				var self = this;
 				var leftPosition = (window.screen.width - 400) / 2; // 화면의 가로 중앙 위치
 		    	var topPosition = (window.screen.height - 400) / 2; // 화면의 세로 중앙 위치
@@ -254,7 +254,7 @@
 						'width=800,height=800,left=' + leftPosition + ',top=' + topPosition);
 			},
 			/* 기본배송지 설정 */
-			fndefault: function() {
+			fnDefault: function() {
 			    var self = this;
 			    if (self.user.userId == "") {
 			        alert("로그인 후 입장 가능합니다.");
@@ -269,7 +269,7 @@
 			        return;
 			    }
 			    var nparmap = {
-			        userId : self.user.userId,
+			        userId: self.user.userId,
 			        addrNo: self.radio
 			    };
 			    $.ajax({
@@ -326,7 +326,7 @@
 		    fnUpdateGrade: function(){
 		    	var self = this;
 	            var nparmap = {
-	            	userId : self.user.userId
+	            	userId: self.user.userId
 	            };
 	            $.ajax({
 	                url:"userGradeUpdate.dox",
@@ -341,9 +341,13 @@
 	                	console.log(data.result);
 	                }
 	            });
-		    }
+		    },
+		    fnSearhUserRecipe: function() {
+		    	var self = this;
+		    	$.pageChange("/boardList.do", {code: "2", keyword: self.user.userId, keywordType: "user"});
+		    },
 		},
-		created : function() {
+		created: function() {
 		    var self = this;
 		    if (this.user.userId == "") {
 		        alert("로그인 후 입장 가능합니다.");
