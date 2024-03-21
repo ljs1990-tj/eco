@@ -201,7 +201,7 @@
 				$.pageChange("/productList.do", {code: kind});
 			},
 			fnMoveCommunity: function(kind) {
-				$.pageChange("/boardList.do", {code: kind});
+				$.pageChange("/boardList.do", {keywordType: "title", code: kind});
 			},
 			fnMoveFavorite: function() {
 				$.pageChange("/FavoriteList.do", {userId: this.userId});

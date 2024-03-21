@@ -98,7 +98,6 @@
 	<div id="app">
 		<div class="inquiry-form">
 			<h2>상품 문의하기</h2>
-			{{userId}}, {{itemNo}}
 			<div class="form-field">
 				<label for="product-title">제목</label>
 				<input type="text" id="product-title" placeholder="제목 입력" v-model="title">

@@ -29,19 +29,14 @@
 <title>boardInsert 페이지</title>
 
 <style>
-
-
-
 th, td {
 	border: 1px solid #ddd;
 	padding: 8px;
 	text-align: center;
 	font-size: 14px;
 	font-family: Arial, sans-serif;
-	margin : 10px;
+	margin: 10px;
 }
-
-
 
 tr:hover {
 	background-color: #f5f5f5;
@@ -57,9 +52,7 @@ button {
 	border: none;
 	border-radius: 4px;
 	transition: background-color 0.3s;
-		
 }
-
 
 button:hover {
 	background-color: #45a049;
@@ -76,34 +69,32 @@ button:hover {
 			<td><select v-model="kind">
 					<option value="1" v-if="userType == 'A'">공지사항</option>
 					<option value="2">레시피게시판</option>
-					
+
 			</select></td>
 		</tr>
 		<div>
 			제목 : <input type="text" v-model="title">
 		</div>
-		<tr>
-			<td width="30%">메인 이미지 :</td>
-			<td width="70%"><input type="file" id="file1" name="file1"
-				accept=".jpg,.png,.gif"></td>
-		</tr>
-		<div>
+		<div v-if="kind == 2">
 			<tr>
-				<td width="30%">설명에 들어갈 이미지 :</td>
-				<td width="70%"><input type="file" id="file2" name="file2"
-					accept=".jpg,.png,.gif" multiple></td>
+				<td width="30%">메인 이미지 :</td>
+				<td width="70%"><input type="file" id="file1" name="file1"
+					accept=".jpg,.png,.gif"></td>
 			</tr>
+			<div>
+				<tr>
+					<td width="30%">설명에 들어갈 이미지 :</td>
+					<td width="70%"><input type="file" id="file2" name="file2"
+						accept=".jpg,.png,.gif" multiple></td>
+				</tr>
+			</div>
 		</div>
-		<!-- <tr>
-			<th>파일 선택 :</th>
-			<td><input type="file" id="file1" name="file1" accept=".jpg, .png, .gif"></td>
-		</tr> -->
 		<div>
 			내용 :
 			<div id="editor" v-model="contents" style="height: 300px;"></div>
 		</div>
-		<div class ="writeButton" style="text-align: center; margin: 20px;">
-		<button @click="fnWrite">작성완료</button>
+		<div class="writeButton" style="text-align: center; margin: 20px;">
+			<button @click="fnWrite">작성완료</button>
 		</div>
 		<!-- 	<button @click="fnList">목록으로 가기</button> -->
 	</div>
@@ -150,7 +141,7 @@ button:hover {
 					success : function(data) {
 						if (data.result == "success") {
 							alert("작성되었습니다");
-							
+							if(self.kind == 2) {
 	                		var files = $("#file1")[0].files;
                 			var formMain = new FormData();
                 			formMain.append( "file1",  files[0]);
@@ -163,14 +154,14 @@ button:hover {
 	                        	 formContents.append("file2",files2[y]);
 	                        	 formContents.append("boardNo", data.boardNo);
 	                             self.uploadContents(formContents);
-	                        }
-	                        
+	                        		}
+								}
 	                        
 	                        setTimeout(() => {
-	                        	$.pageChange("/boardList.do", {});
+	                        	$.pageChange("/boardList.do", {kind: self.kind});
 	                        }, 1000);
+							
 	                        
-							//location.href = "/boardList.do"
 							
 						} else {
 							alert("다시 시도해주세요");

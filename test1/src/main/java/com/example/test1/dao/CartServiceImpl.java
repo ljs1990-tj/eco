@@ -188,10 +188,11 @@ public class CartServiceImpl implements CartService{
 			int check = cartMapper.selectFavoriteCheck(map);
 			if(check == 1) {
 				cartMapper.removeFavorite(map);
+				resultMap.put("result", "remove");
 			}else {
 				cartMapper.insertFavorite(map);
+				resultMap.put("result", "insert");
 			}
-			resultMap.put("result", "succes");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			resultMap.put("result", "fail");

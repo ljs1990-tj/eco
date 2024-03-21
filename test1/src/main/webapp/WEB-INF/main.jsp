@@ -127,7 +127,7 @@
 			                    	<div class="featured__item__pic">
 			                    		<img :data-setbg="item2.path" :alt="item.itemName" :src="item2.path" @click="fnDetailView(item.itemNo, userId)" style="cursor: pointer;">
 			                        	<ul class="featured__item__pic__hover">
-			                                <li><a href="javascript:;"><i class="fa fa-heart"></i></a></li>
+			                                <li><a href="javascript:;" @click="fnAddFavorite(item.itemNo, userId)"><i class="fa fa-heart"></i></a></li>
 			                                <li><a href="javascript:;" @click="fnAddCart(item.itemNo, userId)"><i class="fa fa-shopping-cart"></i></a></li>
 			                            </ul>
 		                        	</div>
@@ -298,10 +298,10 @@
 </html>
 <script type="text/javascript">
   	var app = new Vue({
-		el : '#appMain',
-		data : {
-			userId : "${userId}",
-			isPopupOpen : true,
+		el: '#appMain',
+		data: {
+			userId: "${userId}",
+			isPopupOpen: true,
 			list: [],
 			fileList: [],
 	    	listLatest: [],
@@ -311,17 +311,17 @@
 	    	fileListR: [], 	// 레시피용
 	    	keyword: "",
 		},
-		methods : {
+		methods: {
 			fnListOrderBy: function() {
 				var self = this;
 				var nparmap = {
 				};
 				$.ajax({
-					url : "productListOrderBy.dox",
-					dataType : "json",
-					type : "POST",
-					data : nparmap,
-					success : function(data) {
+					url: "productListOrderBy.dox",
+					dataType: "json",
+					type: "POST",
+					data: nparmap,
+					success: function(data) {
 						console.log(data);
 						self.list = data.listMain;
 	                	self.listLatest = data.listLatest; // 최근 등록순
@@ -336,11 +336,11 @@
 				var nparmap = {
 				};
 				$.ajax({
-					url : "boardAndFileList.dox",
-					dataType : "json",
-					type : "POST",
-					data : nparmap,
-					success : function(data) {
+					url: "boardAndFileList.dox",
+					dataType: "json",
+					type: "POST",
+					data: nparmap,
+					success: function(data) {
 						if(data.result == 'success') {
 							self.listR = data.listR;
 							self.fileListR = data.fileListR;
@@ -348,7 +348,7 @@
 					}
 				});				
 			},
-			closePopup : function() {
+			closePopup: function() {
 				this.isPopupOpen = false;
 			},
 			fnMoveCategory: function(kind) {
@@ -358,21 +358,49 @@
 	            var self = this;
 	            if(self.userId == "") {
 	            	alert("로그인 후 이용 가능합니다.");
-	            	return;
+	            	location.href = "/user-login.do";
+	            } else {
+		            var nparmap = {
+						itemNo: itemNo,
+						userId: userId
+		            };
+		            $.ajax({
+		                url:"addCart.dox",
+		                dataType:"json",
+		                type: "POST",
+		                data: nparmap,
+		                success: function(data) {
+		                	if(data.result == "success") {
+		                		alert("장바구니에 담았습니다.");
+		                	} else {
+		                		alert("예기치 못한 오류가 발생했습니다. 다시 시도해 주세요.");
+		                	}
+		                }
+		            });
 	            }
+			},
+			fnAddFavorite: function(itemNo, userId) {
+		    	var self = this;
+		    	if(self.userId == ""){
+		    		alert("로그인 후 이용 가능합니다.");
+		    		location.href = "/user-login.do";
+		    	}
 	            var nparmap = {
-					itemNo: itemNo,
-					userId: self.userId
+	            		itemNo: itemNo,
+	            		userId: userId
 	            };
 	            $.ajax({
-	                url:"addCart.dox",
+	                url:"FavoriteAdd.dox",
 	                dataType:"json",
 	                type: "POST",
 	                data: nparmap,
 	                success: function(data) {
-	                	if(data.result=="success"){
-	                		alert("장바구니에 담았습니다.");
-	                	}else{
+	                	console.log(data);
+	                	if(data.result == "insert") {
+	                		alert("찜 목록에 담았습니다.");
+	                	} else if(data.result == "remove") {
+	                		alert("찜 목록에서 뺐습니다.");
+	                	} else {
 	                		alert("예기치 못한 오류가 발생했습니다. 다시 시도해 주세요.");
 	                	}
 	                }
@@ -403,7 +431,7 @@
             	$.pageChange("/productList.do", {keyword: self.keyword, code: code});
             },
 		},
-		created : function() {
+		created: function() {
 			var self = this;
 			self.fnListOrderBy();
 			self.fnListRecipe();

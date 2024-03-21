@@ -171,21 +171,13 @@
 	        		return;
 	        	}
 	        },
-	        fnFavorite: function() {
-	        	var self = this;
-	        	if(self.userId != "") {
-	        		//
-	        	} else {
-					alert("로그인 후 입장 가능합니다.");
-	        	}
-	        	
-	        },
 	        fnMoveCart: function() {
 	        	var self = this;
 	        	if(self.userId != "") {
 		        	$.pageChange("/cartList.do", {userId: self.userId});
 	        	} else {
 					alert("로그인 후 입장 가능합니다.");
+					location.href = "/user-login.do";
 	        	}
 	        },
 			/* 마이페이지 이동 */
@@ -195,6 +187,7 @@
 					$.pageChange("/user-myPage.do", {userId : self.userId});
 				} else {
 					alert("로그인 후 입장 가능합니다.");
+					location.href = "/user-login.do";
 				}
 			},
 			fnMoveCategory: function(kind) {
@@ -204,7 +197,13 @@
 				$.pageChange("/boardList.do", {keywordType: "title", code: kind});
 			},
 			fnMoveFavorite: function() {
-				$.pageChange("/FavoriteList.do", {userId: this.userId});
+				var self = this;
+				if(self.userId != ""){
+					$.pageChange("/FavoriteList.do", {userId: self.userId});
+				} else {
+					alert("로그인 후 입장 가능합니다.");
+					location.href = "/user-login.do";
+				}
 			},
 	    }
 	    , created: function() {
