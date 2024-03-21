@@ -179,6 +179,7 @@
 					trans : self.trans,
 					sellYN : self.sellYN,
 					cnt : self.cnt,
+					kind : 1
 
 				};
 				$.ajax({

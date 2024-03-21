@@ -512,7 +512,8 @@ var app = new Vue({
     	fnView: function() {
             var self = this;
             var nparmap = {
-            		itemNo: self.itemNo
+            		itemNo: self.itemNo,
+            		kind : 2
             };
             $.ajax({
                 url:"productView.dox",
@@ -526,6 +527,7 @@ var app = new Vue({
                 	self.fileDetailList = data.fileDetailList;
                 	self.review = data.review;
                 	self.qa = data.qa;
+                
                 }
             });
         },
