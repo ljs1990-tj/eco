@@ -225,7 +225,15 @@
 	    justify-content: center; /* 내용을 중앙에 배치 */
 	    align-items: center; /* 항목들을 가운데 정렬 */
 	}
-	
+	.buttonArea {
+		display: flex;
+    	align-items: center;
+	    justify-content: center;
+	    gap: 0.5px;
+	    width: 70%;
+	    margin-left: 150px;
+	    margin-bottom: 100px;
+	}
 
 </style>
 <body>
@@ -243,11 +251,13 @@
 			</div>
 			
             <div class="control-wrapper">
-            	<a :class="[selected == '' ? 'button-selected' : 'buttons-container']" @click="fnList('')"><img src="img/all_food.jpg"></a>
-                <a :class="[selected == 'org' ? 'button-selected' : 'buttons-container']" @click="fnList('org')"><img src="img/organic.jpg"></a>
-				<a :class="[selected == 'vegan' ? 'button-selected' : 'buttons-container']" @click="fnList('vegan')"><img src="img/began.jpg"></a>
-				<a :class="[selected == 'gluten' ? 'button-selected' : 'buttons-container']" @click="fnList('gluten')"><img src="img/glu_free.jpg"></a>
-				<a :class="[selected == 'local' ? 'button-selected' : 'buttons-container']" @click="fnList('local')"><img src="img/local.png"></a>
+            	<div class="buttonArea">
+	            	<a :class="[selected == '' ? 'button-selected' : 'buttons-container']" @click="fnList('')"><img src="img/all_food.jpg"></a>
+	                <a :class="[selected == 'org' ? 'button-selected' : 'buttons-container']" @click="fnList('org')"><img src="img/organic.jpg"></a>
+					<a :class="[selected == 'vegan' ? 'button-selected' : 'buttons-container']" @click="fnList('vegan')"><img src="img/began.jpg"></a>
+					<a :class="[selected == 'gluten' ? 'button-selected' : 'buttons-container']" @click="fnList('gluten')"><img src="img/glu_free.jpg"></a>
+					<a :class="[selected == 'local' ? 'button-selected' : 'buttons-container']" @click="fnList('local')"><img src="img/local.png"></a>            	
+            	</div>
             	
             	<!-- <button type="button" :class="[selected == '' ? 'button-selected' : 'buttons-container']" @click="fnList('')">전체</button>
                 <button type="button" :class="[selected == 'org' ? 'button-selected' : 'buttons-container']" @click="fnList('org')">유기농</button>
