@@ -98,7 +98,7 @@
         font-size: 14px;
         font-weight: 500;
         transition: background-color 0.3s;
-        width: 160px; 
+        width: 160px;
        	
     }
 
