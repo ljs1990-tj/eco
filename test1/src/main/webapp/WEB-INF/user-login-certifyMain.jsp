@@ -88,7 +88,7 @@ a {
 			        type: "POST",
 			        success: function(response) {
 			            // 세션을 제거하고 로그인 페이지로 이동
-			            window.location.href = '/header.do';
+			            window.location.href = '/main.do';
 			        },
 			        error: function(xhr, status, error) {
 	                    // 에러 발생 시 처리
