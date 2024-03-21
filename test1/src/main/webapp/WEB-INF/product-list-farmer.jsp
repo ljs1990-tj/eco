@@ -279,7 +279,7 @@
 
                 <div class="dropdown-container">
                     <!-- 드롭박스를 오른쪽에 배치 -->
-                    <template v-if="userType == 'A' ">
+                    <template v-if="userType == 'A' || userType == 'F'">
                     	<button @click="fnAdd">상품추가</button>
                     </template>
                     <select v-model="selectedOption" @change="updateSelected">
@@ -311,7 +311,7 @@
 			      	</div>
 			      	
 			      	<div class="admin-btn">
-			      		<template v-if="userType == 'A' ">
+			      		<template v-if="userType == 'A' || userType == 'F' ">
 				      		<button @click="fnRemove(item.itemNo)">상품삭제</button>
 				      		<button @click="fnEdit(item.itemNo)">상품수정</button>			      		
 			      		</template>
