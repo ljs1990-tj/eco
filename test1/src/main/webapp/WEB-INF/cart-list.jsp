@@ -281,6 +281,9 @@ var app = new Vue({
                if(self.list[index].cnt < num){
             	   num = self.list[index].cnt;
                }
+               if(num <0){
+            	   num = 0;
+               }
                
                 var nparmap = {
                 		cartNo : cartNo,
