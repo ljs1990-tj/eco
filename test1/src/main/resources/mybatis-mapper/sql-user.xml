@@ -197,6 +197,7 @@
 			TOTALPAY >= 0 AND 
 			USERID = #{userId};
 	</update>
+	
 	<!-- <select id="selectUserPaymentHistory" parameterType="hashmap" resultType="com.example.test1.model.Payment">
 		SELECT
     	*

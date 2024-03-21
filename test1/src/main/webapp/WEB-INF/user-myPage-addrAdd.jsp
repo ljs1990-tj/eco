@@ -87,7 +87,7 @@
 				var self = this;
 				// 정규식을 사용하여 숫자만 허용
 				self.user.phone = self.user.phone.replace(/\D/g, '');
-				//숫자6자리만 사용 가능
+				//숫자11자리만 사용 가능
 				if(self.user.phone.length > 11){
 					self.user.phone =  self.user.phone.slice(0, 11);
 				}
