@@ -328,7 +328,7 @@
 									</template>
 									</template>
 									<p style="border-bottom: 1px solid; box-sizing: border-box;">
-										<a href="javascript:;" @click="fnDetailView(item.itemNo)" class="nav-link" >{{item.itemName}}</a>
+										<a href="javascript:;" @click="fnMoveProductView(item.itemNo)" class="nav-link" >{{item.itemName}}</a>
 									</p>
 									<p class="price" v-if="item.sRate!=0">
 										<del>₩{{item.price}}</del>
@@ -387,11 +387,15 @@
 					}
 				});
 			},
+			
 			fnMoveBoardList : function(code){
 				var self = this;
 			$.pageChange("/boardList.do", {
 				code : code});
-		},
+		}, fnMoveProductView :function(itemNo){
+        	var self = this;
+        	$.pageChange("/productView.do", {itemNo : itemNo , userId : self.userId});
+        },
 			handleAddProduct : function(code){
 				var self = this;
 				 // 팝업 창을 열고자 하는 페이지 URL

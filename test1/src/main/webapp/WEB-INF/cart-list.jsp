@@ -231,7 +231,8 @@ var app = new Vue({
             });
         },
         fnMoveProductView :function(itemNo){
-        	$.pageChange("/productView.do", {itemNo : itemNo});
+        	var self = this;
+        	$.pageChange("/productView.do", {itemNo : itemNo , userId : self.userId});
         },
         fnProductList: function() {
         	$.pageChange("/productList.do", {});
