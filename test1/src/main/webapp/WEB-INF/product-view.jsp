@@ -361,8 +361,8 @@
                 <!-- 상품 찜하기 -->
                 <a @click="fnFavorite" href="#" v-if="FavoriteCheck == 'Y'"><i class="bi bi-heart-fill fa-2x" style="color:red;"></i></a>
                 <a @click="fnFavorite" href="#" v-if="FavoriteCheck == 'N'"><i class="bi bi-heart fa-2x" style="color: rgb(92,184,92);"></i></a>
-                    <button class="buy-btn">구매하기</button>
-                    <button class="cart-btn" @click="fnAddCart(itemNo)">장바구니에 담기</button>
+                    <button class="buy-btn" @click="fnAddCart(itemNo, '1')">구매하기</button>
+                    <button class="cart-btn" @click="fnAddCart(itemNo, '2')">장바구니에 담기</button>
                 </div>
             </div>
         </div>
@@ -546,7 +546,7 @@ var app = new Vue({
             });
         },
         
-        fnAddCart: function(itemNo) {
+        fnAddCart: function(itemNo, kind) {
             var self = this;
             if(self.userId==""){
             	alert("로그인 후 이용 가능합니다.");
@@ -562,12 +562,15 @@ var app = new Vue({
                 type: "POST",
                 data: nparmap,
                 success: function(data) {
-                	console.log(itemNo);
-                	console.log(userId);
-                	if(data.result=="success"){
+                	if(kind == '1'){
+                		if(confirm("바로 구매하시겠습니까?")){
+                			$.pageChange("/cartList.do", {userId: self.userId, kind : "1", itemNo : self.itemNo});
+                		} else {
+                			return;
+                		}
+                	} else {
                 		alert("장바구니에 담았습니다.");
-                	}else{
-                		alert("예기지 못한 오류가 발생했습니다. 다시 시도해주세요");
+                		appHeader.fnLogin();
                 	}
                 }
             });
@@ -617,6 +620,7 @@ var app = new Vue({
                 data: nparmap,
                 success: function(data) {
                 	self.fnView();
+                	appHeader.fnLogin();
                 }
             });
 	    	

@@ -128,7 +128,7 @@
 </body>
 </html>
 <script type="text/javascript">
-	var app = new Vue({
+	var appHeader = new Vue({
 	    el: '#appHeader',
 	    data: {
 	    	userId: "${userId}",
@@ -174,7 +174,7 @@
 	        fnMoveCart: function() {
 	        	var self = this;
 	        	if(self.userId != "") {
-		        	$.pageChange("/cartList.do", {userId: self.userId});
+	        		$.pageChange("/cartList.do", {userId: self.userId, kind : "2", itemNo : "0"});
 	        	} else {
 					alert("로그인 후 입장 가능합니다.");
 					location.href = "/user-login.do";

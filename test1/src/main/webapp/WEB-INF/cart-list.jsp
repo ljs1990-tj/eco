@@ -179,6 +179,8 @@ var app = new Vue({
     el: '#app',
     data: {
     	userId : "${map.userId}",
+    	payKind : "${map.kind}",
+    	itemNo : "${map.itemNo}",
     	user: {},
         list : [],
         totalPay : 0,
@@ -193,7 +195,9 @@ var app = new Vue({
             var nparmap = {
             		userId : self.userId,
             		kind : 1,
-            		cartCheck : 1
+            		cartCheck : 1,
+            		payKind : self.payKind,
+            		itemNo : self.itemNo
             		
             };
             $.ajax({

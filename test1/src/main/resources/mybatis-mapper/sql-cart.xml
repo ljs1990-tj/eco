@@ -15,7 +15,13 @@
 		<if test="cartCheck==0">
 		AND C.USERID = #{userId} AND KIND = 1 AND IS_FAVORITE = 'Y'
 		</if>
-		
+		<if test="payKind == 1">
+		AND C.ITEM_NO = #{itemNo}
+		</if>
+		ORDER BY C.CDATETIME DESC
+		<if test="payKind == 1">
+			LIMIT 1
+		</if>
     </select>
     
     <select id="selectFavoriteList" parameterType="hashmap" resultType="com.example.test1.model.Cart">
