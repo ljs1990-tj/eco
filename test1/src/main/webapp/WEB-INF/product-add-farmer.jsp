@@ -176,7 +176,8 @@ var app = new Vue({
             		contents : self.contents,
             		trans : self.trans,
             		sellYN : self.sellYN,
-            		cnt : self.cnt
+            		cnt : self.cnt,
+            		kind : 2
             		
             		
             };

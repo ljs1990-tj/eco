@@ -520,7 +520,8 @@ var app = new Vue({
             var self = this;
             var nparmap = {
             		itemNo: self.itemNo,
-            		userId :self.userId
+            		userId :self.userId,
+            		kind : 1
             };
             $.ajax({
                 url:"productView.dox",

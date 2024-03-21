@@ -8,7 +8,12 @@
 	<insert id="insertProduct" parameterType="hashmap"
 		useGeneratedKeys="true" keyProperty="itemNo" keyColumn="itemNo">
 		INSERT INTO
+		<if test="kind==1">
 		ECO_PRODUCT
+		</if>
+		<if test="kind==2">
+		ECO_PRODUCT_FAMER
+		</if>
 		VALUES
 		(null,#{name}, #{price}, #{Srate}, #{Prate}, #{contents}, #{trans}, #{sellYN},
 		NOW(), NOW(), #{cnt}, #{code},0)

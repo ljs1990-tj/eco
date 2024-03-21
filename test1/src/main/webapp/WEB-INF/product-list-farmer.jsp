@@ -357,7 +357,8 @@ var app = new Vue({
             	code: code,
             	keyword : self.keyword,
             	type : self.type,
-            	order : self.order
+            	order : self.order,
+            	kind : 2
             };
             $.ajax({
                 url:"codeList.dox",
